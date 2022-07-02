@@ -1,0 +1,48 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button text=""></ion-back-button>
+    </ion-buttons>
+    <ion-title>Registro</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<div slot="main" class="content-grid-register content">
+  <!--=====================================
+		FORMULARIO DE REGISTRO HOMBRE CAMIÓN
+  ======================================-->
+  <div *ngIf="showFormManTruck">
+    <app-register-mantruck 
+    (propagar)="showLoading($event)" 
+    [typeConveyor]="selectTypeConveyor">
+  </app-register-mantruck>
+  </div>
+  <!--=====================================
+		FORMULARIO DE REGISTRO ADMINISTRADOR LOGISTICO TERCERO
+  ======================================-->
+  <div *ngIf="showFormAdminLogist">
+    <app-register-admin-logist-third
+    (propagar)="showLoading($event)"
+    [typeConveyor]="selectTypeConveyor"
+    ></app-register-admin-logist-third>
+  </div>
+  <!--=====================================
+		FORMULARIO DE REGISTRO CONDUCTOR
+  ======================================-->
+  <div *ngIf="showFormDriver">
+    <app-register-driver 
+    (propagar)="showLoading($event)" 
+    [typeConveyor]="selectTypeConveyor">
+    </app-register-driver>
+  </div>
+</div>
+
+
+<!--=====================================
+		LOANDING
+======================================-->
+<div class="loading-content" *ngIf="loading">
+  <cwc-loader>
+    <span slot='loading'>Espere un momento...</span>
+  </cwc-loader>
+</div>

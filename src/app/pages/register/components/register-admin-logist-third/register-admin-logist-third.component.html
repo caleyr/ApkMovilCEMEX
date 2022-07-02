@@ -1,0 +1,215 @@
+<form (submit)="register()" [formGroup]="form">
+  <div style="display: flex;">
+    <label for="" style="font-size: 0.9rem; margin-bottom: 0.7rem;">Selecciona la empresa
+      <cwc-tooltip content='Busca y selecciona la empresa o microempresa'>
+        <cwc-icon style="margin-left: 0.5rem;" id='icon' name='information-rounded-fill' color="bright-blue" size='24px'></cwc-icon>
+      </cwc-tooltip>
+    </label>
+  </div>
+    <cwc-select
+    [status]='statusInputConveyor'
+    [statusMessage]='statusInputMessageConveyor' (cwcChange)="cwcChange($event)" class="w-full select-filter" unwrap="true" label="" filter-no-resultsMessage="No se encontraron resultados" filter-placeholder="Filtrar Empresas" placeholder="Seleccione una opción" filter>
+      <cwc-select-option *ngFor="let companies of listCompanies" [value]="companies.id">{{companies.companyName}}</cwc-select-option>
+    </cwc-select>
+  <cwc-grid class="demo-grid" design-version="v2" columns="12" mobile-columns="12" style="margin-top: 3rem;">
+    <cwc-cell colspan="12" mobile-colspan="12">
+      <div class="section">
+        <cwc-input class="input" 
+                   label='Nombre (s)'
+                   [status]='statusInputName'
+                   [statusMessage]='statusInputMessageName'
+                   design-version="v2" 
+                   formControlName="FirstName"
+                   ngDefaultControl
+                   required
+        ></cwc-input>
+      </div>
+      <div class="section">
+        <cwc-input class="input" 
+                   label='Apellido (s)'
+                   [status]='statusInputLastName'
+                   [statusMessage]='statusInputMessageLastName'
+                   formControlName="LastName"
+                   design-version="v2" 
+                   ngDefaultControl
+                   required
+        ></cwc-input>
+      </div>
+      <div class="section">
+        <cwc-input class="input" 
+        label='Correo electrónico'
+        [status]='statusInputEmail'
+        [statusMessage]='statusInputMessageEmail'
+        formControlName="Email"
+        ngDefaultControl
+        design-version="v2" 
+        required
+        ></cwc-input>
+      </div>
+      <div class="section">
+        <cwc-input class="input" 
+        label='Número de celular'
+        type="number"
+        [status]='statusInputPhone'
+        [statusMessage]='statusInputMessagePhone'
+        formControlName="PhoneNumber"
+        design-version="v2"
+        ngDefaultControl
+        required
+        ></cwc-input>
+      </div>
+      <div class="section">
+        <cwc-input class="input" 
+        label='Contraseña'
+        [status]='statusInputNit'
+        [statusMessage]='statusInputMessageNit'
+        type="password"
+        formControlName="Password"
+        design-version="v2" 
+        ngDefaultControl
+        required
+        ></cwc-input>
+      </div>
+    </cwc-cell>
+  </cwc-grid>
+   <!--=====================================
+      DOCUMENTO DE LA EMPRESA
+    ======================================-->
+    <label for="">Licencia de conducir (opcional)</label>
+<div>
+  <cwc-grid class="demo-grid content-archive" >
+    <cwc-cell (click)="openModalPhotoDocumentCompany()" class="border" colspan="6" mobile-colspan="6" style="cursor: pointer;">
+      <div class="item-archives">
+        <cwc-icon name="camera" size="28px" color="bright-blue"></cwc-icon>
+        <h5 class="text-archive">Tomar fotografía</h5>
+      </div>
+    </cwc-cell>
+    <cwc-cell colspan="6" mobile-colspan="6" style="cursor: pointer;">
+      <div class="item-archives">
+        <cwc-icon name="document" size="28px" color="bright-blue"></cwc-icon>
+        <h5 class="text-archive">Seleccionar archivo</h5>
+      </div>
+    </cwc-cell>
+</cwc-grid>
+</div>
+  <div *ngIf="addDocumentCompany">
+    <cwc-grid class="demo-grid content-archive" >
+      <cwc-cell (click)="openModalPhotoDocumentCompany()" class="" colspan="12" mobile-colspan="12">
+        <div class="item-archives">
+          <cwc-icon name="attachment" size="28px" color="bright-blue"></cwc-icon>
+          <h5 class="text-archive">Documento agregado</h5>
+          <cwc-icon (click)="removeDocumentCompany()" name="close" size="20px" color="bright-blue" style="margin-left: 1rem; cursor: pointer;"></cwc-icon>
+        </div>
+      </cwc-cell>
+    </cwc-grid>
+  </div>
+   <!--=====================================
+      CEDULA DE CIUDADANIA
+    ======================================-->
+<label for="">Tarjeta de seguridad (opcional)</label>
+<div>
+  <cwc-grid class="demo-grid content-archive" >
+    <cwc-cell (click)="openModalPhotoIdentityCard()" class="border" colspan="6" mobile-colspan="6" style="cursor: pointer;">
+      <div class="item-archives">
+        <cwc-icon name="camera" size="28px" color="bright-blue"></cwc-icon>
+        <h5 class="text-archive">Tomar fotografía</h5>
+      </div>
+    </cwc-cell>
+    <cwc-cell colspan="6" mobile-colspan="6" style="cursor: pointer;">
+      <div class="item-archives">
+        <cwc-icon name="document" size="28px" color="bright-blue"></cwc-icon>
+        <h5 class="text-archive">Seleccionar archivo</h5>
+      </div>
+    </cwc-cell>
+</cwc-grid>
+</div>
+  <div *ngIf="addIdentityCard">
+    <cwc-grid class="demo-grid content-archive" >
+      <cwc-cell (click)="openModalPhotoIdentityCard()" class="" colspan="12" mobile-colspan="12">
+        <div class="item-archives">
+          <cwc-icon name="attachment" size="28px" color="bright-blue"></cwc-icon>
+          <h5 class="text-archive">Cédula de Ciudadanía agregada </h5>
+          <cwc-icon (click)="removeIdentityCard()" name="close" size="20px" color="bright-blue" style="margin-left: 1rem; cursor: pointer;"></cwc-icon>
+        </div>
+      </cwc-cell>
+    </cwc-grid>
+  </div>
+
+<label for="">Cédula de ciudadanía (opcional)</label>
+<div>
+  <cwc-grid class="demo-grid content-archive" >
+    <cwc-cell (click)="openModalPhotoIdentityCard()" class="border" colspan="6" mobile-colspan="6" style="cursor: pointer;">
+      <div class="item-archives">
+        <cwc-icon name="camera" size="28px" color="bright-blue"></cwc-icon>
+        <h5 class="text-archive">Tomar fotografía</h5>
+      </div>
+    </cwc-cell>
+    <cwc-cell colspan="6" mobile-colspan="6" style="cursor: pointer;">
+      <div class="item-archives">
+        <cwc-icon name="document" size="28px" color="bright-blue"></cwc-icon>
+        <h5 class="text-archive">Seleccionar archivo</h5>
+      </div>
+    </cwc-cell>
+</cwc-grid>
+</div>
+  <div *ngIf="addIdentityCard">
+    <cwc-grid class="demo-grid content-archive" >
+      <cwc-cell (click)="openModalPhotoIdentityCard()" class="" colspan="12" mobile-colspan="12">
+        <div class="item-archives">
+          <cwc-icon name="attachment" size="28px" color="bright-blue"></cwc-icon>
+          <h5 class="text-archive">Cédula de Ciudadanía agregada </h5>
+          <cwc-icon (click)="removeIdentityCard()" name="close" size="20px" color="bright-blue" style="margin-left: 1rem; cursor: pointer;"></cwc-icon>
+        </div>
+      </cwc-cell>
+    </cwc-grid>
+  </div>
+    
+    <app-error-messages [errors]="errors"></app-error-messages> 
+  <!--=====================================
+    BOTON PARA GUARDAR EL REGISTRO
+  ======================================-->
+    <div class="content-button">
+      <cwc-button 
+      design-version="v1" 
+      [disabled]="form.invalid"
+      (click)="openAlertConfirm()" 
+      variant="regular-block">COMPLETAR REGISTRO</cwc-button>
+    </div>
+</form>
+
+<app-photo-indentity-card
+[modalPhotoIdentityCardShow] = "openPhotoIdentityCard"
+></app-photo-indentity-card>
+<app-document-company
+[modalPhotoDocumentCompanyShow] = "openPhotoDocumentCompany"
+></app-document-company>
+<!--=====================================
+		MODAL ALERTA CONFIRMAR DATOS GUARDAR
+======================================-->
+<cwc-modal id='alert-confirm' class="alert-confirm" [open] ="alertConfirm" (cwcClose)="closeAlertConfirm()">
+  <header slot='header'>
+      <h2 style='margin:0;'>Atención</h2>
+  </header>
+  <p>¿Esta seguro que los datos registrados estan correctos?</p>
+  <footer slot='footer'>
+      <div style='text-align: end'>
+        <cwc-button variant='support' (click)="closeAlertConfirm()" style="margin-right: 1rem;">Cancelar</cwc-button>
+          <cwc-button variant='primary' (click)="register()" >Aceptar</cwc-button>
+      </div>
+  </footer>
+</cwc-modal>
+<!--=====================================
+		MODAL CONFIRMACIÓN RESPUESTA DE EXITO
+======================================-->
+<app-alert-success
+[alertShow] = "alertSucces"
+title = "Existoso"
+urlButton = "/login"
+textButton = "Volver al login"
+message = "El registro se realizó correctamente, vamos a validar sus datos y pronto daremos respuesta.">
+</app-alert-success>
+<!--=====================================
+	TOAST ALERT MENSAJE
+======================================-->
+<cwc-snackbar id='toast-message-driver' [message]="toastMessage"
+cta-message="dismiss" auto-hide-duration='5000'></cwc-snackbar>

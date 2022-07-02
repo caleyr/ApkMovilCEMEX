@@ -1,0 +1,27 @@
+<ion-header>
+    <ion-toolbar color="primary">
+      <ion-buttons slot="start">
+        <ion-back-button text=""></ion-back-button>
+      </ion-buttons>
+      <ion-title>Editar datos</ion-title>
+    </ion-toolbar>
+  </ion-header> 
+  <div slot="main" class="content-grid-register content">
+    <div class="content-title-register">
+      <h5>Mis datos</h5>
+    </div>
+    <div>
+        <!--=====================================
+		    DATOS DEL ADMINISTRADOR LOGISTICO TERCERO
+         ======================================-->
+        <div *ngIf="rol === 'Administrador Logistico Tercero' || rol === 'Hombre Camion'">
+          <app-edit-admin-logis-third>
+          </app-edit-admin-logis-third>
+        </div>
+        <div *ngIf="rol === 'Conductor'">
+          <app-edit-driver>
+          </app-edit-driver>
+        </div>
+         
+    </div>
+  </div>

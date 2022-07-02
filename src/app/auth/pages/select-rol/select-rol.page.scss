@@ -1,0 +1,35 @@
+
+/***  General styles  ***/
+.content-home {
+    padding : 2rem;
+    width: 100%;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center; 
+}
+
+.main-content-card {
+    padding: 1rem;
+    height: 170px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.margin-buttom {
+    margin-bottom: 1rem;
+}
+
+/***  Styles card trips today ***/
+.content-header {
+    text-align: center;
+}
+.content-header span {
+    font-size: 3rem;
+}
+.content-header h5 {
+    margin-top: 0;
+}

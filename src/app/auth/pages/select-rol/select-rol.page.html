@@ -1,0 +1,36 @@
+<cwc-grid class="demo-grid content-home" style="height: 100vh;">
+  <cwc-cell colspan="12" mobile-colspan="12">
+      <cwc-grid class="demo-grid">
+          <cwc-cell colspan="6" mobile-colspan="6">
+              <cwc-card class="m-all-xs content-card" (click)="onClickPassword('2')" design-version="v2">
+                  <div class="main-content-card">
+                      <div class="content-header">
+                          <h5>Hombre camión</h5>
+                      </div>
+                  </div>
+              </cwc-card>                
+          </cwc-cell>
+
+          <cwc-cell colspan="6" mobile-colspan="6">
+            <cwc-card class="m-all-xs" design-version="v2" (click)="onClickPassword('3')">
+                <div class="main-content-card">
+                    <div class="content-header">
+                        <h5>Conductor</h5>
+                    </div>
+                </div>
+            </cwc-card>                
+          </cwc-cell>
+      </cwc-grid>
+  </cwc-cell>
+
+  <cwc-cell colspan="12" mobile-colspan="12">
+    <cwc-card class="m-all-xs" design-version="v2" (click)="onClickPassword('1')">
+        <div class="main-content-card size-card">
+            <div class="content-header">
+                <h5>Admin, Logístico tercero</h5>
+            </div>
+        </div>
+    </cwc-card>
+  </cwc-cell>
+</cwc-grid>
+

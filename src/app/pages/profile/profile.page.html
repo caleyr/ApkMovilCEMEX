@@ -1,0 +1,103 @@
+<app-layout class="card-size">
+  <cwc-card class="m-all-xs">
+        <div class="card-content">
+          <div class="content-avatar-menu" style="margin-left: 0.2rem; margin-right: 0.1rem; display: flex; justify-content: space-between;">
+            <div style="display: flex;">
+              <div>
+                <cwc-avatar size="small" variant="negative" [name]=" profile.FirstName +' '+ profile.LastName " class="m-h-xs" style="width: 6%; padding: 1.3rem"></cwc-avatar>
+              </div>
+              <div>
+                  <span class="style-name">{{profile.FirstName +' '+ profile.LastName}}</span>
+                  <br>
+                  <cwc-icon name="phone" size="14px" color="true-black">
+                  </cwc-icon>
+                  <span class="number-phone">{{profile.PhoneNumber}}</span>
+              </div>
+            </div>
+            <div>
+              <cwc-button variant="link" class="m-h-reg link-cwc" [routerLink]="['/app/edit']" routerLinkActive="router-link-active" >EDITAR</cwc-button>
+            </div>
+          </div>
+
+          <div>
+
+            <cwc-grid style="padding-top: 1rem; padding-bottom: 1rem;">
+              <cwc-cell mobile-colspan="12">   
+                <cwc-icon name='check-rounded-active-fill' size="12px" color='bright-green'></cwc-icon>
+                <span class="text-archive">Disponible</span>
+              </cwc-cell>
+            </cwc-grid>
+
+            <cwc-grid class="demo-grid" >
+              <cwc-cell colspan="12" mobile-colspan="12">   
+                  <div class="attr-user">Correo electrónico</div>
+                  <span class="text-info">{{profile.Email}}</span>
+              </cwc-cell>
+            </cwc-grid>
+
+            <div *ngIf="profile.Roles === 'Conductor'">
+              <cwc-grid class="demo-grid center-cell" >
+                <cwc-cell mobile-colspan="4">
+                    <div class="attr-user">Código Sap</div>
+                    <span class="text-info">{{profile.SapCode}}</span>
+                </cwc-cell>
+                <cwc-cell mobile-colspan="5">   
+                    <div class="attr-user">Cédula o NIT</div>
+                    <span class="text-info">{{profile.Document}}</span>
+                </cwc-cell>
+              </cwc-grid>
+            </div>
+            
+
+            <cwc-grid class="demo-grid center-cell" >
+              <cwc-cell colspan="12" mobile-colspan="12">   
+                  <div class="attr-user">Empresa</div>
+                  <span class="text-info">{{profile.CompanyName}}</span>
+              </cwc-cell>
+            </cwc-grid>
+          </div>
+          
+          <div class="attr-document" >Documentación</div>
+          <div style=" border: 0.1px solid #d1d1d1; background: #d1d1d1; margin-bottom: 0.5rem;"></div>
+
+          <cwc-grid column-gap="5px">
+            <cwc-cell mobile-colspan="6">   
+              <cwc-icon name='check-rounded-active-fill' size="12px" color='bright-green'></cwc-icon>
+              <span class="text-archive">Licencia de conducción</span>
+            </cwc-cell>
+            <cwc-cell mobile-colspan="6">   
+              <cwc-icon name='check-rounded-active-fill' size="12px" color='bright-green'></cwc-icon>
+              <span class="text-archive">Cédula de ciudadanía</span>
+            </cwc-cell>
+          </cwc-grid>
+          <cwc-grid>
+            <cwc-cell mobile-colspan="12">   
+              <cwc-icon name='check-rounded-active-fill' size="12px" color='bright-green'></cwc-icon>
+              <span class="text-archive">Carné de seguridad</span>
+            </cwc-cell>
+          </cwc-grid>
+          <cwc-grid>
+            <cwc-cell mobile-colspan="12" class="cell-button">        
+              <cwc-button (click)="updateDocumentsUser()" variant="link" class="m-h-reg link-cwc">ACTUALIZAR DOCUMENTOS</cwc-button>
+              </cwc-cell>
+          </cwc-grid>
+        </div>
+    </cwc-card>
+    <cwc-card class="m-all-xs" style="margin-top: 1rem;">
+      <div class="card-content">
+       <h6 style="text-align: center;">Accede a tu cuenta Clever</h6>
+       <p style="text-align: center;">Revisa tus datos y manten tu perfil actualizado para un mejor seguimiento</p>
+       <div>
+        <cwc-button variant="regular-block">CLEVER GLOBAL</cwc-button>
+       </div>
+      </div>
+    </cwc-card>
+</app-layout>
+<!--=====================================
+		LOADING
+======================================-->
+<div class="loading-content" *ngIf="loading">
+  <cwc-loader>
+    <span slot='loading'>Espere un momento...</span>
+  </cwc-loader>
+</div>
