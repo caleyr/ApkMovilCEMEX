@@ -1,0 +1,54 @@
+<app-layout class="card-size">
+  <cwc-grid class="demo-grid" row-gap="2px">
+    <cwc-cell colspan="12" mobile-colspan="11" style="padding-bottom: 0;">     
+      <div>
+        <cwc-input class="search-text" variant="regular" rtl="false" trailing-icon='magnifier-glass' placeholder='Buscar...'></cwc-input>  
+      </div>       
+    </cwc-cell> 
+    <cwc-cell colspan="12" mobile-colspan="1">    
+      <div class="icon">
+        <cwc-button variant="link">          
+          <cwc-icon variant="link" name='controls' size="20px" aria-role="button"></cwc-icon>
+        </cwc-button>
+      </div>  
+    </cwc-cell>    
+  </cwc-grid>  
+  <h6 class="text-vehicles">Vehículos (4)</h6>
+
+
+
+  <cwc-card class="m-all-xs action accordion">
+    <div class="card-content">
+      <cwc-grid class="demo-grid" >
+        <cwc-cell colspan="12" mobile-colspan="9">   
+            <div class="attr-user">Plataforma</div>
+            <span class="text-info">E34-759-A</span>
+        </cwc-cell>
+        <cwc-cell colspan="12" mobile-colspan="3">
+          <div class="content-btn-edit">            
+            <cwc-icon name='check-rounded-active-fill' size="8px" color='bright-green'></cwc-icon>
+            <span class="text-stade">Asignado</span>
+          </div>   
+        </cwc-cell>
+      </cwc-grid>
+      <cwc-grid class="demo-grid" >
+        <cwc-cell colspan="12" mobile-colspan="6">   
+            <div class="text-company">Plataforma</div>
+        </cwc-cell>
+        <cwc-cell colspan="12" mobile-colspan="6">   
+          <div class="content-btn-edit">
+            <br>
+            <cwc-button variant="link">
+              <div class="text-button">VER MÁS</div>
+            </cwc-button>
+          </div> 
+        </cwc-cell>
+      </cwc-grid>
+    </div>
+  </cwc-card>
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+    <ion-fab-button routerLink="agregar">
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+</app-layout>

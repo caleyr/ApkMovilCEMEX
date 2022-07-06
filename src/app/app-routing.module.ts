@@ -58,6 +58,10 @@ const routes: Routes = [
         loadChildren: () => import('./pages/driver/travels/travels.module').then( m => m.TravelsPageModule),
         canLoad:[AuthGuard],
       },
+      {
+        path: 'vehiculos',
+        loadChildren: () => import('./pages/vehicles/vehicles.module').then( m => m.VehiclesPageModule)
+      }
     ]
   },
 
@@ -65,7 +69,7 @@ const routes: Routes = [
       path: '',
       redirectTo: '/login',
       pathMatch: 'full'
-    }
+    },
 ];
 
 @NgModule({

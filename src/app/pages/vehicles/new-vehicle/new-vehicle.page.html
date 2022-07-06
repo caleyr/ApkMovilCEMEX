@@ -1,0 +1,195 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button text=""></ion-back-button>
+    </ion-buttons>
+    <ion-title>Agregar vehiculo</ion-title>
+  </ion-toolbar>
+</ion-header>
+<div slot="main" class="content-grid-register content">  
+  <div class="content-title">
+    <h5>Nuevo vehículo</h5>
+  </div>
+  <form (submit)="createVehicle()" [formGroup]="form">
+    <cwc-grid class="demo-grid" design-version="v2" columns="12" mobile-columns="12">
+      <cwc-cell colspan="12" mobile-colspan="12">
+        <div class="section">
+          <cwc-input class="input" 
+            label='Medelo de vehículo'
+            placeholder="Agrega el tipo de camión"
+            design-version="v1" 
+            formControlName="Model"
+            required
+          ></cwc-input>
+        </div>
+        <div class="section">
+          <cwc-input class="input" 
+            label='Placa'
+            formControlName="LicenseVehiculo"
+            design-version="v1"
+            placeholder="Agrega número de serie"
+            required
+          ></cwc-input>
+        </div>
+        <div class="section">
+          <cwc-input class="input" 
+            label='Tipo de trailer'
+            formControlName="TypeTrailer"
+            placeholder="Características especiales del vehículo"
+            design-version="v1" 
+            required
+          ></cwc-input>
+        </div>
+        <div class="content-picker">
+          <cwc-picker
+            formControlName="CompanyId"
+            class="w-full select-filter"
+            label="Empresa"
+            filter-no-resultsMessage="No se encontraron resultados" 
+            filter-placeholder="Filtrar Empresas"
+            placeholder="Seleccionar" 
+            mobile="false"
+            string-values="true"
+            filter>
+              <option *ngFor="let companies of listCompanies" [value]="companies.id">{{companies.companyName}}</option>
+          </cwc-picker>
+        </div>
+        <div class="section">
+          <cwc-input class="input" 
+          label='Número de SOAT (opcional)'
+          type="text"
+          formControlName="Soat"
+          placeholder="Agregar los 20 dígitos de su número de SOAT"
+          design-version="v1" 
+          ngDefaultControl
+          required
+          ></cwc-input>
+        </div>
+      </cwc-cell>
+    </cwc-grid>
+    <!--=====================================
+        DOCUMENTO DE LA EMPRESA
+      ======================================-->
+    <label for=""> Documento de SOAT (opcional)</label>
+    <div>
+      <cwc-grid class="demo-grid content-archive" >
+        <cwc-cell class="border" colspan="6" mobile-colspan="6" style="cursor: pointer;">
+          <div class="item-archives">
+            <cwc-icon name="camera" size="28px" color="bright-blue"></cwc-icon>
+            <h5 class="text-archive">Tomar fotografía</h5>
+          </div>
+        </cwc-cell>
+        <cwc-cell colspan="6" mobile-colspan="6" style="cursor: pointer;">
+          <div class="item-archives">
+            <cwc-icon name="document" size="28px" color="bright-blue"></cwc-icon>
+            <h5 class="text-archive">Seleccionar archivo</h5>
+          </div>
+        </cwc-cell>
+    </cwc-grid>
+    </div>
+
+
+    <label for=""> Certificado de revisión tecno mecánica (opcional)</label>
+    <div>
+      <cwc-grid class="demo-grid content-archive" >
+        <cwc-cell class="border" colspan="6" mobile-colspan="6" style="cursor: pointer;">
+          <div class="item-archives">
+            <cwc-icon name="camera" size="28px" color="bright-blue"></cwc-icon>
+            <h5 class="text-archive">Tomar fotografía</h5>
+          </div>
+        </cwc-cell>
+        <cwc-cell colspan="6" mobile-colspan="6" style="cursor: pointer;">
+          <div class="item-archives">
+            <cwc-icon name="document" size="28px" color="bright-blue"></cwc-icon>
+            <h5 class="text-archive">Seleccionar archivo</h5>
+          </div>
+        </cwc-cell>
+    </cwc-grid>
+    </div>
+
+    <label for=""> Póliza </label>
+    <div>
+      <cwc-grid class="demo-grid content-archive" >
+        <cwc-cell class="border" colspan="6" mobile-colspan="6" style="cursor: pointer;">
+          <div class="item-archives">
+            <cwc-icon name="camera" size="28px" color="bright-blue"></cwc-icon>
+            <h5 class="text-archive">Tomar fotografía</h5>
+          </div>
+        </cwc-cell>
+        <cwc-cell colspan="6" mobile-colspan="6" style="cursor: pointer;">
+          <div class="item-archives">
+            <cwc-icon name="document" size="28px" color="bright-blue"></cwc-icon>
+            <h5 class="text-archive">Seleccionar archivo</h5>
+          </div>
+        </cwc-cell>
+    </cwc-grid>
+    </div>
+
+    <label for=""> Tarjeta de propiedad</label>
+    <div>
+      <cwc-grid class="demo-grid content-archive" >
+        <cwc-cell class="border" colspan="6" mobile-colspan="6" style="cursor: pointer;">
+          <div class="item-archives">
+            <cwc-icon name="camera" size="28px" color="bright-blue"></cwc-icon>
+            <h5 class="text-archive">Tomar fotografía</h5>
+          </div>
+        </cwc-cell>
+        <cwc-cell colspan="6" mobile-colspan="6" style="cursor: pointer;">
+          <div class="item-archives">
+            <cwc-icon name="document" size="28px" color="bright-blue"></cwc-icon>
+            <h5 class="text-archive">Seleccionar archivo</h5>
+          </div>
+        </cwc-cell>
+    </cwc-grid>
+    </div>
+
+    <cwc-checkbox
+      formControlName="term"
+      mobile="true"
+      class='m-end-sm'>          
+      <div class="input-check">Confirmo que la siguiente información es verdadera.</div>
+    </cwc-checkbox>
+
+    <app-error-messages [errors]="errors"></app-error-messages> 
+    <!--=====================================
+      BOTON PARA GUARDAR EL REGISTRO
+    ======================================-->
+    <div class="content-button">
+      <cwc-button 
+        design-version="v1" 
+        [disabled]="form.invalid"
+        (click)="openAlertConfirm()" 
+        variant="regular-block">AGREGAR VEHÍCULO</cwc-button>
+    </div>
+  </form>
+</div>
+<!--=====================================
+		MODAL ALERTA CONFIRMAR DATOS GUARDAR
+======================================-->
+<cwc-modal id='alert-confirm' class="alert-confirm" [open] ="alertConfirm" (cwcClose)="closeAlertConfirm()">
+  <header slot='header'>
+      <h2 style='margin:0;'>Atención</h2>
+  </header>
+  <p>¿Esta seguro que los datos registrados estan correctos?</p>
+  <footer slot='footer'>
+      <div style='text-align: end'>
+        <cwc-button variant='support' (click)="closeAlertConfirm()" style="margin-right: 1rem;">Cancelar</cwc-button>
+          <cwc-button variant='primary' (click)="createVehicle()" >Aceptar</cwc-button>
+      </div>
+  </footer>
+</cwc-modal>
+<!--=====================================
+		MODAL CONFIRMACIÓN RESPUESTA DE EXITO
+======================================-->
+<app-alert-success
+  [alertShow] = "alertSucces"
+  title = "Sun informacion ha sido guardada"
+  urlButton = "/app/vehiculos"
+  textButton = "OK"
+  message = "Los datos se están procesando, y al ser aprobado su vehículo recibirá una notificación.">
+</app-alert-success>
+<!--=====================================
+	TOAST ALERT MENSAJE
+======================================-->
+<cwc-snackbar id='toast-message-driver' [message]="toastMessage"
+cta-message="dismiss" auto-hide-duration='5000'></cwc-snackbar>
