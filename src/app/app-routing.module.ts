@@ -3,14 +3,9 @@ import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 import { AuthGuard } from './guards/auth.guard';
 
 const routes: Routes = [
-   {
-     path: 'main',
-     loadChildren: () => import('./pages/layout/layout.module').then( m => m.LayoutPageModule),
-     canLoad: [AuthGuard]
-   },
   {
-    path: 'select-rol',
-    loadChildren: () => import('./auth/pages/select-rol/select-rol.module').then( m => m.SelectRolPageModule)
+    path: 'main',
+    loadChildren: () => import('./pages/layout/layout.module').then( m => m.LayoutPageModule),
   },
   {
     path: 'login',
@@ -34,11 +29,12 @@ const routes: Routes = [
       {
         path: 'home',
         loadChildren: () => import('./pages/home/home.module').then( m => m.HomePageModule),
-        //canLoad:[AuthGuard]
+        canLoad:[AuthGuard]
       },
       {
         path: 'profile',
-        loadChildren: () => import('./pages/profile/profile.module').then( m => m.ProfilePageModule)
+        loadChildren: () => import('./pages/profile/profile.module').then( m => m.ProfilePageModule),
+        canLoad:[AuthGuard]
       },
       {
         path: 'edit',
@@ -67,7 +63,7 @@ const routes: Routes = [
 
     {
       path: '',
-      redirectTo: '/login',
+      redirectTo: '/app/home',
       pathMatch: 'full'
     },
 ];

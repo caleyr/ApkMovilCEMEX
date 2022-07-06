@@ -1,22 +1,25 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import { ReactiveFormsModule } from '@angular/forms';
 
 import { IonicModule } from '@ionic/angular';
 
 import { HomePageRoutingModule } from './home-routing.module';
 
 import { HomePage } from './home.page';
-import { LayoutPage } from '../layout/layout.page';
 import { ComponentsModule } from 'src/app/components/components.module';
+import { LayoutPageModule } from '../layout/layout.module';
+import { CmxWebComponentsModule } from '@cmx-web-components/angular';
 
 @NgModule({
   imports: [
     CommonModule,
-    FormsModule,
     IonicModule,
+    ReactiveFormsModule,
     ComponentsModule,
-    HomePageRoutingModule
+    HomePageRoutingModule,
+    LayoutPageModule,    
+    CmxWebComponentsModule.forRoot(),
   ],
   declarations: [HomePage]
 })

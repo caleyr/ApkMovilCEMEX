@@ -18,6 +18,11 @@ import { MenuComponent } from 'src/app/components/menu/menu.component';
     LayoutPageRoutingModule,
     CmxWebComponentsModule.forRoot(),
   ],
-  declarations: [LayoutPage]
+  declarations: [
+    LayoutPage
+  ],
+  exports: [
+    LayoutPage
+  ]
 })
 export class LayoutPageModule {}

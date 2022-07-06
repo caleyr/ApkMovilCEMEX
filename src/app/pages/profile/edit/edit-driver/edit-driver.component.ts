@@ -69,8 +69,8 @@ export class EditDriverComponent implements OnInit {
     private navCtrl : NavController,
     private loginServices : LoginService
   ) {
-    this.profile = loginServices.perfil;
-    this.previusMail = loginServices.perfil.Email;
+    this.profile = loginServices.profileUser;
+    this.previusMail = loginServices.profileUser.Email;
     this.formBuilderInput();
   }
 

@@ -13,6 +13,7 @@ import { DocumentIdentityCardComponent } from './modal-document-identity-card/do
 import { DocumentDrivingLicenceComponent } from './modal-document-driving-licence/document-driving-licence/document-driving-licence.component';
 import { DocumentCompanyComponent } from './modal-document-company/document-company/document-company.component';
 import { DocumentSecurityCardComponent } from './modal-security-card/document-security-card/document-security-card.component';
+import { LayoutPageModule } from '../layout/layout.module';
 
 @NgModule({
   imports: [
@@ -21,6 +22,7 @@ import { DocumentSecurityCardComponent } from './modal-security-card/document-se
     IonicModule,
     ComponentsModule,
     ProfilePageRoutingModule,
+    LayoutPageModule
   ],
   declarations: [
     ProfilePage,

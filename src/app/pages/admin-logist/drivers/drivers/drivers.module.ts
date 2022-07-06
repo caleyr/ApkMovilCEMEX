@@ -20,6 +20,6 @@ import { LayoutPage } from '../../../layout/layout.page';
     CmxWebComponentsModule.forRoot(),
     DriversPageRoutingModule
   ],
-  declarations: [DriversPage, LayoutPage]
+  declarations: [DriversPage]
 })
 export class DriversPageModule {}

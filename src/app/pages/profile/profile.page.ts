@@ -35,7 +35,7 @@ export class ProfilePage implements OnInit, OnDestroy {
     this.titleSubs = this.getTitleRuote().subscribe(event =>{
        if(event === '/app/profile'){
         this.loading = true;
-        this.profile = this.loginService.perfil;
+        this.profile = this.loginService.profileUser;
         this.loading = false;
        }
     });
@@ -47,7 +47,7 @@ export class ProfilePage implements OnInit, OnDestroy {
 
   async ngOnInit() {
     this.loading = true;
-    this.profile = this.loginService.perfil;
+    this.profile = this.loginService.profileUser;
     this.companiesService.getCompany(this.profile.CompanyId).subscribe(data=>{
       this.profile.CompanyName = data.companyName;      
       this.loading = false;

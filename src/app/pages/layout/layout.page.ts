@@ -20,32 +20,33 @@ export class LayoutPage implements OnInit {
   constructor(
     private storage: Storage,
     private sideBarMenu: SidebarMenuService,
-    public loginService: LoginService
+    private loginService: LoginService
     ) {
-
+      if(loginService.rol !== "Conductor"){
+        this.notDriver = true;
+      }         
+      this.currentUser();
     }
 
   async ngOnInit() {
-      await this.storage.create();
-      await this.getRoles();
+      await this.storage.create();      
+      //await this.getData(); 
+  }
+
+  async currentUser(){
+    this.user.name = this.loginService.profileUser.FirstName + ' ' + this.loginService.profileUser.LastName;
+  }
+
+  async getData(){
+    this.storage.get('token').then(data=>{
+      this.loginService.getDataProfile(data);
+    });
   }
 
   logout(){
     this.menu = [];
     this.roles = " ";
     this.loginService.logout();
-  }
-
-  async currentUser(){
-    this.user.name = this.loginService.perfil.FirstName + ' ' + this.loginService.perfil.LastName;
-  }
-
-  async getRoles(){
-    await this.storage.get('Roles').then(resp =>{
-      if(resp !== "Conductor"){
-        this.notDriver = true;
-      } 
-    });
   }
 
 }

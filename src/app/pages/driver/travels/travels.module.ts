@@ -18,6 +18,6 @@ import { LayoutPage } from '../../layout/layout.page';
     IonicModule,
     TravelsPageRoutingModule
   ],
-  declarations: [TravelsPage, LayoutPage]
+  declarations: [TravelsPage]
 })
 export class TravelsPageModule {}

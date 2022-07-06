@@ -50,9 +50,10 @@ export class LoginPage implements OnInit {
     this.loading = true;
     await this.loginService.loginWeb(this.form.value).subscribe(async resp =>{      
       this.role = JSON.parse(window.atob(resp['token'].split('.')[1]))["Roles"];
-        if(this.role !== 'Power User CEMEX' && this.role !== 'Administrador Logistico Cemex'){
-          this.loginService.getData(resp['token']);
+        if(this.role !== 'Power User CEMEX' && this.role !== 'Administrador Logistico Cemex'){          
           this.errors = [];
+          await this.loginService.saveDataProfile(resp['token']);
+          await this.loginService.getDataProfile(resp['token']);
           this.navCtrl.navigateRoot('/app/home', {animated:true});
           this.loading = false;
         }else{

@@ -17,7 +17,6 @@ import { CmxWebComponentsModule } from '@cmx-web-components/angular';
     AlertSuccessComponent,
     AlertConfimComponent,
     ErrorMessagesComponent,
-    LayoutPage,
     MenuComponent,
     ToastMessageComponent,
   ],
@@ -28,7 +27,6 @@ import { CmxWebComponentsModule } from '@cmx-web-components/angular';
     CmxWebComponentsModule.forRoot(),
   ],
   exports:[
-    LayoutPage,
     AlertSuccessComponent,
     AlertConfimComponent,
     ErrorMessagesComponent,

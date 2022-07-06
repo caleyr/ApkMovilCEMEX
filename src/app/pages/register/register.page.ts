@@ -27,7 +27,7 @@ export class RegisterPage implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.cwcChange(this.loginService.rol);
+    //this.cwcChange(this.loginService.rol);
   }
 
   cwcChange(data){   

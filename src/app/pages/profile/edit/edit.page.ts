@@ -19,8 +19,8 @@ export class EditPage implements OnInit {
   ) { }
 
   async ngOnInit() {
-    this.rol = this.loginService.perfil.Roles;
-    console.log(this.loginService.perfil);
+    this.rol = this.loginService.profileUser.Roles;
+    console.log(this.loginService.profileUser);
     
   }
 

@@ -9,6 +9,7 @@ import { VehiclesPageRoutingModule } from './vehicles-routing.module';
 import { VehiclesPage } from './vehicles.page';
 import { ComponentsModule } from '../../components/components.module';
 import { CmxWebComponentsModule } from '@cmx-web-components/angular';
+import { LayoutPageModule } from '../layout/layout.module';
 
 @NgModule({
   imports: [
@@ -17,7 +18,8 @@ import { CmxWebComponentsModule } from '@cmx-web-components/angular';
     VehiclesPageRoutingModule,
     ComponentsModule,
     CmxWebComponentsModule.forRoot(),
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    LayoutPageModule
   ],
   declarations: [VehiclesPage]
 })
