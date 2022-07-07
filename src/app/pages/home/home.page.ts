@@ -10,10 +10,11 @@ export class HomePage implements OnInit {
 
   rol : string;
   
-  constructor() {
+  constructor(private loginService : LoginService) {
    }
 
   ngOnInit() {
+    this.rol = this.loginService.profileUser.Roles;
   }
 
 }

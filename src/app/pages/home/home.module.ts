@@ -10,6 +10,8 @@ import { HomePage } from './home.page';
 import { ComponentsModule } from 'src/app/components/components.module';
 import { LayoutPageModule } from '../layout/layout.module';
 import { CmxWebComponentsModule } from '@cmx-web-components/angular';
+import { HomeUserComponent } from './components/home-user/home-user.component';
+import { HomeAdminComponent } from './components/home-admin/home-admin.component';
 
 @NgModule({
   imports: [
@@ -21,6 +23,10 @@ import { CmxWebComponentsModule } from '@cmx-web-components/angular';
     LayoutPageModule,    
     CmxWebComponentsModule.forRoot(),
   ],
-  declarations: [HomePage]
+  declarations: [
+    HomePage,
+    HomeUserComponent,
+    HomeAdminComponent
+  ]
 })
 export class HomePageModule {}

@@ -1,3 +1,8 @@
 <app-layout class="card-size">
-  <h1 class="text-black">Estamos en el home</h1>
+  <div *ngIf="rol !== 'Administrador Logistico Tercero'">
+    <app-home-user></app-home-user>
+  </div>
+  <div *ngIf="rol === 'Administrador Logistico Tercero'">
+    <app-home-admin></app-home-admin>
+  </div>
 </app-layout>

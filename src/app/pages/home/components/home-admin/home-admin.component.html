@@ -1,0 +1,132 @@
+
+<h6 style="margin-top: 1.8rem;">Los viajes de hoy</h6>
+<cwc-grid class="demo-grid">
+  <cwc-cell mobile-colspan="6">
+    <cwc-card class="m-all-xs" design-version="v2">
+        <div class="main-content-card">
+            <div class="content-header">
+                <span>6</span>
+                <h6>Pre-turno</h6>
+            </div>
+            <hr/>
+            <div class="content-body-trip">
+                <div>
+                    <div class="item-trip">
+                        <span class="style-text">7</span> 
+                        <cwc-status-indicator variant='warning'>
+                        pendientes
+                        </cwc-status-indicator>
+                    </div>
+                    <div class="item-trip">
+                        <span class="style-text">3</span> 
+                        <cwc-status-indicator variant='success'>
+                        Confirmados
+                        </cwc-status-indicator>
+                    </div>
+                    <div class="item-trip">
+                      <br>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </cwc-card>                
+  </cwc-cell>
+
+  <cwc-cell mobile-colspan="6">
+    <cwc-card class="m-all-xs" design-version="v2">
+        <div class="main-content-card">
+            <div class="content-header">
+                <span>12</span>
+                <h6>En turno</h6>
+            </div>
+            <hr/>
+            <div class="content-body-trip">
+                <div>
+                    <div class="item-trip">
+                        <span class="style-text">7</span> 
+                        <cwc-status-indicator variant='info'>
+                          Cargando
+                        </cwc-status-indicator>
+                    </div>
+                    <div class="item-trip">
+                        <span class="style-text">3</span> 
+                        <cwc-status-indicator variant='disabled'>
+                          Cargado
+                        </cwc-status-indicator>
+                    </div>
+                    <div class="item-trip">
+                      <span class="style-text">3</span> 
+                      <cwc-status-indicator variant='disabled'>
+                          Descargado
+                      </cwc-status-indicator>
+                  </div>                               
+                </div>
+            </div>
+        </div>
+    </cwc-card>
+  </cwc-cell>
+</cwc-grid>
+
+<cwc-card class="m-all-xs" style="margin-top: 1rem;" design-version="v2">
+  <div style="padding: 0.8rem">
+      <div class="content-request">
+          <div class="content-info-request">
+            <span class="style-text">2</span>
+            <span>Empresas</span>
+          </div>
+          <cwc-button variant="link">Ver más</cwc-button>
+      </div>
+      <hr color="#D0D0D0"/>
+      <div class="content-request">
+        <div class="content-info-request">
+            <span class="style-text">2</span>
+            <span>Empresas</span>
+        </div>
+        <cwc-button variant="link">Ver más</cwc-button>
+      </div>
+      <hr color="#D0D0D0"/>
+      <div class="content-request">
+        <div class="content-info-request">
+            <span class="style-text">2</span>
+            <span>Empresas</span>
+        </div>
+        <cwc-button variant="link">Ver más</cwc-button>
+      </div>
+  </div>
+</cwc-card>
+
+<h6 style="margin-top: 1.5rem;">Buscar viaje</h6>
+<cwc-card class="m-all-xs" style="margin-top: 1rem;" design-version="v2">
+  <div class="card-content">
+   <h6 style="text-align: center;">Buscar viaje</h6>
+   <p style="text-align: center; font-size: 15px;">Revisa entre nuestros distintos departamentos disponibles un viaje que se ajueste a tu ruta y horario.</p>
+  </div>
+</cwc-card>
+
+<cwc-button  style="margin-top: 1rem;" variant="regular-block">
+  <div class="button-css">BUSCAR VIAJE</div>
+</cwc-button>
+
+<cwc-card class="m-all-xs" style="margin-top: 1rem;" design-version="v2">
+  <div class="card-content">
+   <h6 style="text-align: center;">Accede a tu cuenta Clever</h6>
+   <p style="text-align: center; font-size: small;">Revisa tus datos y manten tu perfil actualizado para un mejor seguimiento</p>
+   <div>
+    <cwc-button class="button-css" variant="regular-block" (click)="onUrl(linkClever)">
+      <div class="button-css">CLEVER GLOBAL</div>
+    </cwc-button>
+   </div>
+  </div>
+</cwc-card>
+
+<cwc-card class="m-all-xs" style="margin-top: 1rem;" design-version="v2">
+  <div class="card-content">
+   <h6 style="text-align: center;">Tu viaje CEMEX</h6>
+   <p style="text-align: center; font-size: small;">Verifica el estado de tus viajes y actualizaciones de los mismos</p>
+   <div>
+    <cwc-button class="button-css" variant="regular-block" (click)="onUrl(linkTrip)">
+      <div class="button-css" >Tu viaje CEMEX</div>
+      </cwc-button>
+   </div>
+  </div>
+</cwc-card>
