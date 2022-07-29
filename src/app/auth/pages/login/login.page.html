@@ -26,6 +26,7 @@
                    label='Contraseña'
                    allow-password-show='true'
                    required 
+                   (keydown.enter)="login()"
                    ></cwc-input>
                    <div class="content-message-error-login">
                     <span class="cwc-status-message" aria-live="assertive" id="cwc-input-1-error">{{message}}</span>

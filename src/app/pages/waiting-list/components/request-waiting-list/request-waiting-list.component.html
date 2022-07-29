@@ -1,49 +1,58 @@
 <cwc-grid class="demo-grid">
-  <cwc-cell colspan="6" mobile-colspan="12">
-    <cwc-card class="card-info" design-version="v2">
+  <cwc-cell colspan="6" mobile-colspan="12" (click)="detailRequest(request.id)" *ngFor="let request of requestsList">
+    <cwc-card class="m-all-xs" design-version="v2">
       <div class="main-content-card">
-          <div class="header-card">
-              <div class="avatar-info">
-                  <span class="style-name">Viaje 12345678</span>
-              </div>                                
-              <cwc-status-indicator size="small" class="statusI" variant='success'>
-                <div class="statusI">
-                  Disponible</div>
-              </cwc-status-indicator>
-          </div>    
+        <div class="header-card">
+          <cwc-cell colspan="6" mobile-colspan="12">
+            <div class="attr-user">Viaje {{request.travelsCode}}</div>
+          </cwc-cell>
+          <div style="text-align: right;">
+            <cwc-status-indicator variant='alert'>
+              {{request.statusTravel}}
+            </cwc-status-indicator>
+          </div>
+        </div>
 
-          <hr color="#D0D0D0"/>
-          <cwc-grid class="demo-grid" style="padding-top: 0.5rem;">
-              <cwc-cell colspan="12" mobile-colspan="12">   
-                  <div class="attr-user">Origen</div>
-                  <span class="attr-detail">CEMEX Platan Bogotá</span>
-              </cwc-cell>
-          </cwc-grid>
+        <hr class="line">
 
-          <cwc-grid class="demo-grid center-cell">
-              <cwc-cell colspan="12" mobile-colspan="12">
-                  <div class="attr-user">Destino</div>
-                  <span class="attr-detail">Cerrada Loma Alta 110</span>
-              </cwc-cell>                  
-          </cwc-grid>
+        <cwc-grid class="demo-grid">
+          <cwc-cell colspan="12" mobile-colspan="12">
+            <div class="attr-user">Origen</div>
+            <span>{{request.origen}}</span>
+          </cwc-cell>
+        </cwc-grid>
 
-          <cwc-grid class="demo-grid center-cell">
-            <cwc-cell mobile-colspan="6">
-                <div class="attr-user">Fecha y hora de cita</div>
-                <span class="attr-detail">Cerrada Loma Alta 110</span>
-            </cwc-cell>
-            <cwc-cell mobile-colspan="6">
-              <div class="attr-user">Vehículo</div>
-              <span class="attr-detail">Cerrada Loma Alta 110</span>
-            </cwc-cell>                
-          </cwc-grid>
+        <cwc-grid class="demo-grid">
+          <cwc-cell colspan="12" mobile-colspan="12">
+            <div class="attr-user">Destino</div>
+            <span>{{request.destino}}</span>
+          </cwc-cell>
+        </cwc-grid>
 
-          <cwc-grid class="demo-grid center-cell">
-            <cwc-cell colspan="12" mobile-colspan="12">
-                <div class="attr-user">Destino</div>
-                <span class="attr-detail">Cerrada Loma Alta 110</span>
-            </cwc-cell>                  
-          </cwc-grid>     
+        <cwc-grid class="demo-grid">
+          <cwc-cell colspan="6" mobile-colspan="12">
+            <div class="attr-user">Fecha y hora</div>
+            <span>{{request.dateTravel}} {{request.timerStar}}</span>
+          </cwc-cell>
+          <cwc-cell colspan="6" mobile-colspan="12">
+            <div class="attr-user">Numero de Placa</div>
+            <span>{{request.vehicleLissenceName}}</span>
+          </cwc-cell>
+        </cwc-grid>
+
+        <cwc-grid class="demo-grid center-cell">
+          <cwc-cell colspan="12" mobile-colspan="12">
+            <div class="attr-user">Modelo</div>
+            <span>{{request.vehicleModelName}}</span>
+          </cwc-cell>
+        </cwc-grid>
+
+        <cwc-grid class="demo-grid center-cell">
+          <cwc-cell colspan="6" mobile-colspan="12">
+            <div class="attr-user">Inicio de viaje</div>
+            <span>{{request.timerStar}}</span>
+          </cwc-cell>
+        </cwc-grid>
       </div>
     </cwc-card>
   </cwc-cell>

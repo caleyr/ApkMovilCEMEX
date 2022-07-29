@@ -70,7 +70,7 @@ export class TravelsPage implements OnInit {
       });
     }    
   }
-
+  
   changeDate(event){
     if(event.detail.value == 0){
       this.timeList = [];

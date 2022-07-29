@@ -6,7 +6,6 @@ import { MenuComponent } from './menu/menu.component';
 import { ErrorMessagesComponent } from '../utilities/error-messages/error-messages.component';
 import { AlertConfimComponent } from './alert-confim/alert-confim.component';
 import { ToastMessageComponent } from './toast-message/toast-message.component';
-import { LayoutPage } from '../pages/layout/layout.page';
 import { RouterModule } from '@angular/router';
 import { CmxWebComponentsModule } from '@cmx-web-components/angular';
 
