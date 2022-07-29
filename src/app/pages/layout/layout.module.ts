@@ -7,7 +7,6 @@ import { CmxWebComponentsModule } from '@cmx-web-components/angular';
 
 import { LayoutPage } from './layout.page';
 import { ComponentsModule } from '../../components/components.module';
-import { MenuComponent } from 'src/app/components/menu/menu.component';
 
 @NgModule({
   imports: [

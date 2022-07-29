@@ -15,4 +15,8 @@ export class TravelsPage implements OnInit {
   ngOnInit() {
   }
 
+  cwcChangeCompany(event: Event){
+
+  }
+
 }
