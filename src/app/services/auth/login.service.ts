@@ -64,6 +64,7 @@ export class LoginService {
 
   async getDataProfile (token){
     var profile : Profile = new Profile();
+    profile.id = await JSON.parse(window.atob(token.split('.')[1]))["UserId"];
     profile.FirstName = await JSON.parse(window.atob(token.split('.')[1]))["FirstName"];
     profile.LastName = await JSON.parse(window.atob(token.split('.')[1]))["LastName"];
     profile.Email = await JSON.parse(window.atob(token.split('.')[1]))["Email"];
