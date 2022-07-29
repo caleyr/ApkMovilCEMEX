@@ -5,6 +5,8 @@ import { CompaniesService } from '../../../services/companies/companies.service'
 import { ErrorMessagesService } from '../../../services/error-messages.service';
 import { debounceTime } from 'rxjs/operators';
 import { VehiclesService } from '../../../services/vehicles.service';
+import { Location } from '@angular/common';
+import { LoginService } from '../../../services/auth/login.service';
 
 @Component({
   selector: 'app-new-vehicle',
@@ -17,7 +19,7 @@ export class NewVehiclePage implements OnInit {
 
   form: FormGroup;
   data : FormData;
-  listCompanies : Companies[];
+  company : Companies = new Companies();
 
   alertSucces = true;
   alertConfirm = false;
@@ -29,13 +31,15 @@ export class NewVehiclePage implements OnInit {
 
   constructor(
     private formBuilder: FormBuilder,
+    private loginService : LoginService,
     private companiesService : CompaniesService,
     private errorMessages: ErrorMessagesService,
-    private vehiclesService : VehiclesService
+    private vehiclesService : VehiclesService,
+    private location : Location
   ) {    
-    this.formBuilderInput();
-    this.companiesService.getCompanies().subscribe(async data =>{
-      this.listCompanies = data;
+    this.formBuilderInput(loginService.profileUser.CompanyId);
+    this.companiesService.getCompany(loginService.profileUser.CompanyId).subscribe(async data =>{
+      this.company = data;
     });
   }
 
@@ -98,15 +102,19 @@ export class NewVehiclePage implements OnInit {
     this.alertConfirm = false;
   }
 
+  onBack(){
+    this.location.back();
+  }
+
   /*=============================================
    FORMULARIO REACTIVOS
   =============================================*/
-  formBuilderInput(){
+  formBuilderInput(id : string){
     this.form = this.formBuilder.group({
       Model: ['', [ Validators.required ]],
       LicenseVehiculo: ['', [ Validators.required ]],
       TypeTrailer: ['', [ Validators.required ]],    
-      CompanyId: ['', [ Validators.required ]],    
+      CompanyId: [id, [ Validators.required ]],    
       Soat: ['', [ Validators.required ]],
       SoatDocument: [''],
       TechnomechanicsDocument: [''],
@@ -114,6 +122,7 @@ export class NewVehiclePage implements OnInit {
       CardPropertyDocument: [''],
       StatusVehicle: ['1'],
       StatusTravel: [ '1'],
+      UserId: [ '1' ],
       term: [false, [ Validators.requiredTrue ]]
     });
 

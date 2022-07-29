@@ -1,0 +1,124 @@
+/***  styles btn asing trip  ***/ 
+.content-btn-assign-trip {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 1rem;
+}
+
+.statusI{
+    display: flex; 
+    align-items: center; 
+    justify-content: center;
+}
+
+
+/***  styles card info user  ***/ 
+.header-card {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 0.5rem;
+}
+.avatar-info {
+    display: flex;
+    align-items: center;
+}
+span.style-name {
+    font-weight: 700;
+}
+.content-status {
+    display: flex;
+    align-items: center;
+}
+.active {
+    background-color: #7ac943;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    margin-right: 5px;
+}
+
+.attr-user {
+    font-weight: 700;
+    font-size: 15px;
+    text-transform: uppercase;
+    font-size: x-small;
+}
+
+.attr-detail {
+    font-size: medium;
+}
+
+hr.line {
+    margin-bottom: 1rem;
+}
+span.number-phone {
+    padding-left: 8px;
+    padding-right: 10px;
+    font-size: small;
+}
+.center-cell {
+    margin-top: 1.5rem;
+    margin-bottom: 1.5rem;
+}
+.content-btn-edit {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+}
+
+.card-info {
+    padding: 0.8rem;
+    padding-bottom: 1rem;
+}
+
+
+
+/***  styles card documents user  ***/ 
+.card-docs {
+    margin-top: 1.5rem;
+    padding: 1rem;
+}
+.title-docs {
+    font-size: 15px;
+    font-weight: 700;
+    margin-bottom: 0.8rem;
+}
+.content-docs {
+    display: flex;
+    justify-content: space-between;
+}
+.content-action-docs {
+    display: flex;
+    align-items: flex-end;
+}
+
+.text-archive{
+    font-size: small;
+    margin-left: 5px; 
+}
+
+.item-archives{
+    display: flex;
+    vertical-align: middle;
+}
+
+
+/*** Estilos footer  ***/ 
+.footer-detal-request {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 1.5rem;
+}
+.btn-action {
+    margin-left: 1.5rem;
+}
+span.text-btn {
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+}
+
+.detail_list_travels{
+    font-weight: 900;
+    font-size: small;
+}

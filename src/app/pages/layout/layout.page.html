@@ -38,12 +38,12 @@
                 <cwc-sidenav-menu-item *ngIf="menudDriver.show"  [label]="menudDriver.title" [routerLink]="menudDriver.url" routerLinkActive="router-link-active" ></cwc-sidenav-menu-item>
             </div> -->
         <cwc-sidenav-menu-item  label="Inicio" [iconName]="'radio-static'" [routerLink]="['/app/home']" routerLinkActive="router-link-active"  ></cwc-sidenav-menu-item>
-        <cwc-sidenav-menu-item  label="Mis viajes" [iconName]="'radio-static'" [routerLink]="['/app/travels']" routerLinkActive="router-link-active"  ></cwc-sidenav-menu-item>
-        <cwc-sidenav-menu-item  label="Buscar viaje" [iconName]="'radio-static'" [routerLink]="['/app/search-travel']" routerLinkActive="router-link-active"  ></cwc-sidenav-menu-item>
+        <cwc-sidenav-menu-item  label="Mis viajes" [iconName]="'radio-static'" [routerLink]="['/app/my-travels']" routerLinkActive="router-link-active"  ></cwc-sidenav-menu-item>
+        <cwc-sidenav-menu-item  label="Buscar viaje" [iconName]="'radio-static'" [routerLink]="['/app/travels']" routerLinkActive="router-link-active"  ></cwc-sidenav-menu-item>
         <cwc-sidenav-menu-item  label="Notificaciones" [iconName]="'radio-static'" [routerLink]="['/app/notifications']" routerLinkActive="router-link-active"  ></cwc-sidenav-menu-item>
         <cwc-sidenav-menu-item  label="Lista de espera" [iconName]="'radio-static'" [routerLink]="['/app/waiting-list']" routerLinkActive="router-link-active"  ></cwc-sidenav-menu-item>
         <cwc-sidenav-menu-item *ngIf="notDriver"  label="Vehículos" [iconName]="'radio-static'" [routerLink]="['/app/vehiculos']" routerLinkActive="router-link-active"  ></cwc-sidenav-menu-item>
-        <cwc-sidenav-menu-item *ngIf="notDriver" label="Conductores" [iconName]="'radio-static'" [routerLink]="['/app/drivers']" routerLinkActive="router-link-active"  ></cwc-sidenav-menu-item>
+        <cwc-sidenav-menu-item *ngIf="notDriver" label="Conductores" [iconName]="'radio-static'" [routerLink]="['/app/conductores']" routerLinkActive="router-link-active"  ></cwc-sidenav-menu-item>
         <cwc-sidenav-menu-item  label="Llamar a centro de servicio" [iconName]="'radio-static'" [routerLink]="['/app/call-service']" routerLinkActive="router-link-active"  ></cwc-sidenav-menu-item>
 
         </cwc-sidenav-menu>
@@ -57,10 +57,6 @@
             <div class="button" (click)="logout()">
                 <cwc-button variant="link">Cerrar Sesión</cwc-button>
             </div>
-            <cwc-button *ngIf="showButtonDriver" class="btn-login" 
-            design-version="v2" 
-            disabled="false" 
-            variant="primary-block">Ser Conductor</cwc-button>
             <br>
             © 2017-2019 CEMEX
             International<br /> Holding AG.

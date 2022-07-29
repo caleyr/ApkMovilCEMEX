@@ -1,9 +1,127 @@
-<ion-header>
-  <ion-toolbar>
-    <ion-title>vehicleDetails</ion-title>
-  </ion-toolbar>
-</ion-header>
+<cwc-header design-version="v2" slot="header" show-Menu-Button="false" show-cemex-logo="false">
+  <div class="header-text">
+    <ion-icon name="arrow-back-outline" style="font-size: 25px;" (click)="onBack()"></ion-icon>
+    <div class="attr-name" style="padding-left: 1rem;">{{vehicle.licenseVehiculo}}</div>
+  </div>
+</cwc-header>
+<div slot="main" class="content-card">
+  <cwc-card class="m-all-xs" design-version="v2">
+    <div class="card-content">
+      <div class="content-avatar-menu" style="margin-right: 0.1rem; display: flex; justify-content: space-between;">
+        <div style="display: flex;">
+          <div>
+            <div class="attr-name">Plataforma</div>
+            <span class="text-info">Placa {{vehicle.licenseVehiculo}}</span>
+          </div>
+        </div>
+        <div>
+          <cwc-button (click)="updateVehicle()"  variant="link" class="m-h-reg link-cwc" routerLinkActive="router-link-active" >
+            <div style="font-size: small;">EDITAR</div>
+          </cwc-button>
+        </div>
+      </div>
 
-<ion-content>
+      <div>
+        <cwc-grid class="demo-grid center-cell" >
+          <cwc-cell colspan="12" mobile-colspan="12">   
+              <div class="attr-user">Empresa</div>
+              <span class="text-info">{{company}}</span>
+          </cwc-cell>
+        </cwc-grid>
 
-</ion-content>
+        <cwc-grid class="demo-grid center-cell" >
+          <cwc-cell colspan="12" mobile-colspan="12">   
+              <div class="attr-user">Código SOAT</div>
+              <span class="text-info">{{vehicle.soat}}</span>
+          </cwc-cell>
+        </cwc-grid>
+      </div>
+      
+      <div class="attr-document" >Tipo de trailer</div>
+      <div style=" border: 0.1px solid #d1d1d1; background: #d1d1d1; margin-bottom: 0.5rem;"></div>
+
+      <p class="attr-trailer">
+        {{vehicle.typeTrailer}}
+      </p>
+
+      <div class="attr-document" >Documentación</div>
+      <div style=" border: 0.1px solid #d1d1d1; background: #d1d1d1; margin-bottom: 0.5rem;"></div>
+
+      <cwc-grid column-gap="5px">
+        <cwc-cell mobile-colspan="6">   
+          <cwc-icon *ngIf="vehicle.soatDocument !== null" name='check-rounded-active-fill' size="12px" color='bright-green'></cwc-icon>
+          <cwc-icon *ngIf="vehicle.soatDocument === null" size="12px" color="true-red"></cwc-icon>
+          <span class="text-archive">Documento de SOAT</span>
+        </cwc-cell>
+        <cwc-cell mobile-colspan="6">   
+          <cwc-icon *ngIf="vehicle.policyDocument !== null" name='check-rounded-active-fill' size="12px" color='bright-green'></cwc-icon>
+          <cwc-icon *ngIf="vehicle.policyDocument === null" size="12px" color="true-red"></cwc-icon>
+          <span class="text-archive">Póliza</span>
+        </cwc-cell>
+      </cwc-grid>
+      <cwc-grid column-gap="5px">
+        <cwc-cell mobile-colspan="6">   
+          <cwc-icon *ngIf="vehicle.technomechanicsDocument !== null" name='check-rounded-active-fill' size="12px" color='bright-green'></cwc-icon>
+          <cwc-icon *ngIf="vehicle.technomechanicsDocument === null" size="12px" color="true-red"></cwc-icon>
+          <span class="text-archive">Certificado de revisión técnico mecánica</span>
+        </cwc-cell>
+        <cwc-cell mobile-colspan="6">   
+          <cwc-icon *ngIf="vehicle.cardPropertyDocument !== null" name='check-rounded-active-fill' size="12px" color='bright-green'></cwc-icon>
+          <cwc-icon *ngIf="vehicle.cardPropertyDocument === null" size="12px" color="true-red"></cwc-icon>
+          <span class="text-archive">Tarjeta de propiedad</span>
+        </cwc-cell>
+      </cwc-grid>
+      <cwc-grid>
+        <cwc-cell mobile-colspan="12" class="cell-button">        
+          <cwc-button variant="link" class="m-h-reg link-cwc">
+            <div style="font-size: small;">
+              ACTUALIZAR DOCUMENTOS
+            </div>
+          </cwc-button>
+        </cwc-cell>
+      </cwc-grid>
+      
+      <div style="margin-top: 1rem;" *ngIf="vehicle.userId !== '1'">
+        <div class="attr-document" >Conductor</div>
+        <div style=" border: 0.1px solid #d1d1d1; background: #d1d1d1; margin-bottom: 0.5rem;"></div>
+        <div style="display: flex; justify-content: space-between;">
+          <p class="attr-conductor">
+            {{vehicle.userId}}
+          </p>
+          <cwc-button variant="link" class="m-h-reg link-cwc" style="margin-top: 1rem; margin-bottom: 0;" routerLinkActive="router-link-active" >
+            <div style="font-size: small;">REMOVER</div>
+          </cwc-button>
+        </div>
+      </div>
+    </div>
+  </cwc-card>
+  <cwc-grid class="demo-grid" *ngIf="rol !== 'Hombre Camion' && vehicle.userId === '1' && driverList.length !== 0">
+    <cwc-cell colspan="12" mobile-colspan="12">
+        <div class="footer-detal-request">
+            <div class="content-btns">
+                <cwc-button design-version="v2" (click)="openModal()" ><span class="text-btn">Asignar conductor</span></cwc-button>
+            </div>
+        </div>
+    </cwc-cell>
+  </cwc-grid>
+</div>
+
+<cwc-modal id='add-driver' class="modal-list" design-version="v2" style="z-index: 0;" [open]="addDriver" (cwcClose)="closeAlertConfirm()">  
+  <h6 style='text-align: center;'>Asignar conductor</h6>
+  <cwc-select
+    class="select-filter"
+    placeholder="Seleccionar"
+    (cwcChange)="cwcChangeDrivers($event)">
+    <cwc-select-option *ngFor="let driver of driverList" [value]="driver.id">{{driver.firstLastName}}</cwc-select-option>
+  </cwc-select>
+  <div style='text-align: center;'>
+    <cwc-button variant='primary-block' (click)="addDriverForVehicle()" >Aceptar</cwc-button>
+  </div>
+</cwc-modal>
+
+<cwc-modal id='alert-modal-succes' [open]="alertShow" (cwcClose)="closeAlertSuccess()">
+  <div style='text-align: center'>
+      <cwc-icon name='accepted-ok' size='120px' color='bright-green'></cwc-icon>
+      <p>El conductor ha sido asignado de manera exitosa</p>
+  </div>
+</cwc-modal>

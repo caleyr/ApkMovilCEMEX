@@ -103,7 +103,9 @@ export class EditAdminLogisThirdComponent implements OnInit {
 
   async addFormData(objeto){
     for ( var key in objeto ) {
-      this.data.append(key, objeto[key]);
+      if(key !== 'term'){
+        this.data.append(key, objeto[key]);
+      }
     }
   }
 

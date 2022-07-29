@@ -11,11 +11,11 @@ export class AdminLogistService {
   constructor(private http: HttpClient) { }
 
   createAdminLogistThird(data : any) {
-    return this.http.post(`${URL}/api/authentication/CreateUserTPLMTruckMan`, data);
+    return this.http.post(`${URL}/api/authentication/CreateUserTPLMTruckMan`, data, {responseType: 'text'});
   }
 
   createDriver(data : any) {
-    return this.http.post(`${URL}/api/authentication/CreateUserDriver`, data);
+    return this.http.post(`${URL}/api/authentication/CreateUserDriver`, data, {responseType: 'text'});
   }
 
   updateAdminLogistThird(data : any, email : string) {

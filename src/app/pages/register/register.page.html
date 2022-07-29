@@ -1,13 +1,27 @@
-<ion-header>
-  <ion-toolbar color="primary">
-    <ion-buttons slot="start">
-      <ion-back-button text=""></ion-back-button>
-    </ion-buttons>
-    <ion-title>Registro</ion-title>
-  </ion-toolbar>
-</ion-header>
+<cwc-header design-version="v2" slot="header" show-Menu-Button="false" show-cemex-logo="false">
+  <div class="header-text">
+    <ion-icon name="arrow-back-outline" style="font-size: 25px;" (click)="onBack()"></ion-icon>
+    <div class="attr-name" style="padding-left: 1rem;">Iniciar sesión</div>
+  </div>
+</cwc-header>
+<div slot="main" class="content-card">
+  <div class="content-title">
+    Crear Nuevo Usuario
+  </div>
 
-<div slot="main" class="content-grid-register content">
+  <cwc-picker
+    (cwcChange)="cwcChange($event)"
+    class="select-filter"
+    label="Rol"
+    filter-no-resultsMessage="No se encontraron resultados" 
+    filter-placeholder="Filtrar Roles" 
+    placeholder="Seleccionar"
+    design-version="v2"
+    filter>
+      <option value="1">Administrador Logistico Tercero</option>
+      <option value="2">Hombre Camión</option>
+      <option value="3">Conductor</option>
+  </cwc-picker>
   <!--=====================================
 		FORMULARIO DE REGISTRO HOMBRE CAMIÓN
   ======================================-->

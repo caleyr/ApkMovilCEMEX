@@ -1,19 +1,17 @@
-<ion-header>
-  <ion-toolbar color="primary">
-    <ion-buttons slot="start">
-      <ion-back-button text=""></ion-back-button>
-    </ion-buttons>
-    <ion-title>Agregar vehiculo</ion-title>
-  </ion-toolbar>
-</ion-header>
-<div slot="main" class="content-grid-register content">  
+<cwc-header design-version="v2" slot="header" show-Menu-Button="false" show-cemex-logo="false">
+  <div class="header-text">
+    <ion-icon name="arrow-back-outline" style="font-size: 25px;" (click)="onBack()"></ion-icon>
+    <div class="attr-name" style="padding-left: 1rem;">Agregar vehículo</div>
+  </div>
+</cwc-header>
+<div slot="main" class="content-card">  
   <div class="content-title">
-    <h5>Nuevo vehículo</h5>
+    Nuevo vehículo
   </div>
   <form (submit)="createVehicle()" [formGroup]="form">
     <cwc-grid class="demo-grid" design-version="v2" columns="12" mobile-columns="12">
       <cwc-cell colspan="12" mobile-colspan="12">
-        <div class="section">
+        <div>
           <cwc-input class="input" 
             label='Medelo de vehículo'
             placeholder="Agrega el tipo de camión"
@@ -22,7 +20,7 @@
             required
           ></cwc-input>
         </div>
-        <div class="section">
+        <div>
           <cwc-input class="input" 
             label='Placa'
             formControlName="LicenseVehiculo"
@@ -31,7 +29,7 @@
             required
           ></cwc-input>
         </div>
-        <div class="section">
+        <div>
           <cwc-input class="input" 
             label='Tipo de trailer'
             formControlName="TypeTrailer"
@@ -42,19 +40,18 @@
         </div>
         <div class="content-picker">
           <cwc-picker
-            formControlName="CompanyId"
             class="w-full select-filter"
             label="Empresa"
             filter-no-resultsMessage="No se encontraron resultados" 
             filter-placeholder="Filtrar Empresas"
-            placeholder="Seleccionar" 
+            [placeholder]="company.companyName" 
             mobile="false"
             string-values="true"
+            disabled="true"
             filter>
-              <option *ngFor="let companies of listCompanies" [value]="companies.id">{{companies.companyName}}</option>
           </cwc-picker>
         </div>
-        <div class="section">
+        <div>
           <cwc-input class="input" 
           label='Número de SOAT (opcional)'
           type="text"
@@ -70,7 +67,7 @@
     <!--=====================================
         DOCUMENTO DE LA EMPRESA
       ======================================-->
-    <label for=""> Documento de SOAT (opcional)</label>
+    <label for=""> Documento de SOAT</label>
     <div>
       <cwc-grid class="demo-grid content-archive" >
         <cwc-cell class="border" colspan="6" mobile-colspan="6" style="cursor: pointer;">
@@ -89,7 +86,7 @@
     </div>
 
 
-    <label for=""> Certificado de revisión tecno mecánica (opcional)</label>
+    <label for=""> Certificado de revisión tecno mecánica</label>
     <div>
       <cwc-grid class="demo-grid content-archive" >
         <cwc-cell class="border" colspan="6" mobile-colspan="6" style="cursor: pointer;">

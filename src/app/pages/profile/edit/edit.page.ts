@@ -1,3 +1,4 @@
+import { Location } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { Storage } from '@ionic/storage-angular';
 import { User } from 'src/app/interfaces/user/user';
@@ -15,13 +16,16 @@ export class EditPage implements OnInit {
   rol = '';
 
   constructor(
-    private loginService : LoginService
+    private loginService : LoginService,
+    private location : Location
   ) { }
 
   async ngOnInit() {
-    this.rol = this.loginService.profileUser.Roles;
-    console.log(this.loginService.profileUser);
-    
+    this.rol = this.loginService.profileUser.Roles;    
+  }
+
+  onBack(){
+    this.location.back();
   }
 
 }

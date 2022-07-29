@@ -1,0 +1,133 @@
+<cwc-header design-version="v2" slot="header" show-Menu-Button="false" show-cemex-logo="false">
+  <div class="header-text">
+    <ion-icon name="arrow-back-outline" style="font-size: 25px;" (click)="onBack()"></ion-icon>
+    <div class="attr-name" style="padding-left: 1rem;">Editar conductor</div>
+  </div>
+</cwc-header>
+<div slot="main" class="content-card">  
+  <div class="content-title">
+    Editar conductor
+  </div>
+  <form (submit)="createVehicle()" [formGroup]="form">
+    <cwc-grid class="demo-grid" design-version="v2" columns="12" mobile-columns="12">
+      <cwc-cell colspan="12" mobile-colspan="12">
+        <div>
+          <cwc-input class="input" 
+            label='Nombre(s)'
+            placeholder="Escribe el nombre aquí"
+            design-version="v1" 
+            formControlName="FirstName"
+            required
+          ></cwc-input>
+        </div>
+        <div>
+          <cwc-input class="input" 
+            label='Apellido'
+            formControlName="LastName"
+            design-version="v1"
+            placeholder="Apellido paterno y materno"
+            required
+          ></cwc-input>
+        </div>
+        <div>
+          <cwc-input class="input" 
+            label='Número de celular'
+            formControlName="PhoneNumber"
+            placeholder="Agregar un número de teléfono"
+            design-version="v1" 
+            required
+          ></cwc-input>
+        </div>
+        <div>
+          <cwc-input class="input" 
+            label='Código SAP'
+            formControlName="SapCode"
+            placeholder="Escribe los 12 dígitos de tu código SAP"
+            design-version="v1" 
+            required
+          ></cwc-input>
+        </div>
+        <div>
+          <cwc-input class="input" 
+            label='Número de Cédula o NIT'
+            formControlName="Document"
+            placeholder="Escribe los 12 dígitos de tu cédula"
+            design-version="v1" 
+            required
+          ></cwc-input>
+        </div>
+        <div>
+          <cwc-input class="input" 
+            label='Correo electrónico'
+            formControlName="Email"
+            placeholder="Agregar un correo electrónico"
+            design-version="v1" 
+            required
+          ></cwc-input>
+        </div>
+        <div class="content-picker">
+          <cwc-picker
+            class="w-full select-filter"
+            label="Empresa"
+            filter-no-resultsMessage="No se encontraron resultados" 
+            filter-placeholder="Filtrar Empresas"
+            [placeholder]="company.companyName" 
+            mobile="false"
+            string-values="true"
+            disabled="true"
+            filter>
+          </cwc-picker>
+        </div>
+      </cwc-cell>
+    </cwc-grid>
+    
+    <cwc-checkbox
+      formControlName="term"
+      mobile="true"
+      class='m-end-sm'>          
+      <div class="input-check">Confirmo que la siguiente información es verdadera.</div>
+    </cwc-checkbox>
+
+    <app-error-messages [errors]="errors"></app-error-messages> 
+    <!--=====================================
+      BOTON PARA GUARDAR EL REGISTRO
+    ======================================-->
+    <div class="content-button">
+      <cwc-button 
+        design-version="v1" 
+        [disabled]="form.invalid"
+        (click)="openAlertConfirm()" 
+        variant="regular-block">GUARDAR CAMBIOS</cwc-button>
+    </div>
+  </form>
+</div>
+<!--=====================================
+		MODAL ALERTA CONFIRMAR DATOS GUARDAR
+======================================-->
+<cwc-modal id='alert-confirm' class="alert-confirm" [open] ="alertConfirm" (cwcClose)="closeAlertConfirm()">
+  <header slot='header'>
+      <h2 style='margin:0;'>Atención</h2>
+  </header>
+  <p>¿Esta seguro que los datos registrados estan correctos?</p>
+  <footer slot='footer'>
+      <div style='text-align: end'>
+        <cwc-button variant='support' (click)="closeAlertConfirm()" style="margin-right: 1rem;">Cancelar</cwc-button>
+          <cwc-button variant='primary' (click)="createVehicle()" >Aceptar</cwc-button>
+      </div>
+  </footer>
+</cwc-modal>
+<!--=====================================
+		MODAL CONFIRMACIÓN RESPUESTA DE EXITO
+======================================-->
+<app-alert-success
+  [alertShow] = "alertSucces"
+  title = "Su información ha sido guardada exitosamente"
+  urlButton = "/app/conductores/detalles"
+  textButton = "OK"
+  message = " ">
+</app-alert-success>
+<!--=====================================
+	TOAST ALERT MENSAJE
+======================================-->
+<cwc-snackbar id='toast-message-driver' [message]="toastMessage"
+cta-message="dismiss" auto-hide-duration='5000'></cwc-snackbar>

@@ -1,5 +1,5 @@
 <form (submit)="register()" [formGroup]="form">
-  <cwc-grid class="demo-grid" design-version="v2" columns="12" mobile-columns="12" style="margin-top: 3rem;">
+  <cwc-grid class="demo-grid" design-version="v2" columns="12" mobile-columns="12" style="margin-top: 2rem;">
     <cwc-cell colspan="12" mobile-colspan="12">
       <div class="section">
         <cwc-input 
@@ -71,7 +71,6 @@
         <cwc-checkbox
           (cwcChange)="cwcChangeTerm($event)"
           checked="true"
-          required="true"
           mobile="true"
           class='m-end-sm'>          
           <div class="input-check-user">Confirmo que la siguiente información es verdadera.</div>
@@ -107,7 +106,7 @@
 title = "Existoso"
 urlButton = "/app/profile"
 textButton = "Volver al perfil"
-message = "Tus datos se actualizaron correctamente.">
+message = "Tus datos se actualizarón correctamente.">
 </app-alert-success>
 <!--=====================================
 	TOAST ALERT MENSAJE

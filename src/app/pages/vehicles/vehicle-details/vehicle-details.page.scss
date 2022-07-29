@@ -1,0 +1,108 @@
+.header-text{
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    position: fixed;
+    top: 1;
+    right: 50;
+    left: 0;
+    margin-left: 1rem;
+}
+
+
+.content-card{
+    padding-top: 3rem;
+    padding-left: 0.5rem;
+    padding-right: 0.5rem; 
+    padding-bottom: 1rem;
+    flex: 1 1 auto;
+    overflow: auto;
+}
+
+span.style-name {
+    margin-left: 0.2rem;
+    font-size: small;
+    font-weight: 700;
+}
+
+.attr-name{
+    font-weight: 700;    
+}
+
+.attr-user {
+    font-size: x-small;
+    font-weight: 700;
+    text-transform: uppercase;
+}
+
+.attr-trailer {
+    font-size: small;
+    margin-bottom: 1.5rem;
+}
+
+.attr-conductor{
+    font-size: small;
+    margin-top: 1rem;
+}
+
+
+.attr-document {
+    font-size: smaller;
+    font-weight: 700;
+    padding-bottom: 0.5rem;
+}
+
+.center-cell {
+    margin-top: 1.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.text-info{
+    font-size: small;
+}
+
+span.text-archive{
+    font-size: small;
+    color: black;
+    padding-left: 0;
+}
+
+.cell-button{
+    padding-top: 2rem;
+    text-align: right;
+    
+}
+
+.button-cell{
+    font-weight: 700;
+    text-transform: uppercase;
+}
+
+.footer-detal-request {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 1.5rem;
+}
+.btn-action {
+    margin-left: 1.5rem;
+}
+span.text-btn {
+    padding-top: 0.1rem;
+    padding-bottom: 0.1rem;
+    font-size: small;
+}
+
+
+//Modal
+
+.modal-list{
+    --cwc-modal-border-width : 5rem;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    margin: auto;
+    width: 100%;
+    height: 100%;    
+}

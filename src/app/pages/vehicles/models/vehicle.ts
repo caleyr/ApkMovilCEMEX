@@ -5,6 +5,8 @@ export class Vehicle{
     typeTrailer : string;
     soat : string;
     companyId : string;
+    users : string;
+    userId : string;
     statusVehicle : string;
     statusTravel : number;
     soatDocument : number;

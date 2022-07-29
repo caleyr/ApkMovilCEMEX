@@ -1,3 +1,4 @@
+import { Location } from '@angular/common';
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, NgForm, Validators } from '@angular/forms';
 import { debounceTime } from 'rxjs/operators';
@@ -23,23 +24,32 @@ export class RegisterPage implements OnInit {
   @Output() public monthSelected = new EventEmitter<any>();
 
   constructor(
-    private loginService : LoginService
+    private loginService : LoginService,
+    private location : Location
   ) { }
 
   ngOnInit() {
     //this.cwcChange(this.loginService.rol);
   }
 
-  cwcChange(data){   
-    if(data === '1'){
+  cwcChange(data){
+    if(data.detail.value === '1'){      
+      this.loading = true;
       this.showFormManTruck = false;
       this.showFormDriver = false;
       this.showFormAdminLogist = true;
-    }else if(data === '2'){
+      setTimeout(() =>{
+        this.loading = false;
+      }, 1000);
+    }else if(data.detail.value === '2'){      
+      this.loading = true;
       this.showFormAdminLogist = false;
       this.showFormDriver = false;
       this.showFormManTruck = true;
-    }else if(data === '3'){
+      setTimeout(() =>{
+        this.loading = false;
+      }, 1000);
+    }else if(data.detail.value === '3'){
       this.loading = true;
       this.showFormManTruck = false;
       this.showFormAdminLogist = false;
@@ -52,5 +62,9 @@ export class RegisterPage implements OnInit {
 
   showLoading(value) {
     this.loading = value;
+  }
+
+  onBack(){
+    this.location.back();
   }
 }

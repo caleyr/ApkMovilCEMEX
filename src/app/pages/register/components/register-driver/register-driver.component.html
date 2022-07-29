@@ -7,11 +7,18 @@
     </label>
   </div>
     <cwc-select
-    [status]='statusInputConveyor'
-    [statusMessage]='statusInputMessageConveyor' (cwcChange)="cwcChange($event)" class="w-full select-filter" unwrap="true" label="" filter-no-resultsMessage="No se encontraron resultados" filter-placeholder="Filtrar Empresas" placeholder="Seleccione una opción" filter>
-      <cwc-select-option *ngFor="let companies of listCompanies" [value]="companies.id">{{companies.companyName}}</cwc-select-option>
+      (cwcChange)="cwcChange($event)" 
+      class="w-full select-filter"
+      filter-no-resultsMessage="No se encontraron resultados" 
+      filter-placeholder="Filtrar Empresas" 
+      placeholder="Seleccionar"
+      design-version="v2"
+      filter>
+      <ng-container *ngFor="let companies of listCompanies">
+        <cwc-select-option [value]="companies.id">{{companies.companyName}}</cwc-select-option>
+      </ng-container>
     </cwc-select>
-  <cwc-grid class="demo-grid" design-version="v2" columns="12" mobile-columns="12" style="margin-top: 3rem;">
+  <cwc-grid class="demo-grid" design-version="v2" columns="12" mobile-columns="12" style="margin-top: 1.5rem;">
     <cwc-cell colspan="12" mobile-colspan="12">
       <div class="section">
         <cwc-input class="input" 

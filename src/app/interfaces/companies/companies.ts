@@ -1,4 +1,4 @@
-export interface Companies {
+export class Companies {
     id: string;
     codeSap: string;
     companyName: string;

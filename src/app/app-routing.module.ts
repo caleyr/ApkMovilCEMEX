@@ -37,6 +37,10 @@ const routes: Routes = [
         canLoad:[AuthGuard]
       },
       {
+        path: 'conductores',
+        loadChildren: () => import('./pages/drivers/drivers.module').then( m => m.DriversPageModule)
+      },    
+      {
         path: 'edit',
         loadChildren: () => import('./pages/profile/edit/edit.module').then( m => m.EditPageModule)
       },
@@ -45,19 +49,22 @@ const routes: Routes = [
         loadChildren: () => import('./pages/profile/update-archives/update-archives.module').then( m => m.UpdateArchivesPageModule)
       },
       {
-        path: 'list-drivers',
-        loadChildren: () => import('./pages/admin-logist/drivers/drivers/drivers.module').then( m => m.DriversPageModule),
-        canLoad:[AuthGuard],
-      },
-      {
-        path: 'list-travels',
-        loadChildren: () => import('./pages/driver/travels/travels.module').then( m => m.TravelsPageModule),
-        canLoad:[AuthGuard],
-      },
-      {
         path: 'vehiculos',
+        canLoad:[AuthGuard],
         loadChildren: () => import('./pages/vehicles/vehicles.module').then( m => m.VehiclesPageModule)
-      }
+      },
+      {
+        path: 'waiting-list',
+        loadChildren: () => import('./pages/waiting-list/waiting-list.module').then( m => m.WaitingListPageModule)
+      },
+      {
+        path: 'travels',
+        loadChildren: () => import('./pages/travels/travels.module').then( m => m.TravelsPageModule)
+      },
+      {
+        path: 'my-travels',
+        loadChildren: () => import('./pages/my-travels/my-travels.module').then( m => m.MyTravelsPageModule)
+      },
     ]
   },
 

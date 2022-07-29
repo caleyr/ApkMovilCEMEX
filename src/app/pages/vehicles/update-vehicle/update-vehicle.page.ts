@@ -7,6 +7,8 @@ import { VehiclesService } from '../../../services/vehicles.service';
 import { debounceTime } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 import { Vehicle } from '../models/vehicle';
+import { Location } from '@angular/common';
+import { LoginService } from '../../../services/auth/login.service';
 
 @Component({
   selector: 'app-update-vehicle',
@@ -20,7 +22,7 @@ export class UpdateVehiclePage implements OnInit {
   form: FormGroup;
   data : FormData;
   vehicle : Vehicle = new Vehicle();
-  companiesList : Observable<Companies[]>;
+  company : Companies = new Companies();
 
   alertSucces = true;
   alertConfirm = false;
@@ -34,14 +36,18 @@ export class UpdateVehiclePage implements OnInit {
     private formBuilder: FormBuilder,
     private companiesService : CompaniesService,
     private errorMessages: ErrorMessagesService,
-    private vehiclesService : VehiclesService
+    private vehiclesService : VehiclesService,
+    private location : Location,
+    private loginService : LoginService
   ) {
   }
 
   ngOnInit() {    
     this.alertSucces = false;   
     this.vehicle = this.vehiclesService.vehicle;    
-    this.companiesList = this.companiesService.getCompanies().pipe();
+    this.companiesService.getCompany(this.loginService.profileUser.CompanyId).subscribe(async data=>{
+      this.company = data;
+    })
     this.formBuilderInput();
   }
 
@@ -81,6 +87,10 @@ export class UpdateVehiclePage implements OnInit {
     this.alertConfirm = false;
   }
 
+  onBack(){
+    this.location.back();
+  }
+
   /*=============================================
    FORMULARIO REACTIVOS
   =============================================*/
@@ -89,10 +99,11 @@ export class UpdateVehiclePage implements OnInit {
       Model: [this.vehicle.model, [ Validators.required ]],
       LicenseVehiculo: [this.vehicle.licenseVehiculo , [ Validators.required ]],
       TypeTrailer: [ this.vehicle.typeTrailer , [ Validators.required ]],    
-      CompanyId: [ this.vehicle.companyId , [ Validators.required ]],    
+      CompanyId: [ this.loginService.profileUser.CompanyId , [ Validators.required ]],    
       Soat: [ this.vehicle.soat , [ Validators.required ]],
       StatusVehicle: [ this.vehicle.statusVehicle ],
       StatusTravel: [  this.vehicle.statusTravel ],
+      UserId: [this.vehicle.userId],
       term: [true, [ Validators.requiredTrue ]]
     });
 

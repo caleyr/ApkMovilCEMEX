@@ -1,0 +1,29 @@
+<cwc-card class="m-all-xs action accordion card-content-margin" *ngFor="let vehicle of vehicles" (click)="detailVehicle(vehicle.id)" >
+  <div class="card-content">
+    <cwc-grid class="demo-grid" >
+      <cwc-cell colspan="12" mobile-colspan="8">   
+          <div class="attr-user">Plataforma</div>
+          <span class="text-info">{{vehicle.licenseVehiculo}}</span>
+      </cwc-cell>
+      <cwc-cell colspan="12" mobile-colspan="4">
+        <div class="content-btn-edit">            
+          <cwc-icon name='check-rounded-active-fill' size="12px" color='bright-green'></cwc-icon>
+          <span class="text-stade">Disponible</span>
+        </div>   
+      </cwc-cell>
+    </cwc-grid>
+    <cwc-grid class="demo-grid" >
+      <cwc-cell colspan="12" mobile-colspan="6">   
+          <div class="text-company">{{companyName}}</div>
+      </cwc-cell>
+      <cwc-cell colspan="12" mobile-colspan="6">   
+        <div class="content-btn-edit">
+          <br>
+          <cwc-button variant="link">
+            <div class="text-button">VER MÁS</div>
+          </cwc-button>
+        </div> 
+      </cwc-cell>
+    </cwc-grid>
+  </div>
+</cwc-card>

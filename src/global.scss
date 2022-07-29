@@ -56,6 +56,7 @@ ion-content{
 .content{
   padding: 32px; flex: 1 1 auto
 }
+
 @font-face {
   font-family: 'Roboto-medium';
   src: url('../src/assets/fonts/Roboto-Medium.ttf');
@@ -173,9 +174,11 @@ h1.text-black{
   align-items: center;
 }
 .item-archives h5{
+  font-size: small;
   margin-top: 6px;
 }
 .text-archive{
+  font-size: small;
   margin-left: 0.5rem;
   color: #3FA9F5;
 }

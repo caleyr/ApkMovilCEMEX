@@ -1,0 +1,60 @@
+<app-layout class="card-size">
+  <div slot="main" class="content-card">
+    <form>
+      <cwc-grid class="demo-grid" design-version="v2" columns="12" mobile-columns="12" style="margin-top: 1rem;">
+        <cwc-cell colspan="12" mobile-colspan="12">
+          <cwc-input
+            style="width: 100%;"
+            label='Origen'
+            design-version="v2"
+            ngDefaultControl
+            required
+          ></cwc-input>
+        </cwc-cell>
+        <cwc-cell colspan="12" mobile-colspan="12">
+          <cwc-input
+            style="width: 100%;" 
+            label='Departamento'
+            design-version="v2" 
+            ngDefaultControl
+            required
+          ></cwc-input>
+        </cwc-cell>
+      </cwc-grid>
+      <cwc-grid class="demo-grid flex flex__align--center" design-version="v2" columns="12" mobile-columns="12" style="margin-top: 1rem;">
+        <cwc-cell class="flex flex__align--center" style="padding-bottom: 20px;" colspan="12" mobile-colspan="6">          
+          <h4>Rango de horario</h4>
+        </cwc-cell>
+        <cwc-cell colspan="12" mobile-colspan="6">
+          <cwc-input-time
+            label='Rango de horario'
+            type="number"
+            placeholder=" "
+            design-version="v2"
+            ngDefaultControl
+            required
+          ></cwc-input-time>
+        </cwc-cell>
+      </cwc-grid>
+      <cwc-grid class="demo-grid flex flex__align--center" design-version="v2" columns="12" mobile-columns="12" style="margin-top: 1rem;">
+        <cwc-cell class="flex flex__align--center" style="padding-bottom: 20px;" colspan="12" mobile-colspan="6">          
+          <h4>Fecha</h4>
+        </cwc-cell>
+        <cwc-cell colspan="12" mobile-colspan="6">
+          <cwc-input-date
+            label='Fecha'
+            ngDefaultControl
+            design-version="v2" 
+            required
+          ></cwc-input-date>
+        </cwc-cell>
+      </cwc-grid>
+      <div class="content-button">
+        <cwc-button 
+        design-version="v1"
+        variant="regular-block">BUSCAR VIAJES DISPONIBLES</cwc-button>
+      </div>
+    </form>
+  </div>
+</app-layout>
+

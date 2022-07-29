@@ -7,13 +7,15 @@ import { IonicModule } from '@ionic/angular';
 import { VehicleDetailsPageRoutingModule } from './vehicle-details-routing.module';
 
 import { VehicleDetailsPage } from './vehicle-details.page';
+import { CmxWebComponentsModule } from '@cmx-web-components/angular';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    VehicleDetailsPageRoutingModule
+    VehicleDetailsPageRoutingModule,
+    CmxWebComponentsModule.forRoot(),
   ],
   declarations: [VehicleDetailsPage]
 })

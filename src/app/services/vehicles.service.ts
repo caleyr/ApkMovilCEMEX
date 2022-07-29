@@ -34,11 +34,19 @@ export class VehiclesService {
     )
   }
 
+  driverAssignmentVehicle(id : string, data: any){
+    return this.http.put(`${URL}/api/vehicles/DriverAssignmentVehicle/${id}`, data, {responseType: 'text'}).pipe(
+      tap(() => {
+        this._refresh$.next();
+      })
+    )
+  }
+
   getVehicleById(id : string){
     return this.http.get<Vehicle>(`${URL}/api/vehicles/${id}`);
   }
 
-  getVehicleList(){
-    return this.http.get<Vehicle[]>(`${URL}/api/vehicles/GetVehiclesAproved`);
+  getVehicleList(id : string){
+    return this.http.get<Vehicle[]>(`${URL}/api/vehicles/GetVehiclesForUser/${id}`);
   }
 }

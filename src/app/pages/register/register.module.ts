@@ -16,15 +16,16 @@ import { PhotoDrivingLicenceComponent } from './components/register-driver/photo
 import { PhotoIndentityCardComponent } from './components/photo-indentity-card/photo-indentity-card.component';
 import { DocumentCompanyComponent } from './components/document-company/document-company.component';
 import { SecurityCardComponent } from './components/register-driver/security-card/security-card.component';
+import { CmxWebComponentsModule } from '@cmx-web-components/angular';
 
 @NgModule({
   imports: [
     CommonModule,
-    FormsModule,
     IonicModule,
     ComponentsModule,
     ReactiveFormsModule,
-    RegisterPageRoutingModule
+    RegisterPageRoutingModule,
+    CmxWebComponentsModule.forRoot(),
   ],
   declarations: [
     RegisterPage,

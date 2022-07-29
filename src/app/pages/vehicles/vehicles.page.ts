@@ -1,4 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { Vehicle } from './models/vehicle';
+import { VehiclesService } from '../../services/vehicles.service';
+import { LoginService } from '../../services/auth/login.service';
+import { CompaniesService } from '../../services/companies/companies.service';
 
 @Component({
   selector: 'app-vehicles',
@@ -7,9 +11,28 @@ import { Component, OnInit } from '@angular/core';
 })
 export class VehiclesPage implements OnInit {
 
-  constructor() { }
+  vehiclesList : Vehicle[] = [];
+  company : string;
+
+  constructor(
+    private vehiclesService : VehiclesService,
+    private loginService : LoginService,
+    private companiesService : CompaniesService
+    ) { 
+      this.companiesService.getCompany(loginService.profileUser.CompanyId).subscribe(async data =>{
+        this.company = data.companyName;
+      }); 
+    }
 
   ngOnInit() {
+    this.getDataList();
+  }
+
+  getDataList(){
+    this.vehiclesService.getVehicleList(this.loginService.profileUser.CompanyId).subscribe(data=>{
+      console.log(data);      
+      this.vehiclesList = data;
+    });
   }
 
 }

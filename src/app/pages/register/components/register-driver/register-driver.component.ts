@@ -6,6 +6,7 @@ import { ErrorMessagesService } from 'src/app/services/error-messages.service';
 import { Companies } from '../../../../interfaces/companies/companies';
 import { CompaniesService } from '../../../../services/companies/companies.service';
 import { AdminLogistService } from '../../../../services/adminLogist/admin-logist.service';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-register-driver',
@@ -20,8 +21,8 @@ export class RegisterDriverComponent implements OnInit {
 
   form: FormGroup;
   data : FormData;
-  listCompanies : Companies[];
-
+  listCompanies : Companies[] = [];
+  loadingCompanies = true;
   alertSucces = true;
   alertConfirm = false;
   addIdentityCard = false;
@@ -62,15 +63,15 @@ export class RegisterDriverComponent implements OnInit {
     private companiesService : CompaniesService,
     private errorMessages: ErrorMessagesService,
     private adminLogistService : AdminLogistService
-  ) {    
-    this.formBuilderInput();
-    this.companiesService.getCompanies().subscribe(async data =>{
-      this.listCompanies = data;
-    });
+  ) {        
+    this.alertSucces = false; 
+    this.formBuilderInput();    
   }
 
-  ngOnInit() {
-    this.alertSucces = false;  
+  async ngOnInit() {  
+    this.companiesService.getCompanies().subscribe(result=>{
+      this.listCompanies = result;
+    })  
   }
 
   cwcChange(event){

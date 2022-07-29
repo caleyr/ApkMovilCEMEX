@@ -104,7 +104,9 @@ export class EditDriverComponent implements OnInit {
     this.data.append('SapCode', this.profile.SapCode);
     this.data.append('Document', this.profile.Document);
     for ( var key in objeto ) {
-      this.data.append(key, objeto[key]);
+      if(key !== 'term'){
+        this.data.append(key, objeto[key]);
+      }
     }
   }
 

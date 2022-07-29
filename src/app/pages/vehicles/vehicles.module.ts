@@ -10,6 +10,7 @@ import { VehiclesPage } from './vehicles.page';
 import { ComponentsModule } from '../../components/components.module';
 import { CmxWebComponentsModule } from '@cmx-web-components/angular';
 import { LayoutPageModule } from '../layout/layout.module';
+import { VehicleListComponent } from './components/vehicle-list/vehicle-list.component';
 
 @NgModule({
   imports: [
@@ -21,6 +22,9 @@ import { LayoutPageModule } from '../layout/layout.module';
     ReactiveFormsModule,
     LayoutPageModule
   ],
-  declarations: [VehiclesPage]
+  declarations: [
+    VehiclesPage,
+    VehicleListComponent
+  ]
 })
 export class VehiclesPageModule {}

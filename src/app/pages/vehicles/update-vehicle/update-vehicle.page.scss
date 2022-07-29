@@ -1,0 +1,45 @@
+.header-text{
+   display: flex;
+   align-items: flex-start;
+   justify-content: space-between;
+   position: fixed;
+   top: 1;
+   right: 50;
+   left: 0;
+   margin-left: 1rem;
+}
+
+.attr-name{
+   font-weight: 700;    
+}
+
+.content-card{
+   padding-top: 0.5rem;
+   padding-left: 1rem;
+   padding-right: 1rem; 
+   padding-bottom: 1rem;
+   flex: 1 1 auto;
+   overflow: auto;
+}
+
+.content-grid-register{
+    // display: flex !important;
+    overflow: auto;
+    justify-content: center !important;
+    // align-items: center !important;
+ }
+
+ .content-title{
+   padding-top: 1rem;
+   padding-bottom: 1.5rem;
+   font-weight: 700;
+ }
+
+ .content-picker{
+    padding-bottom: 1.5rem;
+ }
+
+ .input-check{
+    font-size: small;
+    padding-bottom: 2rem;
+}

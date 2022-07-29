@@ -12,7 +12,7 @@ export class AlertSuccessComponent{
   @Input() message: string;
   @Input() urlButton: string;
   @Input() textButton: string;
-  @Input() alertShow: false;
+  @Input() alertShow: boolean;
 
   constructor(
     private navCtrl: NavController

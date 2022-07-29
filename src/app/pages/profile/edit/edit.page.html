@@ -1,14 +1,12 @@
-<ion-header>
-    <ion-toolbar color="primary">
-      <ion-buttons slot="start">
-        <ion-back-button text=""></ion-back-button>
-      </ion-buttons>
-      <ion-title>Editar datos</ion-title>
-    </ion-toolbar>
-  </ion-header> 
-  <div slot="main" class="content-grid-register content">
-    <div class="content-title-register">
-      <h5>Mis datos</h5>
+<cwc-header design-version="v2" slot="header" show-Menu-Button="false" show-cemex-logo="false">
+  <div class="header-text">
+    <ion-icon name="arrow-back-outline" style="font-size: 25px;" (click)="onBack()"></ion-icon>
+    <div class="attr-name" style="padding-left: 1rem;">Editar datos</div>
+  </div>
+</cwc-header>
+  <div slot="main" class="content-card">
+    <div class="content-title">
+      Mis datos
     </div>
     <div>
         <!--=====================================

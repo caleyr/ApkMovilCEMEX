@@ -10,6 +10,7 @@ import { EditPage } from './edit.page';
 import { EditAdminLogisThirdComponent } from './edit-admin-logis-third/edit-admin-logis-third.component';
 import { EditDriverComponent } from './edit-driver/edit-driver.component';
 import { ComponentsModule } from '../../../components/components.module';
+import { CmxWebComponentsModule } from '@cmx-web-components/angular';
 
 @NgModule({
   imports: [
@@ -17,7 +18,8 @@ import { ComponentsModule } from '../../../components/components.module';
     IonicModule,
     ReactiveFormsModule,
     EditPageRoutingModule,
-    ComponentsModule
+    ComponentsModule,
+    CmxWebComponentsModule.forRoot(),
   ],
   declarations: [
     EditPage,

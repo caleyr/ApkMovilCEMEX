@@ -1,19 +1,17 @@
-<ion-header>
-  <ion-toolbar color="primary">
-    <ion-buttons slot="start">
-      <ion-back-button text=""></ion-back-button>
-    </ion-buttons>
-    <ion-title>Editar vehiculo</ion-title>
-  </ion-toolbar>
-</ion-header>
-<div slot="main" class="content-grid-register content">  
+<cwc-header design-version="v2" slot="header" show-Menu-Button="false" show-cemex-logo="false">
+  <div class="header-text">
+    <ion-icon name="arrow-back-outline" style="font-size: 25px;" (click)="onBack()"></ion-icon>
+    <div class="attr-name" style="padding-left: 1rem;">Editar vehículo</div>
+  </div>
+</cwc-header>
+<div slot="main" class="content-card">  
   <div class="content-title">
-    <h5>Nuevo vehículo</h5>
+    Mi vehículo
   </div>
   <form (submit)="updateVehicle()" [formGroup]="form">
     <cwc-grid class="demo-grid" design-version="v2" columns="12" mobile-columns="12">
       <cwc-cell colspan="12" mobile-colspan="12">
-        <div class="section">
+        <div>
           <cwc-input class="input" 
             label='Medelo de vehículo'
             placeholder="Agrega el tipo de camión"
@@ -22,7 +20,7 @@
             required
           ></cwc-input>
         </div>
-        <div class="section">
+        <div>
           <cwc-input class="input" 
             label='Placa'
             formControlName="LicenseVehiculo"
@@ -31,7 +29,7 @@
             required
           ></cwc-input>
         </div>
-        <div class="section">
+        <div>
           <cwc-input class="input" 
             label='Tipo de trailer'
             formControlName="TypeTrailer"
@@ -40,18 +38,17 @@
             required
           ></cwc-input>
         </div>
-        <div class="content-picker">
+        <div class="content-picker" *ngIf="company">
           <cwc-picker
-            formControlName="CompanyId"
             class="w-full select-filter"
             label="Empresa"
             filter-no-resultsMessage="No se encontraron resultados" 
             filter-placeholder="Filtrar Empresas"
-            placeholder="Seleccionar" 
+            [placeholder]="company.companyName" 
             mobile="false"
+            disabled="true"
             string-values="true"
             filter>
-              <option *ngFor="let companies of (companiesList | async)" [value]="companies.id">{{companies.companyName}}</option>
           </cwc-picker>
         </div>
         <div class="section">
@@ -107,7 +104,7 @@
 ======================================-->
 <app-alert-success
   [alertShow] = "alertSucces"
-  title = "Sun informacion ha sido guardada"
+  title = "Su información ha sido guardada"
   urlButton = "/app/vehiculos/detalles"
   textButton = "OK"
   message = "El vehiculo fue actualizado correctamente.">

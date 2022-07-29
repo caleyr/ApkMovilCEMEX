@@ -1,0 +1,35 @@
+.navbar {
+    margin-top: 9.5rem;
+    margin-left: 1rem;
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    overflow: auto;
+}
+
+.icon{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-top: 18px;
+}
+
+.search-text{
+   width: 100%;
+   height: 10px;
+   padding-bottom: 0;
+}
+
+.text-vehicles{
+    font-size: small;
+    font-weight: 700;
+}
+
+.float{
+	position:fixed;
+	bottom:15px;
+	right:15px;
+	text-align: center;
+}

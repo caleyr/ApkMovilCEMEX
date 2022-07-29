@@ -13,11 +13,11 @@ const routes: Routes = [
     loadChildren: () => import('./new-vehicle/new-vehicle.module').then( m => m.NewVehiclePageModule)
   },
   {
-    path: 'update-vehicle',
+    path: 'actualizar',
     loadChildren: () => import('./update-vehicle/update-vehicle.module').then( m => m.UpdateVehiclePageModule)
   },
   {
-    path: 'vehicle-details',
+    path: 'detalles',
     loadChildren: () => import('./vehicle-details/vehicle-details.module').then( m => m.VehicleDetailsPageModule)
   }
 ];

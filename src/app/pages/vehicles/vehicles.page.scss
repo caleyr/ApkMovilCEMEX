@@ -1,30 +1,12 @@
-.text-info{
-    font-size: small;
-}
-
-.attr-user {
-    font-weight: 200;
-}
-
-.text-company{
-    font-size: x-small;
-    padding-top: 0.8rem;
-}
-
-.content-btn-edit {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-end;
-}
-
-.text-button{
-    font-weight: 700;
-    padding-top: 0.8rem;
-    font-size: x-small;
-}
-
-.text-stade{
-    font-size: x-small;
+.navbar {
+    margin-top: 9.5rem;
+    margin-left: 1rem;
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    overflow: auto;
 }
 
 .icon{
@@ -50,4 +32,6 @@
 	bottom:15px;
 	right:15px;
 	text-align: center;
+    background-color: #05376E;
+    border-radius: 30px
 }
