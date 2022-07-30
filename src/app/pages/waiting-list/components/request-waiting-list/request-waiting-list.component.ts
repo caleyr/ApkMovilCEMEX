@@ -2,7 +2,7 @@ import { LoginService } from 'src/app/services/auth/login.service';
 import { RequestService } from './../../../../services/request.service';
 import { Router } from '@angular/router';
 import { Request } from './../../models/request';
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-request-waiting-list',
@@ -11,24 +11,12 @@ import { Component, OnInit } from '@angular/core';
 })
 export class RequestWaitingListComponent implements OnInit {
 
-  requestsList: Request[];
+  @Input() requests: Request[];
 
   constructor(private router: Router,
-    private requestService: RequestService) { }
+    private requestService: RequestService,
+    private loginService: LoginService) { }
 
-  ngOnInit() {
-    this.getData();
-  }
-
-  detailRequest(id: string) {
-    this.requestService.id = id;
-    this.router.navigateByUrl('dashboard/lista-de-espera/ver-solicitud')
-  }
-
-  getData() {
-    this.requestService.getRequestByIdUser("").subscribe(data => {
-      this.requestsList = data;
-    })
-  }
+  ngOnInit() { }
 
 }
