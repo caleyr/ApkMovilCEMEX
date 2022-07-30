@@ -13,8 +13,6 @@ export class WaitingListPage implements OnInit {
 
   requestsList: Request[];
 
-  length: number;
-
   constructor(private router: Router,
     private requestService: RequestService,
     private loginService: LoginService) { }
