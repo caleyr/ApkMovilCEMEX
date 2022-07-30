@@ -38,7 +38,8 @@ const routes: Routes = [
       },
       {
         path: 'conductores',
-        loadChildren: () => import('./pages/drivers/drivers.module').then( m => m.DriversPageModule)
+        loadChildren: () => import('./pages/drivers/drivers.module').then( m => m.DriversPageModule),
+        canLoad:[AuthGuard]
       },    
       {
         path: 'edit',
@@ -59,13 +60,15 @@ const routes: Routes = [
       },
       {
         path: 'travels',
+        canLoad:[AuthGuard],
         loadChildren: () => import('./pages/travels/travels.module').then( m => m.TravelsPageModule)
       },
       {
         path: 'my-travels',
+        canLoad:[AuthGuard],
         loadChildren: () => import('./pages/my-travels/my-travels.module').then( m => m.MyTravelsPageModule)
       },
-    ]
+    ],
   },
 
     {

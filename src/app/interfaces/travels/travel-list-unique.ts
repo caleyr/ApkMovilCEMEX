@@ -1,4 +1,4 @@
-export interface TravelListUnique{
+export class TravelListUnique{
     departamentSource : string;
     source : string;
     dateTravel : string;

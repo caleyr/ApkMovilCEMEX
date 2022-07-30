@@ -1,0 +1,75 @@
+<cwc-header design-version="v2" slot="header" show-Menu-Button="false" show-cemex-logo="false">
+  <div class="header-text">
+    <ion-icon name="arrow-back-outline" style="font-size: 25px;" (click)="onBack()"></ion-icon>
+    <div class="attr-name" style="padding-left: 1rem;">Buscar viaje</div>
+  </div>
+</cwc-header>
+<div slot="main" class="content-card">
+  <cwc-grid class="demo-grid">
+    <cwc-cell colspan="6" mobile-colspan="12">
+      <cwc-card class="card-info" design-version="v2">
+        <div class="main-content-card">
+            <div class="header-card">
+                <div class="avatar-info">
+                    <span class="style-name">INFORMACIÓN DE VIAJE</span>
+                </div>
+            </div>    
+  
+            <hr color="#D0D0D0"/>
+            <cwc-grid class="demo-grid" style="padding-top: 0.5rem;">
+                <cwc-cell colspan="12" mobile-colspan="12">   
+                    <div class="attr-user">Origen</div>
+                    <span class="attr-detail">{{travel.source}}</span>
+                </cwc-cell>
+            </cwc-grid>
+  
+            <cwc-grid class="demo-grid center-cell">
+                <cwc-cell colspan="12" mobile-colspan="12">
+                    <div class="attr-user">Destino</div>
+                    <span class="attr-detail">{{travel.destiny}}</span>
+                </cwc-cell>                  
+            </cwc-grid>
+  
+            <cwc-grid class="demo-grid center-cell">
+              <cwc-cell mobile-colspan="12">
+                  <div class="attr-user">Fecha y hora de cita</div>
+                  <span class="attr-detail">{{travel.dateAndHourTravel}}</span>
+              </cwc-cell>           
+            </cwc-grid>
+  
+            <cwc-grid class="demo-grid center-cell" style="padding-top: 1rem;" *ngIf="rol === 'Conductor'">
+              <cwc-cell colspan="12" mobile-colspan="12">
+                <cwc-button
+                  (cwcClick)="onClickCreateRequestDrive()"
+                  design-version="v1"
+                  variant="regular-block">SOLICITAR CITA</cwc-button>
+              </cwc-cell>                  
+            </cwc-grid>
+            
+            <cwc-grid class="demo-grid center-cell" style="padding-top: 1rem;" *ngIf="rol !== 'Conductor'">
+              <cwc-cell colspan="12" mobile-colspan="12">
+                <cwc-button
+                  (cwcClick)="openSelectDrive()"
+                  design-version="v1"
+                  variant="regular-block">SOLICITAR CITA</cwc-button>
+              </cwc-cell>
+            </cwc-grid> 
+        </div>
+      </cwc-card>
+    </cwc-cell>
+  </cwc-grid>
+</div>
+
+<cwc-modal id='alert-modal-succes' [open]="alertShow">
+  <div style='text-align: center'>
+      <h2 class='modal--confirmation__message'>Su solicitud ha sido enviada</h2>
+      <p>Su cita será confirmada por su adminstrador logístico</p>
+  </div>
+  <footer slot='footer'>
+    <div style='text-align: center'>
+        <cwc-button variant='link' routerLinkActive="router-link-active" >
+          <h4>REGRESAR</h4>
+        </cwc-button>
+    </div>
+</footer>
+</cwc-modal>

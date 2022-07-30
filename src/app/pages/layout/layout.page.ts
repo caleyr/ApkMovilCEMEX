@@ -22,7 +22,8 @@ export class LayoutPage implements OnInit {
     private sideBarMenu: SidebarMenuService,
     private loginService: LoginService
     ) {
-      if(loginService.rol !== "Conductor"){
+      if(loginService.profileUser.Roles !== "Conductor"){
+        console.log(this.notDriver); 
         this.notDriver = true;
       }         
       this.currentUser();

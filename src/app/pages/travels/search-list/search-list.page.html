@@ -11,9 +11,13 @@
   <hr color="#D0D0D0"/>
   <div>
     <h4>Destino</h4>
-    <div>Viaje 332768, 10:10 am</div>
-    <div>
-      
-    </div>
+    <cwc-grid class="demo-grid content-list flex" (click)="detailTravel(list.codeTravel)" *ngFor="let list of listSearch">
+      <cwc-cell class="flex flex__align--center" colspan="12" mobile-colspan="11" style="padding-bottom: 0;">       
+          <div>{{'Viaje ' + list.codeTravel + ', ' + list.timerStar}}</div>       
+      </cwc-cell>
+      <cwc-cell colspan="12" mobile-colspan="1" style="margin-top: 1px;">       
+        <cwc-icon class="flex flex__align--center" name="right-single" size="18px"></cwc-icon>      
+      </cwc-cell>
+    </cwc-grid>
   </div>
 </div>
