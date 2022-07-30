@@ -1,3 +1,6 @@
+import { LoginService } from 'src/app/services/auth/login.service';
+import { Request } from './../../../models/request';
+import { RequestService } from './../../../../../services/request.service';
 import { NavController } from '@ionic/angular';
 import { TravelService } from './../../../../../services/travels/travel.service';
 import { Component, OnInit } from '@angular/core';
@@ -14,14 +17,19 @@ export class RequestDriveNewComponent implements OnInit {
   dateList : string[] = [];
   timeList : string[] = [];
 
+  private data: FormData = new FormData();
+
   source : string;
   departament : string;
   dataO : string;
   timeO : string;
+  request: Request;
 
   buttonActivate : boolean = false;
 
   constructor(private travelService : TravelService,
+    private requestService: RequestService,
+    private loginService: LoginService,
     private navCtrl : NavController) { }
 
   ngOnInit() {
@@ -90,20 +98,25 @@ export class RequestDriveNewComponent implements OnInit {
     }
   }
 
-  async searchTrips(){
-    const list = await this.getTravelListSearch();
-    if(list){
-      this.navCtrl.navigateRoot('/app/travels/search-list', { animated: false });
-    }
+  sendRequest(){
+    this.request.dateTravels = '1';
+    this.request.origen = this.source;
+    this.request.dateTravels = this.dataO;
+    this.request.timerStar = this.timeO;
+    this.request.driverId = this.loginService.profileUser.id;
+
+    this.addFormData(this.request);
+    
+    this.requestService.createRequest(this.data).subscribe(() => {
+      this.navCtrl.navigateRoot('/app/waiting-list', { animated: false });
+    });
   }
 
-  getTravelListSearch(){
-    return new Promise((resolved, reject)=>{
-      this.travelService.searchTravelList(this.departament, this.source, this.dataO, this.timeO).subscribe(data=>{
-        this.travelService.traveSearchList = data;
-        resolved(data);
-      })
-    });
+  addFormData(objeto) {
+    for (var key in objeto) {
+      console.log(key);
+      this.data.append(key, objeto[key]);
+    }
   }
 
 }

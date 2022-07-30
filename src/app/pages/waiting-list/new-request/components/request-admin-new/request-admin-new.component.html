@@ -33,7 +33,7 @@
             placeholder="Seleccionar"
             design-version="v2">
             <cwc-select-option value="0" selected="">Seleccionar</cwc-select-option>
-            <cwc-select-option [value]="dateL" *ngFor="let dateL of dateList" >{{dateL}}</cwc-select-option>
+            <cwc-select-option [value]="date" *ngFor="let date of dateList" >{{date}}</cwc-select-option>
           </cwc-select>
         </cwc-cell>
       </cwc-grid>
@@ -51,6 +51,7 @@
           </cwc-select>
         </cwc-cell>
       </cwc-grid>
+      <!-- Conductor y vehículo -->
       <cwc-grid class="demo-grid" design-version="v2" columns="12" mobile-columns="12" style="margin-top: 1rem;">
         <cwc-cell colspan="12" mobile-colspan="12">
           <cwc-select

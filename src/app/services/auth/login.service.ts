@@ -104,7 +104,6 @@ export class LoginService {
         }else{
           await this.getDataProfile(data);
           if(this.profileUser){
-            console.log(this.profileUser);        
             return true;
           }
         }
