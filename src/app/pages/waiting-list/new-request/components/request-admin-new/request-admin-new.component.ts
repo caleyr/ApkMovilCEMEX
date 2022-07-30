@@ -1,3 +1,8 @@
+import { DriverList } from './../../../../drivers/models/drivers-list';
+import { LoginService } from './../../../../../services/auth/login.service';
+import { DriversService } from './../../../../../services/drivers.service';
+import { VehiclesService } from './../../../../../services/vehicles.service';
+import { Vehicle } from './../../../../vehicles/models/vehicle';
 import { NavController } from '@ionic/angular';
 import { TravelService } from './../../../../../services/travels/travel.service';
 import { Component, OnInit } from '@angular/core';
@@ -13,6 +18,8 @@ export class RequestAdminNewComponent implements OnInit {
   departamentList : string[] = [];
   dateList : string[] = [];
   timeList : string[] = [];
+  driverList: DriverList[];
+  vehicleList: Vehicle[];
 
   source : string;
   departament : string;
@@ -22,15 +29,32 @@ export class RequestAdminNewComponent implements OnInit {
   buttonActivate : boolean = false;
 
   constructor(private travelService : TravelService,
+    private vehiclesService: VehiclesService,
+    private driversService: DriversService,
+    private loginService: LoginService,
     private navCtrl : NavController) { }
 
   ngOnInit() {
     this.getListDepartament();
+    this.getListVehicles();
+    this.getListDrivers();
   }
 
   getListDepartament(){
     this.travelService.getTravels().subscribe(data=>{
       this.departamentList = [...new Set(data.map(item => item.departamentSource))];
+    });
+  }
+
+  getListVehicles(){
+    this.vehiclesService.getVehicleList(this.loginService.profileUser.CompanyId).subscribe(data => {
+      this.vehicleList = data;
+    });
+  }
+
+  getListDrivers(){
+    this.driversService.getDriverList(this.loginService.profileUser.CompanyId).subscribe(data => {
+      this.driverList = data;
     });
   }
 

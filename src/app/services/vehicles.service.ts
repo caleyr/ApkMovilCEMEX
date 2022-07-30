@@ -49,4 +49,8 @@ export class VehiclesService {
   getVehicleList(id : string){
     return this.http.get<Vehicle[]>(`${URL}/api/vehicles/GetVehiclesForUser/${id}`);
   }
+
+  getVehiclesUserByIdCompany(id: string){
+    return this.http.get<Vehicle[]>(`${URL}/api/vehicles/GetVehiclesForUser/${id}`);
+  }
 }
