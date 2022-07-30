@@ -1,3 +1,62 @@
-<p>
-  request-drive-new works!
-</p>
+<app-layout class="card-size">
+  <div slot="main" class="content-card">
+    <form>
+      <cwc-grid class="demo-grid" design-version="v2" columns="12" mobile-columns="12" style="margin-top: 1rem;">
+        <cwc-cell colspan="12" mobile-colspan="12">
+          <cwc-select
+            style="width: 100%;"
+            label='Departamento'
+            (cwcChange)="changeDepartament($event)"
+            design-version="v2">
+            <cwc-select-option value="0" selected="">Seleccionar</cwc-select-option>
+            <cwc-select-option [value]="departament" *ngFor="let departament of departamentList" >{{departament}}</cwc-select-option>
+            </cwc-select>
+          </cwc-cell>
+          <cwc-cell colspan="12" mobile-colspan="12">
+            <cwc-select
+              style="width: 100%;"
+              label='Origen (Municipio)'
+              (cwcChange)="changeSource($event)"
+              design-version="v2">
+              <cwc-select-option value="0" selected="">Seleccionar</cwc-select-option>
+              <cwc-select-option [value]="source" *ngFor="let source of sourceList" >{{source}}</cwc-select-option>
+              </cwc-select>
+          </cwc-cell>
+      </cwc-grid>
+      <cwc-grid class="demo-grid flex flex__align--center" design-version="v2" columns="12" mobile-columns="12" style="margin-top: 1rem;">
+        <cwc-cell class="flex flex__align--center" style="padding-bottom: 20px;" colspan="12" mobile-colspan="5">          
+          <h5 style="text-transform: capitalize;" >Fecha</h5>
+        </cwc-cell>
+        <cwc-cell colspan="12" mobile-colspan="7">
+          <cwc-select
+            (cwcChange)="changeDate($event)"
+            placeholder="Seleccionar"
+            design-version="v2">
+            <cwc-select-option value="0" selected="">Seleccionar</cwc-select-option>
+            <cwc-select-option [value]="dateL" *ngFor="let dateL of dateList" >{{dateL}}</cwc-select-option>
+          </cwc-select>
+        </cwc-cell>
+      </cwc-grid>
+      <cwc-grid class="demo-grid flex flex__align--center" design-version="v2" columns="12" mobile-columns="12" style="margin-top: 1rem;">
+        <cwc-cell class="flex flex__align--center" style="padding-bottom: 20px;" colspan="12" mobile-colspan="5">          
+          <h5 style="text-transform: capitalize;" >Rango de Hora</h5>
+        </cwc-cell>
+        <cwc-cell colspan="12" mobile-colspan="7">
+          <cwc-select
+            placeholder="Seleccionar"
+            design-version="v2"
+            (cwcChange)="changeHour($event)">
+            <cwc-select-option value="0" selected="">Seleccionar</cwc-select-option>
+            <cwc-select-option [value]="timeL" *ngFor="let timeL of timeList" >{{timeL}}</cwc-select-option>
+          </cwc-select>
+        </cwc-cell>
+      </cwc-grid>
+      <div class="content-button" *ngIf="buttonActivate === true">
+        <cwc-button
+        (cwcClick)="searchTrips()"
+        design-version="v1"
+        variant="regular-block">BUSCAR VIAJES DISPONIBLES</cwc-button>
+      </div>
+    </form>
+  </div>
+</app-layout>
