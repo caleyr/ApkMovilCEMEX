@@ -49,7 +49,7 @@
             <cwc-grid class="demo-grid center-cell" style="padding-top: 1rem;" *ngIf="rol !== 'Conductor'">
               <cwc-cell colspan="12" mobile-colspan="12">
                 <cwc-button
-                  (cwcClick)="openSelectDrive()"
+                  (cwcClick)="openModal()"
                   design-version="v1"
                   variant="regular-block">SOLICITAR CITA</cwc-button>
               </cwc-cell>
@@ -60,16 +60,29 @@
   </cwc-grid>
 </div>
 
-<cwc-modal id='alert-modal-succes' [open]="alertShow">
+<cwc-modal id='alert-modal-succes' [open]="alertShow" (cwcClose)="closeModalOk()" >
   <div style='text-align: center'>
       <h2 class='modal--confirmation__message'>Su solicitud ha sido enviada</h2>
       <p>Su cita será confirmada por su adminstrador logístico</p>
   </div>
   <footer slot='footer'>
     <div style='text-align: center'>
-        <cwc-button variant='link' routerLinkActive="router-link-active" >
+        <cwc-button variant='link' routerLinkActive="router-link-active" (cwcClick)="closeModalOk()">
           <h4>REGRESAR</h4>
         </cwc-button>
     </div>
 </footer>
+</cwc-modal>
+
+<cwc-modal id='add-driver' class="modal-list" design-version="v2" style="z-index: 0;" [open]="addDriver" (cwcClose)="closeAlertConfirm()">  
+  <h6 style='text-align: center;'>Asignar conductor</h6>
+  <cwc-select
+    class="select-filter"
+    placeholder="Seleccionar"
+    (cwcChange)="cwcChangeDrivers($event)">
+    <cwc-select-option *ngFor="let driver of driverList" [value]="driver.id">{{driver.firstLastName}}</cwc-select-option>
+  </cwc-select>
+  <div style='text-align: center;'>
+    <cwc-button variant='primary-block' [disabled]="driverValidate" (click)="onClickCreateRequestAdmin()" >Aceptar</cwc-button>
+  </div>
 </cwc-modal>

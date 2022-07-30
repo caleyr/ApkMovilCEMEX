@@ -43,4 +43,8 @@ export class TravelService {
   createTravel(data){   
     return this.http.post(`${BASE_URL_API}/api/travelRequests/`, data);
   }
+
+  updateTravel(id, data){   
+    return this.http.put(`${BASE_URL_API}/api/travels/AssignmentsTravelDriver/${id}`, data);
+  }
 }
