@@ -1,9 +1,2 @@
-<ion-header>
-  <ion-toolbar>
-    <ion-title>newRequest</ion-title>
-  </ion-toolbar>
-</ion-header>
-
-<ion-content>
-
-</ion-content>
+<div *ngIf="rol === 'Administrador Logistico Cemex' || rol === 'Administrador Logistico Tercero'"><app-request-admin-new></app-request-admin-new></div>
+<div *ngIf="rol === 'Conductor'"><app-request-drive-new></app-request-drive-new></div>

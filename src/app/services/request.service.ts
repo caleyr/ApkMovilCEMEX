@@ -1,5 +1,5 @@
 import { Request } from './../pages/waiting-list/models/request';
-import { environment } from './../../environments/environment.prod';
+import { environment } from './../../environments/environment';
 import { HttpClient } from '@angular/common/http';
 import { Subject } from 'rxjs';
 import { Injectable } from '@angular/core';

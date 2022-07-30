@@ -1,3 +1,4 @@
+import { LoginService } from 'src/app/services/auth/login.service';
 import { Component, OnInit } from '@angular/core';
 
 @Component({
@@ -7,9 +8,12 @@ import { Component, OnInit } from '@angular/core';
 })
 export class NewRequestPage implements OnInit {
 
-  constructor() { }
+  rol: string
+
+  constructor(private loginService: LoginService) { }
 
   ngOnInit() {
+    this.rol = this.loginService.profileUser.Roles;
   }
 
 }
