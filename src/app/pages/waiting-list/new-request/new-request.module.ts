@@ -1,3 +1,5 @@
+import { LayoutPageModule } from './../../layout/layout.module';
+import { CmxWebComponentsModule } from '@cmx-web-components/angular';
 import { RequestDriveNewComponent } from './components/request-drive-new/request-drive-new.component';
 import { RequestAdminNewComponent } from './components/request-admin-new/request-admin-new.component';
 import { NgModule } from '@angular/core';
@@ -15,7 +17,9 @@ import { NewRequestPage } from './new-request.page';
     CommonModule,
     FormsModule,
     IonicModule,
-    NewRequestPageRoutingModule
+    NewRequestPageRoutingModule,
+    CmxWebComponentsModule.forRoot(),
+    LayoutPageModule,
   ],
   declarations: [NewRequestPage,
   RequestAdminNewComponent,

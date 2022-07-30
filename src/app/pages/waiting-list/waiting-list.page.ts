@@ -11,7 +11,7 @@ import { Router } from '@angular/router';
 })
 export class WaitingListPage implements OnInit {
 
-  requestsList: Request[];
+  requestsList: Request[] = [];
 
   constructor(private router: Router,
     private requestService: RequestService,
