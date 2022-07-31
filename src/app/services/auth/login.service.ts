@@ -52,6 +52,7 @@ export class LoginService {
   }
 
   async saveDataProfile (token){    
+    console.log(token);
     this.token = token;
     this.rol = await JSON.parse(window.atob(token.split('.')[1]))["Roles"];
     var exp = await JSON.parse(window.atob(token.split('.')[1]))["exp"];

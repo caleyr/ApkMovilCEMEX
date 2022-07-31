@@ -1,3 +1,4 @@
+import { DriversService } from './../../../../../services/drivers.service';
 import { LoginService } from 'src/app/services/auth/login.service';
 import { Request } from './../../../models/request';
 import { RequestService } from './../../../../../services/request.service';
@@ -19,6 +20,7 @@ export class RequestDriveNewComponent implements OnInit {
 
   private data: FormData = new FormData();
 
+  id: string;
   source : string;
   departament : string;
   dataO : string;
@@ -30,9 +32,11 @@ export class RequestDriveNewComponent implements OnInit {
   constructor(private travelService : TravelService,
     private requestService: RequestService,
     private loginService: LoginService,
+    private driversService: DriversService,
     private navCtrl : NavController) { }
 
   ngOnInit() {
+    this.id = this.loginService.profileUser.id;
     this.getListDepartament();
   }
 
@@ -103,7 +107,9 @@ export class RequestDriveNewComponent implements OnInit {
     this.request.origen = this.source;
     this.request.dateTravels = this.dataO;
     this.request.timerStar = this.timeO;
-    this.request.driverId = this.loginService.profileUser.id;
+    this.request.driverId = this.id;
+
+    this.getVehicleId(this.id);
 
     this.addFormData(this.request);
     
@@ -117,6 +123,12 @@ export class RequestDriveNewComponent implements OnInit {
       console.log(key);
       this.data.append(key, objeto[key]);
     }
+  }
+
+  getVehicleId(id: string){
+    this.driversService.getDriverById(id).subscribe(data => {
+      this.request.vehicleId = data.lisenseVehicle;
+    })
   }
 
 }
