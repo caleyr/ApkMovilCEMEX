@@ -1,4 +1,4 @@
-<cwc-card class="m-all-xs action accordion card-content-margin" *ngFor="let vehicle of vehicles" (click)="detailVehicle(vehicle.id)" >
+<cwc-card *ngFor="let vehicle of vehicles" (click)="detailVehicle(vehicle.id)" class="card-info" design-version="v1">
   <div class="card-content">
     <cwc-grid class="demo-grid" >
       <cwc-cell colspan="12" mobile-colspan="8">   
@@ -11,11 +11,6 @@
           <span class="text-stade">Disponible</span>
         </div>   
       </cwc-cell>
-      <!--
-      <cwc-status-indicator style="text-align: end;" size="small" class="statusI" variant='success' colspan="12" mobile-colspan="4">
-        <div class="statusI">{{vehicle.statusTravel}}</div>
-      </cwc-status-indicator>
-      -->
     </cwc-grid>
     <cwc-grid class="demo-grid" >
       <cwc-cell colspan="12" mobile-colspan="6">   
