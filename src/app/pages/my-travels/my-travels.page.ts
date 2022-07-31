@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { LoginService } from 'src/app/services/auth/login.service';
 
 @Component({
   selector: 'app-my-travels',
@@ -7,9 +8,14 @@ import { Component, OnInit } from '@angular/core';
 })
 export class MyTravelsPage implements OnInit {
 
-  constructor() { }
+  rol : string = null;
+
+  constructor(
+    private loginService : LoginService
+  ) { }
 
   ngOnInit() {
+    this.rol = this.loginService.profileUser.Roles;
   }
 
 }

@@ -1,0 +1,23 @@
+<app-layout class="card-size">
+  <cwc-tabs>
+    <cwc-tab name='anteriores' active='true'>Anteriores</cwc-tab>
+    <cwc-tab name='programados' >Programados</cwc-tab>
+  </cwc-tabs>
+  <cwc-grid class="demo-grid" row-gap="2px">
+    <cwc-cell mobile-colspan="11" style="padding-top: 0.8rem;">     
+      <div>
+        <cwc-input design-version="v2" class="search-text" variant="regular" rtl="false" trailing-icon='magnifier-glass' placeholder='Buscar...'></cwc-input>  
+      </div>       
+    </cwc-cell> 
+    <cwc-cell mobile-colspan="1">    
+      <div class="icon">
+        <cwc-button variant="link">          
+          <cwc-icon variant="link" name='controls' size="20px" aria-role="button"></cwc-icon>
+        </cwc-button>
+      </div>  
+    </cwc-cell>    
+  </cwc-grid>  
+  <div class="navbar" style="padding-top: 0.8rem;">
+    <app-previous-trips-list></app-previous-trips-list>
+  </div>
+</app-layout>

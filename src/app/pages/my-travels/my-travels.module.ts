@@ -13,6 +13,8 @@ import { LayoutPageModule } from '../layout/layout.module';
 import { PreviousTripsListComponent } from './components/previous-trips-list/previous-trips-list.component';
 import { RequestTravelListComponent } from './components/request-travel-list/request-travel-list.component';
 import { ScheduledTripsListComponent } from './components/scheduled-trips-list/scheduled-trips-list.component';
+import { MyTravelsAdminComponent } from './components/my-travels-admin/my-travels-admin.component';
+import { MyTravelsDriveComponent } from './components/my-travels-drive/my-travels-drive.component';
 
 @NgModule({
   imports: [
@@ -29,7 +31,9 @@ import { ScheduledTripsListComponent } from './components/scheduled-trips-list/s
     MyTravelsPage,
     PreviousTripsListComponent,
     RequestTravelListComponent,
-    ScheduledTripsListComponent
+    ScheduledTripsListComponent,
+    MyTravelsAdminComponent,
+    MyTravelsDriveComponent
   ]
 })
 export class MyTravelsPageModule {}
