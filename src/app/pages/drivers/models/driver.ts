@@ -12,4 +12,5 @@ export class Driver {
     drivinglicense : string;
     securityCard : string;
     documentIdentityCard : string;
+    lisenseVehicle: string;
 }
