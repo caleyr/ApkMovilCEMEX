@@ -51,8 +51,7 @@ export class LoginService {
     return this.HTTP.doPost(`${URL}/api/authentication/login`, data, {headers: headersHttp});
   }
 
-  async saveDataProfile (token){    
-    console.log(token);
+  async saveDataProfile (token){
     this.token = token;
     this.rol = await JSON.parse(window.atob(token.split('.')[1]))["Roles"];
     var exp = await JSON.parse(window.atob(token.split('.')[1]))["exp"];

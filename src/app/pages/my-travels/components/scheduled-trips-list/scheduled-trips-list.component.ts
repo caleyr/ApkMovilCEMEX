@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Travel } from './../../../../interfaces/travels/travel';
+import { Component, Input, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-scheduled-trips-list',
@@ -6,6 +7,8 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./scheduled-trips-list.component.scss'],
 })
 export class ScheduledTripsListComponent implements OnInit {
+
+  @Input() tripsList: Travel[];
 
   constructor() { }
 

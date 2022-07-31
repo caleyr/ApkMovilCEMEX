@@ -1,3 +1,4 @@
+import { Travel } from './../../interfaces/travels/travel';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { TravelListUnique } from 'src/app/interfaces/travels/travel-list-unique';
@@ -47,4 +48,13 @@ export class TravelService {
   updateTravel(id, data){   
     return this.http.put(`${BASE_URL_API}/api/travels/AssignmentsTravelDriver/${id}`, data);
   }
+
+  getFilterTravelByIdDriver(id: string){
+    return this.http.get<Travel[]>(`${BASE_URL_API}/api/travels/GetFilterTravelByIdDriver/${id}`);
+  }
+
+  getFilterTravelByAdmonTercero(companyId: string){
+    return this.http.get<Travel[]>(`${BASE_URL_API}/api/travels//GetFilterTravelByAdmonTercero/${companyId}`);
+  }
+
 }

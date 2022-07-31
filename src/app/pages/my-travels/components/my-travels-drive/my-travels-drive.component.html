@@ -1,7 +1,7 @@
 <app-layout class="card-size">
   <cwc-tabs>
-    <cwc-tab name='anteriores' active='true'>Anteriores</cwc-tab>
-    <cwc-tab name='programados' >Programados</cwc-tab>
+    <cwc-tab name='anteriores' active='true' (click)="changeTab('anteriores')">Anteriores</cwc-tab>
+    <cwc-tab name='programados' (click)="changeTab('programados')">Programados</cwc-tab>
   </cwc-tabs>
   <cwc-grid class="demo-grid" row-gap="2px">
     <cwc-cell mobile-colspan="11" style="padding-top: 0.8rem;">     
@@ -17,7 +17,8 @@
       </div>  
     </cwc-cell>    
   </cwc-grid>  
-  <div class="navbar" style="padding-top: 0.8rem;">
-    <app-previous-trips-list></app-previous-trips-list>
+  <div [ngSwitch]="selectedTab" class="navbar" style="padding-top: 0.8rem;">
+    <app-previous-trips-list *ngSwitchCase="'anteriores'" [tripsList]="previousTripsList"></app-previous-trips-list>
+    <app-scheduled-trips-list *ngSwitchCase="'programados'" [tripsList]="previousTripsList"></app-scheduled-trips-list>
   </div>
 </app-layout>

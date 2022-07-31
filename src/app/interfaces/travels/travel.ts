@@ -1,0 +1,33 @@
+export class Travel {
+    id: string;
+    codeTravel: number;
+    source: string;
+    departamentSource: string;
+    directionSource: string;
+    latitudeSource: string;
+    longitudeSource: string;
+    destiny: string;
+    departamentDestiny: string;
+    directionDestiny: string;
+    latitudeDestiny: string;
+    longitudeDestiny: string;
+    productName: string;
+    amount: number;
+    dateTravel: string;
+    timerStar: string;
+    clientName: string;
+    dowloadStar: string;
+    dowloadEnd: string;
+    timerEndTravel: string;
+    dateTravelEnd: string;
+    statusTravel: string;
+    statusTravelAvailability: string;
+    consignmentDocument: string;
+    manifestDocument: string;
+    country: string;
+    userId: string;
+    userName: string;
+    vehicleLissenceName: string;
+    vehicleModelName: string;
+    companyName: string;
+}
