@@ -8,16 +8,15 @@
 </cwc-grid>
 
 <cwc-grid class="demo-grid">
-  <cwc-cell colspan="6" mobile-colspan="12">
+  <cwc-cell *ngFor="let trip of tripsList" colspan="6" mobile-colspan="12">
     <cwc-card class="card-info" design-version="v1">
       <div class="main-content-card">
           <div class="header-card">
               <div class="avatar-info">
-                  <span class="style-name">Viaje 12345678</span>
+                  <span class="style-name">Viaje {{trip.codeTravel}}</span>
               </div>                     
               <cwc-status-indicator style="text-align: end;" size="small" class="statusI" variant='success'>
-                <div class="statusI">
-                  Disponible</div>
+                <div class="statusI">{{trip.statusTravel}}</div>
               </cwc-status-indicator>              
               <ion-icon name="ellipsis-vertical-outline" size="15"></ion-icon>
           </div>    
@@ -26,26 +25,26 @@
           <cwc-grid class="demo-grid" style="padding-top: 0.5rem;">
               <cwc-cell colspan="12" mobile-colspan="12">   
                   <div class="attr-user">Origen</div>
-                  <span class="attr-detail">CEMEX Platan Bogotá</span>
+                  <span class="attr-detail">{{trip.source}}</span>
               </cwc-cell>
           </cwc-grid>
 
           <cwc-grid class="demo-grid center-cell">
               <cwc-cell colspan="12" mobile-colspan="12">
                   <div class="attr-user">Destino</div>
-                  <span class="attr-detail">Cerrada Loma Alta 110</span>
+                  <span class="attr-detail">{{trip.destiny}}</span>
               </cwc-cell>                  
           </cwc-grid>
 
           <cwc-grid class="demo-grid">
             <cwc-cell mobile-colspan="6">
                 <div class="attr-user">Número de Placa</div>
-                <span class="attr-detail">Cerrada Loma Alta 110</span>
+                <span class="attr-detail">{{trip.vehicleLissenceName}}</span>
             </cwc-cell>
             <cwc-cell mobile-colspan="6">
               <div class="attr-user">Fecha y Hora de Cita</div>
-              <span class="attr-detail">Cerrada Loma Alta 110</span>
-            </cwc-cell>                
+              <span class="attr-detail">{{trip.dateTravel}} {{trip.timerStar}}</span>
+            </cwc-cell>
           </cwc-grid>
       </div>
     </cwc-card>

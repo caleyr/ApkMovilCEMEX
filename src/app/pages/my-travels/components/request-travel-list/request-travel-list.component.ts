@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Travel } from './../../../../interfaces/travels/travel';
+import { Component, Input, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-request-travel-list',
@@ -7,6 +8,8 @@ import { Component, OnInit } from '@angular/core';
 })
 export class RequestTravelListComponent implements OnInit {
 
+  @Input() tripsList: Travel[];
+  
   constructor() { }
 
   ngOnInit() {}

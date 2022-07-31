@@ -1,3 +1,6 @@
+import { Travel } from './../../../../interfaces/travels/travel';
+import { TravelService } from './../../../../services/travels/travel.service';
+import { LoginService } from 'src/app/services/auth/login.service';
 import { Component, OnInit } from '@angular/core';
 
 @Component({
@@ -7,8 +10,41 @@ import { Component, OnInit } from '@angular/core';
 })
 export class MyTravelsAdminComponent implements OnInit {
 
-  constructor() { }
+  private companyId: string;
+  selectedTab: string = 'anteriores';
+  previousTripsList: Travel[] = [];
+  scheduledTripsList: Travel[] = [];
+  requestTripsList: Travel[] = [];
 
-  ngOnInit() {}
+
+  constructor(private loginService: LoginService,
+    private travelService: TravelService) { }
+
+  ngOnInit() {
+    this.companyId = this.loginService.profileUser.CompanyId;
+    this.getData();
+  }
+
+  getData(){
+    this.travelService.getFilterTravelByAdmonTercero(this.companyId).subscribe(data => {
+      this.previousTripsList = data.filter(travel => {
+        travel.statusTravel.includes('7');
+      })
+
+      this.scheduledTripsList = data.filter(travel => {
+        travel.statusTravel.includes('2') ||
+        travel.statusTravel.includes('3');
+      })
+
+      this.requestTripsList = data.filter(travel => {
+        travel.statusTravel.includes('4');
+      })
+    })
+  }
+
+  changeTab(tab: string){
+    this.selectedTab = tab;
+    console.log(this.selectedTab);
+  }
 
 }

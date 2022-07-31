@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Travel } from './../../../../interfaces/travels/travel';
+import { Component, Input, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-previous-trips-list',
@@ -6,6 +7,8 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./previous-trips-list.component.scss'],
 })
 export class PreviousTripsListComponent implements OnInit {
+
+  @Input() tripsList: Travel[];
 
   constructor() { }
 
