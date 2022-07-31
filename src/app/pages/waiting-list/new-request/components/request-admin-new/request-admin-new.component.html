@@ -60,7 +60,7 @@
             (cwcChange)="changeDepartament($event)"
             design-version="v2">
             <cwc-select-option value="0" selected="">Seleccionar</cwc-select-option>
-            <cwc-select-option [value]="departament" *ngFor="let departament of departamentList" >{{departament}}</cwc-select-option>
+            <cwc-select-option [value]="driver.id" *ngFor="let driver of driverList" >{{driver.firstLastName}}</cwc-select-option>
             </cwc-select>
           </cwc-cell>
           <cwc-cell colspan="12" mobile-colspan="12">
@@ -70,7 +70,7 @@
               (cwcChange)="changeSource($event)"
               design-version="v2">
               <cwc-select-option value="0" selected="">Seleccionar</cwc-select-option>
-              <cwc-select-option [value]="source" *ngFor="let source of sourceList" >{{source}}</cwc-select-option>
+              <cwc-select-option [value]="vehicle.id" *ngFor="let vehicle of vehicleList" >{{vehicle.model}}</cwc-select-option>
               </cwc-select>
           </cwc-cell>
       </cwc-grid>
