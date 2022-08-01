@@ -20,8 +20,10 @@ export class Travel {
     dowloadEnd: string;
     timerEndTravel: string;
     dateTravelEnd: string;
-    statusTravel: string;
-    statusTravelAvailability: string;
+    statusTravel: number;
+    statusTravelString: string;
+    statusTravelAvailability: number;
+    statusTravelAvailabilityString: string;
     consignmentDocument: string;
     manifestDocument: string;
     country: string;

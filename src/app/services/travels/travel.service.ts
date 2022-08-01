@@ -54,7 +54,7 @@ export class TravelService {
   }
 
   getFilterTravelByAdmonTercero(companyId: string){
-    return this.http.get<Travel[]>(`${BASE_URL_API}/api/travels//GetFilterTravelByAdmonTercero/${companyId}`);
+    return this.http.get<Travel[]>(`${BASE_URL_API}/api/travels/GetFilterTravelByAdmonTercero/${companyId}`);
   }
 
 }
