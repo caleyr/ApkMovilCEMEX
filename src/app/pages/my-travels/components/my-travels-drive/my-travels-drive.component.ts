@@ -26,14 +26,14 @@ export class MyTravelsDriveComponent implements OnInit {
 
   getData(){
     this.travelService.getFilterTravelByIdDriver(this.userId).subscribe(data => {
-      this.previousTripsList = data.filter(travel => {
-        travel.statusTravel.includes('7');
-      })
+      this.previousTripsList = data.filter(travel =>
+        travel.statusTravelAvailabilityString.includes('Completado')
+      )
 
-      this.scheduledTripsList = data.filter(travel => {
-        travel.statusTravel.includes('2') ||
-        travel.statusTravel.includes('3');
-      })
+      this.scheduledTripsList = data.filter(travel =>
+        travel.statusTravelAvailabilityString.includes('Pre-Turno') ||
+        travel.statusTravelAvailabilityString.includes('En turno')
+      )
     })
   }
 
