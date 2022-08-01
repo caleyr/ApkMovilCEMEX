@@ -8,7 +8,7 @@
 </cwc-grid>
 
 <cwc-grid class="demo-grid">
-  <cwc-cell *ngFor="let trip of tripsList" colspan="6" mobile-colspan="12">
+  <cwc-cell (click)="detailTrip(trip.id)" *ngFor="let trip of tripsList" colspan="6" mobile-colspan="12">
     <cwc-card class="card-info" design-version="v1">
       <div class="main-content-card">
           <div class="header-card">

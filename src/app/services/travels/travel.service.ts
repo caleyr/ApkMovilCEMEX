@@ -1,3 +1,4 @@
+import { Subject } from 'rxjs';
 import { Travel } from './../../interfaces/travels/travel';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
@@ -13,12 +14,23 @@ const BASE_URL_API = environment.url;
 export class TravelService {
 
   traveSearchList : TravelListUnique[];
-  code : string;
+  id : string;
+  code: string;
+
+  private _refresh$ = new Subject<void>();
 
   constructor(private http: HttpClient) { }
 
+  get refresh$(){
+    return this._refresh$;
+  }
+
   getTravels(){
     return this.http.get<any[]>(`${BASE_URL_API}/api/travels`);
+  }
+
+  getTravelDetail(id: string){
+    return this.http.get<Travel>(`${BASE_URL_API}/api/travels/GetDetailTravel/${id}`);
   }
 
   getTravelsSource(departament : string){

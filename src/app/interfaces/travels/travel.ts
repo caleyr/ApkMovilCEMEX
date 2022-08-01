@@ -1,6 +1,6 @@
 export class Travel {
     id: string;
-    codeTravel: number;
+    codeTravel: string;
     source: string;
     departamentSource: string;
     directionSource: string;
