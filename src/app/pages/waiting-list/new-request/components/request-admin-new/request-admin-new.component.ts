@@ -6,6 +6,10 @@ import { Vehicle } from './../../../../vehicles/models/vehicle';
 import { NavController } from '@ionic/angular';
 import { TravelService } from './../../../../../services/travels/travel.service';
 import { Component, OnInit } from '@angular/core';
+import { FormGroup, Validators, FormBuilder } from '@angular/forms';
+import { RequestService } from '../../../../../services/request.service';
+declare var google;
+
 
 @Component({
   selector: 'app-request-admin-new',
@@ -26,24 +30,66 @@ export class RequestAdminNewComponent implements OnInit {
   dataO : string;
   timeO : string;
 
+  form : FormGroup;
+  geocoder = null;
+  data : FormData = new FormData();
+  alertShow = false;
+
   buttonActivate : boolean = false;
 
-  constructor(private travelService : TravelService,
+  constructor(
     private vehiclesService: VehiclesService,
     private driversService: DriversService,
     private loginService: LoginService,
+    private formBuilder: FormBuilder,
+    private requestService : RequestService,
     private navCtrl : NavController) { }
 
   ngOnInit() {
-    this.getListDepartament();
+    this.formBuilderInput();
+    this.loadGoogle();
     this.getListVehicles();
     this.getListDrivers();
   }
 
-  getListDepartament(){
-    this.travelService.getTravels().subscribe(data=>{
-      this.departamentList = [...new Set(data.map(item => item.departamentSource))];
+  getStatusField( field: string ) {
+    if ( this.form.controls[field].errors && this.form.controls[field].touched ) return 'error';
+    return 'regular';
+  }
+
+  getMsgField( field: string, nameField: string ) {
+    let msgError = '';
+    
+    if ( this.form.controls[field].errors && this.form.controls[field].touched ) {
+      msgError = `El campo ${ nameField } es requerido.`;
+    }
+
+    return msgError;
+  }
+
+  formBuilderInput(){
+    this.form = this.formBuilder.group({
+      Origen: ['', [ Validators.required ]],
+      Destino: ['', [ Validators.required ]],
+      TimerStar: ['', [ Validators.required ]],
+      TimerEnd: ['', [ Validators.required ]],
+      DateTravels: ['', [ Validators.required ]],
+      DriverId: ['', [ Validators.required ]],
+      VehicleId: ['', [ Validators.required ]],
+      StatusRequest: ['1'],
+      TravelsCode: ['1'],
+      CodeRequest: ['1'],
+      DepartamentSource: [''],
+      DepartamentDestiny: ['']
     });
+  }
+
+  loadGoogle(){
+    this.geocoder = new google.maps.Geocoder();
+  }
+
+  goMyRequest() {
+    this.navCtrl.back();
   }
 
   getListVehicles(){
@@ -58,76 +104,73 @@ export class RequestAdminNewComponent implements OnInit {
     });
   }
 
-  changeDepartament(event){
-    if(event.detail.value == 0){
-      this.sourceList = [];
-      this.timeList = [];
-      this.dateList = [];
-      
-      this.departament = '';
-      this.source = '';
-      this.dataO = '';
-      this.timeO = '';
-    }else{
-      this.departament = event.detail.value;
-      this.travelService.getTravelsSource(event.detail.value).subscribe(data=>{
-        this.sourceList = [...new Set(data.map(item => item.source))];
+  async codificacion(direccionText : string, tipo : string){
+    return new Promise((resolve)=>{
+      this.geocoder.geocode({
+        address : direccionText
+        }).then((result)=>{
+          const { results } = result;
+          if(tipo === 'Origen'){
+            this.form.get('DepartamentSource').setValue(results[0].address_components[2].long_name);
+            resolve(result);
+          }else{
+            this.form.get('DepartamentDestiny').setValue(results[0].address_components[2].long_name);
+            resolve(result);
+          }
+      }).catch((e) => {
+        console.log(e);      
       });
-    }    
-  }
-  
-  changeSource(event){
-    if(event.detail.value == 0){
-      this.timeList = [];
-      this.dateList = [];
-
-      this.source = '';
-      this.dataO = '';
-      this.timeO = '';
-    }else{
-      this.source = event.detail.value;
-      this.travelService.getTravelsDate(event.detail.value).subscribe(data=>{
-        this.dateList = [...new Set(data.map(item => item.dateTravel))];
-      });
-    }    
-  }
-  
-  changeDate(event){
-    if(event.detail.value == 0){
-      this.timeList = [];
-      this.dataO = '';
-      this.timeO = '';
-    }else{
-      this.dataO = event.detail.value;
-      this.travelService.getTravelsForHour(event.detail.value).subscribe(data=>{
-        this.timeList = [...new Set(data.map(item => item.timerStar))];
-      });
-    }
+    });
   }
 
-  changeHour(event){
-    if(event.detail.value == 0){
-      this.buttonActivate = false;
-    }else{
-      this.timeO = event.detail.value;     
-      this.buttonActivate = true;
-    }
+  changTimeStar(event){
+    this.form.get('TimerStar').setValue(`${event.detail.hours}:${event.detail.minutes}`);
   }
+
+  changeTimeEnd(event){
+    this.form.get('TimerEnd').setValue(`${event.detail.hours}:${event.detail.minutes}`);
+  }
+
+  changeDateTime(event){
+    this.form.get('DateTravels').setValue(`${event.detail.getDate()}-${event.detail.getMonth()}-${event.detail.getMonth()}`);
+  }
+
+  changeDriverId(event){
+    this.form.get('DriverId').setValue(event.detail.value);
+  }
+
+  changeVehicleId(event){
+    this.form.get('VehicleId').setValue(event.detail.value);
+  }  
 
   async searchTrips(){
-    const list = await this.getTravelListSearch();
-    if(list){
-      this.navCtrl.navigateRoot('/app/travels/search-list', { animated: false });
+    if ( this.form.invalid ) {
+      this.form.markAllAsTouched();
+      return;
+    }
+    await this.codificacion( this.getOrigin(), 'Origen');
+    await this.codificacion( this.getDestino(), 'Destino');   
+
+    this.addFormData(this.form.value)
+    this.requestService.createRequest(this.data).subscribe(()=>{      
+      this.alertShow = true;
+      },(error)=>{
+        this.goMyRequest();
+    });
+  }
+
+  async addFormData(objeto){
+    for ( var key in objeto ){   
+      this.data.append(key, objeto[key]);  
     }
   }
 
-  getTravelListSearch(){
-    return new Promise((resolved, reject)=>{
-      this.travelService.searchTravelList(this.departament, this.source, this.dataO, this.timeO).subscribe(data=>{
-        this.travelService.traveSearchList = data;
-        resolved(data);
-      })
-    });
+  getOrigin(){
+    return this.form.get('Origen').value;
+  }
+
+  getDestino(){
+    return this.form.get('Destino').value;
   }
 
 }

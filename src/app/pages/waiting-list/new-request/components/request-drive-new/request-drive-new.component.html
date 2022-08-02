@@ -1,62 +1,90 @@
-<app-layout class="card-size">
-  <div slot="main" class="content-card">
-    <form>
-      <cwc-grid class="demo-grid" design-version="v2" columns="12" mobile-columns="12" style="margin-top: 1rem;">
+<div slot="main" class="content-card">
+  <form [formGroup]="form">
+    <cwc-grid class="demo-grid" design-version="v2" row-gap="5px" columns="12" mobile-columns="12" style="margin-top: 1rem;">
         <cwc-cell colspan="12" mobile-colspan="12">
-          <cwc-select
+          <cwc-input
+            formControlName="Origen"
+            [status]="getStatusField('Origen')"
+            [statusMessage]="getMsgField('Origen', 'origen')"
             style="width: 100%;"
-            label='Departamento'
-            (cwcChange)="changeDepartament($event)"
+            label='Origen (Municipio)'
             design-version="v2">
-            <cwc-select-option value="0" selected="">Seleccionar</cwc-select-option>
-            <cwc-select-option [value]="departament" *ngFor="let departament of departamentList" >{{departament}}</cwc-select-option>
-            </cwc-select>
+            </cwc-input>
           </cwc-cell>
-          <cwc-cell colspan="12" mobile-colspan="12">
-            <cwc-select
-              style="width: 100%;"
-              label='Origen (Municipio)'
-              (cwcChange)="changeSource($event)"
-              design-version="v2">
-              <cwc-select-option value="0" selected="">Seleccionar</cwc-select-option>
-              <cwc-select-option [value]="source" *ngFor="let source of sourceList" >{{source}}</cwc-select-option>
-              </cwc-select>
-          </cwc-cell>
-      </cwc-grid>
-      <cwc-grid class="demo-grid flex flex__align--center" design-version="v2" columns="12" mobile-columns="12" style="margin-top: 1rem;">
-        <cwc-cell class="flex flex__align--center" style="padding-bottom: 20px;" colspan="12" mobile-colspan="5">          
-          <h5 style="text-transform: capitalize;" >Fecha</h5>
-        </cwc-cell>
-        <cwc-cell colspan="12" mobile-colspan="7">
-          <cwc-select
-            (cwcChange)="changeDate($event)"
-            placeholder="Seleccionar"
+        <cwc-cell colspan="12" mobile-colspan="12">
+          <cwc-input
+            formControlName="Destino"
+            [status]="getStatusField('Destino')"
+            [statusMessage]="getMsgField('Destino', 'destino')"
+            style="width: 100%;"
+            label='Destino (Municipio)'
             design-version="v2">
-            <cwc-select-option value="0" selected="">Seleccionar</cwc-select-option>
-            <cwc-select-option [value]="date" *ngFor="let date of dateList" >{{date}}</cwc-select-option>
-          </cwc-select>
+            </cwc-input>
         </cwc-cell>
-      </cwc-grid>
-      <cwc-grid class="demo-grid flex flex__align--center" design-version="v2" columns="12" mobile-columns="12" style="margin-top: 1rem;">
-        <cwc-cell class="flex flex__align--center" style="padding-bottom: 20px;" colspan="12" mobile-colspan="5">          
-          <h5 style="text-transform: capitalize;" >Rango de Hora</h5>
+        <cwc-cell class="flex flex__align--bullseye" mobile-colspan="12">          
+          <div style="text-align: center; padding-bottom: 1rem; font-weight: 900;" >Rango de Hora</div>
         </cwc-cell>
-        <cwc-cell colspan="12" mobile-colspan="7">
-          <cwc-select
-            placeholder="Seleccionar"
-            design-version="v2"
-            (cwcChange)="changeHour($event)">
-            <cwc-select-option value="0" selected="">Seleccionar</cwc-select-option>
-            <cwc-select-option [value]="timeL" *ngFor="let timeL of timeList" >{{timeL}}</cwc-select-option>
-          </cwc-select>
+        <cwc-cell mobile-colspan="6" class="flex flex__align--center">
+          <cwc-input-time
+            formControlName="TimerStar"
+            label='Hora (Inicio)'
+            [status]="getStatusField('TimerStar')"
+            [statusMessage]="getMsgField('TimerStar', 'tiempo de inicio')"
+            (cwcChange)="changTimeStar($event)"
+            placeholder="--:--"
+            design-version="v2">
+          </cwc-input-time>
         </cwc-cell>
-      </cwc-grid>
-      <div class="content-button" *ngIf="buttonActivate === true">
-        <cwc-button
-        (cwcClick)="sendRequest()"
-        design-version="v1"
-        variant="regular-block">ENVIAR SOLICITUD</cwc-button>
-      </div>
-    </form>
+        <cwc-cell mobile-colspan="6" class="flex flex__align--center">
+          <cwc-input-time
+            formControlName="TimerEnd"
+            label='Hora (Inicio)'
+            [status]="getStatusField('TimerEnd')"
+            [statusMessage]="getMsgField('TimerEnd', 'tiempo final')"
+            (cwcChange)="changeTimeEnd($event)"
+            placeholder="--:--"
+            design-version="v2">
+          </cwc-input-time>
+        </cwc-cell>
+        <cwc-cell class="flex flex__align--bullseye" mobile-colspan="12">          
+          <div style="text-align: center; padding-bottom: 0.5rem; font-weight: 900;" >Fecha</div>
+        </cwc-cell>
+        <cwc-cell colspan="12" mobile-colspan="12">
+          <cwc-input-date
+            return-format="date"
+            hover-range="multiple-week"
+            formControlName="DateTravels"
+            [status]="getStatusField('DateTravels')"
+            (cwcChange)="changeDateTime($event)"
+            style="width: 100%;"
+            placeholder="Seleccionar fecha"
+            [statusMessage]="getMsgField('DateTravels', 'fecha')"
+            design-version="v2">
+          </cwc-input-date>
+        </cwc-cell>
+        <cwc-cell colspan="12" mobile-colspan="12">
+          <div class="content-button">
+            <cwc-button
+            (cwcClick)="searchTrips()"
+            [disabled]="form.invalid"
+            design-version="v1"
+            variant="regular-block">ENVIAR SOLICITUD</cwc-button>
+          </div>
+        </cwc-cell>        
+    </cwc-grid> 
+  </form>
+</div>
+
+<cwc-modal id='alert-modal-succes' [open]="alertShow" close-on-bd-click="false" show-close-btn="false" (cwcClose)="goMyRequest()">
+  <div style='text-align: center'>
+      <cwc-icon name='accepted-ok' size='120px' color='bright-green'></cwc-icon>
+      <h4 class='modal--confirmation__message'>La solicitud ha sido enviada correctamente.</h4>
   </div>
-</app-layout>
+  <footer slot='footer'>
+    <div style='text-align: center'>
+        <cwc-button variant='link' (click)="goMyRequest()" routerLinkActive="router-link-active">
+          <div style="color: #7AC943; font-size: large; padding-bottom: 1rem;" >Regresar</div>
+        </cwc-button>
+    </div>
+  </footer>
+</cwc-modal>

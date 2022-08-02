@@ -23,7 +23,7 @@ export class RequestService {
   }
 
   createRequest(data: any){
-    return this.http.post(`${BASE_URL_API}/api/waitingList/`, data, {responseType: 'text'});
+    return this.http.post(`${BASE_URL_API}/api/waitingList/CreateRequestTravel`, data, {responseType: 'text'});
   }
 
   updateRequest(id: string, data: any){

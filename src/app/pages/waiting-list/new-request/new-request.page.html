@@ -1,2 +1,13 @@
-<div *ngIf="rol !== 'Conductor'"><app-request-admin-new></app-request-admin-new></div>
-<div *ngIf="rol === 'Conductor'"><app-request-drive-new></app-request-drive-new></div>
+<cwc-header design-version="v2" slot="header" show-Menu-Button="false" show-cemex-logo="false">
+    <div class="header-text">
+      <ion-icon name="arrow-back-outline" style="font-size: 25px;" (click)="onBack()"></ion-icon>
+      <div class="attr-name" style="padding-left: 1rem;">Nueva Solicitud</div>
+    </div>
+</cwc-header>
+<div slot="main" class="content-card">
+    <div *ngIf="rol !== 'Conductor'"><app-request-admin-new></app-request-admin-new></div>
+    <div *ngIf="rol === 'Conductor'"><app-request-drive-new></app-request-drive-new></div>
+</div>
+
+
+
