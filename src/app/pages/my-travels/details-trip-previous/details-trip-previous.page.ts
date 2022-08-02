@@ -1,3 +1,5 @@
+import { LoginService } from 'src/app/services/auth/login.service';
+import { Roles } from './../../../interfaces/auth/auth-interface';
 import { Location } from '@angular/common';
 import { NavController } from '@ionic/angular';
 import { TravelService } from './../../../services/travels/travel.service';
@@ -13,14 +15,17 @@ import { Component, OnInit } from '@angular/core';
 export class DetailsTripPreviousPage implements OnInit {
 
   id: string;
+  rol: string;
   travel = new Travel();
   suscripcion: Subscription;
 
   constructor(private location : Location,
     private travelService: TravelService,
-    private navCtrl: NavController) { }
+    private loginService: LoginService) { }
 
   ngOnInit() {
+    this.rol = this.loginService.profileUser.Roles;
+    console.log(this.rol);
     this.suscripcion = this.travelService.refresh$.subscribe(() => {
       this.getData();
     });

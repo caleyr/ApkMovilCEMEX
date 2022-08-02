@@ -5,15 +5,16 @@
   </div>
 </cwc-header>
 <div slot="main" class="content-card">
-  <cwc-card class="m-all-xs" design-version="v2">
+  <cwc-card class="card-info" design-version="v1">
     <div class="card-content">
-      <div class="content-avatar-menu" style="margin-right: 0.1rem; display: flex; justify-content: space-between;">
-        <div style="display: flex;">
-          <div>
-            <div class="attr-name">CONDUCTOR</div>
-            <span class="style-name">{{travel.userName}}</span>
-          </div>
+      <div class="header-card">
+        <div class="avatar-info">
+          <div class="attr-name">CONDUCTOR</div>
+          <span class="style-name">{{travel.userName}}</span>
         </div>
+        <cwc-status-indicator *ngIf="rol !== 'Conductor'" style="text-align: end;" size="small" class="statusI" variant='success'>
+          <div class="statusI">{{travel.statusTravelString}}</div>
+        </cwc-status-indicator>
       </div>
 
       <hr color="#D0D0D0" />
