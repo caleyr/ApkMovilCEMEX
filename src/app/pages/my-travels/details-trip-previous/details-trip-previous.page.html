@@ -10,35 +10,82 @@
       <div class="content-avatar-menu" style="margin-right: 0.1rem; display: flex; justify-content: space-between;">
         <div style="display: flex;">
           <div>
-            <div class="attr-name">Conductor</div>
+            <div class="attr-name">CONDUCTOR</div>
             <span class="style-name">{{travel.userName}}</span>
           </div>
         </div>
       </div>
 
       <hr color="#D0D0D0" />
-      <cwc-grid class="demo-grid" style="padding-top: 0.5rem;">
+      <cwc-grid class="demo-grid center-cell" style="padding-top: 0.5rem;">
         <cwc-cell colspan="12" mobile-colspan="12">
-          <div class="attr-user">Origen</div>
+          <div class="attr-user">ORIGEN</div>
           <span class="attr-detail">{{travel.source}}</span>
         </cwc-cell>
       </cwc-grid>
 
       <cwc-grid class="demo-grid center-cell">
         <cwc-cell colspan="12" mobile-colspan="12">
-          <div class="attr-user">Destino</div>
+          <div class="attr-user">DESTINO</div>
           <span class="attr-detail">{{travel.destiny}}</span>
         </cwc-cell>
       </cwc-grid>
 
-      <cwc-grid class="demo-grid">
+      <cwc-grid class="demo-grid center-cell">
+        <cwc-cell colspan="12" mobile-colspan="12">
+          <div class="attr-user">PRODUCTO</div>
+          <span class="attr-detail">{{travel.productName}}</span>
+        </cwc-cell>
+      </cwc-grid>
+
+      <cwc-grid class="demo-grid center-cell">
         <cwc-cell mobile-colspan="6">
-          <div class="attr-user">Número de Placa</div>
-          <span class="attr-detail">{{travel.vehicleLissenceName}}</span>
+          <div class="attr-user">FECHA Y HORA DE CITA</div>
+          <span class="attr-detail">{{travel.dateTravel}} {{travel.timerStar}}</span>
         </cwc-cell>
         <cwc-cell mobile-colspan="6">
-          <div class="attr-user">Fecha y Hora de Cita</div>
-          <span class="attr-detail">{{travel.dateTravel}} {{travel.timerStar}}</span>
+          <div class="attr-user">CANTIDAD</div>
+          <span class="attr-detail">{{travel.amount}}</span>
+        </cwc-cell>
+      </cwc-grid>
+
+      <cwc-grid class="demo-grid center-cell">
+        <cwc-cell mobile-colspan="6">
+          <div class="attr-user">MODELO</div>
+          <span class="attr-detail">{{travel.vehicleModelName}}</span>
+        </cwc-cell>
+        <cwc-cell mobile-colspan="6">
+          <div class="attr-user">NUMERO DE PLACA</div>
+          <span class="attr-detail">{{travel.vehicleLissenceName}}</span>
+        </cwc-cell>
+      </cwc-grid>
+
+      <cwc-grid class="demo-grid center-cell">
+        <cwc-cell mobile-colspan="6">
+          <div class="attr-user">CLIENTE</div>
+          <span class="attr-detail">{{travel.companyName}}</span>
+        </cwc-cell>
+        <cwc-cell mobile-colspan="6">
+          <div class="attr-user">INICIO DE VIAJE</div>
+          <span class="attr-detail">{{travel.timerStar}}</span>
+        </cwc-cell>
+      </cwc-grid>
+
+      <cwc-grid class="demo-grid center-cell">
+        <cwc-cell mobile-colspan="6">
+          <div class="attr-user">INICIO DESCARGA</div>
+          <span class="attr-detail">{{travel.dowloadStar}}</span>
+        </cwc-cell>
+        <cwc-cell mobile-colspan="6">
+          <div class="attr-user">FIN DESCARGA</div>
+          <span class="attr-detail">{{travel.dowloadEnd}}</span>
+        </cwc-cell>
+      </cwc-grid>
+
+      <cwc-grid class="demo-grid center-cell">
+        <cwc-cell mobile-colspan="12">
+          <div class="attr-user">FIN VIAJE</div>
+          <span class="attr-detail">{{travel.timerEndTravel}}</span>
         </cwc-cell>
       </cwc-grid>
     </div>

@@ -1,5 +1,3 @@
-import { DetailsTripScheduledComponent } from './details-trip-scheduled/details-trip-scheduled.component';
-import { DetailsTripRequestComponent } from './details-trip-request/details-trip-request.component';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -34,8 +32,6 @@ import { MyTravelsDriveComponent } from './components/my-travels-drive/my-travel
     PreviousTripsListComponent,
     RequestTravelListComponent,
     ScheduledTripsListComponent,
-    DetailsTripRequestComponent,
-    DetailsTripScheduledComponent,
     MyTravelsAdminComponent,
     MyTravelsDriveComponent
   ]
