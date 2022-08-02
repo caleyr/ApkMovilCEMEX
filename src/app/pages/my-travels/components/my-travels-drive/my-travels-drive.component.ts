@@ -19,12 +19,17 @@ export class MyTravelsDriveComponent implements OnInit {
   constructor(private loginService: LoginService,
     private travelService: TravelService) { }
 
+  ionViewWillEnter() {
+    this.userId = this.loginService.profileUser.id;
+    this.getData();
+  }
+
   ngOnInit() {
     this.userId = this.loginService.profileUser.id;
     this.getData();
   }
 
-  getData(){
+  getData() {
     this.travelService.getFilterTravelByIdDriver(this.userId).subscribe(data => {
       this.previousTripsList = data.filter(travel =>
         travel.statusTravelAvailabilityString.includes('Completado')
@@ -37,7 +42,7 @@ export class MyTravelsDriveComponent implements OnInit {
     })
   }
 
-  changeTab(tab: string){
+  changeTab(tab: string) {
     this.selectedTab = tab;
     console.log(this.selectedTab);
   }

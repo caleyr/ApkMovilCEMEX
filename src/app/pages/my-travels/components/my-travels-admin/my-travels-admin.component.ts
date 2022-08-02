@@ -20,15 +20,20 @@ export class MyTravelsAdminComponent implements OnInit {
   constructor(private loginService: LoginService,
     private travelService: TravelService) { }
 
+  ionViewWillEnter() {
+    this.companyId = this.loginService.profileUser.CompanyId;
+    this.getData();
+  }
+
   ngOnInit() {
     this.companyId = this.loginService.profileUser.CompanyId;
     this.getData();
   }
 
-  getData(){
+  getData() {
     this.travelService.getFilterTravelByAdmonTercero(this.companyId).subscribe(data => {
       console.log(data);
-      
+
       this.previousTripsList = data.filter(travel =>
         travel.statusTravelAvailabilityString.includes('Completado')
       )
@@ -44,7 +49,7 @@ export class MyTravelsAdminComponent implements OnInit {
     })
   }
 
-  changeTab(tab: string){
+  changeTab(tab: string) {
     this.selectedTab = tab;
     console.log(this.selectedTab);
   }
