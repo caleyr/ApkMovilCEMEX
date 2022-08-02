@@ -12,7 +12,8 @@
           <div class="attr-name">CONDUCTOR</div>
           <span class="style-name">{{travel.userName}}</span>
         </div>
-        <cwc-status-indicator *ngIf="rol !== 'Conductor'" style="text-align: end;" size="small" class="statusI" variant='success'>
+        <cwc-status-indicator *ngIf="rol === 'Conductor'" style="text-align: end;" size="small" class="statusI"
+          variant='success'>
           <div class="statusI">{{travel.statusTravelString}}</div>
         </cwc-status-indicator>
       </div>
@@ -87,6 +88,15 @@
         <cwc-cell mobile-colspan="12">
           <div class="attr-user">FIN VIAJE</div>
           <span class="attr-detail">{{travel.timerEndTravel}}</span>
+        </cwc-cell>
+      </cwc-grid>
+
+      <hr color="#D0D0D0" />
+      <cwc-grid class="demo-grid center-cell">
+        <cwc-cell class="flex flex__align--bullseye" style="text-align: end;">
+          <cwc-button variant="link">
+            <div style="font-size: 15px; font-weight: normal;">VER REPORTE</div>
+          </cwc-button>
         </cwc-cell>
       </cwc-grid>
     </div>

@@ -11,6 +11,7 @@ import { Component, Input, OnInit } from '@angular/core';
 export class PreviousTripsListComponent implements OnInit {
 
   @Input() tripsList: Travel[];
+  @Input() sizeList: number;
 
   constructor(private travelService: TravelService,
     private navCtrl: NavController) { }

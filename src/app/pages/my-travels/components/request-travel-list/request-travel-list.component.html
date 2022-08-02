@@ -3,12 +3,12 @@
     <div class="detail_list_travels">Semana 22 de Agosto, 2020</div>
   </cwc-cell>
   <cwc-cell colspan="6" mobile-colspan="3">
-    <div class="detail_list_travels" style="text-align: end;">2 viajes</div>
+    <div class="detail_list_travels" style="text-align: end;">{{sizeList}}/{{tripsList.length}} viajes</div>
   </cwc-cell>
 </cwc-grid>
 
 <cwc-grid class="demo-grid">
-  <cwc-cell (click)="detailTrip(trip.codeTravel)" *ngFor="let trip of tripsList" colspan="6" mobile-colspan="12">
+  <cwc-cell (click)="detailTrip(trip.id)" *ngFor="let trip of tripsList" colspan="6" mobile-colspan="12">
     <cwc-card class="card-info" design-version="v1">
       <div class="main-content-card">
           <div class="header-card">

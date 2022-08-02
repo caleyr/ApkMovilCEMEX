@@ -9,10 +9,6 @@ const routes: Routes = [
     component: MyTravelsPage
   },
   {
-    path: 'scheduled-details-driver',
-    loadChildren: () => import('./details-trip-scheduled-driver/details-trip-scheduled-driver.module').then( m => m.DetailsTripScheduledDriverPageModule)
-  },
-  {
     path: 'previous-details',
     loadChildren: () => import('./details-trip-previous/details-trip-previous.module').then( m => m.DetailsTripPreviousPageModule)
   },
@@ -21,12 +17,12 @@ const routes: Routes = [
     loadChildren: () => import('./details-trip-scheduled/details-trip-scheduled.module').then( m => m.DetailsTripScheduledPageModule)
   },
   {
-    path: 'request-details',
-    loadChildren: () => import('./details-trip-request/details-trip-request.module').then( m => m.DetailsTripRequestPageModule)
+    path: 'scheduled-details-driver',
+    loadChildren: () => import('./details-trip-scheduled-driver/details-trip-scheduled-driver.module').then( m => m.DetailsTripScheduledDriverPageModule)
   },
   {
-    path: 'details-trip-scheduled-driver',
-    loadChildren: () => import('./details-trip-scheduled-driver/details-trip-scheduled-driver.module').then( m => m.DetailsTripScheduledDriverPageModule)
+    path: 'request-details',
+    loadChildren: () => import('./details-trip-request/details-trip-request.module').then( m => m.DetailsTripRequestPageModule)
   },
   {
     path: 'details-trip-scheduled',
