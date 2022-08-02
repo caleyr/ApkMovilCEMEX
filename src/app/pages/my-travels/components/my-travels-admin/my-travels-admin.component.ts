@@ -12,6 +12,10 @@ export class MyTravelsAdminComponent implements OnInit {
 
   private companyId: string;
   selectedTab: string = 'anteriores';
+  sizePrevious: number;
+  sizeScheduled: number;
+  sizeRequest: number;
+  
   previousTripsList: Travel[] = [];
   scheduledTripsList: Travel[] = [];
   requestTripsList: Travel[] = [];
@@ -32,26 +36,29 @@ export class MyTravelsAdminComponent implements OnInit {
 
   getData() {
     this.travelService.getFilterTravelByAdmonTercero(this.companyId).subscribe(data => {
-      console.log(data);
-
       this.previousTripsList = data.filter(travel =>
         travel.statusTravelAvailabilityString.includes('Completado')
       )
+
+      this.sizePrevious = this.previousTripsList.length;
 
       this.scheduledTripsList = data.filter(travel =>
         travel.statusTravelAvailabilityString.includes('Pre-Turno') ||
         travel.statusTravelAvailabilityString.includes('En turno')
       )
 
+      this.sizeScheduled = this.scheduledTripsList.length;
+
       this.requestTripsList = data.filter(travel =>
         travel.statusTravelAvailabilityString.includes('Por asignar')
       )
+
+      this.sizeRequest = this.requestTripsList.length;
     })
   }
 
   changeTab(tab: string) {
     this.selectedTab = tab;
-    console.log(this.selectedTab);
   }
 
 }

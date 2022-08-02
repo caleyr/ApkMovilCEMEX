@@ -14,6 +14,7 @@ export class ScheduledTripsListComponent implements OnInit {
   rol: string;
 
   @Input() tripsList: Travel[];
+  @Input() sizeList: number;
 
   constructor(private travelService: TravelService,
     private loginService: LoginService,
@@ -23,13 +24,19 @@ export class ScheduledTripsListComponent implements OnInit {
     this.rol = this.loginService.profileUser.Roles;
   }
 
-  detailTrip(code: string){
-    if(this.rol !== 'Conductor'){
-      this.travelService.code = code;
-      this.navCtrl.navigateRoot('/app/my-travels/scheduled-details-driver', {animated:false});
-    }else{
-      this.travelService.code = code;
-      this.navCtrl.navigateRoot('/app/my-travels/scheduled-details', {animated:false});
+  detailTrip(id: string, travelAvailability: string) {
+    console.log(travelAvailability);
+    if (this.rol === 'Conductor') {
+      if (travelAvailability === 'Pre-Turno') {
+        this.travelService.id = id;
+        this.navCtrl.navigateRoot('/app/my-travels/scheduled-details', { animated: false });
+      } else {
+        this.travelService.id = id;
+        this.navCtrl.navigateRoot('/app/my-travels/scheduled-details-driver', { animated: false });
+      }
+    } else {
+      this.travelService.id = id;
+      this.navCtrl.navigateRoot('/app/my-travels/scheduled-details', { animated: false });
     }
   }
 

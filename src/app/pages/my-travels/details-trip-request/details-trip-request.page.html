@@ -1,9 +1,83 @@
-<ion-header>
-  <ion-toolbar>
-    <ion-title>details-trip-request</ion-title>
-  </ion-toolbar>
-</ion-header>
+<cwc-header design-version="v2" slot="header" show-Menu-Button="false" show-cemex-logo="false">
+  <div class="header-text">
+    <ion-icon name="arrow-back-outline" style="font-size: 25px;" (click)="onBack()"></ion-icon>
+    <div class="attr-name" style="padding-left: 1rem;">Viaje {{travel.codeTravel}}</div>
+  </div>
+</cwc-header>
+<div slot="main" class="content-card">
+  <cwc-card class="card-info" design-version="v1">
+    <div class="card-content">
+      <div class="header-card">
+        <div class="avatar-info">
+          <div class="attr-name">CONDUCTOR</div>
+          <span class="style-name">Pendiente por confirmar</span>
+        </div>
+      </div>
 
-<ion-content>
+      <hr color="#D0D0D0" />
+      <cwc-grid class="demo-grid center-cell" style="padding-top: 0.5rem;">
+        <cwc-cell colspan="12" mobile-colspan="12">
+          <div class="attr-user">ORIGEN</div>
+          <span class="attr-detail">{{travel.source}}</span>
+        </cwc-cell>
+      </cwc-grid>
 
-</ion-content>
+      <cwc-grid class="demo-grid center-cell">
+        <cwc-cell colspan="12" mobile-colspan="12">
+          <div class="attr-user">DESTINO</div>
+          <span class="attr-detail">{{travel.destiny}}</span>
+        </cwc-cell>
+      </cwc-grid>
+
+      <cwc-grid class="demo-grid center-cell">
+        <cwc-cell colspan="12" mobile-colspan="12">
+          <div class="attr-user">PRODUCTO</div>
+          <span class="attr-detail">{{travel.productName}}</span>
+        </cwc-cell>
+      </cwc-grid>
+
+      <cwc-grid class="demo-grid center-cell">
+        <cwc-cell mobile-colspan="6">
+          <div class="attr-user">FECHA Y HORA DE CITA</div>
+          <span class="attr-detail">{{travel.dateTravel}} {{travel.timerStar}}</span>
+        </cwc-cell>
+        <cwc-cell mobile-colspan="6">
+          <div class="attr-user">CANTIDAD</div>
+          <span class="attr-detail">{{travel.amount}}</span>
+        </cwc-cell>
+      </cwc-grid>
+
+      <cwc-grid class="demo-grid center-cell">
+        <cwc-cell mobile-colspan="6">
+          <div class="attr-user">MODELO</div>
+          <span class="attr-detail">{{travel.vehicleModelName}}</span>
+        </cwc-cell>
+        <cwc-cell mobile-colspan="6">
+          <div class="attr-user">NUMERO DE PLACA</div>
+          <span class="attr-detail">{{travel.vehicleLissenceName}}</span>
+        </cwc-cell>
+      </cwc-grid>
+
+      <cwc-grid class="demo-grid center-cell">
+        <cwc-cell mobile-colspan="6">
+          <div class="attr-user">CLIENTE</div>
+          <span class="attr-detail">{{travel.companyName}}</span>
+        </cwc-cell>
+      </cwc-grid>
+
+      <hr color="#D0D0D0" />
+      <cwc-grid class="demo-grid center-cell">
+        <cwc-cell class="flex flex__align--bullseye" style="text-align: end;">
+          <cwc-button variant="link">
+            <div style="font-size: 15px; font-weight: normal;">ASIGNAR CONDUCTOR</div>
+          </cwc-button>
+        </cwc-cell>
+        <cwc-cell class="flex flex__align--bullseye" style="text-align: end;">
+          <cwc-button variant="link">
+            <div style="font-size: 15px; font-weight: normal;">CANCELAR</div>
+          </cwc-button>
+        </cwc-cell>
+      </cwc-grid>
+    </div>
+  </cwc-card>
+</div>

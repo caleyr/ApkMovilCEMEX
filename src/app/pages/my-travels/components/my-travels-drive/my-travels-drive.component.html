@@ -18,7 +18,7 @@
     </cwc-cell>    
   </cwc-grid>  
   <div [ngSwitch]="selectedTab" class="navbar" style="padding-top: 0.8rem;">
-    <app-previous-trips-list *ngSwitchCase="'anteriores'" [tripsList]="previousTripsList"></app-previous-trips-list>
-    <app-scheduled-trips-list *ngSwitchCase="'programados'" [tripsList]="scheduledTripsList"></app-scheduled-trips-list>
+    <app-previous-trips-list *ngSwitchCase="'anteriores'" [tripsList]="previousTripsList" [sizeList]="sizePrevious"></app-previous-trips-list>
+    <app-scheduled-trips-list *ngSwitchCase="'programados'" [tripsList]="scheduledTripsList" [sizeList]="sizeScheduled"></app-scheduled-trips-list>
   </div>
 </app-layout>

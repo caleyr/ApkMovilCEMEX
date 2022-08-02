@@ -12,6 +12,9 @@ export class MyTravelsDriveComponent implements OnInit {
 
   private userId: string;
   selectedTab: string = 'anteriores';
+  sizePrevious: number;
+  sizeScheduled: number;
+
   previousTripsList: Travel[] = [];
   scheduledTripsList: Travel[] = [];
 
@@ -35,16 +38,19 @@ export class MyTravelsDriveComponent implements OnInit {
         travel.statusTravelAvailabilityString.includes('Completado')
       )
 
+      this.sizePrevious = this.previousTripsList.length;
+
       this.scheduledTripsList = data.filter(travel =>
         travel.statusTravelAvailabilityString.includes('Pre-Turno') ||
         travel.statusTravelAvailabilityString.includes('En turno')
       )
+
+      this.sizeScheduled = this.scheduledTripsList.length;
     })
   }
 
   changeTab(tab: string) {
     this.selectedTab = tab;
-    console.log(this.selectedTab);
   }
 
 }

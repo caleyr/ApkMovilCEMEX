@@ -1,9 +1,6 @@
 import { LoginService } from 'src/app/services/auth/login.service';
-import { Roles } from './../../../interfaces/auth/auth-interface';
 import { Location } from '@angular/common';
-import { NavController } from '@ionic/angular';
 import { TravelService } from './../../../services/travels/travel.service';
-import { Subscription } from 'rxjs';
 import { Travel } from './../../../interfaces/travels/travel';
 import { Component, OnInit } from '@angular/core';
 
@@ -17,7 +14,6 @@ export class DetailsTripPreviousPage implements OnInit {
   id: string;
   rol: string;
   travel = new Travel();
-  suscripcion: Subscription;
 
   constructor(private location : Location,
     private travelService: TravelService,
@@ -25,10 +21,7 @@ export class DetailsTripPreviousPage implements OnInit {
 
   ngOnInit() {
     this.rol = this.loginService.profileUser.Roles;
-    console.log(this.rol);
-    this.suscripcion = this.travelService.refresh$.subscribe(() => {
-      this.getData();
-    });
+    
     this.getData();
   }
 

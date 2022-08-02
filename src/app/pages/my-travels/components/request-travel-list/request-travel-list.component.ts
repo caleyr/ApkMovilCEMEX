@@ -11,15 +11,16 @@ import { Component, Input, OnInit } from '@angular/core';
 export class RequestTravelListComponent implements OnInit {
 
   @Input() tripsList: Travel[];
+  @Input() sizeList: number;
   
   constructor(private travelService: TravelService,
     private navCtrl: NavController) { }
 
   ngOnInit() {}
 
-  detailTrip(code: string){
-    this.travelService.code = code;
-    this.navCtrl.navigateRoot('/app/my-travels/previous-details', {animated:false});
+  detailTrip(id: string){
+    this.travelService.id = id;
+    this.navCtrl.navigateRoot('/app/my-travels/request-details', {animated:false});
   }
 
 }

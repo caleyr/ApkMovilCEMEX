@@ -23,7 +23,6 @@ export class LayoutPage implements OnInit {
     private loginService: LoginService
     ) {
       if(loginService.profileUser.Roles !== "Conductor"){
-        console.log(this.notDriver); 
         this.notDriver = true;
       }         
       this.currentUser();
