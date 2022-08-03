@@ -1,7 +1,7 @@
 import { Location } from '@angular/common';
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { Vehicle } from '../models/vehicle';
-import { Subscription } from 'rxjs';
+import { identity, Subscription } from 'rxjs';
 import { VehiclesService } from '../../../services/vehicles.service';
 import { NavController } from '@ionic/angular';
 import { LoginService } from '../../../services/auth/login.service';
@@ -23,6 +23,8 @@ export class VehicleDetailsPage implements OnInit {
   driverList :  DriverList[] = [];
   suscripcion : Subscription;
 
+  idTercero : string;
+
   addDriver = false;
   alertShow = false;
   driverAssign : string;
@@ -34,7 +36,8 @@ export class VehicleDetailsPage implements OnInit {
     private navCtrl : NavController,
     private driversService : DriversService
     ) { 
-      this.rol = this.loginService.profileUser.Roles
+      this.rol = this.loginService.profileUser.Roles;
+      this.idTercero = this.loginService.profileUser.id;
     }
 
   ngOnInit() {

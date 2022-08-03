@@ -81,7 +81,7 @@
         </cwc-cell>
       </cwc-grid>
       
-      <div style="margin-top: 1rem;" *ngIf="vehicle.userId !== '1'">
+      <div style="margin-top: 1rem;" *ngIf="vehicle.userId !== idTercero">
         <div class="attr-document" >Conductor</div>
         <div style=" border: 0.1px solid #d1d1d1; background: #d1d1d1; margin-bottom: 0.5rem;"></div>
         <div style="display: flex; justify-content: space-between;">
@@ -95,7 +95,7 @@
       </div>
     </div>
   </cwc-card>
-  <cwc-grid class="demo-grid" *ngIf="rol !== 'Hombre Camion' && vehicle.userId === '1' && driverList.length !== 0">
+  <cwc-grid class="demo-grid" *ngIf="rol !== 'Hombre Camion' && vehicle.userId === idTercero">
     <cwc-cell colspan="12" mobile-colspan="12">
         <div class="footer-detal-request">
             <div class="content-btns">

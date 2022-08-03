@@ -5,6 +5,9 @@ import { RequestService } from './../../../../../services/request.service';
 import { NavController } from '@ionic/angular';
 import { TravelService } from './../../../../../services/travels/travel.service';
 import { Component, OnInit } from '@angular/core';
+import { Validators, FormGroup, FormBuilder } from '@angular/forms';
+import { VehiclesService } from '../../../../../services/vehicles.service';
+declare var google;
 
 @Component({
   selector: 'app-request-drive-new',
@@ -13,122 +16,141 @@ import { Component, OnInit } from '@angular/core';
 })
 export class RequestDriveNewComponent implements OnInit {
 
-  sourceList : string[] = [];
-  departamentList : string[] = [];
-  dateList : string[] = [];
-  timeList : string[] = [];
-
-  private data: FormData = new FormData();
-
-  id: string;
   source : string;
   departament : string;
   dataO : string;
   timeO : string;
-  request: Request;
+
+  form : FormGroup;
+  geocoder = null;
+  data : FormData = new FormData();
+  loading: boolean = false;
+
+  id : string;
 
   buttonActivate : boolean = false;
+  alertShow = false;
 
-  constructor(private travelService : TravelService,
-    private requestService: RequestService,
-    private loginService: LoginService,
-    private driversService: DriversService,
-    private navCtrl : NavController) { }
+  constructor(
+    private formBuilder: FormBuilder,
+    private requestService : RequestService,
+    private navCtrl : NavController,
+    private driverS : DriversService,
+    private loginS : LoginService
+    ) { }
 
   ngOnInit() {
-    this.id = this.loginService.profileUser.id;
-    this.getListDepartament();
+    this.formBuilderInput();
+    this.loadGoogle();
+    this.getDataUser();
   }
 
-  getListDepartament(){
-    this.travelService.getTravels().subscribe(data=>{
-      this.departamentList = [...new Set(data.map(item => item.departamentSource))];
+  getDataUser(){
+    this.id = this.loginS.profileUser.id;
+    this.driverS.getDriverById(this.id).subscribe(data=>{
+      this.form.get('DriverId').setValue(this.id);
+      this.form.get('VehicleId').setValue(data.lisenseVehicle);  
     });
   }
 
-  changeDepartament(event){
-    if(event.detail.value == 0){
-      this.sourceList = [];
-      this.timeList = [];
-      this.dateList = [];
-      
-      this.departament = '';
-      this.source = '';
-      this.dataO = '';
-      this.timeO = '';
-    }else{
-      this.departament = event.detail.value;
-      this.travelService.getTravelsSource(event.detail.value).subscribe(data=>{
-        this.sourceList = [...new Set(data.map(item => item.source))];
-      });
-    }    
-  }
-  
-  changeSource(event){
-    if(event.detail.value == 0){
-      this.timeList = [];
-      this.dateList = [];
-
-      this.source = '';
-      this.dataO = '';
-      this.timeO = '';
-    }else{
-      this.source = event.detail.value;
-      this.travelService.getTravelsDate(event.detail.value).subscribe(data=>{
-        this.dateList = [...new Set(data.map(item => item.dateTravel))];
-      });
-    }    
-  }
-  
-  changeDate(event){
-    if(event.detail.value == 0){
-      this.timeList = [];
-      this.dataO = '';
-      this.timeO = '';
-    }else{
-      this.dataO = event.detail.value;
-      this.travelService.getTravelsForHour(event.detail.value).subscribe(data=>{
-        this.timeList = [...new Set(data.map(item => item.timerStar))];
-      });
-    }
+  getStatusField( field: string ) {
+    if ( this.form.controls[field].errors && this.form.controls[field].touched ) return 'error';
+    return 'regular';
   }
 
-  changeHour(event){
-    if(event.detail.value == 0){
-      this.buttonActivate = false;
-    }else{
-      this.timeO = event.detail.value;     
-      this.buttonActivate = true;
-    }
-  }
-
-  sendRequest(){
-    this.request.dateTravels = '1';
-    this.request.origen = this.source;
-    this.request.dateTravels = this.dataO;
-    this.request.timerStar = this.timeO;
-    this.request.driverId = this.id;
-
-    this.getVehicleId(this.id);
-
-    this.addFormData(this.request);
+  getMsgField( field: string, nameField: string ) {
+    let msgError = '';
     
-    this.requestService.createRequest(this.data).subscribe(() => {
-      this.navCtrl.navigateRoot('/app/waiting-list', { animated: false });
+    if ( this.form.controls[field].errors && this.form.controls[field].touched ) {
+      msgError = `El campo ${ nameField } es requerido.`;
+    }
+
+    return msgError;
+  }
+
+  formBuilderInput(){
+    this.form = this.formBuilder.group({
+      Origen: ['', [ Validators.required ]],
+      Destino: ['', [ Validators.required ]],
+      TimerStar: ['', [ Validators.required ]],
+      TimerEnd: ['', [ Validators.required ]],
+      DateTravels: ['', [ Validators.required ]],
+      DriverId: ['', [ Validators.required ]],
+      VehicleId: ['', [ Validators.required ]],
+      StatusRequest: ['1'],
+      TravelsCode: ['1'],
+      CodeRequest: ['1'],
+      DepartamentSource: [''],
+      DepartamentDestiny: ['']
     });
   }
 
-  addFormData(objeto) {
-    for (var key in objeto) {
-      console.log(key);
-      this.data.append(key, objeto[key]);
+  loadGoogle(){
+    this.geocoder = new google.maps.Geocoder();
+  }
+
+  goMyRequest() {
+    this.navCtrl.back();
+  }
+
+  changTimeStar(event){
+    this.form.get('TimerStar').setValue(`${event.detail.hours}:${event.detail.minutes}`);
+  }
+
+  changeTimeEnd(event){
+    this.form.get('TimerEnd').setValue(`${event.detail.hours}:${event.detail.minutes}`);
+  }
+
+  changeDateTime(event){
+    this.form.get('DateTravels').setValue(`${event.detail.getDate()}-${event.detail.getMonth()}-${event.detail.getMonth()}`);
+  }
+
+  async codificacion(direccionText : string, tipo : string){
+    return new Promise((resolve)=>{
+      this.geocoder.geocode({
+        address : direccionText
+        }).then((result)=>{
+          const { results } = result;
+          if(tipo === 'Origen'){
+            this.form.get('DepartamentSource').setValue(results[0].address_components[2].long_name);
+            resolve(result);
+          }else{
+            this.form.get('DepartamentDestiny').setValue(results[0].address_components[2].long_name);
+            resolve(result);
+          }
+      }).catch((e) => {
+        console.log(e);      
+      });
+    });
+  }
+
+  async searchTrips(){
+    if ( this.form.invalid ) {
+      this.form.markAllAsTouched();
+      return;
+    }
+    await this.codificacion( this.getOrigin(), 'Origen');
+    await this.codificacion( this.getDestino(), 'Destino');   
+
+    this.addFormData(this.form.value)
+    this.requestService.createRequest(this.data).subscribe(()=>{      
+      this.alertShow = true;
+      },(error)=>{
+        this.goMyRequest();
+    });
+  }
+
+  async addFormData(objeto){
+    for ( var key in objeto ){   
+      this.data.append(key, objeto[key]);  
     }
   }
 
-  getVehicleId(id: string){
-    this.driversService.getDriverById(id).subscribe(data => {
-      this.request.vehicleId = data.lisenseVehicle;
-    })
+  getOrigin(){
+    return this.form.get('Origen').value;
   }
 
+  getDestino(){
+    return this.form.get('Destino').value;
+  }
 }

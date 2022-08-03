@@ -4,7 +4,7 @@ import { RequestDriveNewComponent } from './components/request-drive-new/request
 import { RequestAdminNewComponent } from './components/request-admin-new/request-admin-new.component';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { IonicModule } from '@ionic/angular';
 
@@ -20,6 +20,7 @@ import { NewRequestPage } from './new-request.page';
     NewRequestPageRoutingModule,
     CmxWebComponentsModule.forRoot(),
     LayoutPageModule,
+    ReactiveFormsModule
   ],
   declarations: [NewRequestPage,
   RequestAdminNewComponent,
