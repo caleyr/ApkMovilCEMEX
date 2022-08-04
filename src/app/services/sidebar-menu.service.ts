@@ -62,38 +62,4 @@ export class SidebarMenuService {
   ];
   return menu;
   }
-
-
-  // menuDriver: any[] = [
-  //   {
-  //     title: 'Inicio',
-  //     icon: 'radio-static',
-  //     url: 'driver/home'
-  //   },
-  //   {
-  //     title: 'Mis viajes',
-  //     icon: 'radio-static',
-  //     url: 'driver/travels'
-  //   },
-  //   {
-  //     title: 'Buscar viaje',
-  //     icon: 'radio-static',
-  //     url: 'driver/search-travel'
-  //   },
-  //   {
-  //     title: 'Notificaciones',
-  //     icon: 'radio-static',
-  //     url: 'driver/notifications'
-  //   },
-  //   {
-  //     title: 'Lista de espera',
-  //     icon: 'radio-static',
-  //     url: 'driver/waiting-list'
-  //   },
-  //   {
-  //     title: 'Llamar a centro de servicio',
-  //     icon: 'radio-static',
-  //     url: 'driver/call-service'
-  //   },
-  // ];
 }

@@ -1,3 +1,4 @@
+import { ActiveTabsService } from './../../../../services/active-tabs.service';
 import { Travel } from './../../../../interfaces/travels/travel';
 import { TravelService } from './../../../../services/travels/travel.service';
 import { LoginService } from 'src/app/services/auth/login.service';
@@ -11,27 +12,34 @@ import { Component, OnInit } from '@angular/core';
 export class MyTravelsAdminComponent implements OnInit {
 
   private companyId: string;
-  selectedTab: string = 'anteriores';
+  selectedTab: string;
   sizePrevious: number;
   sizeScheduled: number;
   sizeRequest: number;
-  
+
   previousTripsList: Travel[] = [];
   scheduledTripsList: Travel[] = [];
   requestTripsList: Travel[] = [];
 
 
   constructor(private loginService: LoginService,
-    private travelService: TravelService) { }
+    private travelService: TravelService,
+    private activeTabsService: ActiveTabsService) { }
 
-  ionViewWillEnter() {
+  ngOnInit() {
+    this.selectedTab = this.activeTabsService.myTravelsTab !== null ? this.activeTabsService.myTravelsTab : 'programados';
     this.companyId = this.loginService.profileUser.CompanyId;
     this.getData();
   }
 
-  ngOnInit() {
+  ionViewWillEnter() {
+    this.selectedTab = this.activeTabsService.myTravelsTab !== null ? this.activeTabsService.myTravelsTab : 'programados';
     this.companyId = this.loginService.profileUser.CompanyId;
     this.getData();
+  }
+
+  ionViewWillUnload(){
+    this.activeTabsService.myTravelsTab = this.selectedTab
   }
 
   getData() {
