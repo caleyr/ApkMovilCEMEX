@@ -69,14 +69,17 @@ let DocumentCompanyComponent = class DocumentCompanyComponent {
         };
     }
     ngOnInit() {
-        this.conveyorService.removeModalPhotoDocumentCompany.subscribe(resp => {
-            this.photoFrontal.webviewPath = '';
+        /*this.conveyorService.removeModalPhotoDocumentCompany.subscribe(resp =>{
+          this.photoFrontal.webviewPath = '';
         });
+        */
     }
     addPhotoDocumentCompany() {
+        /*
         this.conveyorService.addPhotoDocumentCompany.emit();
         this.conveyorService.frontalArchiveDocumentCompany.emit(this.savePhotoFrontal);
         this.conveyorService.closeModalArchiveDocumentCompany.emit(false);
+        */
     }
     openCameraOne() {
         return (0,tslib__WEBPACK_IMPORTED_MODULE_5__.__awaiter)(this, void 0, void 0, function* () {
@@ -93,15 +96,15 @@ let DocumentCompanyComponent = class DocumentCompanyComponent {
     }
     closeModalDocumentCompany() {
         if (this.photoFrontal.webviewPath) {
-            this.conveyorService.closeModalArchiveDocumentCompany.emit(false);
+            //this.conveyorService.closeModalArchiveDocumentCompany.emit(false);
             return;
         }
-        this.conveyorService.closeModalArchiveDocumentCompany.emit(false);
+        //this.conveyorService.closeModalArchiveDocumentCompany.emit(false);
         this.removePhotoFrontal();
     }
     removePhotoFrontal() {
         this.photoFrontal.webviewPath = '';
-        this.conveyorService.removePhotoFrontalIdentityCardDriver.emit();
+        //this.conveyorService.removePhotoFrontalIdentityCardDriver.emit();
     }
 };
 DocumentCompanyComponent.ctorParameters = () => [
@@ -159,16 +162,12 @@ let PhotoIndentityCardComponent = class PhotoIndentityCardComponent {
         };
     }
     ngOnInit() {
-        this.conveyorService.removeModalIdentityCardDriver.subscribe(resp => {
-            this.photoFrontal.webviewPath = '';
-            this.photoBack.webviewPath = '';
-        });
+        /*this.conveyorService.removeModalIdentityCardDriver.subscribe(resp =>{
+          this.photoFrontal.webviewPath = '';
+          this.photoBack.webviewPath = '';
+        });*/
     }
     addIdentityCard() {
-        this.conveyorService.addIdentityCardDriver.emit();
-        this.conveyorService.frontalArchiveIdentityCardDriver.emit(this.savePhotoFrontal);
-        this.conveyorService.backArchiveIdentityCardDriver.emit(this.savePhotoBack);
-        this.conveyorService.closeModalArchiveIdentityCardDriver.emit(false);
     }
     openCameraOne() {
         return (0,tslib__WEBPACK_IMPORTED_MODULE_5__.__awaiter)(this, void 0, void 0, function* () {
@@ -198,20 +197,20 @@ let PhotoIndentityCardComponent = class PhotoIndentityCardComponent {
     }
     closeModalIdentityCard() {
         if (this.photoBack.webviewPath && this.photoFrontal.webviewPath) {
-            this.conveyorService.closeModalArchiveIdentityCardDriver.emit(false);
+            //this.conveyorService.closeModalArchiveIdentityCardDriver.emit(false);
             return;
         }
-        this.conveyorService.closeModalArchiveIdentityCardDriver.emit(false);
+        //this.conveyorService.closeModalArchiveIdentityCardDriver.emit(false);
         this.removePhotoFrontal();
         this.removePhotoBack();
     }
     removePhotoFrontal() {
         this.photoFrontal.webviewPath = '';
-        this.conveyorService.removePhotoFrontalIdentityCardDriver.emit();
+        //this.conveyorService.removePhotoFrontalIdentityCardDriver.emit();
     }
     removePhotoBack() {
         this.photoBack.webviewPath = '';
-        this.conveyorService.removePhotoBackIdentityCardDriver.emit();
+        //this.conveyorService.removePhotoBackIdentityCardDriver.emit();
     }
 };
 PhotoIndentityCardComponent.ctorParameters = () => [
@@ -243,14 +242,16 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "RegisterAdminLogistThirdComponent": () => (/* binding */ RegisterAdminLogistThirdComponent)
 /* harmony export */ });
-/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! tslib */ 34929);
+/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! tslib */ 34929);
 /* harmony import */ var _register_admin_logist_third_component_html_ngResource__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./register-admin-logist-third.component.html?ngResource */ 19256);
 /* harmony import */ var _register_admin_logist_third_component_scss_ngResource__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./register-admin-logist-third.component.scss?ngResource */ 35831);
-/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @angular/core */ 3184);
-/* harmony import */ var _angular_forms__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @angular/forms */ 90587);
-/* harmony import */ var rxjs_operators__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! rxjs/operators */ 80823);
-/* harmony import */ var src_app_services_conveyor_conveyor_service__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! src/app/services/conveyor/conveyor.service */ 88001);
-/* harmony import */ var src_app_services_error_messages_service__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! src/app/services/error-messages.service */ 47486);
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @angular/core */ 3184);
+/* harmony import */ var _angular_forms__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @angular/forms */ 90587);
+/* harmony import */ var rxjs_operators__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! rxjs/operators */ 80823);
+/* harmony import */ var src_app_services_error_messages_service__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! src/app/services/error-messages.service */ 47486);
+/* harmony import */ var _services_companies_companies_service__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../../services/companies/companies.service */ 46605);
+/* harmony import */ var _services_adminLogist_admin_logist_service__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../../../services/adminLogist/admin-logist.service */ 59543);
+
 
 
 
@@ -260,11 +261,12 @@ __webpack_require__.r(__webpack_exports__);
 
 
 let RegisterAdminLogistThirdComponent = class RegisterAdminLogistThirdComponent {
-    constructor(formBuilder, conveyorService, errorMessages) {
+    constructor(formBuilder, companiesService, errorMessages, adminLogistService) {
         this.formBuilder = formBuilder;
-        this.conveyorService = conveyorService;
+        this.companiesService = companiesService;
         this.errorMessages = errorMessages;
-        this.propagar = new _angular_core__WEBPACK_IMPORTED_MODULE_4__.EventEmitter();
+        this.adminLogistService = adminLogistService;
+        this.propagar = new _angular_core__WEBPACK_IMPORTED_MODULE_5__.EventEmitter();
         this.alertSucces = true;
         this.alertConfirm = false;
         this.addIdentityCard = false;
@@ -289,56 +291,27 @@ let RegisterAdminLogistThirdComponent = class RegisterAdminLogistThirdComponent 
         this.statusInputMessageNit = '';
         this.openPhotoIdentityCard = false;
         this.openPhotoDocumentCompany = false;
+        this.formBuilderInput();
+        this.companiesService.getCompanies().subscribe((data) => (0,tslib__WEBPACK_IMPORTED_MODULE_6__.__awaiter)(this, void 0, void 0, function* () {
+            this.listCompanies = data.data;
+        }));
     }
     ngOnInit() {
         this.alertSucces = false;
-        this.formBuilderInput();
-        this.form.get('typeConveyorId').setValue(this.typeConveyor);
-        this.conveyorService.closeModalArchiveDocumentCompany.subscribe(resp => {
-            this.openPhotoDocumentCompany = resp;
-        });
-        this.conveyorService.frontalArchiveDocumentCompany.subscribe(resp => {
-            this.form.get('documentCompany').setValue(resp);
-        });
-        this.conveyorService.addPhotoDocumentCompany.subscribe(resp => {
-            this.addDocumentCompany = true;
-            this.toastMessage = 'Documento de la empresa agregado';
-            const element = document.getElementById('toast-message-driver');
-            element.classList.remove('hide');
-        });
-        this.conveyorService.closeModalArchiveIdentityCardDriver.subscribe(resp => {
-            this.openPhotoIdentityCard = resp;
-        });
-        this.conveyorService.frontalArchiveIdentityCardDriver.subscribe(resp => {
-            this.form.get('documentIdentityCardFrontal').setValue(resp);
-        });
-        this.conveyorService.backArchiveIdentityCardDriver.subscribe(resp => {
-            this.form.get('documentIdentityCardBack').setValue(resp);
-        });
-        this.conveyorService.removePhotoBackIdentityCardDriver.subscribe(resp => {
-            this.form.get('documentIdentityCardFrontal').setValue('');
-        });
-        this.conveyorService.removePhotoBackIdentityCardDriver.subscribe(resp => {
-            this.form.get('documentIdentityCardBack').setValue('');
-        });
-        this.conveyorService.addIdentityCardDriver.subscribe(resp => {
-            this.addIdentityCard = true;
-            this.toastMessage = 'Cédula de ciudadanía agregada';
-            const element = document.getElementById('toast-message-driver');
-            element.classList.remove('hide');
-        });
+    }
+    cwcChange(event) {
+        this.form.get('CompanyId').setValue(`${event.detail.value}`);
     }
     register() {
-        return (0,tslib__WEBPACK_IMPORTED_MODULE_5__.__awaiter)(this, void 0, void 0, function* () {
+        return (0,tslib__WEBPACK_IMPORTED_MODULE_6__.__awaiter)(this, void 0, void 0, function* () {
             if (this.form.invalid) {
                 return;
             }
+            this.data = new FormData();
+            this.addFormData(this.form.value);
             this.propagar.emit(true);
-            yield this.conveyorService.registerAdminLogistThird(this.form.value).subscribe((resp) => (0,tslib__WEBPACK_IMPORTED_MODULE_5__.__awaiter)(this, void 0, void 0, function* () {
+            yield this.adminLogistService.createAdminLogistThird(this.data).subscribe((resp) => (0,tslib__WEBPACK_IMPORTED_MODULE_6__.__awaiter)(this, void 0, void 0, function* () {
                 this.propagar.emit(false);
-                this.form.reset();
-                this.conveyorService.removeModalIdentityCardDriver.emit();
-                this.conveyorService.removeModalPhotoDocumentCompany.emit();
                 this.alertSucces = true;
                 this.addIdentityCard = false;
                 this.addDocumentCompany = false;
@@ -346,14 +319,22 @@ let RegisterAdminLogistThirdComponent = class RegisterAdminLogistThirdComponent 
                 this.alertSucces = true;
                 this.errors = [];
             }), (error) => {
+                console.log(error);
                 this.propagar.emit(false);
                 this.errors = this.errorMessages.parsearErroresAPI(error);
             });
         });
     }
+    addFormData(objeto) {
+        return (0,tslib__WEBPACK_IMPORTED_MODULE_6__.__awaiter)(this, void 0, void 0, function* () {
+            for (var key in objeto) {
+                this.data.append(key, objeto[key]);
+            }
+        });
+    }
     removeDocumentCompany() {
         this.form.get('documentCompany').setValue('');
-        this.conveyorService.removeModalPhotoDocumentCompany.emit();
+        //this.conveyorService.removeModalPhotoDocumentCompany.emit();
         this.addDocumentCompany = false;
         this.toastMessage = 'Se eliminó el documento de la empresa';
         const element = document.getElementById('toast-message-driver');
@@ -362,7 +343,7 @@ let RegisterAdminLogistThirdComponent = class RegisterAdminLogistThirdComponent 
     removeIdentityCard() {
         this.form.get('documentIdentityCardFrontal').setValue('');
         this.form.get('documentIdentityCardBack').setValue('');
-        this.conveyorService.removeModalIdentityCardDriver.emit();
+        //this.conveyorService.removeModalIdentityCardDriver.emit();
         this.addIdentityCard = false;
         this.toastMessage = 'Se eliminó la cédula de ciudadanía';
         const element = document.getElementById('toast-message-driver');
@@ -378,7 +359,12 @@ let RegisterAdminLogistThirdComponent = class RegisterAdminLogistThirdComponent 
         this.alertConfirm = false;
     }
     openModalPhotoIdentityCard() {
-        this.openPhotoIdentityCard = true;
+        if (this.openPhotoIdentityCard = true) {
+            this.openPhotoIdentityCard = false;
+        }
+        else {
+            this.openPhotoIdentityCard = true;
+        }
     }
     openModalPhotoDocumentCompany() {
         this.openPhotoDocumentCompany = true;
@@ -388,44 +374,23 @@ let RegisterAdminLogistThirdComponent = class RegisterAdminLogistThirdComponent 
     =============================================*/
     formBuilderInput() {
         this.form = this.formBuilder.group({
-            typeConveyorId: ['', [
-                    _angular_forms__WEBPACK_IMPORTED_MODULE_6__.Validators.required,
-                ]],
-            firstName: ['', [
-                    _angular_forms__WEBPACK_IMPORTED_MODULE_6__.Validators.required,
-                ]],
-            lastName: ['', [
-                    _angular_forms__WEBPACK_IMPORTED_MODULE_6__.Validators.required,
-                ]],
-            email: ['', [
-                    _angular_forms__WEBPACK_IMPORTED_MODULE_6__.Validators.required,
-                    _angular_forms__WEBPACK_IMPORTED_MODULE_6__.Validators.email
-                ]],
-            document: ['', [
-                    _angular_forms__WEBPACK_IMPORTED_MODULE_6__.Validators.required,
-                ]],
-            role: ['AdminLogis', [
-                    _angular_forms__WEBPACK_IMPORTED_MODULE_6__.Validators.required,
-                ]],
-            phoneNumber: ['', [
-                    _angular_forms__WEBPACK_IMPORTED_MODULE_6__.Validators.required,
-                    _angular_forms__WEBPACK_IMPORTED_MODULE_6__.Validators.minLength(10),
-                    _angular_forms__WEBPACK_IMPORTED_MODULE_6__.Validators.maxLength(10),
-                    _angular_forms__WEBPACK_IMPORTED_MODULE_6__.Validators.pattern('^[0-9]*$')
-                ]],
-            nameCompany: ['', [
-                    _angular_forms__WEBPACK_IMPORTED_MODULE_6__.Validators.required,
-                ]],
-            nitCompany: ['', [
-                    _angular_forms__WEBPACK_IMPORTED_MODULE_6__.Validators.required,
-                ]],
-            documentCompany: '',
-            documentIdentityCardFrontal: '',
-            documentIdentityCardBack: '',
+            FirstName: ['', [_angular_forms__WEBPACK_IMPORTED_MODULE_7__.Validators.required,]],
+            LastName: ['', [_angular_forms__WEBPACK_IMPORTED_MODULE_7__.Validators.required,]],
+            Password: ['', [_angular_forms__WEBPACK_IMPORTED_MODULE_7__.Validators.required,]],
+            Email: ['', [_angular_forms__WEBPACK_IMPORTED_MODULE_7__.Validators.required, _angular_forms__WEBPACK_IMPORTED_MODULE_7__.Validators.email]],
+            CompanyId: ['', [_angular_forms__WEBPACK_IMPORTED_MODULE_7__.Validators.required,]],
+            Roles: ['Administrador Logistico Tercero', [_angular_forms__WEBPACK_IMPORTED_MODULE_7__.Validators.required,]],
+            PhoneNumber: ['', [
+                    _angular_forms__WEBPACK_IMPORTED_MODULE_7__.Validators.required,
+                    _angular_forms__WEBPACK_IMPORTED_MODULE_7__.Validators.minLength(10),
+                    _angular_forms__WEBPACK_IMPORTED_MODULE_7__.Validators.maxLength(10),
+                    _angular_forms__WEBPACK_IMPORTED_MODULE_7__.Validators.pattern('^[0-9]*$')
+                ]]
         });
         this.form.valueChanges
-            .pipe((0,rxjs_operators__WEBPACK_IMPORTED_MODULE_7__.debounceTime)(350))
+            .pipe((0,rxjs_operators__WEBPACK_IMPORTED_MODULE_8__.debounceTime)(350))
             .subscribe(data => {
+            console.log(data);
             this.validateInput();
         });
     }
@@ -433,7 +398,7 @@ let RegisterAdminLogistThirdComponent = class RegisterAdminLogistThirdComponent 
     FUNCIÓN PARA VALIDAR LOS CAMPOS
    =============================================*/
     validateInput() {
-        if (this.form.get('firstName').errors && this.form.get('firstName').dirty) {
+        if (this.form.get('FirstName').errors && this.form.get('FirstName').dirty) {
             this.statusInputName = 'error';
             this.statusInputMessageName = 'Este campo es requerido';
         }
@@ -441,7 +406,7 @@ let RegisterAdminLogistThirdComponent = class RegisterAdminLogistThirdComponent 
             this.statusInputName = 'regular';
             this.statusInputMessageName = '';
         }
-        if (this.form.get('lastName').errors && this.form.get('lastName').dirty) {
+        if (this.form.get('LastName').errors && this.form.get('LastName').dirty) {
             this.statusInputLastName = 'error';
             this.statusInputMessageLastName = 'Este campo es requerido';
         }
@@ -449,8 +414,8 @@ let RegisterAdminLogistThirdComponent = class RegisterAdminLogistThirdComponent 
             this.statusInputLastName = 'regular';
             this.statusInputMessageLastName = '';
         }
-        if (this.form.get('email').errors && this.form.get('email').dirty) {
-            if (this.form.get('email').errors.email) {
+        if (this.form.get('Email').errors && this.form.get('Email').dirty) {
+            if (this.form.get('Email').errors.email) {
                 this.statusInputEmail = 'error';
                 this.statusInputMessageEmail = 'Ingrese un correo electrónico válido';
             }
@@ -463,16 +428,8 @@ let RegisterAdminLogistThirdComponent = class RegisterAdminLogistThirdComponent 
             this.statusInputEmail = 'regular';
             this.statusInputMessageEmail = '';
         }
-        if (this.form.get('document').errors && this.form.get('document').dirty) {
-            this.statusInputDocument = 'error';
-            this.statusInputMessageDocument = 'Este campo es requerido';
-        }
-        else {
-            this.statusInputDocument = 'regular';
-            this.statusInputMessageDocument = '';
-        }
-        if (this.form.get('phoneNumber').errors && this.form.get('phoneNumber').dirty) {
-            if (this.form.get('phoneNumber').errors.minlength || this.form.get('phoneNumber').errors.maxlength) {
+        if (this.form.get('PhoneNumber').errors && this.form.get('PhoneNumber').dirty) {
+            if (this.form.get('PhoneNumber').errors.minlength || this.form.get('PhoneNumber').errors.maxlength) {
                 this.statusInputPhone = 'error';
                 this.statusInputMessagePhone = 'Ingrese un número de celular válido';
             }
@@ -485,35 +442,20 @@ let RegisterAdminLogistThirdComponent = class RegisterAdminLogistThirdComponent 
             this.statusInputPhone = 'regular';
             this.statusInputMessagePhone = '';
         }
-        if (this.form.get('nameCompany').errors && this.form.get('nameCompany').dirty) {
-            this.statusInputCompany = 'error';
-            this.statusInputMessageCompany = 'Este campo es requerido';
-        }
-        else {
-            this.statusInputCompany = 'regular';
-            this.statusInputMessageCompany = '';
-        }
-        if (this.form.get('nitCompany').errors && this.form.get('nitCompany').dirty) {
-            this.statusInputNit = 'error';
-            this.statusInputMessageNit = 'Este campo es requerido';
-        }
-        else {
-            this.statusInputNit = 'regular';
-            this.statusInputMessageNit = '';
-        }
     }
 };
 RegisterAdminLogistThirdComponent.ctorParameters = () => [
-    { type: _angular_forms__WEBPACK_IMPORTED_MODULE_6__.FormBuilder },
-    { type: src_app_services_conveyor_conveyor_service__WEBPACK_IMPORTED_MODULE_2__.ConveyorService },
-    { type: src_app_services_error_messages_service__WEBPACK_IMPORTED_MODULE_3__.ErrorMessagesService }
+    { type: _angular_forms__WEBPACK_IMPORTED_MODULE_7__.FormBuilder },
+    { type: _services_companies_companies_service__WEBPACK_IMPORTED_MODULE_3__.CompaniesService },
+    { type: src_app_services_error_messages_service__WEBPACK_IMPORTED_MODULE_2__.ErrorMessagesService },
+    { type: _services_adminLogist_admin_logist_service__WEBPACK_IMPORTED_MODULE_4__.AdminLogistService }
 ];
 RegisterAdminLogistThirdComponent.propDecorators = {
-    typeConveyor: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_4__.Input }],
-    propagar: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_4__.Output }]
+    typeConveyor: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_5__.Input }],
+    propagar: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_5__.Output }]
 };
-RegisterAdminLogistThirdComponent = (0,tslib__WEBPACK_IMPORTED_MODULE_5__.__decorate)([
-    (0,_angular_core__WEBPACK_IMPORTED_MODULE_4__.Component)({
+RegisterAdminLogistThirdComponent = (0,tslib__WEBPACK_IMPORTED_MODULE_6__.__decorate)([
+    (0,_angular_core__WEBPACK_IMPORTED_MODULE_5__.Component)({
         selector: 'app-register-admin-logist-third',
         template: _register_admin_logist_third_component_html_ngResource__WEBPACK_IMPORTED_MODULE_0__,
         styles: [_register_admin_logist_third_component_scss_ngResource__WEBPACK_IMPORTED_MODULE_1__]
@@ -563,25 +505,25 @@ let PhotoDrivingLicenceComponent = class PhotoDrivingLicenceComponent {
         this.platform = platform;
     }
     ngOnInit() {
-        this.conveyorService.removeModalLicenceDriver.subscribe(resp => {
-            this.photoFrontal.webviewPath = '';
-            this.photoBack.webviewPath = '';
-        });
+        /*this.conveyorService.removeModalLicenceDriver.subscribe(resp =>{
+          this.photoFrontal.webviewPath = '';
+          this.photoBack.webviewPath = '';
+        });*/
     }
     addLicence() {
-        this.conveyorService.addLicenceDriver.emit();
+        /*this.conveyorService.addLicenceDriver.emit();
         this.conveyorService.frontalArchiveLicenceDriver.emit(this.savePhotoFrontal);
         this.conveyorService.backArchiveLicenceDriver.emit(this.savePhotoBack);
-        this.conveyorService.closeModalArchiveLicenceDriver.emit(false);
+        this.conveyorService.closeModalArchiveLicenceDriver.emit(false);*/
     }
     closeModalLicence() {
         if (this.photoBack.webviewPath && this.photoFrontal.webviewPath) {
-            this.conveyorService.closeModalArchiveLicenceDriver.emit(false);
+            //this.conveyorService.closeModalArchiveLicenceDriver.emit(false);
             return;
         }
-        this.conveyorService.closeModalArchiveLicenceDriver.emit(false);
+        /*this.conveyorService.closeModalArchiveLicenceDriver.emit(false);
         this.removePhotoFrontal();
-        this.removePhotoBack();
+        this.removePhotoBack();*/
     }
     openCameraOne() {
         return (0,tslib__WEBPACK_IMPORTED_MODULE_5__.__awaiter)(this, void 0, void 0, function* () {
@@ -611,11 +553,11 @@ let PhotoDrivingLicenceComponent = class PhotoDrivingLicenceComponent {
     }
     removePhotoFrontal() {
         this.photoFrontal.webviewPath = '';
-        this.conveyorService.removePhotoFrontalLicenceDriver.emit();
+        //this.conveyorService.removePhotoFrontalLicenceDriver.emit();
     }
     removePhotoBack() {
         this.photoBack.webviewPath = '';
-        this.conveyorService.removePhotoBackLicenceDriver.emit();
+        //this.conveyorService.removePhotoBackLicenceDriver.emit();
     }
 };
 PhotoDrivingLicenceComponent.ctorParameters = () => [
@@ -648,14 +590,15 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "RegisterDriverComponent": () => (/* binding */ RegisterDriverComponent)
 /* harmony export */ });
-/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! tslib */ 34929);
+/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! tslib */ 34929);
 /* harmony import */ var _register_driver_component_html_ngResource__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./register-driver.component.html?ngResource */ 59221);
 /* harmony import */ var _register_driver_component_scss_ngResource__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./register-driver.component.scss?ngResource */ 84357);
-/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @angular/core */ 3184);
-/* harmony import */ var _angular_forms__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @angular/forms */ 90587);
-/* harmony import */ var rxjs_operators__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! rxjs/operators */ 80823);
-/* harmony import */ var src_app_services_conveyor_conveyor_service__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! src/app/services/conveyor/conveyor.service */ 88001);
-/* harmony import */ var src_app_services_error_messages_service__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! src/app/services/error-messages.service */ 47486);
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @angular/core */ 3184);
+/* harmony import */ var _angular_forms__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @angular/forms */ 90587);
+/* harmony import */ var rxjs_operators__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! rxjs/operators */ 80823);
+/* harmony import */ var src_app_services_error_messages_service__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! src/app/services/error-messages.service */ 47486);
+/* harmony import */ var _services_companies_companies_service__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../../services/companies/companies.service */ 46605);
+/* harmony import */ var _services_adminLogist_admin_logist_service__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../../../services/adminLogist/admin-logist.service */ 59543);
 
 
 
@@ -665,22 +608,21 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
 let RegisterDriverComponent = class RegisterDriverComponent {
-    constructor(formBuilder, conveyorService, errorMessages) {
+    constructor(formBuilder, companiesService, errorMessages, adminLogistService) {
         this.formBuilder = formBuilder;
-        this.conveyorService = conveyorService;
+        this.companiesService = companiesService;
         this.errorMessages = errorMessages;
-        this.listConveyors = [];
-        this.propagar = new _angular_core__WEBPACK_IMPORTED_MODULE_4__.EventEmitter();
-        this.alertSucces = false;
+        this.adminLogistService = adminLogistService;
+        this.propagar = new _angular_core__WEBPACK_IMPORTED_MODULE_5__.EventEmitter();
+        this.listCompanies = [];
+        this.loadingCompanies = true;
+        this.alertSucces = true;
         this.alertConfirm = false;
-        this.addLicence = false;
-        this.addSecurityCard = false;
         this.addIdentityCard = false;
+        this.addDocumentCompany = false;
         this.toastMessage = '';
-        this.openPhotoDrivingLicence = false;
-        this.openPhotoIdentityCard = false;
-        this.openPhotoSecurityCard = false;
         this.errors = [];
         this.statusInputName = 'regular';
         this.statusInputMessageName = '';
@@ -694,150 +636,66 @@ let RegisterDriverComponent = class RegisterDriverComponent {
         this.statusInputMessageSap = '';
         this.statusInputPhone = 'regular';
         this.statusInputMessagePhone = '';
-        this.statusInputConveyor = 'regular';
-        this.statusInputMessageConveyor = '';
-        this.monthSelected = new _angular_core__WEBPACK_IMPORTED_MODULE_4__.EventEmitter();
-    }
-    ngOnDestroy() {
-        this.listConveyors = [];
-        this.form = null;
+        this.statusInputCompany = 'regular';
+        this.statusInputMessageCompany = '';
+        this.statusInputNit = 'regular';
+        this.statusInputMessageNit = '';
+        this.openPhotoIdentityCard = false;
+        this.openPhotoDocumentCompany = false;
+        this.alertSucces = false;
+        this.formBuilderInput();
     }
     ngOnInit() {
-        this.formBuilderInput();
-        this.getConveyors();
-        this.form.get('typeConveyorId').setValue(this.typeConveyor);
-        this.conveyorService.closeModalArchiveSecurityCard.subscribe(resp => {
-            this.openPhotoSecurityCard = resp;
-        });
-        this.conveyorService.frontalArchiveSecurityCard.subscribe(resp => {
-            this.form.get('documentSecurityCard').setValue(resp);
-        });
-        this.conveyorService.removePhotoFrontalSecurityCard.subscribe(resp => {
-            this.form.get('documentSecurityCard').setValue('');
-        });
-        this.conveyorService.addPhotoSecurityCard.subscribe(resp => {
-            this.addSecurityCard = true;
-            this.toastMessage = 'Carné de seguridad agregado';
-            const element = document.getElementById('toast-message-driver');
-            element.classList.remove('hide');
-        });
-        this.conveyorService.closeModalArchiveLicenceDriver.subscribe(resp => {
-            this.openPhotoDrivingLicence = resp;
-        });
-        this.conveyorService.frontalArchiveLicenceDriver.subscribe(resp => {
-            this.form.get('documentDrivinglicenseFrontal').setValue(resp);
-        });
-        this.conveyorService.backArchiveLicenceDriver.subscribe(resp => {
-            this.form.get('documentDrivinglicenseBack').setValue(resp);
-        });
-        this.conveyorService.removePhotoFrontalLicenceDriver.subscribe(resp => {
-            this.form.get('documentDrivinglicenseFrontal').setValue('');
-        });
-        this.conveyorService.removePhotoBackLicenceDriver.subscribe(resp => {
-            this.form.get('documentDrivinglicenseBack').setValue('');
-        });
-        this.conveyorService.addLicenceDriver.subscribe(resp => {
-            this.addLicence = true;
-            this.toastMessage = 'Licencia de conducción agregada';
-            const element = document.getElementById('toast-message-driver');
-            element.classList.remove('hide');
-        });
-        this.conveyorService.closeModalArchiveIdentityCardDriver.subscribe(resp => {
-            this.openPhotoIdentityCard = resp;
-        });
-        this.conveyorService.frontalArchiveIdentityCardDriver.subscribe(resp => {
-            this.form.get('documentIdentityCardFrontal').setValue(resp);
-        });
-        this.conveyorService.backArchiveIdentityCardDriver.subscribe(resp => {
-            this.form.get('documentIdentityCardBack').setValue(resp);
-        });
-        this.conveyorService.removePhotoBackIdentityCardDriver.subscribe(resp => {
-            this.form.get('documentIdentityCardFrontal').setValue('');
-        });
-        this.conveyorService.removePhotoBackIdentityCardDriver.subscribe(resp => {
-            this.form.get('documentIdentityCardBack').setValue('');
-        });
-        this.conveyorService.addIdentityCardDriver.subscribe(resp => {
-            this.addIdentityCard = true;
-            this.toastMessage = 'Cédula de ciudadanía agregada';
-            const element = document.getElementById('toast-message-driver');
-            element.classList.remove('hide');
+        return (0,tslib__WEBPACK_IMPORTED_MODULE_6__.__awaiter)(this, void 0, void 0, function* () {
+            this.companiesService.getCompanies().subscribe(result => {
+                this.listCompanies = result.data;
+            });
         });
     }
+    cwcChange(event) {
+        this.form.get('CompanyId').setValue(`${event.detail.value}`);
+    }
     register() {
-        return (0,tslib__WEBPACK_IMPORTED_MODULE_5__.__awaiter)(this, void 0, void 0, function* () {
+        return (0,tslib__WEBPACK_IMPORTED_MODULE_6__.__awaiter)(this, void 0, void 0, function* () {
             if (this.form.invalid) {
                 return;
             }
+            this.data = new FormData();
+            this.addFormData(this.form.value);
             this.propagar.emit(true);
-            if (this.form.get('conveyorId').errors && this.form.get('conveyorId').dirty) {
-                this.statusInputConveyor = 'error';
-                this.statusInputMessageConveyor = 'Debe seleccionar un transportador';
-                this.propagar.emit(false);
-                return;
-            }
-            else {
-                this.statusInputConveyor = 'regular';
-                this.statusInputMessageConveyor = '';
-            }
-            yield this.conveyorService.registerDriver(this.form.value).subscribe((resp) => (0,tslib__WEBPACK_IMPORTED_MODULE_5__.__awaiter)(this, void 0, void 0, function* () {
-                this.propagar.emit(false);
-                this.form.reset();
-                this.conveyorService.removeModalLicenceDriver.emit();
-                this.conveyorService.removeModalIdentityCardDriver.emit();
-                this.conveyorService.removeModalSecurityCard.emit();
-                this.addLicence = false;
-                this.addIdentityCard = false;
-                this.addSecurityCard = false;
-                this.alertConfirm = false;
-                this.alertSucces = true;
-                this.errors = [];
+            yield this.adminLogistService.createDriver(this.data).subscribe((resp) => (0,tslib__WEBPACK_IMPORTED_MODULE_6__.__awaiter)(this, void 0, void 0, function* () {
+                alert(resp);
+                /*
+                 this.propagar.emit(false);
+                 this.alertSucces = true;
+                 this.addIdentityCard = false;
+                 this.addDocumentCompany = false;
+                 this.alertConfirm = false;
+                 this.alertSucces = true;
+                 this.errors = [];*/
             }), (error) => {
-                this.propagar.emit(false);
-                this.errors = this.errorMessages.parsearErroresAPI(error);
-                this.alertConfirm = false;
             });
         });
     }
-    getConveyors() {
-        return (0,tslib__WEBPACK_IMPORTED_MODULE_5__.__awaiter)(this, void 0, void 0, function* () {
-            yield this.conveyorService.getConveyors().subscribe((resp) => (0,tslib__WEBPACK_IMPORTED_MODULE_5__.__awaiter)(this, void 0, void 0, function* () {
-                this.listConveyors = resp;
-            }), (error) => {
-                this.errorMessages.parsearErroresAPI(error);
-            });
+    addFormData(objeto) {
+        return (0,tslib__WEBPACK_IMPORTED_MODULE_6__.__awaiter)(this, void 0, void 0, function* () {
+            for (var key in objeto) {
+                this.data.append(key, objeto[key]);
+            }
         });
     }
-    openModalPhotoLicence() {
-        this.openPhotoDrivingLicence = true;
-    }
-    openModalPhotoIdentityCard() {
-        this.openPhotoIdentityCard = true;
-    }
-    openModalPhotoSecurityCard() {
-        this.openPhotoSecurityCard = true;
-    }
-    removeLicence() {
-        this.form.get('documentDrivinglicenseFrontal').setValue('');
-        this.form.get('documentDrivinglicenseBack').setValue('');
-        this.conveyorService.removeModalLicenceDriver.emit();
-        this.addLicence = false;
-        this.toastMessage = 'Se eliminó la licencia de conducción';
-        const element = document.getElementById('toast-message-driver');
-        element.classList.remove('hide');
-    }
-    removeSecurityCard() {
-        this.form.get('documentSecurityCard').setValue('');
-        this.conveyorService.removeModalSecurityCard.emit();
-        this.addSecurityCard = false;
-        this.toastMessage = 'Se eliminó el carné de seguridad';
+    removeDocumentCompany() {
+        this.form.get('documentCompany').setValue('');
+        //this.conveyorService.removeModalPhotoDocumentCompany.emit();
+        this.addDocumentCompany = false;
+        this.toastMessage = 'Se eliminó el documento de la empresa';
         const element = document.getElementById('toast-message-driver');
         element.classList.remove('hide');
     }
     removeIdentityCard() {
         this.form.get('documentIdentityCardFrontal').setValue('');
         this.form.get('documentIdentityCardBack').setValue('');
-        this.conveyorService.removeModalIdentityCardDriver.emit();
+        //this.conveyorService.removeModalIdentityCardDriver.emit();
         this.addIdentityCard = false;
         this.toastMessage = 'Se eliminó la cédula de ciudadanía';
         const element = document.getElementById('toast-message-driver');
@@ -852,59 +710,41 @@ let RegisterDriverComponent = class RegisterDriverComponent {
     closeAlertConfirm() {
         this.alertConfirm = false;
     }
-    cwcChange(data) {
-        if (data) {
-            // eslint-disable-next-line radix
-            const conveyorId = parseInt(data.detail.value);
-            this.form.get('conveyorId').setValue(conveyorId);
+    openModalPhotoIdentityCard() {
+        if (this.openPhotoIdentityCard = true) {
+            this.openPhotoIdentityCard = false;
         }
+        else {
+            this.openPhotoIdentityCard = true;
+        }
+    }
+    openModalPhotoDocumentCompany() {
+        this.openPhotoDocumentCompany = true;
     }
     /*=============================================
      FORMULARIO REACTIVOS
     =============================================*/
     formBuilderInput() {
         this.form = this.formBuilder.group({
-            typeConveyorId: ['', [
-                    _angular_forms__WEBPACK_IMPORTED_MODULE_6__.Validators.required,
-                ]],
-            conveyorId: ['', [
-                    _angular_forms__WEBPACK_IMPORTED_MODULE_6__.Validators.required,
-                ]],
-            firstName: ['', [
-                    _angular_forms__WEBPACK_IMPORTED_MODULE_6__.Validators.required,
-                ]],
-            lastName: ['', [
-                    _angular_forms__WEBPACK_IMPORTED_MODULE_6__.Validators.required,
-                ]],
-            email: ['', [
-                    _angular_forms__WEBPACK_IMPORTED_MODULE_6__.Validators.required,
-                    _angular_forms__WEBPACK_IMPORTED_MODULE_6__.Validators.email
-                ]],
-            document: ['', [
-                    _angular_forms__WEBPACK_IMPORTED_MODULE_6__.Validators.required,
-                ]],
-            role: ['Driver', [
-                    _angular_forms__WEBPACK_IMPORTED_MODULE_6__.Validators.required,
-                ]],
-            codeSap: ['', [
-                    _angular_forms__WEBPACK_IMPORTED_MODULE_6__.Validators.required,
-                ]],
-            phoneNumber: ['', [
-                    _angular_forms__WEBPACK_IMPORTED_MODULE_6__.Validators.required,
-                    _angular_forms__WEBPACK_IMPORTED_MODULE_6__.Validators.minLength(10),
-                    _angular_forms__WEBPACK_IMPORTED_MODULE_6__.Validators.maxLength(10),
-                    _angular_forms__WEBPACK_IMPORTED_MODULE_6__.Validators.pattern('^[0-9]*$')
-                ]],
-            documentDrivinglicenseFrontal: '',
-            documentDrivinglicenseBack: '',
-            documentIdentityCardFrontal: '',
-            documentIdentityCardBack: '',
-            documentSecurityCard: '',
+            FirstName: ['', [_angular_forms__WEBPACK_IMPORTED_MODULE_7__.Validators.required,]],
+            LastName: ['', [_angular_forms__WEBPACK_IMPORTED_MODULE_7__.Validators.required,]],
+            Password: ['', [_angular_forms__WEBPACK_IMPORTED_MODULE_7__.Validators.required,]],
+            Email: ['', [_angular_forms__WEBPACK_IMPORTED_MODULE_7__.Validators.required, _angular_forms__WEBPACK_IMPORTED_MODULE_7__.Validators.email]],
+            CompanyId: ['', [_angular_forms__WEBPACK_IMPORTED_MODULE_7__.Validators.required,]],
+            Roles: ['Conductor', [_angular_forms__WEBPACK_IMPORTED_MODULE_7__.Validators.required,]],
+            Document: ['', [_angular_forms__WEBPACK_IMPORTED_MODULE_7__.Validators.required,]],
+            SapCode: ['', [_angular_forms__WEBPACK_IMPORTED_MODULE_7__.Validators.required,]],
+            PhoneNumber: ['', [
+                    _angular_forms__WEBPACK_IMPORTED_MODULE_7__.Validators.required,
+                    _angular_forms__WEBPACK_IMPORTED_MODULE_7__.Validators.minLength(10),
+                    _angular_forms__WEBPACK_IMPORTED_MODULE_7__.Validators.maxLength(10),
+                    _angular_forms__WEBPACK_IMPORTED_MODULE_7__.Validators.pattern('^[0-9]*$')
+                ]]
         });
-        this.form.patchValue(this.modelo);
         this.form.valueChanges
-            .pipe((0,rxjs_operators__WEBPACK_IMPORTED_MODULE_7__.debounceTime)(350))
+            .pipe((0,rxjs_operators__WEBPACK_IMPORTED_MODULE_8__.debounceTime)(350))
             .subscribe(data => {
+            console.log(data);
             this.validateInput();
         });
     }
@@ -912,7 +752,7 @@ let RegisterDriverComponent = class RegisterDriverComponent {
     FUNCIÓN PARA VALIDAR LOS CAMPOS
    =============================================*/
     validateInput() {
-        if (this.form.get('firstName').errors && this.form.get('firstName').dirty) {
+        if (this.form.get('FirstName').errors && this.form.get('FirstName').dirty) {
             this.statusInputName = 'error';
             this.statusInputMessageName = 'Este campo es requerido';
         }
@@ -920,7 +760,7 @@ let RegisterDriverComponent = class RegisterDriverComponent {
             this.statusInputName = 'regular';
             this.statusInputMessageName = '';
         }
-        if (this.form.get('lastName').errors && this.form.get('lastName').dirty) {
+        if (this.form.get('LastName').errors && this.form.get('LastName').dirty) {
             this.statusInputLastName = 'error';
             this.statusInputMessageLastName = 'Este campo es requerido';
         }
@@ -928,8 +768,8 @@ let RegisterDriverComponent = class RegisterDriverComponent {
             this.statusInputLastName = 'regular';
             this.statusInputMessageLastName = '';
         }
-        if (this.form.get('email').errors && this.form.get('email').dirty) {
-            if (this.form.get('email').errors.email) {
+        if (this.form.get('Email').errors && this.form.get('Email').dirty) {
+            if (this.form.get('Email').errors.email) {
                 this.statusInputEmail = 'error';
                 this.statusInputMessageEmail = 'Ingrese un correo electrónico válido';
             }
@@ -942,24 +782,8 @@ let RegisterDriverComponent = class RegisterDriverComponent {
             this.statusInputEmail = 'regular';
             this.statusInputMessageEmail = '';
         }
-        if (this.form.get('document').errors && this.form.get('document').dirty) {
-            this.statusInputDocument = 'error';
-            this.statusInputMessageDocument = 'Este campo es requerido';
-        }
-        else {
-            this.statusInputDocument = 'regular';
-            this.statusInputMessageDocument = '';
-        }
-        if (this.form.get('codeSap').errors && this.form.get('codeSap').dirty) {
-            this.statusInputSap = 'error';
-            this.statusInputMessageSap = 'Este campo es requerido';
-        }
-        else {
-            this.statusInputSap = 'regular';
-            this.statusInputMessageSap = '';
-        }
-        if (this.form.get('phoneNumber').errors && this.form.get('phoneNumber').dirty) {
-            if (this.form.get('phoneNumber').errors.minlength || this.form.get('phoneNumber').errors.maxlength) {
+        if (this.form.get('PhoneNumber').errors && this.form.get('PhoneNumber').dirty) {
+            if (this.form.get('PhoneNumber').errors.minlength || this.form.get('PhoneNumber').errors.maxlength) {
                 this.statusInputPhone = 'error';
                 this.statusInputMessagePhone = 'Ingrese un número de celular válido';
             }
@@ -972,28 +796,20 @@ let RegisterDriverComponent = class RegisterDriverComponent {
             this.statusInputPhone = 'regular';
             this.statusInputMessagePhone = '';
         }
-        if (this.form.get('conveyorId').errors && this.form.get('conveyorId').dirty) {
-            this.statusInputConveyor = 'error';
-            this.statusInputMessageConveyor = 'Debe seleccionar un transportador';
-        }
-        else {
-            this.statusInputConveyor = 'regular';
-            this.statusInputMessageConveyor = '';
-        }
     }
 };
 RegisterDriverComponent.ctorParameters = () => [
-    { type: _angular_forms__WEBPACK_IMPORTED_MODULE_6__.FormBuilder },
-    { type: src_app_services_conveyor_conveyor_service__WEBPACK_IMPORTED_MODULE_2__.ConveyorService },
-    { type: src_app_services_error_messages_service__WEBPACK_IMPORTED_MODULE_3__.ErrorMessagesService }
+    { type: _angular_forms__WEBPACK_IMPORTED_MODULE_7__.FormBuilder },
+    { type: _services_companies_companies_service__WEBPACK_IMPORTED_MODULE_3__.CompaniesService },
+    { type: src_app_services_error_messages_service__WEBPACK_IMPORTED_MODULE_2__.ErrorMessagesService },
+    { type: _services_adminLogist_admin_logist_service__WEBPACK_IMPORTED_MODULE_4__.AdminLogistService }
 ];
 RegisterDriverComponent.propDecorators = {
-    typeConveyor: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_4__.Input }],
-    propagar: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_4__.Output }],
-    monthSelected: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_4__.Output }]
+    typeConveyor: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_5__.Input }],
+    propagar: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_5__.Output }]
 };
-RegisterDriverComponent = (0,tslib__WEBPACK_IMPORTED_MODULE_5__.__decorate)([
-    (0,_angular_core__WEBPACK_IMPORTED_MODULE_4__.Component)({
+RegisterDriverComponent = (0,tslib__WEBPACK_IMPORTED_MODULE_6__.__decorate)([
+    (0,_angular_core__WEBPACK_IMPORTED_MODULE_5__.Component)({
         selector: 'app-register-driver',
         template: _register_driver_component_html_ngResource__WEBPACK_IMPORTED_MODULE_0__,
         styles: [_register_driver_component_scss_ngResource__WEBPACK_IMPORTED_MODULE_1__]
@@ -1037,14 +853,16 @@ let SecurityCardComponent = class SecurityCardComponent {
         };
     }
     ngOnInit() {
-        this.conveyorService.removeModalSecurityCard.subscribe(resp => {
-            this.photoFrontal.webviewPath = '';
+        /*
+        this.conveyorService.removeModalSecurityCard.subscribe(resp =>{
+          this.photoFrontal.webviewPath = '';
         });
+        */
     }
     addPhotoDocumentCompany() {
-        this.conveyorService.addPhotoSecurityCard.emit();
-        this.conveyorService.frontalArchiveSecurityCard.emit(this.savePhotoFrontal);
-        this.conveyorService.closeModalArchiveSecurityCard.emit(false);
+        //this.conveyorService.addPhotoSecurityCard.emit();
+        //this.conveyorService.frontalArchiveSecurityCard.emit(this.savePhotoFrontal);
+        //this.conveyorService.closeModalArchiveSecurityCard.emit(false);
     }
     openCameraOne() {
         return (0,tslib__WEBPACK_IMPORTED_MODULE_5__.__awaiter)(this, void 0, void 0, function* () {
@@ -1061,15 +879,15 @@ let SecurityCardComponent = class SecurityCardComponent {
     }
     closeModalSecurityCard() {
         if (this.photoFrontal.webviewPath) {
-            this.conveyorService.closeModalArchiveSecurityCard.emit(false);
+            //this.conveyorService.closeModalArchiveSecurityCard.emit(false);
             return;
         }
-        this.conveyorService.closeModalArchiveSecurityCard.emit(false);
+        //this.conveyorService.closeModalArchiveSecurityCard.emit(false);
         this.removePhotoFrontal();
     }
     removePhotoFrontal() {
         this.photoFrontal.webviewPath = '';
-        this.conveyorService.removePhotoFrontalSecurityCard.emit();
+        //this.conveyorService.removePhotoFrontalSecurityCard.emit();
     }
 };
 SecurityCardComponent.ctorParameters = () => [
@@ -1101,14 +919,16 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "RegisterMantruckComponent": () => (/* binding */ RegisterMantruckComponent)
 /* harmony export */ });
-/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! tslib */ 34929);
+/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! tslib */ 34929);
 /* harmony import */ var _register_mantruck_component_html_ngResource__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./register-mantruck.component.html?ngResource */ 6734);
 /* harmony import */ var _register_mantruck_component_scss_ngResource__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./register-mantruck.component.scss?ngResource */ 84753);
-/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @angular/core */ 3184);
-/* harmony import */ var _angular_forms__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @angular/forms */ 90587);
-/* harmony import */ var rxjs_operators__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! rxjs/operators */ 80823);
-/* harmony import */ var src_app_services_conveyor_conveyor_service__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! src/app/services/conveyor/conveyor.service */ 88001);
-/* harmony import */ var src_app_services_error_messages_service__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! src/app/services/error-messages.service */ 47486);
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @angular/core */ 3184);
+/* harmony import */ var _angular_forms__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @angular/forms */ 90587);
+/* harmony import */ var rxjs_operators__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! rxjs/operators */ 80823);
+/* harmony import */ var src_app_services_error_messages_service__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! src/app/services/error-messages.service */ 47486);
+/* harmony import */ var _services_companies_companies_service__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../../services/companies/companies.service */ 46605);
+/* harmony import */ var _services_adminLogist_admin_logist_service__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../../../services/adminLogist/admin-logist.service */ 59543);
+
 
 
 
@@ -1118,20 +938,17 @@ __webpack_require__.r(__webpack_exports__);
 
 
 let RegisterMantruckComponent = class RegisterMantruckComponent {
-    constructor(formBuilder, conveyorService, errorMessages) {
+    constructor(formBuilder, companiesService, errorMessages, adminLogistService) {
         this.formBuilder = formBuilder;
-        this.conveyorService = conveyorService;
+        this.companiesService = companiesService;
         this.errorMessages = errorMessages;
-        this.propagar = new _angular_core__WEBPACK_IMPORTED_MODULE_4__.EventEmitter();
-        this.alertSucces = false;
+        this.adminLogistService = adminLogistService;
+        this.propagar = new _angular_core__WEBPACK_IMPORTED_MODULE_5__.EventEmitter();
+        this.alertSucces = true;
         this.alertConfirm = false;
-        this.addLicence = false;
-        this.addSecurityCard = false;
         this.addIdentityCard = false;
+        this.addDocumentCompany = false;
         this.toastMessage = '';
-        this.openPhotoDrivingLicence = false;
-        this.openPhotoIdentityCard = false;
-        this.openPhotoSecurityCard = false;
         this.errors = [];
         this.statusInputName = 'regular';
         this.statusInputMessageName = '';
@@ -1145,117 +962,68 @@ let RegisterMantruckComponent = class RegisterMantruckComponent {
         this.statusInputMessageSap = '';
         this.statusInputPhone = 'regular';
         this.statusInputMessagePhone = '';
+        this.statusInputCompany = 'regular';
+        this.statusInputMessageCompany = '';
+        this.statusInputNit = 'regular';
+        this.statusInputMessageNit = '';
+        this.openPhotoIdentityCard = false;
+        this.openPhotoDocumentCompany = false;
+        this.formBuilderInput();
+        this.companiesService.getCompanies().subscribe((data) => (0,tslib__WEBPACK_IMPORTED_MODULE_6__.__awaiter)(this, void 0, void 0, function* () {
+            this.listCompanies = data.data;
+        }));
     }
     ngOnInit() {
         this.alertSucces = false;
-        this.formBuilderInput();
-        this.form.get('typeConveyorId').setValue(this.typeConveyor);
-        this.conveyorService.closeModalArchiveSecurityCard.subscribe(resp => {
-            this.openPhotoSecurityCard = resp;
-        });
-        this.conveyorService.frontalArchiveSecurityCard.subscribe(resp => {
-            this.form.get('documentSecurityCard').setValue(resp);
-        });
-        this.conveyorService.removePhotoFrontalSecurityCard.subscribe(resp => {
-            this.form.get('documentSecurityCard').setValue('');
-        });
-        this.conveyorService.addPhotoSecurityCard.subscribe(resp => {
-            this.addSecurityCard = true;
-            this.toastMessage = 'Carné de seguridad agregado';
-            const element = document.getElementById('toast-message-driver');
-            element.classList.remove('hide');
-        });
-        this.conveyorService.closeModalArchiveLicenceDriver.subscribe(resp => {
-            this.openPhotoDrivingLicence = resp;
-        });
-        this.conveyorService.frontalArchiveLicenceDriver.subscribe(resp => {
-            this.form.get('documentDrivinglicenseFrontal').setValue(resp);
-        });
-        this.conveyorService.backArchiveLicenceDriver.subscribe(resp => {
-            this.form.get('documentDrivinglicenseBack').setValue(resp);
-        });
-        this.conveyorService.removePhotoFrontalLicenceDriver.subscribe(resp => {
-            this.form.get('documentDrivinglicenseFrontal').setValue('');
-        });
-        this.conveyorService.removePhotoBackLicenceDriver.subscribe(resp => {
-            this.form.get('documentDrivinglicenseBack').setValue('');
-        });
-        this.conveyorService.addLicenceDriver.subscribe(resp => {
-            this.addLicence = true;
-            this.toastMessage = 'Licencia de conducción agregada';
-            const element = document.getElementById('toast-message-driver');
-            element.classList.remove('hide');
-        });
-        this.conveyorService.closeModalArchiveIdentityCardDriver.subscribe(resp => {
-            this.openPhotoIdentityCard = resp;
-        });
-        this.conveyorService.frontalArchiveIdentityCardDriver.subscribe(resp => {
-            this.form.get('documentIdentityCardFrontal').setValue(resp);
-        });
-        this.conveyorService.backArchiveIdentityCardDriver.subscribe(resp => {
-            this.form.get('documentIdentityCardBack').setValue(resp);
-        });
-        this.conveyorService.removePhotoBackIdentityCardDriver.subscribe(resp => {
-            this.form.get('documentIdentityCardFrontal').setValue('');
-        });
-        this.conveyorService.removePhotoBackIdentityCardDriver.subscribe(resp => {
-            this.form.get('documentIdentityCardBack').setValue('');
-        });
-        this.conveyorService.addIdentityCardDriver.subscribe(resp => {
-            this.addIdentityCard = true;
-            this.toastMessage = 'Cédula de ciudadanía agregada';
-            const element = document.getElementById('toast-message-driver');
-            element.classList.remove('hide');
-        });
+        console.log('holaa');
+    }
+    cwcChange(event) {
+        this.form.get('CompanyId').setValue(`${event.detail.value}`);
     }
     register() {
-        return (0,tslib__WEBPACK_IMPORTED_MODULE_5__.__awaiter)(this, void 0, void 0, function* () {
+        return (0,tslib__WEBPACK_IMPORTED_MODULE_6__.__awaiter)(this, void 0, void 0, function* () {
             if (this.form.invalid) {
                 return;
             }
+            this.data = new FormData();
+            this.addFormData(this.form.value);
             this.propagar.emit(true);
-            yield this.conveyorService.registerManTruck(this.form.value).subscribe((resp) => (0,tslib__WEBPACK_IMPORTED_MODULE_5__.__awaiter)(this, void 0, void 0, function* () {
+            yield this.adminLogistService.createAdminLogistThird(this.data).subscribe((resp) => (0,tslib__WEBPACK_IMPORTED_MODULE_6__.__awaiter)(this, void 0, void 0, function* () {
                 this.propagar.emit(false);
-                this.form.reset();
-                this.conveyorService.removeModalLicenceDriver.emit();
-                this.conveyorService.removeModalIdentityCardDriver.emit();
-                this.conveyorService.removeModalSecurityCard.emit();
                 this.alertSucces = true;
-                this.addLicence = false;
                 this.addIdentityCard = false;
-                this.addSecurityCard = false;
+                this.addDocumentCompany = false;
                 this.alertConfirm = false;
                 this.alertSucces = true;
                 this.errors = [];
             }), (error) => {
+                console.log(error);
                 this.propagar.emit(false);
                 this.errors = this.errorMessages.parsearErroresAPI(error);
             });
         });
     }
-    removeLicence() {
-        this.form.get('documentDrivinglicenseFrontal').setValue('');
-        this.form.get('documentDrivinglicenseBack').setValue('');
-        this.conveyorService.removeModalLicenceDriver.emit();
-        this.addLicence = false;
-        this.toastMessage = 'Se eliminó la licencia de conducción';
+    addFormData(objeto) {
+        return (0,tslib__WEBPACK_IMPORTED_MODULE_6__.__awaiter)(this, void 0, void 0, function* () {
+            for (var key in objeto) {
+                this.data.append(key, objeto[key]);
+            }
+        });
+    }
+    removeDocumentCompany() {
+        this.form.get('documentCompany').setValue('');
+        //this.conveyorService.removeModalPhotoDocumentCompany.emit();
+        this.addDocumentCompany = false;
+        this.toastMessage = 'Se eliminó el documento de la empresa';
         const element = document.getElementById('toast-message-driver');
         element.classList.remove('hide');
     }
     removeIdentityCard() {
         this.form.get('documentIdentityCardFrontal').setValue('');
         this.form.get('documentIdentityCardBack').setValue('');
-        this.conveyorService.removeModalIdentityCardDriver.emit();
+        //this.conveyorService.removeModalIdentityCardDriver.emit();
         this.addIdentityCard = false;
         this.toastMessage = 'Se eliminó la cédula de ciudadanía';
-        const element = document.getElementById('toast-message-driver');
-        element.classList.remove('hide');
-    }
-    removeSecurityCard() {
-        this.form.get('documentSecurityCard').setValue('');
-        this.conveyorService.removeModalSecurityCard.emit();
-        this.addSecurityCard = false;
-        this.toastMessage = 'Se eliminó el carné de seguridad';
         const element = document.getElementById('toast-message-driver');
         element.classList.remove('hide');
     }
@@ -1268,57 +1036,39 @@ let RegisterMantruckComponent = class RegisterMantruckComponent {
     closeAlertConfirm() {
         this.alertConfirm = false;
     }
-    openModalPhotoLicence() {
-        this.openPhotoDrivingLicence = true;
-    }
-    openModalPhotoSecurityCard() {
-        this.openPhotoSecurityCard = true;
-    }
     openModalPhotoIdentityCard() {
-        this.openPhotoIdentityCard = true;
+        if (this.openPhotoIdentityCard = true) {
+            this.openPhotoIdentityCard = false;
+        }
+        else {
+            this.openPhotoIdentityCard = true;
+        }
+    }
+    openModalPhotoDocumentCompany() {
+        this.openPhotoDocumentCompany = true;
     }
     /*=============================================
      FORMULARIO REACTIVOS
     =============================================*/
     formBuilderInput() {
         this.form = this.formBuilder.group({
-            typeConveyorId: ['', [
-                    _angular_forms__WEBPACK_IMPORTED_MODULE_6__.Validators.required,
-                ]],
-            firstName: ['', [
-                    _angular_forms__WEBPACK_IMPORTED_MODULE_6__.Validators.required,
-                ]],
-            lastName: ['', [
-                    _angular_forms__WEBPACK_IMPORTED_MODULE_6__.Validators.required,
-                ]],
-            email: ['', [
-                    _angular_forms__WEBPACK_IMPORTED_MODULE_6__.Validators.required,
-                    _angular_forms__WEBPACK_IMPORTED_MODULE_6__.Validators.email
-                ]],
-            document: ['', [
-                    _angular_forms__WEBPACK_IMPORTED_MODULE_6__.Validators.required,
-                ]],
-            role: ['ManTruck', [
-                    _angular_forms__WEBPACK_IMPORTED_MODULE_6__.Validators.required,
-                ]],
-            codeSap: ['', [
-                    _angular_forms__WEBPACK_IMPORTED_MODULE_6__.Validators.required,
-                ]],
-            phoneNumber: ['', [
-                    _angular_forms__WEBPACK_IMPORTED_MODULE_6__.Validators.required,
-                    _angular_forms__WEBPACK_IMPORTED_MODULE_6__.Validators.minLength(10),
-                    _angular_forms__WEBPACK_IMPORTED_MODULE_6__.Validators.maxLength(10),
-                    _angular_forms__WEBPACK_IMPORTED_MODULE_6__.Validators.pattern('^[0-9]*$')
-                ]],
-            documentSecurityCard: '',
-            documentDrivinglicenseFrontal: '',
-            documentDrivinglicenseBack: '',
-            documentIdentityCardFrontal: '',
-            documentIdentityCardBack: '',
+            FirstName: ['', [_angular_forms__WEBPACK_IMPORTED_MODULE_7__.Validators.required,]],
+            LastName: ['', [_angular_forms__WEBPACK_IMPORTED_MODULE_7__.Validators.required,]],
+            Password: ['', [_angular_forms__WEBPACK_IMPORTED_MODULE_7__.Validators.required,]],
+            Email: ['', [_angular_forms__WEBPACK_IMPORTED_MODULE_7__.Validators.required, _angular_forms__WEBPACK_IMPORTED_MODULE_7__.Validators.email]],
+            CompanyId: ['', [_angular_forms__WEBPACK_IMPORTED_MODULE_7__.Validators.required,]],
+            Roles: ['Hombre Camion', [_angular_forms__WEBPACK_IMPORTED_MODULE_7__.Validators.required,]],
+            PhoneNumber: ['', [
+                    _angular_forms__WEBPACK_IMPORTED_MODULE_7__.Validators.required,
+                    _angular_forms__WEBPACK_IMPORTED_MODULE_7__.Validators.minLength(10),
+                    _angular_forms__WEBPACK_IMPORTED_MODULE_7__.Validators.maxLength(10),
+                    _angular_forms__WEBPACK_IMPORTED_MODULE_7__.Validators.pattern('^[0-9]*$')
+                ]]
         });
         this.form.valueChanges
-            .pipe((0,rxjs_operators__WEBPACK_IMPORTED_MODULE_7__.debounceTime)(350))
+            .pipe((0,rxjs_operators__WEBPACK_IMPORTED_MODULE_8__.debounceTime)(350))
             .subscribe(data => {
+            console.log(data);
             this.validateInput();
         });
     }
@@ -1326,7 +1076,7 @@ let RegisterMantruckComponent = class RegisterMantruckComponent {
     FUNCIÓN PARA VALIDAR LOS CAMPOS
    =============================================*/
     validateInput() {
-        if (this.form.get('firstName').errors && this.form.get('firstName').dirty) {
+        if (this.form.get('FirstName').errors && this.form.get('FirstName').dirty) {
             this.statusInputName = 'error';
             this.statusInputMessageName = 'Este campo es requerido';
         }
@@ -1334,7 +1084,7 @@ let RegisterMantruckComponent = class RegisterMantruckComponent {
             this.statusInputName = 'regular';
             this.statusInputMessageName = '';
         }
-        if (this.form.get('lastName').errors && this.form.get('lastName').dirty) {
+        if (this.form.get('LastName').errors && this.form.get('LastName').dirty) {
             this.statusInputLastName = 'error';
             this.statusInputMessageLastName = 'Este campo es requerido';
         }
@@ -1342,8 +1092,8 @@ let RegisterMantruckComponent = class RegisterMantruckComponent {
             this.statusInputLastName = 'regular';
             this.statusInputMessageLastName = '';
         }
-        if (this.form.get('email').errors && this.form.get('email').dirty) {
-            if (this.form.get('email').errors.email) {
+        if (this.form.get('Email').errors && this.form.get('Email').dirty) {
+            if (this.form.get('Email').errors.email) {
                 this.statusInputEmail = 'error';
                 this.statusInputMessageEmail = 'Ingrese un correo electrónico válido';
             }
@@ -1356,24 +1106,8 @@ let RegisterMantruckComponent = class RegisterMantruckComponent {
             this.statusInputEmail = 'regular';
             this.statusInputMessageEmail = '';
         }
-        if (this.form.get('document').errors && this.form.get('document').dirty) {
-            this.statusInputDocument = 'error';
-            this.statusInputMessageDocument = 'Este campo es requerido';
-        }
-        else {
-            this.statusInputDocument = 'regular';
-            this.statusInputMessageDocument = '';
-        }
-        if (this.form.get('codeSap').errors && this.form.get('codeSap').dirty) {
-            this.statusInputSap = 'error';
-            this.statusInputMessageSap = 'Este campo es requerido';
-        }
-        else {
-            this.statusInputSap = 'regular';
-            this.statusInputMessageSap = '';
-        }
-        if (this.form.get('phoneNumber').errors && this.form.get('phoneNumber').dirty) {
-            if (this.form.get('phoneNumber').errors.minlength || this.form.get('phoneNumber').errors.maxlength) {
+        if (this.form.get('PhoneNumber').errors && this.form.get('PhoneNumber').dirty) {
+            if (this.form.get('PhoneNumber').errors.minlength || this.form.get('PhoneNumber').errors.maxlength) {
                 this.statusInputPhone = 'error';
                 this.statusInputMessagePhone = 'Ingrese un número de celular válido';
             }
@@ -1389,16 +1123,17 @@ let RegisterMantruckComponent = class RegisterMantruckComponent {
     }
 };
 RegisterMantruckComponent.ctorParameters = () => [
-    { type: _angular_forms__WEBPACK_IMPORTED_MODULE_6__.FormBuilder },
-    { type: src_app_services_conveyor_conveyor_service__WEBPACK_IMPORTED_MODULE_2__.ConveyorService },
-    { type: src_app_services_error_messages_service__WEBPACK_IMPORTED_MODULE_3__.ErrorMessagesService }
+    { type: _angular_forms__WEBPACK_IMPORTED_MODULE_7__.FormBuilder },
+    { type: _services_companies_companies_service__WEBPACK_IMPORTED_MODULE_3__.CompaniesService },
+    { type: src_app_services_error_messages_service__WEBPACK_IMPORTED_MODULE_2__.ErrorMessagesService },
+    { type: _services_adminLogist_admin_logist_service__WEBPACK_IMPORTED_MODULE_4__.AdminLogistService }
 ];
 RegisterMantruckComponent.propDecorators = {
-    typeConveyor: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_4__.Input }],
-    propagar: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_4__.Output }]
+    typeConveyor: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_5__.Input }],
+    propagar: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_5__.Output }]
 };
-RegisterMantruckComponent = (0,tslib__WEBPACK_IMPORTED_MODULE_5__.__decorate)([
-    (0,_angular_core__WEBPACK_IMPORTED_MODULE_4__.Component)({
+RegisterMantruckComponent = (0,tslib__WEBPACK_IMPORTED_MODULE_6__.__decorate)([
+    (0,_angular_core__WEBPACK_IMPORTED_MODULE_5__.Component)({
         selector: 'app-register-mantruck',
         template: _register_mantruck_component_html_ngResource__WEBPACK_IMPORTED_MODULE_0__,
         styles: [_register_mantruck_component_scss_ngResource__WEBPACK_IMPORTED_MODULE_1__]
@@ -1456,10 +1191,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "RegisterPageModule": () => (/* binding */ RegisterPageModule)
 /* harmony export */ });
-/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! tslib */ 34929);
-/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! @angular/core */ 3184);
-/* harmony import */ var _angular_common__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! @angular/common */ 36362);
-/* harmony import */ var _angular_forms__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! @angular/forms */ 90587);
+/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! tslib */ 34929);
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! @angular/core */ 3184);
+/* harmony import */ var _angular_common__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! @angular/common */ 36362);
+/* harmony import */ var _angular_forms__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! @angular/forms */ 90587);
 /* harmony import */ var _ionic_angular__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! @ionic/angular */ 93819);
 /* harmony import */ var _register_routing_module__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./register-routing.module */ 81557);
 /* harmony import */ var _register_page__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./register.page */ 66690);
@@ -1472,6 +1207,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _components_photo_indentity_card_photo_indentity_card_component__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./components/photo-indentity-card/photo-indentity-card.component */ 73031);
 /* harmony import */ var _components_document_company_document_company_component__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./components/document-company/document-company.component */ 86271);
 /* harmony import */ var _components_register_driver_security_card_security_card_component__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./components/register-driver/security-card/security-card.component */ 27632);
+/* harmony import */ var _cmx_web_components_angular__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! @cmx-web-components/angular */ 6145);
+
 
 
 
@@ -1490,15 +1227,15 @@ __webpack_require__.r(__webpack_exports__);
 
 let RegisterPageModule = class RegisterPageModule {
 };
-RegisterPageModule = (0,tslib__WEBPACK_IMPORTED_MODULE_11__.__decorate)([
-    (0,_angular_core__WEBPACK_IMPORTED_MODULE_12__.NgModule)({
+RegisterPageModule = (0,tslib__WEBPACK_IMPORTED_MODULE_12__.__decorate)([
+    (0,_angular_core__WEBPACK_IMPORTED_MODULE_13__.NgModule)({
         imports: [
-            _angular_common__WEBPACK_IMPORTED_MODULE_13__.CommonModule,
-            _angular_forms__WEBPACK_IMPORTED_MODULE_14__.FormsModule,
+            _angular_common__WEBPACK_IMPORTED_MODULE_14__.CommonModule,
             _ionic_angular__WEBPACK_IMPORTED_MODULE_15__.IonicModule,
             src_app_components_components_module__WEBPACK_IMPORTED_MODULE_4__.ComponentsModule,
-            _angular_forms__WEBPACK_IMPORTED_MODULE_14__.ReactiveFormsModule,
-            _register_routing_module__WEBPACK_IMPORTED_MODULE_0__.RegisterPageRoutingModule
+            _angular_forms__WEBPACK_IMPORTED_MODULE_16__.ReactiveFormsModule,
+            _register_routing_module__WEBPACK_IMPORTED_MODULE_0__.RegisterPageRoutingModule,
+            _cmx_web_components_angular__WEBPACK_IMPORTED_MODULE_11__.CmxWebComponentsModule.forRoot(),
         ],
         declarations: [
             _register_page__WEBPACK_IMPORTED_MODULE_1__.RegisterPage,
@@ -1528,14 +1265,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "RegisterPage": () => (/* binding */ RegisterPage)
 /* harmony export */ });
-/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! tslib */ 34929);
+/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! tslib */ 34929);
 /* harmony import */ var _register_page_html_ngResource__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./register.page.html?ngResource */ 46325);
 /* harmony import */ var _register_page_scss_ngResource__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./register.page.scss?ngResource */ 47863);
+/* harmony import */ var _angular_common__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @angular/common */ 36362);
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @angular/core */ 3184);
-/* harmony import */ var _angular_forms__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @angular/forms */ 90587);
-/* harmony import */ var rxjs_operators__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! rxjs/operators */ 80823);
-/* harmony import */ var src_app_services_type_conveyor_type_conveyor_service__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! src/app/services/type-conveyor/type-conveyor.service */ 12119);
-
+/* harmony import */ var _services_auth_login_service__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../services/auth/login.service */ 52876);
 
 
 
@@ -1543,92 +1278,119 @@ __webpack_require__.r(__webpack_exports__);
 
 
 let RegisterPage = class RegisterPage {
-    constructor(formBuilder, typeConveyorService) {
-        this.formBuilder = formBuilder;
-        this.typeConveyorService = typeConveyorService;
+    constructor(loginService, location) {
+        this.loginService = loginService;
+        this.location = location;
         this.typeConveyors = [];
         this.showFormDriver = false;
         this.showFormManTruck = false;
         this.showFormAdminLogist = false;
         this.loading = false;
-        this.showError = false;
         // eslint-disable-next-line @typescript-eslint/member-ordering
         this.monthSelected = new _angular_core__WEBPACK_IMPORTED_MODULE_3__.EventEmitter();
     }
     ngOnInit() {
-        this.formBuilderInput();
-        this.getTypeConveyors();
-    }
-    /*=============================================
-     OBTENER LOS TIPOS TRANSPORTADORES
-    =============================================*/
-    getTypeConveyors() {
-        return (0,tslib__WEBPACK_IMPORTED_MODULE_4__.__awaiter)(this, void 0, void 0, function* () {
-            this.loading = true;
-            yield this.typeConveyorService.getTypeConveyor().subscribe((resp) => (0,tslib__WEBPACK_IMPORTED_MODULE_4__.__awaiter)(this, void 0, void 0, function* () {
-                this.typeConveyors = resp;
-                setTimeout(() => {
-                    this.loading = false;
-                }, 1500);
-            }), (error) => {
-                this.loading = false;
-                this.showError = true;
-            });
-        });
-    }
-    formBuilderInput() {
-        this.formTypeConveyor = this.formBuilder.group({
-            typeConveyorId: ['', [
-                    _angular_forms__WEBPACK_IMPORTED_MODULE_5__.Validators.required,
-                ]],
-        });
-        this.formTypeConveyor.valueChanges
-            .pipe((0,rxjs_operators__WEBPACK_IMPORTED_MODULE_6__.debounceTime)(100))
-            .subscribe(data => {
-        });
+        //this.cwcChange(this.loginService.rol);
     }
     cwcChange(data) {
-        if (data) {
-            this.selectTypeConveyor = data.detail;
-            if (data.detail === '1') {
-                this.showFormManTruck = false;
-                this.showFormDriver = false;
-                this.showFormAdminLogist = true;
-            }
-            else if (data.detail === '2') {
-                this.showFormAdminLogist = false;
-                this.showFormDriver = false;
-                this.showFormManTruck = true;
-            }
-            else if (data.detail === '3') {
-                this.loading = true;
-                this.showFormManTruck = false;
-                this.showFormAdminLogist = false;
-                this.showFormDriver = true;
-                setTimeout(() => {
-                    this.loading = false;
-                }, 1000);
-            }
+        if (data.detail.value === '1') {
+            this.loading = true;
+            this.showFormManTruck = false;
+            this.showFormDriver = false;
+            this.showFormAdminLogist = true;
+            setTimeout(() => {
+                this.loading = false;
+            }, 1000);
+        }
+        else if (data.detail.value === '2') {
+            this.loading = true;
+            this.showFormAdminLogist = false;
+            this.showFormDriver = false;
+            this.showFormManTruck = true;
+            setTimeout(() => {
+                this.loading = false;
+            }, 1000);
+        }
+        else if (data.detail.value === '3') {
+            this.loading = true;
+            this.showFormManTruck = false;
+            this.showFormAdminLogist = false;
+            this.showFormDriver = true;
+            setTimeout(() => {
+                this.loading = false;
+            }, 1000);
         }
     }
     showLoading(value) {
         this.loading = value;
     }
+    onBack() {
+        this.location.back();
+    }
 };
 RegisterPage.ctorParameters = () => [
-    { type: _angular_forms__WEBPACK_IMPORTED_MODULE_5__.FormBuilder },
-    { type: src_app_services_type_conveyor_type_conveyor_service__WEBPACK_IMPORTED_MODULE_2__.TypeConveyorService }
+    { type: _services_auth_login_service__WEBPACK_IMPORTED_MODULE_2__.LoginService },
+    { type: _angular_common__WEBPACK_IMPORTED_MODULE_4__.Location }
 ];
 RegisterPage.propDecorators = {
     monthSelected: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_3__.Output }]
 };
-RegisterPage = (0,tslib__WEBPACK_IMPORTED_MODULE_4__.__decorate)([
+RegisterPage = (0,tslib__WEBPACK_IMPORTED_MODULE_5__.__decorate)([
     (0,_angular_core__WEBPACK_IMPORTED_MODULE_3__.Component)({
         selector: 'app-register',
         template: _register_page_html_ngResource__WEBPACK_IMPORTED_MODULE_0__,
         styles: [_register_page_scss_ngResource__WEBPACK_IMPORTED_MODULE_1__]
     })
 ], RegisterPage);
+
+
+
+/***/ }),
+
+/***/ 59543:
+/*!**************************************************************!*\
+  !*** ./src/app/services/adminLogist/admin-logist.service.ts ***!
+  \**************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "AdminLogistService": () => (/* binding */ AdminLogistService)
+/* harmony export */ });
+/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! tslib */ 34929);
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @angular/core */ 3184);
+/* harmony import */ var _http_http_service__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../http/http.service */ 3755);
+/* harmony import */ var src_environments_environment_prod__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! src/environments/environment.prod */ 89019);
+
+
+
+
+const URL = src_environments_environment_prod__WEBPACK_IMPORTED_MODULE_1__.environment.url;
+let AdminLogistService = class AdminLogistService {
+    constructor(http) {
+        this.http = http;
+    }
+    createAdminLogistThird(data) {
+        return this.http.doPostFormData(`${URL}/api/authentication/CreateUserTPLMTruckMan`, data, { responseType: 'text' });
+    }
+    createDriver(data) {
+        return this.http.doPostFormData(`${URL}/api/authentication/CreateUserDriver`, data, { responseType: 'text' });
+    }
+    updateAdminLogistThird(data, email) {
+        return this.http.doPutFormData(`${URL}/api/authentication/UpdateTPLM_TruckMan/${email}`, data, { responseType: 'text' });
+    }
+    updateDriver(data, email) {
+        return this.http.doPutFormData(`${URL}/api/authentication/UpdateUserDriver/${email}`, data, { responseType: 'text' });
+    }
+};
+AdminLogistService.ctorParameters = () => [
+    { type: _http_http_service__WEBPACK_IMPORTED_MODULE_0__.HttpService }
+];
+AdminLogistService = (0,tslib__WEBPACK_IMPORTED_MODULE_2__.__decorate)([
+    (0,_angular_core__WEBPACK_IMPORTED_MODULE_3__.Injectable)({
+        providedIn: 'root'
+    })
+], AdminLogistService);
 
 
 
@@ -1645,79 +1407,32 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "ConveyorService": () => (/* binding */ ConveyorService)
 /* harmony export */ });
 /* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! tslib */ 34929);
-/* harmony import */ var _angular_common_http__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @angular/common/http */ 28784);
-/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ 3184);
-/* harmony import */ var src_environments_environment__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! src/environments/environment */ 92340);
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @angular/core */ 3184);
+/* harmony import */ var src_environments_environment_prod__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! src/environments/environment.prod */ 89019);
+/* harmony import */ var _http_http_service__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../http/http.service */ 3755);
 
 
 
 
-const URL = src_environments_environment__WEBPACK_IMPORTED_MODULE_0__.environment.url;
+const URL = src_environments_environment_prod__WEBPACK_IMPORTED_MODULE_0__.environment.url;
 let ConveyorService = class ConveyorService {
     constructor(http) {
         this.http = http;
-        this.listConveyors = [];
-        // eslint-disable-next-line @typescript-eslint/member-ordering
-        this.closeModalArchiveLicenceDriver = new _angular_core__WEBPACK_IMPORTED_MODULE_1__.EventEmitter();
-        // eslint-disable-next-line @typescript-eslint/member-ordering
-        this.frontalArchiveLicenceDriver = new _angular_core__WEBPACK_IMPORTED_MODULE_1__.EventEmitter();
-        // eslint-disable-next-line @typescript-eslint/member-ordering
-        this.backArchiveLicenceDriver = new _angular_core__WEBPACK_IMPORTED_MODULE_1__.EventEmitter();
-        // eslint-disable-next-line @typescript-eslint/member-ordering
-        this.removePhotoFrontalLicenceDriver = new _angular_core__WEBPACK_IMPORTED_MODULE_1__.EventEmitter();
-        // eslint-disable-next-line @typescript-eslint/member-ordering
-        this.removePhotoBackLicenceDriver = new _angular_core__WEBPACK_IMPORTED_MODULE_1__.EventEmitter();
-        // eslint-disable-next-line @typescript-eslint/member-ordering
-        this.removeModalLicenceDriver = new _angular_core__WEBPACK_IMPORTED_MODULE_1__.EventEmitter();
-        // eslint-disable-next-line @typescript-eslint/member-ordering
-        this.addLicenceDriver = new _angular_core__WEBPACK_IMPORTED_MODULE_1__.EventEmitter();
-        // eslint-disable-next-line @typescript-eslint/member-ordering
-        this.closeModalArchiveIdentityCardDriver = new _angular_core__WEBPACK_IMPORTED_MODULE_1__.EventEmitter();
-        // eslint-disable-next-line @typescript-eslint/member-ordering
-        this.frontalArchiveIdentityCardDriver = new _angular_core__WEBPACK_IMPORTED_MODULE_1__.EventEmitter();
-        // eslint-disable-next-line @typescript-eslint/member-ordering
-        this.backArchiveIdentityCardDriver = new _angular_core__WEBPACK_IMPORTED_MODULE_1__.EventEmitter();
-        // eslint-disable-next-line @typescript-eslint/member-ordering
-        this.removePhotoFrontalIdentityCardDriver = new _angular_core__WEBPACK_IMPORTED_MODULE_1__.EventEmitter();
-        // eslint-disable-next-line @typescript-eslint/member-ordering
-        this.removePhotoBackIdentityCardDriver = new _angular_core__WEBPACK_IMPORTED_MODULE_1__.EventEmitter();
-        // eslint-disable-next-line @typescript-eslint/member-ordering
-        this.removeModalIdentityCardDriver = new _angular_core__WEBPACK_IMPORTED_MODULE_1__.EventEmitter();
-        // eslint-disable-next-line @typescript-eslint/member-ordering
-        this.addIdentityCardDriver = new _angular_core__WEBPACK_IMPORTED_MODULE_1__.EventEmitter();
-        // eslint-disable-next-line @typescript-eslint/member-ordering
-        this.closeModalArchiveSecurityCard = new _angular_core__WEBPACK_IMPORTED_MODULE_1__.EventEmitter();
-        // eslint-disable-next-line @typescript-eslint/member-ordering
-        this.addPhotoSecurityCard = new _angular_core__WEBPACK_IMPORTED_MODULE_1__.EventEmitter();
-        // eslint-disable-next-line @typescript-eslint/member-ordering
-        this.frontalArchiveSecurityCard = new _angular_core__WEBPACK_IMPORTED_MODULE_1__.EventEmitter();
-        // eslint-disable-next-line @typescript-eslint/member-ordering
-        this.removePhotoFrontalSecurityCard = new _angular_core__WEBPACK_IMPORTED_MODULE_1__.EventEmitter();
-        // eslint-disable-next-line @typescript-eslint/member-ordering
-        this.removeModalSecurityCard = new _angular_core__WEBPACK_IMPORTED_MODULE_1__.EventEmitter();
-        // eslint-disable-next-line @typescript-eslint/member-ordering
-        this.closeModalArchiveDocumentCompany = new _angular_core__WEBPACK_IMPORTED_MODULE_1__.EventEmitter();
-        // eslint-disable-next-line @typescript-eslint/member-ordering
-        this.frontalArchiveDocumentCompany = new _angular_core__WEBPACK_IMPORTED_MODULE_1__.EventEmitter();
-        // eslint-disable-next-line @typescript-eslint/member-ordering
-        this.addPhotoDocumentCompany = new _angular_core__WEBPACK_IMPORTED_MODULE_1__.EventEmitter();
-        // eslint-disable-next-line @typescript-eslint/member-ordering
-        this.removeModalPhotoDocumentCompany = new _angular_core__WEBPACK_IMPORTED_MODULE_1__.EventEmitter();
     }
     registerManTruck(createManTruck) {
         const formData = this.formDataDriver(createManTruck);
-        return this.http.post(`${URL}/api/conveyor/register-mantruck`, formData);
+        return this.http.doPostFormData(`${URL}/api/conveyor/register-mantruck`, formData, {});
     }
     registerAdminLogistThird(createLogistThird) {
         const formData = this.formDataAdminLogistThird(createLogistThird);
-        return this.http.post(`${URL}/api/conveyor/register-admin-logist-third`, formData);
+        return this.http.doPostFormData(`${URL}/api/conveyor/register-admin-logist-third`, formData, {});
     }
     registerDriver(createDriver) {
         const formData = this.formDataDriver(createDriver);
-        return this.http.post(`${URL}/api/driver/register`, formData);
+        return this.http.doPostFormData(`${URL}/api/driver/register`, formData, {});
     }
     getConveyors() {
-        return this.http.get(`${URL}/api/conveyor/list-conveyors`);
+        return this.http.doGet(`${URL}/api/conveyor/list-conveyors`, {});
     }
     formDataAdminLogistThird(createLogistThird) {
         const photoIdentityCardFrontal = createLogistThird.documentIdentityCardFrontal;
@@ -1782,35 +1497,10 @@ let ConveyorService = class ConveyorService {
     }
 };
 ConveyorService.ctorParameters = () => [
-    { type: _angular_common_http__WEBPACK_IMPORTED_MODULE_3__.HttpClient }
+    { type: _http_http_service__WEBPACK_IMPORTED_MODULE_1__.HttpService }
 ];
-ConveyorService.propDecorators = {
-    closeModalArchiveLicenceDriver: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_1__.Output }],
-    frontalArchiveLicenceDriver: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_1__.Output }],
-    backArchiveLicenceDriver: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_1__.Output }],
-    removePhotoFrontalLicenceDriver: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_1__.Output }],
-    removePhotoBackLicenceDriver: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_1__.Output }],
-    removeModalLicenceDriver: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_1__.Output }],
-    addLicenceDriver: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_1__.Output }],
-    closeModalArchiveIdentityCardDriver: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_1__.Output }],
-    frontalArchiveIdentityCardDriver: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_1__.Output }],
-    backArchiveIdentityCardDriver: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_1__.Output }],
-    removePhotoFrontalIdentityCardDriver: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_1__.Output }],
-    removePhotoBackIdentityCardDriver: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_1__.Output }],
-    removeModalIdentityCardDriver: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_1__.Output }],
-    addIdentityCardDriver: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_1__.Output }],
-    closeModalArchiveSecurityCard: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_1__.Output }],
-    addPhotoSecurityCard: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_1__.Output }],
-    frontalArchiveSecurityCard: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_1__.Output }],
-    removePhotoFrontalSecurityCard: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_1__.Output }],
-    removeModalSecurityCard: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_1__.Output }],
-    closeModalArchiveDocumentCompany: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_1__.Output }],
-    frontalArchiveDocumentCompany: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_1__.Output }],
-    addPhotoDocumentCompany: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_1__.Output }],
-    removeModalPhotoDocumentCompany: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_1__.Output }]
-};
 ConveyorService = (0,tslib__WEBPACK_IMPORTED_MODULE_2__.__decorate)([
-    (0,_angular_core__WEBPACK_IMPORTED_MODULE_1__.Injectable)({
+    (0,_angular_core__WEBPACK_IMPORTED_MODULE_3__.Injectable)({
         providedIn: 'root'
     })
 ], ConveyorService);
@@ -1819,41 +1509,52 @@ ConveyorService = (0,tslib__WEBPACK_IMPORTED_MODULE_2__.__decorate)([
 
 /***/ }),
 
-/***/ 12119:
-/*!*****************************************************************!*\
-  !*** ./src/app/services/type-conveyor/type-conveyor.service.ts ***!
-  \*****************************************************************/
+/***/ 47486:
+/*!****************************************************!*\
+  !*** ./src/app/services/error-messages.service.ts ***!
+  \****************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "TypeConveyorService": () => (/* binding */ TypeConveyorService)
+/* harmony export */   "ErrorMessagesService": () => (/* binding */ ErrorMessagesService)
 /* harmony export */ });
-/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! tslib */ 34929);
-/* harmony import */ var _angular_common_http__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/common/http */ 28784);
-/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @angular/core */ 3184);
-/* harmony import */ var src_environments_environment__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! src/environments/environment */ 92340);
+/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ 34929);
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ 3184);
 
 
-
-
-const URL = src_environments_environment__WEBPACK_IMPORTED_MODULE_0__.environment.url;
-let TypeConveyorService = class TypeConveyorService {
-    constructor(http) {
-        this.http = http;
-    }
-    getTypeConveyor() {
-        return this.http.get(`${URL}/api/type-conveyor/list-type-conveyors`);
+let ErrorMessagesService = class ErrorMessagesService {
+    constructor() { }
+    parsearErroresAPI(response) {
+        const resultado = [];
+        if (response.status === 500) {
+            resultado.push('Ha ocurrido un error en el servidor. Favor intentar más tarde');
+            return resultado;
+        }
+        if (response.error) {
+            if (typeof response.error === 'string') {
+                resultado.push(response.error);
+            }
+            else {
+                const mapaErrores = response.error.errors;
+                const entradas = Object.entries(mapaErrores);
+                entradas.forEach((arreglo) => {
+                    const campo = arreglo[0];
+                    arreglo[1].forEach((mensajeError) => {
+                        resultado.push(`${campo}: ${mensajeError}`);
+                    });
+                });
+            }
+        }
+        return resultado;
     }
 };
-TypeConveyorService.ctorParameters = () => [
-    { type: _angular_common_http__WEBPACK_IMPORTED_MODULE_1__.HttpClient }
-];
-TypeConveyorService = (0,tslib__WEBPACK_IMPORTED_MODULE_2__.__decorate)([
-    (0,_angular_core__WEBPACK_IMPORTED_MODULE_3__.Injectable)({
+ErrorMessagesService.ctorParameters = () => [];
+ErrorMessagesService = (0,tslib__WEBPACK_IMPORTED_MODULE_0__.__decorate)([
+    (0,_angular_core__WEBPACK_IMPORTED_MODULE_1__.Injectable)({
         providedIn: 'root'
     })
-], TypeConveyorService);
+], ErrorMessagesService);
 
 
 
@@ -1945,7 +1646,7 @@ module.exports = "\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW
   \**************************************************************/
 /***/ ((module) => {
 
-module.exports = ".content-grid-register {\n  overflow: auto;\n  justify-content: center !important;\n}\n\n.content-title-register {\n  margin-bottom: 2rem;\n}\n\n.content-title-register h2 {\n  color: #002a59;\n}\n\n.section {\n  margin-bottom: 1rem;\n}\n\n.content-button {\n  margin-top: 3rem;\n}\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInJlZ2lzdGVyLnBhZ2Uuc2NzcyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiQUFBQTtFQUVJLGNBQUE7RUFDQSxrQ0FBQTtBQUFKOztBQUdDO0VBQ0csbUJBQUE7QUFBSjs7QUFFQTtFQUNJLGNBQUE7QUFDSjs7QUFFQTtFQUNJLG1CQUFBO0FBQ0o7O0FBQ0E7RUFDSSxnQkFBQTtBQUVKIiwiZmlsZSI6InJlZ2lzdGVyLnBhZ2Uuc2NzcyIsInNvdXJjZXNDb250ZW50IjpbIi5jb250ZW50LWdyaWQtcmVnaXN0ZXJ7XHJcbiAgICAvLyBkaXNwbGF5OiBmbGV4ICFpbXBvcnRhbnQ7XHJcbiAgICBvdmVyZmxvdzogYXV0bztcclxuICAgIGp1c3RpZnktY29udGVudDogY2VudGVyICFpbXBvcnRhbnQ7XHJcbiAgICAvLyBhbGlnbi1pdGVtczogY2VudGVyICFpbXBvcnRhbnQ7XHJcbiB9XHJcbiAuY29udGVudC10aXRsZS1yZWdpc3RlcntcclxuICAgIG1hcmdpbi1ib3R0b206IDJyZW07XHJcbn1cclxuLmNvbnRlbnQtdGl0bGUtcmVnaXN0ZXIgaDJ7XHJcbiAgICBjb2xvcjogIzAwMmE1OTtcclxuICAgIC8vIGZvbnQtd2VpZ2h0OiA2MDA7XHJcbn1cclxuLnNlY3Rpb257XHJcbiAgICBtYXJnaW4tYm90dG9tOiAxcmVtO1xyXG59XHJcbi5jb250ZW50LWJ1dHRvbntcclxuICAgIG1hcmdpbi10b3A6IDNyZW07XHJcbn1cclxuIl19 */";
+module.exports = ".header-text {\n  display: flex;\n  align-items: flex-start;\n  justify-content: space-between;\n  position: fixed;\n  top: 1;\n  right: 50;\n  left: 0;\n  margin-left: 1rem;\n}\n\n.attr-name {\n  font-weight: 700;\n}\n\n.content-card {\n  padding-top: 0.5rem;\n  padding-left: 1.5rem;\n  padding-right: 1.5rem;\n  padding-bottom: 1rem;\n  flex: 1 1 auto;\n  overflow: auto;\n}\n\n.content-title {\n  padding-top: 1rem;\n  font-weight: 700;\n  color: #002a59;\n}\n\n.content-grid-register {\n  overflow: auto;\n  justify-content: center !important;\n}\n\n.content-title-register {\n  margin-bottom: 2rem;\n}\n\n.content-title-register h2 {\n  color: #002a59;\n}\n\n.section {\n  margin-bottom: 1rem;\n}\n\n.section cwc-radio {\n  margin-bottom: 0.2rem;\n}\n\n.content-button {\n  margin-top: 3rem;\n}\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInJlZ2lzdGVyLnBhZ2Uuc2NzcyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiQUFBQTtFQUNJLGFBQUE7RUFDQSx1QkFBQTtFQUNBLDhCQUFBO0VBQ0EsZUFBQTtFQUNBLE1BQUE7RUFDQSxTQUFBO0VBQ0EsT0FBQTtFQUNBLGlCQUFBO0FBQ0o7O0FBRUM7RUFDRyxnQkFBQTtBQUNKOztBQUVDO0VBQ0csbUJBQUE7RUFDQSxvQkFBQTtFQUNBLHFCQUFBO0VBQ0Esb0JBQUE7RUFDQSxjQUFBO0VBQ0EsY0FBQTtBQUNKOztBQUVDO0VBQ0csaUJBQUE7RUFDQSxnQkFBQTtFQUNBLGNBQUE7QUFDSjs7QUFFQTtFQUVJLGNBQUE7RUFDQSxrQ0FBQTtBQUFKOztBQUdDO0VBQ0csbUJBQUE7QUFBSjs7QUFFQTtFQUNJLGNBQUE7QUFDSjs7QUFFQTtFQUNJLG1CQUFBO0FBQ0o7O0FBQUk7RUFDSSxxQkFBQTtBQUVSOztBQUNBO0VBQ0ksZ0JBQUE7QUFFSiIsImZpbGUiOiJyZWdpc3Rlci5wYWdlLnNjc3MiLCJzb3VyY2VzQ29udGVudCI6WyIuaGVhZGVyLXRleHR7XHJcbiAgICBkaXNwbGF5OiBmbGV4O1xyXG4gICAgYWxpZ24taXRlbXM6IGZsZXgtc3RhcnQ7XHJcbiAgICBqdXN0aWZ5LWNvbnRlbnQ6IHNwYWNlLWJldHdlZW47XHJcbiAgICBwb3NpdGlvbjogZml4ZWQ7XHJcbiAgICB0b3A6IDE7XHJcbiAgICByaWdodDogNTA7XHJcbiAgICBsZWZ0OiAwO1xyXG4gICAgbWFyZ2luLWxlZnQ6IDFyZW07XHJcbiB9XHJcbiBcclxuIC5hdHRyLW5hbWV7XHJcbiAgICBmb250LXdlaWdodDogNzAwOyAgICBcclxuIH1cclxuXHJcbiAuY29udGVudC1jYXJke1xyXG4gICAgcGFkZGluZy10b3A6IDAuNXJlbTtcclxuICAgIHBhZGRpbmctbGVmdDogMS41cmVtO1xyXG4gICAgcGFkZGluZy1yaWdodDogMS41cmVtOyBcclxuICAgIHBhZGRpbmctYm90dG9tOiAxcmVtO1xyXG4gICAgZmxleDogMSAxIGF1dG87XHJcbiAgICBvdmVyZmxvdzogYXV0bztcclxuIH1cclxuXHJcbiAuY29udGVudC10aXRsZXtcclxuICAgIHBhZGRpbmctdG9wOiAxcmVtO1xyXG4gICAgZm9udC13ZWlnaHQ6IDcwMDtcclxuICAgIGNvbG9yOiAjMDAyYTU5O1xyXG59XHJcblxyXG4uY29udGVudC1ncmlkLXJlZ2lzdGVye1xyXG4gICAgLy8gZGlzcGxheTogZmxleCAhaW1wb3J0YW50O1xyXG4gICAgb3ZlcmZsb3c6IGF1dG87XHJcbiAgICBqdXN0aWZ5LWNvbnRlbnQ6IGNlbnRlciAhaW1wb3J0YW50O1xyXG4gICAgLy8gYWxpZ24taXRlbXM6IGNlbnRlciAhaW1wb3J0YW50O1xyXG4gfVxyXG4gLmNvbnRlbnQtdGl0bGUtcmVnaXN0ZXJ7XHJcbiAgICBtYXJnaW4tYm90dG9tOiAycmVtO1xyXG59XHJcbi5jb250ZW50LXRpdGxlLXJlZ2lzdGVyIGgye1xyXG4gICAgY29sb3I6ICMwMDJhNTk7XHJcbiAgICAvLyBmb250LXdlaWdodDogNjAwO1xyXG59XHJcbi5zZWN0aW9ue1xyXG4gICAgbWFyZ2luLWJvdHRvbTogMXJlbTtcclxuICAgIGN3Yy1yYWRpb3tcclxuICAgICAgICBtYXJnaW4tYm90dG9tOiAwLjJyZW07XHJcbiAgICB9XHJcbn1cclxuLmNvbnRlbnQtYnV0dG9ue1xyXG4gICAgbWFyZ2luLXRvcDogM3JlbTtcclxufVxyXG4iXX0= */";
 
 /***/ }),
 
@@ -1985,7 +1686,7 @@ module.exports = "<cwc-modal id='modal-photo-licence-driver' [open] =\"modalPhot
   \*****************************************************************************************************************************/
 /***/ ((module) => {
 
-module.exports = "<form (submit)=\"register()\" [formGroup]=\"form\">\r\n  <cwc-grid class=\"demo-grid\" design-version=\"v2\" columns=\"12\" mobile-columns=\"12\">\r\n    <cwc-cell colspan=\"12\" mobile-colspan=\"12\">\r\n      <div class=\"section\">\r\n        <cwc-input class=\"input\" \r\n                   label='Nombre (s)'\r\n                   [status]='statusInputName'\r\n                   [statusMessage]='statusInputMessageName'\r\n                   design-version=\"v2\" \r\n                   formControlName=\"firstName\"\r\n                   ngDefaultControl\r\n                   required\r\n        ></cwc-input>\r\n      </div>\r\n      <div class=\"section\">\r\n        <cwc-input class=\"input\" \r\n                   label='Apellido (s)'\r\n                   [status]='statusInputLastName'\r\n                   [statusMessage]='statusInputMessageLastName'\r\n                   formControlName=\"lastName\"\r\n                   design-version=\"v2\" \r\n                   ngDefaultControl\r\n                   required\r\n        ></cwc-input>\r\n      </div>\r\n      <div class=\"section\">\r\n        <cwc-input class=\"input\" \r\n        label='Correo electrónico'\r\n        [status]='statusInputEmail'\r\n        [statusMessage]='statusInputMessageEmail'\r\n        formControlName=\"email\"\r\n        ngDefaultControl\r\n        design-version=\"v2\" \r\n        required\r\n        ></cwc-input>\r\n      </div>\r\n      <div class=\"section\">\r\n        <cwc-input class=\"input\" \r\n        label='N° documento'\r\n        [status]='statusInputDocument'\r\n        [statusMessage]='statusInputMessageDocument'\r\n        formControlName=\"document\"\r\n        design-version=\"v2\" \r\n        ngDefaultControl\r\n        required\r\n        ></cwc-input>\r\n      </div>\r\n      <div class=\"section\">\r\n        <cwc-input class=\"input\" \r\n        label='Número de celular'\r\n        type=\"number\"\r\n        [status]='statusInputPhone'\r\n        [statusMessage]='statusInputMessagePhone'\r\n        formControlName=\"phoneNumber\"\r\n        design-version=\"v2\"\r\n        ngDefaultControl\r\n        required\r\n        ></cwc-input>\r\n      </div>\r\n      <div class=\"section\">\r\n        <cwc-input class=\"input\" \r\n        label='Nombre empresa'\r\n        [status]='statusInputCompany'\r\n        [statusMessage]='statusInputMessageCompany'\r\n        formControlName=\"nameCompany\"\r\n        design-version=\"v2\"\r\n        ngDefaultControl\r\n        required\r\n        ></cwc-input>\r\n      </div>\r\n      <div class=\"section\">\r\n        <cwc-input class=\"input\" \r\n        label='N° Nit'\r\n        [status]='statusInputNit'\r\n        [statusMessage]='statusInputMessageNit'\r\n        formControlName=\"nitCompany\"\r\n        design-version=\"v2\" \r\n        ngDefaultControl\r\n        required\r\n        ></cwc-input>\r\n      </div>\r\n    </cwc-cell>\r\n  </cwc-grid>\r\n   <!--=====================================\r\n      DOCUMENTO DE LA EMPRESA\r\n    ======================================-->\r\n    <label for=\"\">Documento de la empresa (opcional)</label>\r\n<div *ngIf=\"!form.get('documentCompany').value\">\r\n  <cwc-grid class=\"demo-grid content-archive\" >\r\n    <cwc-cell (click)=\"openModalPhotoDocumentCompany()\" class=\"border\" colspan=\"6\" mobile-colspan=\"6\" style=\"cursor: pointer;\">\r\n      <div class=\"item-archives\">\r\n        <cwc-icon name=\"camera\" size=\"28px\" color=\"bright-blue\"></cwc-icon>\r\n        <h5 class=\"text-archive\">Tomar fotografía</h5>\r\n      </div>\r\n    </cwc-cell>\r\n    <cwc-cell colspan=\"6\" mobile-colspan=\"6\" style=\"cursor: pointer;\">\r\n      <div class=\"item-archives\">\r\n        <cwc-icon name=\"document\" size=\"28px\" color=\"bright-blue\"></cwc-icon>\r\n        <h5 class=\"text-archive\">Seleccionar archivo</h5>\r\n      </div>\r\n    </cwc-cell>\r\n</cwc-grid>\r\n</div>\r\n  <div *ngIf=\"addDocumentCompany\">\r\n    <cwc-grid class=\"demo-grid content-archive\" >\r\n      <cwc-cell (click)=\"openModalPhotoDocumentCompany()\" class=\"\" colspan=\"12\" mobile-colspan=\"12\">\r\n        <div class=\"item-archives\">\r\n          <cwc-icon name=\"attachment\" size=\"28px\" color=\"bright-blue\"></cwc-icon>\r\n          <h5 class=\"text-archive\">Documento agregado</h5>\r\n          <cwc-icon (click)=\"removeDocumentCompany()\" name=\"close\" size=\"20px\" color=\"bright-blue\" style=\"margin-left: 1rem; cursor: pointer;\"></cwc-icon>\r\n        </div>\r\n      </cwc-cell>\r\n    </cwc-grid>\r\n  </div>\r\n   <!--=====================================\r\n      CEDULA DE CIUDADANIA\r\n    ======================================-->\r\n<label for=\"\">Cédula de ciudadania (opcional)</label>\r\n<div *ngIf=\"!form.get('documentIdentityCardFrontal').value && !form.get('documentIdentityCardBack').value\">\r\n  <cwc-grid class=\"demo-grid content-archive\" >\r\n    <cwc-cell (click)=\"openModalPhotoIdentityCard()\" class=\"border\" colspan=\"6\" mobile-colspan=\"6\" style=\"cursor: pointer;\">\r\n      <div class=\"item-archives\">\r\n        <cwc-icon name=\"camera\" size=\"28px\" color=\"bright-blue\"></cwc-icon>\r\n        <h5 class=\"text-archive\">Tomar fotografía</h5>\r\n      </div>\r\n    </cwc-cell>\r\n    <cwc-cell colspan=\"6\" mobile-colspan=\"6\" style=\"cursor: pointer;\">\r\n      <div class=\"item-archives\">\r\n        <cwc-icon name=\"document\" size=\"28px\" color=\"bright-blue\"></cwc-icon>\r\n        <h5 class=\"text-archive\">Seleccionar archivo</h5>\r\n      </div>\r\n    </cwc-cell>\r\n</cwc-grid>\r\n</div>\r\n  <div *ngIf=\"addIdentityCard\">\r\n    <cwc-grid class=\"demo-grid content-archive\" >\r\n      <cwc-cell (click)=\"openModalPhotoIdentityCard()\" class=\"\" colspan=\"12\" mobile-colspan=\"12\">\r\n        <div class=\"item-archives\">\r\n          <cwc-icon name=\"attachment\" size=\"28px\" color=\"bright-blue\"></cwc-icon>\r\n          <h5 class=\"text-archive\">Cédula de Ciudadanía agregada </h5>\r\n          <cwc-icon (click)=\"removeIdentityCard()\" name=\"close\" size=\"20px\" color=\"bright-blue\" style=\"margin-left: 1rem; cursor: pointer;\"></cwc-icon>\r\n        </div>\r\n      </cwc-cell>\r\n    </cwc-grid>\r\n  </div>\r\n    \r\n    <app-error-messages [errors]=\"errors\"></app-error-messages> \r\n  <!--=====================================\r\n    BOTON PARA GUARDAR EL REGISTRO\r\n  ======================================-->\r\n    <div class=\"content-button\">\r\n      <cwc-button \r\n      design-version=\"v1\" \r\n      [disabled]=\"form.invalid\"\r\n      (click)=\"openAlertConfirm()\" \r\n      variant=\"regular-block\">COMPLETAR REGISTRO</cwc-button>\r\n    </div>\r\n</form>\r\n\r\n<app-photo-indentity-card\r\n[modalPhotoIdentityCardShow] = \"openPhotoIdentityCard\"\r\n></app-photo-indentity-card>\r\n<app-document-company\r\n[modalPhotoDocumentCompanyShow] = \"openPhotoDocumentCompany\"\r\n></app-document-company>\r\n<!--=====================================\r\n\t\tMODAL ALERTA CONFIRMAR DATOS GUARDAR\r\n======================================-->\r\n<cwc-modal id='alert-confirm' class=\"alert-confirm\" [open] =\"alertConfirm\" (cwcClose)=\"closeAlertConfirm()\">\r\n  <header slot='header'>\r\n      <h2 style='margin:0;'>Atención</h2>\r\n  </header>\r\n  <p>¿Esta seguro que los datos registrados estan correctos?</p>\r\n  <footer slot='footer'>\r\n      <div style='text-align: end'>\r\n        <cwc-button variant='support' (click)=\"closeAlertConfirm()\" style=\"margin-right: 1rem;\">Cancelar</cwc-button>\r\n          <cwc-button variant='primary' (click)=\"register()\" >Aceptar</cwc-button>\r\n      </div>\r\n  </footer>\r\n</cwc-modal>\r\n<!--=====================================\r\n\t\tMODAL CONFIRMACIÓN RESPUESTA DE EXITO\r\n======================================-->\r\n<app-alert-success\r\n[alertShow] = \"alertSucces\"\r\ntitle = \"Existoso\"\r\nurlButton = \"/login\"\r\ntextButton = \"Volver al login\"\r\nmessage = \"El registro se realizó correctamente, vamos a validar sus datos y pronto daremos respuesta.\">\r\n</app-alert-success>\r\n<!--=====================================\r\n\tTOAST ALERT MENSAJE\r\n======================================-->\r\n<cwc-snackbar id='toast-message-driver' [message]=\"toastMessage\"\r\ncta-message=\"dismiss\" auto-hide-duration='5000'></cwc-snackbar>";
+module.exports = "<form (submit)=\"register()\" [formGroup]=\"form\">\r\n  <div style=\"display: flex;\">\r\n    <label for=\"\" style=\"font-size: 0.9rem; margin-bottom: 0.7rem;\">Selecciona la empresa\r\n      <cwc-tooltip content='Busca y selecciona la empresa o microempresa'>\r\n        <cwc-icon style=\"margin-left: 0.5rem;\" id='icon' name='information-rounded-fill' color=\"bright-blue\" size='24px'></cwc-icon>\r\n      </cwc-tooltip>\r\n    </label>\r\n  </div>\r\n    <cwc-select\r\n    [status]='statusInputConveyor'\r\n    design-version=\"v2\"\r\n    [statusMessage]='statusInputMessageConveyor' (cwcChange)=\"cwcChange($event)\" class=\"w-full select-filter\" unwrap=\"true\" label=\"\" filter-no-resultsMessage=\"No se encontraron resultados\" filter-placeholder=\"Filtrar Empresas\" placeholder=\"Seleccionar\" filter>\r\n      <cwc-select-option *ngFor=\"let companies of listCompanies\" [value]=\"companies.id\">{{companies.companyName}}</cwc-select-option>\r\n    </cwc-select>\r\n  <cwc-grid class=\"demo-grid\" design-version=\"v2\" columns=\"12\" mobile-columns=\"12\" style=\"margin-top: 3rem;\">\r\n    <cwc-cell colspan=\"12\" mobile-colspan=\"12\">\r\n      <div class=\"section\">\r\n        <cwc-input class=\"input\" \r\n                   label='Nombre (s)'\r\n                   [status]='statusInputName'\r\n                   [statusMessage]='statusInputMessageName'\r\n                   design-version=\"v2\" \r\n                   formControlName=\"FirstName\"\r\n                   ngDefaultControl\r\n                   required\r\n        ></cwc-input>\r\n      </div>\r\n      <div class=\"section\">\r\n        <cwc-input class=\"input\" \r\n                   label='Apellido (s)'\r\n                   [status]='statusInputLastName'\r\n                   [statusMessage]='statusInputMessageLastName'\r\n                   formControlName=\"LastName\"\r\n                   design-version=\"v2\" \r\n                   ngDefaultControl\r\n                   required\r\n        ></cwc-input>\r\n      </div>\r\n      <div class=\"section\">\r\n        <cwc-input class=\"input\" \r\n        label='Correo electrónico'\r\n        [status]='statusInputEmail'\r\n        [statusMessage]='statusInputMessageEmail'\r\n        formControlName=\"Email\"\r\n        ngDefaultControl\r\n        design-version=\"v2\" \r\n        required\r\n        ></cwc-input>\r\n      </div>\r\n      <div class=\"section\">\r\n        <cwc-input class=\"input\" \r\n        label='Número de celular'\r\n        type=\"number\"\r\n        [status]='statusInputPhone'\r\n        [statusMessage]='statusInputMessagePhone'\r\n        formControlName=\"PhoneNumber\"\r\n        design-version=\"v2\"\r\n        ngDefaultControl\r\n        required\r\n        ></cwc-input>\r\n      </div>\r\n      <div class=\"section\">\r\n        <cwc-input class=\"input\" \r\n        label='Contraseña'\r\n        [status]='statusInputNit'\r\n        [statusMessage]='statusInputMessageNit'\r\n        type=\"password\"\r\n        formControlName=\"Password\"\r\n        design-version=\"v2\" \r\n        ngDefaultControl\r\n        required\r\n        ></cwc-input>\r\n      </div>\r\n    </cwc-cell>\r\n  </cwc-grid>\r\n   <!--=====================================\r\n      DOCUMENTO DE LA EMPRESA\r\n    ======================================-->\r\n    <label for=\"\">Licencia de conducir (opcional)</label>\r\n<div>\r\n  <cwc-grid class=\"demo-grid content-archive\" >\r\n    <cwc-cell (click)=\"openModalPhotoDocumentCompany()\" class=\"border\" colspan=\"6\" mobile-colspan=\"6\" style=\"cursor: pointer;\">\r\n      <div class=\"item-archives\">\r\n        <cwc-icon name=\"camera\" size=\"28px\" color=\"bright-blue\"></cwc-icon>\r\n        <h5 class=\"text-archive\">Tomar fotografía</h5>\r\n      </div>\r\n    </cwc-cell>\r\n    <cwc-cell colspan=\"6\" mobile-colspan=\"6\" style=\"cursor: pointer;\">\r\n      <div class=\"item-archives\">\r\n        <cwc-icon name=\"document\" size=\"28px\" color=\"bright-blue\"></cwc-icon>\r\n        <h5 class=\"text-archive\">Seleccionar archivo</h5>\r\n      </div>\r\n    </cwc-cell>\r\n</cwc-grid>\r\n</div>\r\n  <div *ngIf=\"addDocumentCompany\">\r\n    <cwc-grid class=\"demo-grid content-archive\" >\r\n      <cwc-cell (click)=\"openModalPhotoDocumentCompany()\" class=\"\" colspan=\"12\" mobile-colspan=\"12\">\r\n        <div class=\"item-archives\">\r\n          <cwc-icon name=\"attachment\" size=\"28px\" color=\"bright-blue\"></cwc-icon>\r\n          <h5 class=\"text-archive\">Documento agregado</h5>\r\n          <cwc-icon (click)=\"removeDocumentCompany()\" name=\"close\" size=\"20px\" color=\"bright-blue\" style=\"margin-left: 1rem; cursor: pointer;\"></cwc-icon>\r\n        </div>\r\n      </cwc-cell>\r\n    </cwc-grid>\r\n  </div>\r\n   <!--=====================================\r\n      CEDULA DE CIUDADANIA\r\n    ======================================-->\r\n<label for=\"\">Tarjeta de seguridad (opcional)</label>\r\n<div>\r\n  <cwc-grid class=\"demo-grid content-archive\" >\r\n    <cwc-cell (click)=\"openModalPhotoIdentityCard()\" class=\"border\" colspan=\"6\" mobile-colspan=\"6\" style=\"cursor: pointer;\">\r\n      <div class=\"item-archives\">\r\n        <cwc-icon name=\"camera\" size=\"28px\" color=\"bright-blue\"></cwc-icon>\r\n        <h5 class=\"text-archive\">Tomar fotografía</h5>\r\n      </div>\r\n    </cwc-cell>\r\n    <cwc-cell colspan=\"6\" mobile-colspan=\"6\" style=\"cursor: pointer;\">\r\n      <div class=\"item-archives\">\r\n        <cwc-icon name=\"document\" size=\"28px\" color=\"bright-blue\"></cwc-icon>\r\n        <h5 class=\"text-archive\">Seleccionar archivo</h5>\r\n      </div>\r\n    </cwc-cell>\r\n</cwc-grid>\r\n</div>\r\n  <div *ngIf=\"addIdentityCard\">\r\n    <cwc-grid class=\"demo-grid content-archive\" >\r\n      <cwc-cell (click)=\"openModalPhotoIdentityCard()\" class=\"\" colspan=\"12\" mobile-colspan=\"12\">\r\n        <div class=\"item-archives\">\r\n          <cwc-icon name=\"attachment\" size=\"28px\" color=\"bright-blue\"></cwc-icon>\r\n          <h5 class=\"text-archive\">Cédula de Ciudadanía agregada </h5>\r\n          <cwc-icon (click)=\"removeIdentityCard()\" name=\"close\" size=\"20px\" color=\"bright-blue\" style=\"margin-left: 1rem; cursor: pointer;\"></cwc-icon>\r\n        </div>\r\n      </cwc-cell>\r\n    </cwc-grid>\r\n  </div>\r\n\r\n<label for=\"\">Cédula de ciudadanía (opcional)</label>\r\n<div>\r\n  <cwc-grid class=\"demo-grid content-archive\" >\r\n    <cwc-cell (click)=\"openModalPhotoIdentityCard()\" class=\"border\" colspan=\"6\" mobile-colspan=\"6\" style=\"cursor: pointer;\">\r\n      <div class=\"item-archives\">\r\n        <cwc-icon name=\"camera\" size=\"28px\" color=\"bright-blue\"></cwc-icon>\r\n        <h5 class=\"text-archive\">Tomar fotografía</h5>\r\n      </div>\r\n    </cwc-cell>\r\n    <cwc-cell colspan=\"6\" mobile-colspan=\"6\" style=\"cursor: pointer;\">\r\n      <div class=\"item-archives\">\r\n        <cwc-icon name=\"document\" size=\"28px\" color=\"bright-blue\"></cwc-icon>\r\n        <h5 class=\"text-archive\">Seleccionar archivo</h5>\r\n      </div>\r\n    </cwc-cell>\r\n</cwc-grid>\r\n</div>\r\n  <div *ngIf=\"addIdentityCard\">\r\n    <cwc-grid class=\"demo-grid content-archive\" >\r\n      <cwc-cell (click)=\"openModalPhotoIdentityCard()\" class=\"\" colspan=\"12\" mobile-colspan=\"12\">\r\n        <div class=\"item-archives\">\r\n          <cwc-icon name=\"attachment\" size=\"28px\" color=\"bright-blue\"></cwc-icon>\r\n          <h5 class=\"text-archive\">Cédula de Ciudadanía agregada </h5>\r\n          <cwc-icon (click)=\"removeIdentityCard()\" name=\"close\" size=\"20px\" color=\"bright-blue\" style=\"margin-left: 1rem; cursor: pointer;\"></cwc-icon>\r\n        </div>\r\n      </cwc-cell>\r\n    </cwc-grid>\r\n  </div>\r\n    \r\n    <app-error-messages [errors]=\"errors\"></app-error-messages> \r\n  <!--=====================================\r\n    BOTON PARA GUARDAR EL REGISTRO\r\n  ======================================-->\r\n    <div class=\"content-button\">\r\n      <cwc-button \r\n      design-version=\"v1\" \r\n      [disabled]=\"form.invalid\"\r\n      (click)=\"openAlertConfirm()\" \r\n      variant=\"regular-block\">COMPLETAR REGISTRO</cwc-button>\r\n    </div>\r\n</form>\r\n\r\n<app-photo-indentity-card\r\n[modalPhotoIdentityCardShow] = \"openPhotoIdentityCard\"\r\n></app-photo-indentity-card>\r\n<app-document-company\r\n[modalPhotoDocumentCompanyShow] = \"openPhotoDocumentCompany\"\r\n></app-document-company>\r\n<!--=====================================\r\n\t\tMODAL ALERTA CONFIRMAR DATOS GUARDAR\r\n======================================-->\r\n<cwc-modal id='alert-confirm' class=\"alert-confirm\" [open] =\"alertConfirm\" (cwcClose)=\"closeAlertConfirm()\">\r\n  <header slot='header'>\r\n      <h2 style='margin:0;'>Atención</h2>\r\n  </header>\r\n  <p>¿Esta seguro que los datos registrados estan correctos?</p>\r\n  <footer slot='footer'>\r\n      <div style='text-align: end'>\r\n        <cwc-button variant='support' (click)=\"closeAlertConfirm()\" style=\"margin-right: 1rem;\">Cancelar</cwc-button>\r\n          <cwc-button variant='primary' (click)=\"register()\" >Aceptar</cwc-button>\r\n      </div>\r\n  </footer>\r\n</cwc-modal>\r\n<!--=====================================\r\n\t\tMODAL CONFIRMACIÓN RESPUESTA DE EXITO\r\n======================================-->\r\n<app-alert-success\r\n[alertShow] = \"alertSucces\"\r\ntitle = \"Existoso\"\r\nurlButton = \"/login\"\r\ntextButton = \"Volver al login\"\r\nmessage = \"El registro se realizó correctamente, vamos a validar sus datos y pronto daremos respuesta.\">\r\n</app-alert-success>\r\n<!--=====================================\r\n\tTOAST ALERT MENSAJE\r\n======================================-->\r\n<cwc-snackbar id='toast-message-driver' [message]=\"toastMessage\"\r\ncta-message=\"dismiss\" auto-hide-duration='5000'></cwc-snackbar>";
 
 /***/ }),
 
@@ -2005,7 +1706,7 @@ module.exports = "<cwc-modal id='modal-photo-licence-driver' [open] =\"modalPhot
   \*****************************************************************************************************/
 /***/ ((module) => {
 
-module.exports = "<form (submit)=\"register()\" [formGroup]=\"form\">\r\n  <div style=\"display: flex;\">\r\n    <label for=\"\" style=\"font-size: 0.9rem; margin-bottom: 0.7rem;\">Selecciona el transportador\r\n      <cwc-tooltip content='Busca y selecciona la empresa o microempresa (administrador logístico tercero o hombre camión)'>\r\n        <cwc-icon style=\"margin-left: 0.5rem;\" id='icon' name='information-rounded-fill' color=\"bright-blue\" size='24px'></cwc-icon>\r\n      </cwc-tooltip>\r\n    </label>\r\n  </div>\r\n    <cwc-picker  \r\n    [status]='statusInputConveyor'\r\n    [statusMessage]='statusInputMessageConveyor' (cwcChange)=\"cwcChange($event)\" class=\"w-full select-filter\" unwrap=\"true\" label=\"\" filter-no-resultsMessage=\"No se encontraron resultados\" filter-placeholder=\"Filtrar transportadores\" placeholder=\"Seleccione una opción\" filter=\"true\">\r\n      <option *ngFor=\"let conveyor of listConveyors\" [value]=\"conveyor.idConveyor\">{{ conveyor.company ? conveyor.company.nameCompany : conveyor.user.firstName +' '+conveyor.user.lastName }}</option>\r\n      <!-- <option *ngFor=\"let conveyor of listConveyors\" [value]=\"conveyor.idConveyor\">mao</option> -->\r\n    </cwc-picker>\r\n  <cwc-grid class=\"demo-grid\" design-version=\"v2\" columns=\"12\" mobile-columns=\"12\" style=\"margin-top: 2rem;\">\r\n    <cwc-cell colspan=\"12\" mobile-colspan=\"12\">\r\n          <div class=\"section\">\r\n            <cwc-input class=\"input\" \r\n                      label='Nombre (s)'\r\n                      [status]='statusInputName'\r\n                      [statusMessage]='statusInputMessageName'\r\n                      design-version=\"v2\" \r\n                      formControlName=\"firstName\"\r\n                      ngDefaultControl\r\n                      required\r\n            ></cwc-input>\r\n          </div>\r\n          <div class=\"section\">\r\n            <cwc-input class=\"input\" \r\n                      label='Apellido (s)'\r\n                      [status]='statusInputLastName'\r\n                      [statusMessage]='statusInputMessageLastName'\r\n                      formControlName=\"lastName\"\r\n                      design-version=\"v2\" \r\n                      ngDefaultControl\r\n                      required\r\n            ></cwc-input>\r\n          </div>\r\n          <div class=\"section\">\r\n            <cwc-input class=\"input\" \r\n            label='Correo electrónico'\r\n            [status]='statusInputEmail'\r\n            [statusMessage]='statusInputMessageEmail'\r\n            formControlName=\"email\"\r\n            ngDefaultControl\r\n            design-version=\"v2\" \r\n            required\r\n            ></cwc-input>\r\n          </div>\r\n          <div class=\"section\">\r\n            <cwc-input class=\"input\" \r\n            label='N° documento'\r\n            [status]='statusInputDocument'\r\n            [statusMessage]='statusInputMessageDocument'\r\n            formControlName=\"document\"\r\n            design-version=\"v2\" \r\n            ngDefaultControl\r\n            required\r\n            ></cwc-input>\r\n          </div>\r\n          <div class=\"section\">\r\n            <cwc-input class=\"input\" \r\n            label='Código SAP'\r\n            [status]='statusInputSap'\r\n            [statusMessage]='statusInputMessageSap'\r\n            formControlName=\"codeSap\"\r\n            design-version=\"v2\"\r\n            ngDefaultControl\r\n            required\r\n            ></cwc-input>\r\n          </div>\r\n          <div class=\"section\">\r\n            <cwc-input class=\"input\" \r\n            label='Número de celular'\r\n            type=\"number\"\r\n            [status]='statusInputPhone'\r\n            [statusMessage]='statusInputMessagePhone'\r\n            formControlName=\"phoneNumber\"\r\n            design-version=\"v2\"\r\n            ngDefaultControl\r\n            required\r\n            ></cwc-input>\r\n          </div>\r\n    </cwc-cell>\r\n  </cwc-grid>\r\n\r\n\r\n  <!--=====================================\r\n    COMPONENTE PARA SUBIR ARCHIVOS\r\n  ======================================-->\r\n  <label for=\"\">Licencia de conducir (opcional)</label>\r\n <div *ngIf=\"!form.get('documentDrivinglicenseFrontal').value && !form.get('documentDrivinglicenseBack').value\">\r\n  <cwc-grid class=\"demo-grid content-archive\" >\r\n    <cwc-cell (click)=\"openModalPhotoLicence()\" class=\"border\" colspan=\"6\" mobile-colspan=\"6\" style=\"cursor: pointer;\">\r\n      <div class=\"item-archives\">\r\n        <cwc-icon name=\"camera\" size=\"28px\" color=\"bright-blue\"></cwc-icon>\r\n        <h5 class=\"text-archive\">Tomar fotografía</h5>\r\n      </div>\r\n    </cwc-cell>\r\n    <cwc-cell colspan=\"6\" mobile-colspan=\"6\" style=\"cursor: pointer;\">\r\n      <div class=\"item-archives\">\r\n        <cwc-icon name=\"document\" size=\"28px\" color=\"bright-blue\"></cwc-icon>\r\n        <h5 class=\"text-archive\">Seleccionar archivo</h5>\r\n      </div>\r\n    </cwc-cell>\r\n  </cwc-grid>\r\n</div>\r\n<div *ngIf=\"addLicence\">\r\n  <cwc-grid class=\"demo-grid content-archive\" >\r\n    <cwc-cell (click)=\"openModalPhotoLicence()\" class=\"\" colspan=\"12\" mobile-colspan=\"12\">\r\n      <div class=\"item-archives\">\r\n        <cwc-icon name=\"attachment\" size=\"28px\" color=\"bright-blue\"></cwc-icon>\r\n        <h5 class=\"text-archive\">Licencia de conducción agregada </h5>\r\n        <cwc-icon (click)=\"removeLicence()\" name=\"close\" size=\"20px\" color=\"bright-blue\" style=\"margin-left: 1rem; cursor: pointer;\"></cwc-icon>\r\n      </div>\r\n    </cwc-cell>\r\n  </cwc-grid>\r\n</div>\r\n\r\n<label for=\"\">Carné de seguridad industrial y vial (opcional)</label>\r\n<div *ngIf=\"!form.get('documentSecurityCard').value\">\r\n    <cwc-grid class=\"demo-grid content-archive\" >\r\n      <cwc-cell (click)=\"openModalPhotoSecurityCard()\" class=\"border\" colspan=\"6\" mobile-colspan=\"6\" style=\"cursor: pointer;\">\r\n        <div class=\"item-archives\">\r\n          <cwc-icon name=\"camera\" size=\"28px\" color=\"bright-blue\"></cwc-icon>\r\n          <h5 class=\"text-archive\">Tomar fotografía</h5>\r\n        </div>\r\n      </cwc-cell>\r\n      <cwc-cell colspan=\"6\" mobile-colspan=\"6\" style=\"cursor: pointer;\">\r\n        <div class=\"item-archives\">\r\n          <cwc-icon name=\"document\" size=\"28px\" color=\"bright-blue\"></cwc-icon>\r\n          <h5 class=\"text-archive\">Seleccionar archivo</h5>\r\n        </div>\r\n      </cwc-cell>\r\n  </cwc-grid>\r\n</div>\r\n<div *ngIf=\"addSecurityCard\">\r\n  <cwc-grid class=\"demo-grid content-archive\" >\r\n    <cwc-cell (click)=\"openModalPhotoSecurityCard()\" class=\"\" colspan=\"12\" mobile-colspan=\"12\">\r\n      <div class=\"item-archives\">\r\n        <cwc-icon name=\"attachment\" size=\"28px\" color=\"bright-blue\"></cwc-icon>\r\n        <h5 class=\"text-archive\">Carné de seguridad industrial y vial agregado </h5>\r\n        <cwc-icon (click)=\"removeSecurityCard()\" name=\"close\" size=\"20px\" color=\"bright-blue\" style=\"margin-left: 1rem; cursor: pointer;\"></cwc-icon>\r\n      </div>\r\n    </cwc-cell>\r\n  </cwc-grid>\r\n</div>\r\n\r\n<label for=\"\">Cédula de ciudadania (opcional)</label>\r\n<div *ngIf=\"!form.get('documentIdentityCardFrontal').value && !form.get('documentIdentityCardBack').value\">\r\n  <cwc-grid class=\"demo-grid content-archive\" >\r\n    <cwc-cell (click)=\"openModalPhotoIdentityCard()\" class=\"border\" colspan=\"6\" mobile-colspan=\"6\" style=\"cursor: pointer;\">\r\n      <div class=\"item-archives\">\r\n        <cwc-icon name=\"camera\" size=\"28px\" color=\"bright-blue\"></cwc-icon>\r\n        <h5 class=\"text-archive\">Tomar fotografía</h5>\r\n      </div>\r\n    </cwc-cell>\r\n    <cwc-cell colspan=\"6\" mobile-colspan=\"6\" style=\"cursor: pointer;\">\r\n      <div class=\"item-archives\">\r\n        <cwc-icon name=\"document\" size=\"28px\" color=\"bright-blue\"></cwc-icon>\r\n        <h5 class=\"text-archive\">Seleccionar archivo</h5>\r\n      </div>\r\n    </cwc-cell>\r\n</cwc-grid>\r\n</div>\r\n<div *ngIf=\"addIdentityCard\">\r\n  <cwc-grid class=\"demo-grid content-archive\" >\r\n    <cwc-cell (click)=\"openModalPhotoIdentityCard()\" class=\"\" colspan=\"12\" mobile-colspan=\"12\">\r\n      <div class=\"item-archives\">\r\n        <cwc-icon name=\"attachment\" size=\"28px\" color=\"bright-blue\"></cwc-icon>\r\n        <h5 class=\"text-archive\">Cédula de Ciudadanía agregada </h5>\r\n        <cwc-icon (click)=\"removeIdentityCard()\" name=\"close\" size=\"20px\" color=\"bright-blue\" style=\"margin-left: 1rem; cursor: pointer;\"></cwc-icon>\r\n      </div>\r\n    </cwc-cell>\r\n  </cwc-grid>\r\n</div>\r\n\r\n<!--=====================================\r\n    MENSAJES DE ERROR\r\n  ======================================-->\r\n  <app-error-messages [errors]=\"errors\"></app-error-messages> \r\n  <!--=====================================\r\n    BOTON PARA GUARDAR EL REGISTRO\r\n  ======================================-->\r\n      <div class=\"content-button\">\r\n        <cwc-button \r\n        design-version=\"v1\" \r\n        [disabled]=\"form.invalid\"\r\n        (click)=\"openAlertConfirm()\" \r\n        variant=\"regular-block\">COMPLETAR REGISTRO</cwc-button>\r\n      </div>\r\n</form>\r\n<!--=====================================\r\n\t\tSi NO EXISTEN TRANSPORTADORES\r\n======================================-->\r\n<div *ngIf=\"!listConveyors.length\">\r\n  <div class=\"p-all-reg\" style=\"background: #F4F6F9\">\r\n    <cwc-empty-result header=\"Error al generar el formulario\" icon=\"error-rounded-fill\">\r\n        No hay transportadores registrados, actualice e intente nuevamente o consulte <a [routerLink]=\"['/help']\" routerLinkActive=\"router-link-active\" >ayuda</a> de Cemex.\r\n    </cwc-empty-result>\r\n  </div>\r\n</div>\r\n<!--=====================================\r\n\t\tMODAL AGREGAR FOTOGRAFICA LICENCIA\r\n======================================-->\r\n<app-photo-driving-licence\r\n[modalPhotoLinceShow] = \"openPhotoDrivingLicence\"\r\n></app-photo-driving-licence>\r\n\r\n<!--=====================================\r\n\t\tMODAL AGREGAR FOTOGRAFIA CEDULA\r\n======================================-->\r\n<app-photo-indentity-card\r\n[modalPhotoIdentityCardShow] = \"openPhotoIdentityCard\"\r\n></app-photo-indentity-card>\r\n\r\n<!--=====================================\r\n\t\tMODAL AGREGAR FOTOGRAFIA CARNE DE SEGURIDAD\r\n======================================-->\r\n<app-security-card\r\n[modalPhotoSecurityCardShow] = \"openPhotoSecurityCard\"\r\n></app-security-card>\r\n\r\n<!--=====================================\r\n\t\tMODAL ALERTA CONFIRMAR DATOS GUARDAR\r\n======================================-->\r\n<cwc-modal id='alert-confirm' class=\"alert-confirm\" [open] =\"alertConfirm\" (cwcClose)=\"closeAlertConfirm()\">\r\n  <header slot='header'>\r\n      <h2 style='margin:0;'>Atención</h2>\r\n  </header>\r\n  <p>¿Esta seguro que los datos registrados estan correctos?</p>\r\n  <footer slot='footer'>\r\n      <div style='text-align: end'>\r\n        <cwc-button variant='support' (click)=\"closeAlertConfirm()\" style=\"margin-right: 1rem;\">Cancelar</cwc-button>\r\n          <cwc-button variant='primary' (click)=\"register()\" >Aceptar</cwc-button>\r\n      </div>\r\n  </footer>\r\n</cwc-modal>\r\n<!--=====================================\r\n\tMODAL CONFIRMACIÓN RESPUESTA DE EXITO\r\n======================================-->\r\n<app-alert-success\r\n[alertShow] = \"alertSucces\"\r\ntitle = \"Existoso\"\r\nurlButton = \"/login\"\r\ntextButton = \"Volver al login\"\r\nmessage = \"El registro se realizó correctamente, vamos a validar sus datos y pronto daremos respuesta.\">\r\n</app-alert-success>\r\n\r\n<!--=====================================\r\n\tTOAST ALERT MENSAJE\r\n======================================-->\r\n<cwc-snackbar id='toast-message-driver' [message]=\"toastMessage\"\r\ncta-message=\"dismiss\" auto-hide-duration='5000'></cwc-snackbar>";
+module.exports = "<form (submit)=\"register()\" [formGroup]=\"form\">\r\n  <div style=\"display: flex;\">\r\n    <label for=\"\" style=\"font-size: 0.9rem; margin-bottom: 0.7rem;\">Selecciona la empresa\r\n      <cwc-tooltip content='Busca y selecciona la empresa o microempresa'>\r\n        <cwc-icon style=\"margin-left: 0.5rem;\" id='icon' name='information-rounded-fill' color=\"bright-blue\" size='24px'></cwc-icon>\r\n      </cwc-tooltip>\r\n    </label>\r\n  </div>\r\n    <cwc-select\r\n      (cwcChange)=\"cwcChange($event)\" \r\n      class=\"w-full select-filter\"\r\n      filter-no-resultsMessage=\"No se encontraron resultados\" \r\n      filter-placeholder=\"Filtrar Empresas\" \r\n      placeholder=\"Seleccionar\"\r\n      design-version=\"v2\"\r\n      filter>\r\n      <ng-container *ngFor=\"let companies of listCompanies\">\r\n        <cwc-select-option [value]=\"companies.id\">{{companies.companyName}}</cwc-select-option>\r\n      </ng-container>\r\n    </cwc-select>\r\n  <cwc-grid class=\"demo-grid\" design-version=\"v2\" columns=\"12\" mobile-columns=\"12\" style=\"margin-top: 1.5rem;\">\r\n    <cwc-cell colspan=\"12\" mobile-colspan=\"12\">\r\n      <div class=\"section\">\r\n        <cwc-input class=\"input\" \r\n                   label='Nombre (s)'\r\n                   [status]='statusInputName'\r\n                   [statusMessage]='statusInputMessageName'\r\n                   design-version=\"v2\" \r\n                   formControlName=\"FirstName\"\r\n                   ngDefaultControl\r\n                   required\r\n        ></cwc-input>\r\n      </div>\r\n      <div class=\"section\">\r\n        <cwc-input class=\"input\" \r\n                   label='Apellido (s)'\r\n                   [status]='statusInputLastName'\r\n                   [statusMessage]='statusInputMessageLastName'\r\n                   formControlName=\"LastName\"\r\n                   design-version=\"v2\" \r\n                   ngDefaultControl\r\n                   required\r\n        ></cwc-input>\r\n      </div>\r\n\r\n      <div class=\"section\">\r\n        <cwc-input class=\"input\" \r\n        label='N° documento'\r\n        formControlName=\"Document\"\r\n        design-version=\"v2\" \r\n        ngDefaultControl\r\n        required\r\n        ></cwc-input>\r\n      </div>\r\n      <div class=\"section\">\r\n        <cwc-input class=\"input\" \r\n        label='Código SAP'\r\n        formControlName=\"SapCode\"\r\n        design-version=\"v2\"\r\n        ngDefaultControl\r\n        required\r\n        ></cwc-input>\r\n      </div>\r\n      <div class=\"section\">\r\n        <cwc-input class=\"input\" \r\n        label='Correo electrónico'\r\n        [status]='statusInputEmail'\r\n        [statusMessage]='statusInputMessageEmail'\r\n        formControlName=\"Email\"\r\n        ngDefaultControl\r\n        design-version=\"v2\" \r\n        required\r\n        ></cwc-input>\r\n      </div>\r\n      <div class=\"section\">\r\n        <cwc-input class=\"input\" \r\n        label='Número de celular'\r\n        type=\"number\"\r\n        [status]='statusInputPhone'\r\n        [statusMessage]='statusInputMessagePhone'\r\n        formControlName=\"PhoneNumber\"\r\n        design-version=\"v2\"\r\n        ngDefaultControl\r\n        required\r\n        ></cwc-input>\r\n      </div>\r\n      <div class=\"section\">\r\n        <cwc-input class=\"input\" \r\n        label='Contraseña'\r\n        [status]='statusInputNit'\r\n        [statusMessage]='statusInputMessageNit'\r\n        type=\"password\"\r\n        formControlName=\"Password\"\r\n        design-version=\"v2\" \r\n        ngDefaultControl\r\n        required\r\n        ></cwc-input>\r\n      </div>\r\n    </cwc-cell>\r\n  </cwc-grid>\r\n   <!--=====================================\r\n      DOCUMENTO DE LA EMPRESA\r\n    ======================================-->\r\n    <label for=\"\">Licencia de conducir (opcional)</label>\r\n<div>\r\n  <cwc-grid class=\"demo-grid content-archive\" >\r\n    <cwc-cell (click)=\"openModalPhotoDocumentCompany()\" class=\"border\" colspan=\"6\" mobile-colspan=\"6\" style=\"cursor: pointer;\">\r\n      <div class=\"item-archives\">\r\n        <cwc-icon name=\"camera\" size=\"28px\" color=\"bright-blue\"></cwc-icon>\r\n        <h5 class=\"text-archive\">Tomar fotografía</h5>\r\n      </div>\r\n    </cwc-cell>\r\n    <cwc-cell colspan=\"6\" mobile-colspan=\"6\" style=\"cursor: pointer;\">\r\n      <div class=\"item-archives\">\r\n        <cwc-icon name=\"document\" size=\"28px\" color=\"bright-blue\"></cwc-icon>\r\n        <h5 class=\"text-archive\">Seleccionar archivo</h5>\r\n      </div>\r\n    </cwc-cell>\r\n</cwc-grid>\r\n</div>\r\n  <div *ngIf=\"addDocumentCompany\">\r\n    <cwc-grid class=\"demo-grid content-archive\" >\r\n      <cwc-cell (click)=\"openModalPhotoDocumentCompany()\" class=\"\" colspan=\"12\" mobile-colspan=\"12\">\r\n        <div class=\"item-archives\">\r\n          <cwc-icon name=\"attachment\" size=\"28px\" color=\"bright-blue\"></cwc-icon>\r\n          <h5 class=\"text-archive\">Documento agregado</h5>\r\n          <cwc-icon (click)=\"removeDocumentCompany()\" name=\"close\" size=\"20px\" color=\"bright-blue\" style=\"margin-left: 1rem; cursor: pointer;\"></cwc-icon>\r\n        </div>\r\n      </cwc-cell>\r\n    </cwc-grid>\r\n  </div>\r\n   <!--=====================================\r\n      CEDULA DE CIUDADANIA\r\n    ======================================-->\r\n<label for=\"\">Tarjeta de seguridad (opcional)</label>\r\n<div>\r\n  <cwc-grid class=\"demo-grid content-archive\" >\r\n    <cwc-cell (click)=\"openModalPhotoIdentityCard()\" class=\"border\" colspan=\"6\" mobile-colspan=\"6\" style=\"cursor: pointer;\">\r\n      <div class=\"item-archives\">\r\n        <cwc-icon name=\"camera\" size=\"28px\" color=\"bright-blue\"></cwc-icon>\r\n        <h5 class=\"text-archive\">Tomar fotografía</h5>\r\n      </div>\r\n    </cwc-cell>\r\n    <cwc-cell colspan=\"6\" mobile-colspan=\"6\" style=\"cursor: pointer;\">\r\n      <div class=\"item-archives\">\r\n        <cwc-icon name=\"document\" size=\"28px\" color=\"bright-blue\"></cwc-icon>\r\n        <h5 class=\"text-archive\">Seleccionar archivo</h5>\r\n      </div>\r\n    </cwc-cell>\r\n</cwc-grid>\r\n</div>\r\n  <div *ngIf=\"addIdentityCard\">\r\n    <cwc-grid class=\"demo-grid content-archive\" >\r\n      <cwc-cell (click)=\"openModalPhotoIdentityCard()\" class=\"\" colspan=\"12\" mobile-colspan=\"12\">\r\n        <div class=\"item-archives\">\r\n          <cwc-icon name=\"attachment\" size=\"28px\" color=\"bright-blue\"></cwc-icon>\r\n          <h5 class=\"text-archive\">Cédula de Ciudadanía agregada </h5>\r\n          <cwc-icon (click)=\"removeIdentityCard()\" name=\"close\" size=\"20px\" color=\"bright-blue\" style=\"margin-left: 1rem; cursor: pointer;\"></cwc-icon>\r\n        </div>\r\n      </cwc-cell>\r\n    </cwc-grid>\r\n  </div>\r\n\r\n<label for=\"\">Cédula de ciudadanía (opcional)</label>\r\n<div>\r\n  <cwc-grid class=\"demo-grid content-archive\" >\r\n    <cwc-cell (click)=\"openModalPhotoIdentityCard()\" class=\"border\" colspan=\"6\" mobile-colspan=\"6\" style=\"cursor: pointer;\">\r\n      <div class=\"item-archives\">\r\n        <cwc-icon name=\"camera\" size=\"28px\" color=\"bright-blue\"></cwc-icon>\r\n        <h5 class=\"text-archive\">Tomar fotografía</h5>\r\n      </div>\r\n    </cwc-cell>\r\n    <cwc-cell colspan=\"6\" mobile-colspan=\"6\" style=\"cursor: pointer;\">\r\n      <div class=\"item-archives\">\r\n        <cwc-icon name=\"document\" size=\"28px\" color=\"bright-blue\"></cwc-icon>\r\n        <h5 class=\"text-archive\">Seleccionar archivo</h5>\r\n      </div>\r\n    </cwc-cell>\r\n</cwc-grid>\r\n</div>\r\n  <div *ngIf=\"addIdentityCard\">\r\n    <cwc-grid class=\"demo-grid content-archive\" >\r\n      <cwc-cell (click)=\"openModalPhotoIdentityCard()\" class=\"\" colspan=\"12\" mobile-colspan=\"12\">\r\n        <div class=\"item-archives\">\r\n          <cwc-icon name=\"attachment\" size=\"28px\" color=\"bright-blue\"></cwc-icon>\r\n          <h5 class=\"text-archive\">Cédula de Ciudadanía agregada </h5>\r\n          <cwc-icon (click)=\"removeIdentityCard()\" name=\"close\" size=\"20px\" color=\"bright-blue\" style=\"margin-left: 1rem; cursor: pointer;\"></cwc-icon>\r\n        </div>\r\n      </cwc-cell>\r\n    </cwc-grid>\r\n  </div>\r\n    \r\n    <app-error-messages [errors]=\"errors\"></app-error-messages> \r\n  <!--=====================================\r\n    BOTON PARA GUARDAR EL REGISTRO\r\n  ======================================-->\r\n    <div class=\"content-button\">\r\n      <cwc-button \r\n      design-version=\"v1\" \r\n      [disabled]=\"form.invalid\"\r\n      (click)=\"openAlertConfirm()\" \r\n      variant=\"regular-block\">COMPLETAR REGISTRO</cwc-button>\r\n    </div>\r\n</form>\r\n\r\n<app-photo-indentity-card\r\n[modalPhotoIdentityCardShow] = \"openPhotoIdentityCard\"\r\n></app-photo-indentity-card>\r\n<app-document-company\r\n[modalPhotoDocumentCompanyShow] = \"openPhotoDocumentCompany\"\r\n></app-document-company>\r\n<!--=====================================\r\n\t\tMODAL ALERTA CONFIRMAR DATOS GUARDAR\r\n======================================-->\r\n<cwc-modal id='alert-confirm' class=\"alert-confirm\" [open] =\"alertConfirm\" (cwcClose)=\"closeAlertConfirm()\">\r\n  <header slot='header'>\r\n      <h2 style='margin:0;'>Atención</h2>\r\n  </header>\r\n  <p>¿Esta seguro que los datos registrados estan correctos?</p>\r\n  <footer slot='footer'>\r\n      <div style='text-align: end'>\r\n        <cwc-button variant='support' (click)=\"closeAlertConfirm()\" style=\"margin-right: 1rem;\">Cancelar</cwc-button>\r\n          <cwc-button variant='primary' (click)=\"register()\" >Aceptar</cwc-button>\r\n      </div>\r\n  </footer>\r\n</cwc-modal>\r\n<!--=====================================\r\n\t\tMODAL CONFIRMACIÓN RESPUESTA DE EXITO\r\n======================================-->\r\n<app-alert-success\r\n[alertShow] = \"alertSucces\"\r\ntitle = \"Existoso\"\r\nurlButton = \"/login\"\r\ntextButton = \"Volver al login\"\r\nmessage = \"El registro se realizó correctamente, vamos a validar sus datos y pronto daremos respuesta.\">\r\n</app-alert-success>\r\n<!--=====================================\r\n\tTOAST ALERT MENSAJE\r\n======================================-->\r\n<cwc-snackbar id='toast-message-driver' [message]=\"toastMessage\"\r\ncta-message=\"dismiss\" auto-hide-duration='5000'></cwc-snackbar>";
 
 /***/ }),
 
@@ -2025,7 +1726,7 @@ module.exports = "<cwc-modal id='modal-photo-licence-driver' [open] =\"modalPhot
   \*********************************************************************************************************/
 /***/ ((module) => {
 
-module.exports = "<form (submit)=\"register()\" [formGroup]=\"form\">\r\n  <cwc-grid class=\"demo-grid\" design-version=\"v2\" columns=\"12\" mobile-columns=\"12\">\r\n    <cwc-cell colspan=\"12\" mobile-colspan=\"12\">\r\n          <div class=\"section\">\r\n            <cwc-input class=\"input\" \r\n                      label='Nombre (s)'\r\n                      [status]='statusInputName'\r\n                      [statusMessage]='statusInputMessageName'\r\n                      design-version=\"v2\" \r\n                      formControlName=\"firstName\"\r\n                      ngDefaultControl\r\n                      required\r\n            ></cwc-input>\r\n          </div>\r\n          <div class=\"section\">\r\n            <cwc-input class=\"input\" \r\n                      label='Apellido (s)'\r\n                      [status]='statusInputLastName'\r\n                      [statusMessage]='statusInputMessageLastName'\r\n                      formControlName=\"lastName\"\r\n                      design-version=\"v2\" \r\n                      ngDefaultControl\r\n                      required\r\n            ></cwc-input>\r\n          </div>\r\n          <div class=\"section\">\r\n            <cwc-input class=\"input\" \r\n            label='Correo electrónico'\r\n            [status]='statusInputEmail'\r\n            [statusMessage]='statusInputMessageEmail'\r\n            formControlName=\"email\"\r\n            ngDefaultControl\r\n            design-version=\"v2\" \r\n            required\r\n            ></cwc-input>\r\n          </div>\r\n          <div class=\"section\">\r\n            <cwc-input class=\"input\" \r\n            label='N° documento'\r\n            [status]='statusInputDocument'\r\n            [statusMessage]='statusInputMessageDocument'\r\n            formControlName=\"document\"\r\n            design-version=\"v2\" \r\n            ngDefaultControl\r\n            required\r\n            ></cwc-input>\r\n          </div>\r\n          <div class=\"section\">\r\n            <cwc-input class=\"input\" \r\n            label='Código SAP'\r\n            [status]='statusInputSap'\r\n            [statusMessage]='statusInputMessageSap'\r\n            formControlName=\"codeSap\"\r\n            design-version=\"v2\"\r\n            ngDefaultControl\r\n            required\r\n            ></cwc-input>\r\n          </div>\r\n          <div class=\"section\">\r\n            <cwc-input class=\"input\" \r\n            label='Número de celular'\r\n            [status]='statusInputPhone'\r\n            type=\"number\"\r\n            [statusMessage]='statusInputMessagePhone'\r\n            formControlName=\"phoneNumber\"\r\n            design-version=\"v2\"\r\n            ngDefaultControl\r\n            required\r\n            ></cwc-input>\r\n          </div>\r\n    </cwc-cell>\r\n  </cwc-grid>\r\n  \r\n\r\n<!--=====================================\r\n    COMPONENTE PARA SUBIR ARCHIVOS\r\n  ======================================-->\r\n  <label for=\"\">Licencia de conducir (opcional)</label>\r\n <div *ngIf=\"!form.get('documentDrivinglicenseFrontal').value && !form.get('documentDrivinglicenseBack').value\">\r\n  <cwc-grid class=\"demo-grid content-archive\" >\r\n    <cwc-cell (click)=\"openModalPhotoLicence()\" class=\"border\" colspan=\"6\" mobile-colspan=\"6\" style=\"cursor: pointer;\">\r\n      <div class=\"item-archives\">\r\n        <cwc-icon name=\"camera\" size=\"28px\" color=\"bright-blue\"></cwc-icon>\r\n        <h5 class=\"text-archive\">Tomar fotografía</h5>\r\n      </div>\r\n    </cwc-cell>\r\n    <cwc-cell colspan=\"6\" mobile-colspan=\"6\" style=\"cursor: pointer;\">\r\n      <div class=\"item-archives\">\r\n        <cwc-icon name=\"document\" size=\"28px\" color=\"bright-blue\"></cwc-icon>\r\n        <h5 class=\"text-archive\">Seleccionar archivo</h5>\r\n      </div>\r\n    </cwc-cell>\r\n  </cwc-grid>\r\n</div>\r\n<div *ngIf=\"addLicence\">\r\n  <cwc-grid class=\"demo-grid content-archive\" >\r\n    <cwc-cell (click)=\"openModalPhotoLicence()\" class=\"\" colspan=\"12\" mobile-colspan=\"12\">\r\n      <div class=\"item-archives\">\r\n        <cwc-icon name=\"attachment\" size=\"28px\" color=\"bright-blue\"></cwc-icon>\r\n        <h5 class=\"text-archive\">Licencia de conducción agregada </h5>\r\n        <cwc-icon (click)=\"removeLicence()\" name=\"close\" size=\"20px\" color=\"bright-blue\" style=\"margin-left: 1rem; cursor: pointer;\"></cwc-icon>\r\n      </div>\r\n    </cwc-cell>\r\n  </cwc-grid>\r\n</div>\r\n\r\n<label for=\"\">Carné de seguridad industrial y vial (opcional)</label>\r\n<div *ngIf=\"!form.get('documentSecurityCard').value\">\r\n    <cwc-grid class=\"demo-grid content-archive\" >\r\n      <cwc-cell (click)=\"openModalPhotoSecurityCard()\" class=\"border\" colspan=\"6\" mobile-colspan=\"6\" style=\"cursor: pointer;\">\r\n        <div class=\"item-archives\">\r\n          <cwc-icon name=\"camera\" size=\"28px\" color=\"bright-blue\"></cwc-icon>\r\n          <h5 class=\"text-archive\">Tomar fotografía</h5>\r\n        </div>\r\n      </cwc-cell>\r\n      <cwc-cell colspan=\"6\" mobile-colspan=\"6\" style=\"cursor: pointer;\">\r\n        <div class=\"item-archives\">\r\n          <cwc-icon name=\"document\" size=\"28px\" color=\"bright-blue\"></cwc-icon>\r\n          <h5 class=\"text-archive\">Seleccionar archivo</h5>\r\n        </div>\r\n      </cwc-cell>\r\n    </cwc-grid>\r\n</div>\r\n<div *ngIf=\"addSecurityCard\">\r\n  <cwc-grid class=\"demo-grid content-archive\" >\r\n    <cwc-cell (click)=\"openModalPhotoSecurityCard()\" class=\"\" colspan=\"12\" mobile-colspan=\"12\">\r\n      <div class=\"item-archives\">\r\n        <cwc-icon name=\"attachment\" size=\"28px\" color=\"bright-blue\"></cwc-icon>\r\n        <h5 class=\"text-archive\">Carné de seguridad industrial y vial agregado </h5>\r\n        <cwc-icon (click)=\"removeSecurityCard()\" name=\"close\" size=\"20px\" color=\"bright-blue\" style=\"margin-left: 1rem; cursor: pointer;\"></cwc-icon>\r\n      </div>\r\n    </cwc-cell>\r\n  </cwc-grid>\r\n</div>\r\n\r\n<label for=\"\">Cédula de ciudadania (opcional)</label>\r\n<div *ngIf=\"!form.get('documentIdentityCardFrontal').value && !form.get('documentIdentityCardBack').value\">\r\n  <cwc-grid class=\"demo-grid content-archive\" >\r\n    <cwc-cell (click)=\"openModalPhotoIdentityCard()\" class=\"border\" colspan=\"6\" mobile-colspan=\"6\" style=\"cursor: pointer;\">\r\n      <div class=\"item-archives\">\r\n        <cwc-icon name=\"camera\" size=\"28px\" color=\"bright-blue\"></cwc-icon>\r\n        <h5 class=\"text-archive\">Tomar fotografía</h5>\r\n      </div>\r\n    </cwc-cell>\r\n    <cwc-cell colspan=\"6\" mobile-colspan=\"6\" style=\"cursor: pointer;\">\r\n      <div class=\"item-archives\">\r\n        <cwc-icon name=\"document\" size=\"28px\" color=\"bright-blue\"></cwc-icon>\r\n        <h5 class=\"text-archive\">Seleccionar archivo</h5>\r\n      </div>\r\n    </cwc-cell>\r\n</cwc-grid>\r\n</div>\r\n<div *ngIf=\"addIdentityCard\">\r\n  <cwc-grid class=\"demo-grid content-archive\" >\r\n    <cwc-cell (click)=\"openModalPhotoIdentityCard()\" class=\"\" colspan=\"12\" mobile-colspan=\"12\">\r\n      <div class=\"item-archives\">\r\n        <cwc-icon name=\"attachment\" size=\"28px\" color=\"bright-blue\"></cwc-icon>\r\n        <h5 class=\"text-archive\">Cédula de Ciudadanía agregada </h5>\r\n        <cwc-icon (click)=\"removeIdentityCard()\" name=\"close\" size=\"20px\" color=\"bright-blue\" style=\"margin-left: 1rem; cursor: pointer;\"></cwc-icon>\r\n      </div>\r\n    </cwc-cell>\r\n  </cwc-grid>\r\n</div>\r\n  \r\n  <app-error-messages [errors]=\"errors\"></app-error-messages> \r\n  <!--=====================================\r\n    BOTON PARA GUARDAR EL REGISTRO\r\n  ======================================-->\r\n      <div class=\"content-button\">\r\n        <cwc-button \r\n        design-version=\"v1\" \r\n        [disabled]=\"form.invalid\"\r\n        (click)=\"openAlertConfirm()\" \r\n        variant=\"regular-block\">COMPLETAR REGISTRO</cwc-button>\r\n      </div>\r\n</form>\r\n<!--=====================================\r\n\t\tMODAL AGREGAR FOTOGRAFIA LICENCIA\r\n======================================-->\r\n<app-photo-driving-licence\r\n[modalPhotoLinceShow] = \"openPhotoDrivingLicence\"\r\n></app-photo-driving-licence>\r\n\r\n<!--=====================================\r\n\t\tMODAL AGREGAR FOTOGRAFIA CARNE DE SEGURIDAD\r\n======================================-->\r\n<app-security-card\r\n[modalPhotoSecurityCardShow] = \"openPhotoSecurityCard\"\r\n></app-security-card>\r\n\r\n<!--=====================================\r\n\t\tMODAL AGREGAR FOTOGRAFIA CÉDULA\r\n======================================-->\r\n<app-photo-indentity-card\r\n[modalPhotoIdentityCardShow] = \"openPhotoIdentityCard\"\r\n></app-photo-indentity-card>\r\n<!--=====================================\r\n\t\tMODAL ALERTA CONFIRMAR DATOS GUARDAR\r\n======================================-->\r\n<cwc-modal id='alert-confirm' class=\"alert-confirm\" [open] =\"alertConfirm\" (cwcClose)=\"closeAlertConfirm()\">\r\n  <header slot='header'>\r\n      <h2 style='margin:0;'>Atención</h2>\r\n  </header>\r\n  <p>¿Esta seguro que los datos registrados estan correctos?</p>\r\n  <footer slot='footer'>\r\n      <div style='text-align: end'>\r\n        <cwc-button variant='support' (click)=\"closeAlertConfirm()\" style=\"margin-right: 1rem;\">Cancelar</cwc-button>\r\n          <cwc-button variant='primary' (click)=\"register()\" >Aceptar</cwc-button>\r\n      </div>\r\n  </footer>\r\n</cwc-modal>\r\n<!--=====================================\r\n\t\tMODAL CONFIRMACIÓN RESPUESTA DE EXITO\r\n======================================-->\r\n<app-alert-success\r\n[alertShow] = \"alertSucces\"\r\ntitle = \"Existoso\"\r\nurlButton = \"/login\"\r\ntextButton = \"Volver al login\"\r\nmessage = \"El registro se realizó correctamente, vamos a validar sus datos y pronto daremos respuesta.\">\r\n</app-alert-success>\r\n<!--=====================================\r\n\tTOAST ALERT MENSAJE\r\n======================================-->\r\n<cwc-snackbar id='toast-message-driver' [message]=\"toastMessage\"\r\ncta-message=\"dismiss\" auto-hide-duration='5000'></cwc-snackbar>";
+module.exports = "<form (submit)=\"register()\" [formGroup]=\"form\">\r\n  <div style=\"display: flex;\">\r\n    <label for=\"\" style=\"font-size: 0.9rem; margin-bottom: 0.7rem;\">Selecciona la empresa\r\n      <cwc-tooltip content='Busca y selecciona la empresa o microempresa'>\r\n        <cwc-icon style=\"margin-left: 0.5rem;\" id='icon' name='information-rounded-fill' color=\"bright-blue\" size='24px'></cwc-icon>\r\n      </cwc-tooltip>\r\n    </label>\r\n  </div>\r\n    <cwc-select\r\n    [status]='statusInputConveyor'\r\n    design-version=\"v2\"\r\n    [statusMessage]='statusInputMessageConveyor' (cwcChange)=\"cwcChange($event)\" class=\"w-full select-filter\" unwrap=\"true\" label=\"\" filter-no-resultsMessage=\"No se encontraron resultados\" filter-placeholder=\"Filtrar Empresas\" placeholder=\"Seleccionar\" filter>\r\n      <cwc-select-option *ngFor=\"let companies of listCompanies\" [value]=\"companies.id\">{{companies.companyName}}</cwc-select-option>\r\n    </cwc-select>\r\n  <cwc-grid class=\"demo-grid\" design-version=\"v2\" columns=\"12\" mobile-columns=\"12\" style=\"margin-top: 3rem;\">\r\n    <cwc-cell colspan=\"12\" mobile-colspan=\"12\">\r\n      <div class=\"section\">\r\n        <cwc-input class=\"input\" \r\n                   label='Nombre (s)'\r\n                   [status]='statusInputName'\r\n                   [statusMessage]='statusInputMessageName'\r\n                   design-version=\"v2\" \r\n                   formControlName=\"FirstName\"\r\n                   ngDefaultControl\r\n                   required\r\n        ></cwc-input>\r\n      </div>\r\n      <div class=\"section\">\r\n        <cwc-input class=\"input\" \r\n                   label='Apellido (s)'\r\n                   [status]='statusInputLastName'\r\n                   [statusMessage]='statusInputMessageLastName'\r\n                   formControlName=\"LastName\"\r\n                   design-version=\"v2\" \r\n                   ngDefaultControl\r\n                   required\r\n        ></cwc-input>\r\n      </div>\r\n      <div class=\"section\">\r\n        <cwc-input class=\"input\" \r\n        label='Correo electrónico'\r\n        [status]='statusInputEmail'\r\n        [statusMessage]='statusInputMessageEmail'\r\n        formControlName=\"Email\"\r\n        ngDefaultControl\r\n        design-version=\"v2\" \r\n        required\r\n        ></cwc-input>\r\n      </div>\r\n      <div class=\"section\">\r\n        <cwc-input class=\"input\" \r\n        label='Número de celular'\r\n        type=\"number\"\r\n        [status]='statusInputPhone'\r\n        [statusMessage]='statusInputMessagePhone'\r\n        formControlName=\"PhoneNumber\"\r\n        design-version=\"v2\"\r\n        ngDefaultControl\r\n        required\r\n        ></cwc-input>\r\n      </div>\r\n      <div class=\"section\">\r\n        <cwc-input class=\"input\" \r\n        label='Contraseña'\r\n        [status]='statusInputNit'\r\n        [statusMessage]='statusInputMessageNit'\r\n        type=\"password\"\r\n        formControlName=\"Password\"\r\n        design-version=\"v2\" \r\n        ngDefaultControl\r\n        required\r\n        ></cwc-input>\r\n      </div>\r\n    </cwc-cell>\r\n  </cwc-grid>\r\n   <!--=====================================\r\n      DOCUMENTO DE LA EMPRESA\r\n    ======================================-->\r\n    <label for=\"\">Licencia de conducir (opcional)</label>\r\n<div>\r\n  <cwc-grid class=\"demo-grid content-archive\" >\r\n    <cwc-cell (click)=\"openModalPhotoDocumentCompany()\" class=\"border\" colspan=\"6\" mobile-colspan=\"6\" style=\"cursor: pointer;\">\r\n      <div class=\"item-archives\">\r\n        <cwc-icon name=\"camera\" size=\"28px\" color=\"bright-blue\"></cwc-icon>\r\n        <h5 class=\"text-archive\">Tomar fotografía</h5>\r\n      </div>\r\n    </cwc-cell>\r\n    <cwc-cell colspan=\"6\" mobile-colspan=\"6\" style=\"cursor: pointer;\">\r\n      <div class=\"item-archives\">\r\n        <cwc-icon name=\"document\" size=\"28px\" color=\"bright-blue\"></cwc-icon>\r\n        <h5 class=\"text-archive\">Seleccionar archivo</h5>\r\n      </div>\r\n    </cwc-cell>\r\n</cwc-grid>\r\n</div>\r\n  <div *ngIf=\"addDocumentCompany\">\r\n    <cwc-grid class=\"demo-grid content-archive\" >\r\n      <cwc-cell (click)=\"openModalPhotoDocumentCompany()\" class=\"\" colspan=\"12\" mobile-colspan=\"12\">\r\n        <div class=\"item-archives\">\r\n          <cwc-icon name=\"attachment\" size=\"28px\" color=\"bright-blue\"></cwc-icon>\r\n          <h5 class=\"text-archive\">Documento agregado</h5>\r\n          <cwc-icon (click)=\"removeDocumentCompany()\" name=\"close\" size=\"20px\" color=\"bright-blue\" style=\"margin-left: 1rem; cursor: pointer;\"></cwc-icon>\r\n        </div>\r\n      </cwc-cell>\r\n    </cwc-grid>\r\n  </div>\r\n   <!--=====================================\r\n      CEDULA DE CIUDADANIA\r\n    ======================================-->\r\n<label for=\"\">Tarjeta de seguridad (opcional)</label>\r\n<div>\r\n  <cwc-grid class=\"demo-grid content-archive\" >\r\n    <cwc-cell (click)=\"openModalPhotoIdentityCard()\" class=\"border\" colspan=\"6\" mobile-colspan=\"6\" style=\"cursor: pointer;\">\r\n      <div class=\"item-archives\">\r\n        <cwc-icon name=\"camera\" size=\"28px\" color=\"bright-blue\"></cwc-icon>\r\n        <h5 class=\"text-archive\">Tomar fotografía</h5>\r\n      </div>\r\n    </cwc-cell>\r\n    <cwc-cell colspan=\"6\" mobile-colspan=\"6\" style=\"cursor: pointer;\">\r\n      <div class=\"item-archives\">\r\n        <cwc-icon name=\"document\" size=\"28px\" color=\"bright-blue\"></cwc-icon>\r\n        <h5 class=\"text-archive\">Seleccionar archivo</h5>\r\n      </div>\r\n    </cwc-cell>\r\n</cwc-grid>\r\n</div>\r\n  <div *ngIf=\"addIdentityCard\">\r\n    <cwc-grid class=\"demo-grid content-archive\" >\r\n      <cwc-cell (click)=\"openModalPhotoIdentityCard()\" class=\"\" colspan=\"12\" mobile-colspan=\"12\">\r\n        <div class=\"item-archives\">\r\n          <cwc-icon name=\"attachment\" size=\"28px\" color=\"bright-blue\"></cwc-icon>\r\n          <h5 class=\"text-archive\">Cédula de Ciudadanía agregada </h5>\r\n          <cwc-icon (click)=\"removeIdentityCard()\" name=\"close\" size=\"20px\" color=\"bright-blue\" style=\"margin-left: 1rem; cursor: pointer;\"></cwc-icon>\r\n        </div>\r\n      </cwc-cell>\r\n    </cwc-grid>\r\n  </div>\r\n\r\n<label for=\"\">Cédula de ciudadanía (opcional)</label>\r\n<div>\r\n  <cwc-grid class=\"demo-grid content-archive\" >\r\n    <cwc-cell (click)=\"openModalPhotoIdentityCard()\" class=\"border\" colspan=\"6\" mobile-colspan=\"6\" style=\"cursor: pointer;\">\r\n      <div class=\"item-archives\">\r\n        <cwc-icon name=\"camera\" size=\"28px\" color=\"bright-blue\"></cwc-icon>\r\n        <h5 class=\"text-archive\">Tomar fotografía</h5>\r\n      </div>\r\n    </cwc-cell>\r\n    <cwc-cell colspan=\"6\" mobile-colspan=\"6\" style=\"cursor: pointer;\">\r\n      <div class=\"item-archives\">\r\n        <cwc-icon name=\"document\" size=\"28px\" color=\"bright-blue\"></cwc-icon>\r\n        <h5 class=\"text-archive\">Seleccionar archivo</h5>\r\n      </div>\r\n    </cwc-cell>\r\n</cwc-grid>\r\n</div>\r\n  <div *ngIf=\"addIdentityCard\">\r\n    <cwc-grid class=\"demo-grid content-archive\" >\r\n      <cwc-cell (click)=\"openModalPhotoIdentityCard()\" class=\"\" colspan=\"12\" mobile-colspan=\"12\">\r\n        <div class=\"item-archives\">\r\n          <cwc-icon name=\"attachment\" size=\"28px\" color=\"bright-blue\"></cwc-icon>\r\n          <h5 class=\"text-archive\">Cédula de Ciudadanía agregada </h5>\r\n          <cwc-icon (click)=\"removeIdentityCard()\" name=\"close\" size=\"20px\" color=\"bright-blue\" style=\"margin-left: 1rem; cursor: pointer;\"></cwc-icon>\r\n        </div>\r\n      </cwc-cell>\r\n    </cwc-grid>\r\n  </div>\r\n    \r\n    <app-error-messages [errors]=\"errors\"></app-error-messages> \r\n  <!--=====================================\r\n    BOTON PARA GUARDAR EL REGISTRO\r\n  ======================================-->\r\n    <div class=\"content-button\">\r\n      <cwc-button \r\n      design-version=\"v1\" \r\n      [disabled]=\"form.invalid\"\r\n      (click)=\"openAlertConfirm()\" \r\n      variant=\"regular-block\">COMPLETAR REGISTRO</cwc-button>\r\n    </div>\r\n</form>\r\n\r\n<app-photo-indentity-card\r\n[modalPhotoIdentityCardShow] = \"openPhotoIdentityCard\"\r\n></app-photo-indentity-card>\r\n<app-document-company\r\n[modalPhotoDocumentCompanyShow] = \"openPhotoDocumentCompany\"\r\n></app-document-company>\r\n<!--=====================================\r\n\t\tMODAL ALERTA CONFIRMAR DATOS GUARDAR\r\n======================================-->\r\n<cwc-modal id='alert-confirm' class=\"alert-confirm\" [open] =\"alertConfirm\" (cwcClose)=\"closeAlertConfirm()\">\r\n  <header slot='header'>\r\n      <h2 style='margin:0;'>Atención</h2>\r\n  </header>\r\n  <p>¿Esta seguro que los datos registrados estan correctos?</p>\r\n  <footer slot='footer'>\r\n      <div style='text-align: end'>\r\n        <cwc-button variant='support' (click)=\"closeAlertConfirm()\" style=\"margin-right: 1rem;\">Cancelar</cwc-button>\r\n          <cwc-button variant='primary' (click)=\"register()\" >Aceptar</cwc-button>\r\n      </div>\r\n  </footer>\r\n</cwc-modal>\r\n<!--=====================================\r\n\t\tMODAL CONFIRMACIÓN RESPUESTA DE EXITO\r\n======================================-->\r\n<app-alert-success\r\n[alertShow] = \"alertSucces\"\r\ntitle = \"Existoso\"\r\nurlButton = \"/login\"\r\ntextButton = \"Volver al login\"\r\nmessage = \"El registro se realizó correctamente, vamos a validar sus datos y pronto daremos respuesta.\">\r\n</app-alert-success>\r\n<!--=====================================\r\n\tTOAST ALERT MENSAJE\r\n======================================-->\r\n<cwc-snackbar id='toast-message-driver' [message]=\"toastMessage\"\r\ncta-message=\"dismiss\" auto-hide-duration='5000'></cwc-snackbar>";
 
 /***/ }),
 
@@ -2035,7 +1736,7 @@ module.exports = "<form (submit)=\"register()\" [formGroup]=\"form\">\r\n  <cwc-
   \**************************************************************/
 /***/ ((module) => {
 
-module.exports = "<ion-header>\r\n  <ion-toolbar color=\"primary\">\r\n    <ion-buttons slot=\"start\">\r\n      <ion-back-button text=\"\"></ion-back-button>\r\n    </ion-buttons>\r\n    <ion-title>Registro</ion-title>\r\n  </ion-toolbar>\r\n</ion-header>\r\n\r\n<div slot=\"main\" class=\"content-grid-register content\" *ngIf=\"!showError\">\r\n  <div class=\"content-title-register\">\r\n    <h2>Crear solicitud</h2>\r\n  </div>\r\n  <div class=\"section\">\r\n    <form [formGroup]=\"formTypeConveyor\">\r\n        <cwc-radio-group  ngDefaultControl formControlName=\"typeConveyorId\"  (cwcChange)=\"cwcChange($event)\" label='Actuará como'>\r\n          <div *ngFor=\"let typeConveyor of typeConveyors\">\r\n            <cwc-radio  [value]='typeConveyor.idTypeConveyor'>\r\n              <p *ngIf=\"typeConveyor.nameTypeConveyor === 'AdminLogis'\">Admin. Logístico Tercero</p>\r\n              <p *ngIf=\"typeConveyor.nameTypeConveyor === 'ManTruck'\">Hombre Camión</p>\r\n              <p *ngIf=\"typeConveyor.nameTypeConveyor === 'Driver'\">Conductor</p>\r\n              <cwc-tooltip [content]='typeConveyor.descriptionTypeConveyor'>\r\n                 <cwc-icon style=\"margin-left: 0.5rem;\" id='icon' name='information-rounded-fill' color=\"bright-blue\" size='24px'></cwc-icon>\r\n              </cwc-tooltip>\r\n           </cwc-radio>\r\n           <br/>\r\n           <br/>\r\n          </div>\r\n        </cwc-radio-group>\r\n      </form>\r\n    </div>\r\n  <!--=====================================\r\n\t\tFORMULARIO DE REGISTRO HOMBRE CAMIÓN\r\n  ======================================-->\r\n  <div *ngIf=\"showFormManTruck\">\r\n    <app-register-mantruck \r\n    (propagar)=\"showLoading($event)\" \r\n    [typeConveyor]=\"selectTypeConveyor\">\r\n  </app-register-mantruck>\r\n  </div>\r\n  <!--=====================================\r\n\t\tFORMULARIO DE REGISTRO ADMINISTRADOR LOGISTICO TERCERO\r\n  ======================================-->\r\n  <div *ngIf=\"showFormAdminLogist\">\r\n    <app-register-admin-logist-third\r\n    (propagar)=\"showLoading($event)\"\r\n    [typeConveyor]=\"selectTypeConveyor\"\r\n    ></app-register-admin-logist-third>\r\n  </div>\r\n  <!--=====================================\r\n\t\tFORMULARIO DE REGISTRO CONDUCTOR\r\n  ======================================-->\r\n  <div *ngIf=\"showFormDriver\">\r\n    <app-register-driver \r\n    (propagar)=\"showLoading($event)\" \r\n    [typeConveyor]=\"selectTypeConveyor\">\r\n    </app-register-driver>\r\n  </div>\r\n</div>\r\n\r\n\r\n<!--=====================================\r\n\t\tLOANDING\r\n======================================-->\r\n<div class=\"loading-content\" *ngIf=\"loading\">\r\n  <cwc-loader>\r\n    <span slot='loading'>Espere un momento...</span>\r\n  </cwc-loader>\r\n</div>\r\n<!--=====================================\r\n\t\tCONTENEDOR SI HAY UN ERROR DE SERVIDOR\r\n======================================-->\r\n<div class=\"content-empty-result\" *ngIf=\"showError\">\r\n  <div class=\"p-all-reg\" style=\"background: #F4F6F9\">\r\n    <cwc-empty-result header=\"Error al generar el formulario\" icon=\"error-rounded-fill\">\r\n        Error en el servidor, \r\n        por favor consulte con el administrador o <a [routerLink]=\"['/help']\" routerLinkActive=\"router-link-active\" >ayuda</a> de Cemex.\r\n    </cwc-empty-result>\r\n</div>";
+module.exports = "<cwc-header design-version=\"v2\" slot=\"header\" show-Menu-Button=\"false\" show-cemex-logo=\"false\">\r\n  <div class=\"header-text\">\r\n    <ion-icon name=\"arrow-back-outline\" style=\"font-size: 25px;\" (click)=\"onBack()\"></ion-icon>\r\n    <div class=\"attr-name\" style=\"padding-left: 1rem;\">Iniciar sesión</div>\r\n  </div>\r\n</cwc-header>\r\n<div slot=\"main\" class=\"content-card\">\r\n  <div class=\"content-title\">\r\n    Crear Nuevo Usuario\r\n  </div>\r\n\r\n  <cwc-picker\r\n    (cwcChange)=\"cwcChange($event)\"\r\n    class=\"select-filter\"\r\n    label=\"Rol\"\r\n    filter-no-resultsMessage=\"No se encontraron resultados\" \r\n    filter-placeholder=\"Filtrar Roles\" \r\n    placeholder=\"Seleccionar\"\r\n    design-version=\"v2\"\r\n    filter>\r\n      <option value=\"1\">Administrador Logistico Tercero</option>\r\n      <option value=\"2\">Hombre Camión</option>\r\n      <option value=\"3\">Conductor</option>\r\n  </cwc-picker>\r\n  <!--=====================================\r\n\t\tFORMULARIO DE REGISTRO HOMBRE CAMIÓN\r\n  ======================================-->\r\n  <div *ngIf=\"showFormManTruck\">\r\n    <app-register-mantruck \r\n    (propagar)=\"showLoading($event)\" \r\n    [typeConveyor]=\"selectTypeConveyor\">\r\n  </app-register-mantruck>\r\n  </div>\r\n  <!--=====================================\r\n\t\tFORMULARIO DE REGISTRO ADMINISTRADOR LOGISTICO TERCERO\r\n  ======================================-->\r\n  <div *ngIf=\"showFormAdminLogist\">\r\n    <app-register-admin-logist-third\r\n    (propagar)=\"showLoading($event)\"\r\n    [typeConveyor]=\"selectTypeConveyor\"\r\n    ></app-register-admin-logist-third>\r\n  </div>\r\n  <!--=====================================\r\n\t\tFORMULARIO DE REGISTRO CONDUCTOR\r\n  ======================================-->\r\n  <div *ngIf=\"showFormDriver\">\r\n    <app-register-driver \r\n    (propagar)=\"showLoading($event)\" \r\n    [typeConveyor]=\"selectTypeConveyor\">\r\n    </app-register-driver>\r\n  </div>\r\n</div>\r\n\r\n\r\n<!--=====================================\r\n\t\tLOANDING\r\n======================================-->\r\n<div class=\"loading-content\" *ngIf=\"loading\">\r\n  <cwc-loader>\r\n    <span slot='loading'>Espere un momento...</span>\r\n  </cwc-loader>\r\n</div>";
 
 /***/ })
 

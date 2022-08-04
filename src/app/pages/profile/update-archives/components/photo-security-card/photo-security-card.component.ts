@@ -55,10 +55,10 @@ export class PhotoSecurityCardComponent implements OnInit {
 
   async ngOnInit() {
     await this.profileService.getDataUser(this.email).subscribe(resp => {
-      this.user.idDriver = resp.idDriver;
-      this.user.firstName = resp.user.firstName;
-      this.user.lastName = resp.user.lastName;
-      this.user.documentSecurityCard = resp.documentSecurityCard;
+      this.user.idDriver = resp.data.idDriver;
+      this.user.firstName = resp.data.user.firstName;
+      this.user.lastName = resp.data.user.lastName;
+      this.user.documentSecurityCard = resp.data.documentSecurityCard;
    });
   }
 

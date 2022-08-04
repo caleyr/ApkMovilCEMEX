@@ -39,7 +39,7 @@ export class NewDriverPage implements OnInit {
   ) {    
     this.formBuilderInput(loginService.profileUser.CompanyId);
     this.companiesService.getCompany(loginService.profileUser.CompanyId).subscribe(async data =>{
-      this.company = data;
+      this.company = data.data;
     });
   }
 

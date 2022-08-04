@@ -41,13 +41,13 @@ export class DriverDetailsPage implements OnInit {
   getData(){
     this.id = this.driversService.id;
     this.driversService.getDriverById(this.driversService.id).subscribe(data=>{
-      this.driver = data;
+      this.driver = data.data;
     });
   }
 
   updateVehicle(){
     this.driversService.getDriverForUpdate(this.id).subscribe(data=>{
-      this.driversService.driverUpdate = data;
+      this.driversService.driverUpdate = data.data;
       this.navCtrl.navigateRoot('/app/conductores/actualizar', { animated : false });
     });
   }

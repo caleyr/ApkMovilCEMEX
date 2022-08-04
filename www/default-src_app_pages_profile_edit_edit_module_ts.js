@@ -11,12 +11,24 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "EditAdminLogisThirdComponent": () => (/* binding */ EditAdminLogisThirdComponent)
 /* harmony export */ });
-/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! tslib */ 34929);
+/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! tslib */ 34929);
 /* harmony import */ var _edit_admin_logis_third_component_html_ngResource__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./edit-admin-logis-third.component.html?ngResource */ 31692);
 /* harmony import */ var _edit_admin_logis_third_component_scss_ngResource__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./edit-admin-logis-third.component.scss?ngResource */ 82636);
-/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @angular/core */ 3184);
-/* harmony import */ var _angular_forms__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/forms */ 90587);
-/* harmony import */ var rxjs_operators__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! rxjs/operators */ 80823);
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @angular/core */ 3184);
+/* harmony import */ var _angular_forms__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! @angular/forms */ 90587);
+/* harmony import */ var rxjs_operators__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! rxjs/operators */ 80823);
+/* harmony import */ var _services_companies_companies_service__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../services/companies/companies.service */ 46605);
+/* harmony import */ var _services_error_messages_service__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../../services/error-messages.service */ 47486);
+/* harmony import */ var _services_adminLogist_admin_logist_service__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../../../services/adminLogist/admin-logist.service */ 59543);
+/* harmony import */ var _ionic_angular__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! @ionic/angular */ 93819);
+/* harmony import */ var _services_auth_login_service__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../../../services/auth/login.service */ 52876);
+/* harmony import */ var src_app_models_profile_model__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! src/app/models/profile.model */ 22574);
+
+
+
+
+
+
 
 
 
@@ -24,8 +36,20 @@ __webpack_require__.r(__webpack_exports__);
 
 
 let EditAdminLogisThirdComponent = class EditAdminLogisThirdComponent {
-    constructor(formBuilder) {
+    constructor(formBuilder, companiesService, errorMessages, adminLogistService, navCtrl, loginServices) {
         this.formBuilder = formBuilder;
+        this.companiesService = companiesService;
+        this.errorMessages = errorMessages;
+        this.adminLogistService = adminLogistService;
+        this.navCtrl = navCtrl;
+        this.loginServices = loginServices;
+        this.propagar = new _angular_core__WEBPACK_IMPORTED_MODULE_7__.EventEmitter();
+        this.profile = new src_app_models_profile_model__WEBPACK_IMPORTED_MODULE_6__.Profile();
+        this.loading = false;
+        this.alertSucces = true;
+        this.alertConfirm = false;
+        this.addIdentityCard = false;
+        this.addDocumentCompany = false;
         this.toastMessage = '';
         this.errors = [];
         this.statusInputName = 'regular';
@@ -44,65 +68,112 @@ let EditAdminLogisThirdComponent = class EditAdminLogisThirdComponent {
         this.statusInputMessageCompany = '';
         this.statusInputNit = 'regular';
         this.statusInputMessageNit = '';
+        this.openPhotoIdentityCard = false;
+        this.openPhotoDocumentCompany = false;
+        this.profile = loginServices.profileUser;
+        this.previusMail = loginServices.profileUser.Email;
+        this.formBuilderInput();
     }
     ngOnInit() {
-        this.formBuilderInput();
-        this.form.get('firstName').setValue(this.dataUser.firstName);
-        this.form.get('lastName').setValue(this.dataUser.lastName);
-        this.form.get('email').setValue(this.dataUser.email);
-        this.form.get('document').setValue(this.dataUser.document);
-        this.form.get('phoneNumber').setValue(this.dataUser.phoneNumber);
-        this.form.get('nameCompany').setValue(this.dataUser.company.companyName);
-        this.form.get('nitCompany').setValue(this.dataUser.company.companyNit);
+        this.alertSucces = false;
+    }
+    updateData() {
+        return (0,tslib__WEBPACK_IMPORTED_MODULE_8__.__awaiter)(this, void 0, void 0, function* () {
+            if (this.form.invalid) {
+                return;
+            }
+            this.data = new FormData();
+            this.addFormData(this.form.value);
+            this.propagar.emit(true);
+            yield this.adminLogistService.updateAdminLogistThird(this.data, this.previusMail).subscribe((resp) => (0,tslib__WEBPACK_IMPORTED_MODULE_8__.__awaiter)(this, void 0, void 0, function* () {
+                this.propagar.emit(false);
+                this.alertSucces = true;
+                this.addIdentityCard = false;
+                this.addDocumentCompany = false;
+                this.alertConfirm = false;
+                this.alertSucces = true;
+                this.errors = [];
+            }), (error) => {
+                console.log(error);
+                this.propagar.emit(false);
+                this.errors = this.errorMessages.parsearErroresAPI(error);
+            });
+        });
+    }
+    addFormData(objeto) {
+        return (0,tslib__WEBPACK_IMPORTED_MODULE_8__.__awaiter)(this, void 0, void 0, function* () {
+            for (var key in objeto) {
+                if (key !== 'term') {
+                    this.data.append(key, objeto[key]);
+                }
+            }
+        });
+    }
+    openAlertConfirm() {
+        if (this.form.invalid) {
+            return;
+        }
+        this.alertConfirm = true;
+    }
+    closeAlertConfirm() {
+        this.alertConfirm = false;
+    }
+    buttonBack() {
+        this.navCtrl.navigateRoot('/dashboard/perfil', { animated: true });
+    }
+    openModalPhotoIdentityCard() {
+        if (this.openPhotoIdentityCard = true) {
+            this.openPhotoIdentityCard = false;
+        }
+        else {
+            this.openPhotoIdentityCard = true;
+        }
+    }
+    openModalPhotoDocumentCompany() {
+        this.openPhotoDocumentCompany = true;
     }
     /*=============================================
      FORMULARIO REACTIVOS
     =============================================*/
     formBuilderInput() {
         this.form = this.formBuilder.group({
-            typeConveyorId: ['', [
-                    _angular_forms__WEBPACK_IMPORTED_MODULE_2__.Validators.required,
+            FirstName: [this.profile.FirstName, [_angular_forms__WEBPACK_IMPORTED_MODULE_9__.Validators.required,]],
+            LastName: [this.profile.LastName, [_angular_forms__WEBPACK_IMPORTED_MODULE_9__.Validators.required,]],
+            Email: [this.profile.Email, [_angular_forms__WEBPACK_IMPORTED_MODULE_9__.Validators.required, _angular_forms__WEBPACK_IMPORTED_MODULE_9__.Validators.email]],
+            PhoneNumber: [this.profile.PhoneNumber, [
+                    _angular_forms__WEBPACK_IMPORTED_MODULE_9__.Validators.required,
+                    _angular_forms__WEBPACK_IMPORTED_MODULE_9__.Validators.minLength(10),
+                    _angular_forms__WEBPACK_IMPORTED_MODULE_9__.Validators.maxLength(10),
+                    _angular_forms__WEBPACK_IMPORTED_MODULE_9__.Validators.pattern('^[0-9]*$')
                 ]],
-            firstName: ['', [
-                    _angular_forms__WEBPACK_IMPORTED_MODULE_2__.Validators.required,
-                ]],
-            lastName: ['', [
-                    _angular_forms__WEBPACK_IMPORTED_MODULE_2__.Validators.required,
-                ]],
-            email: ['', [
-                    _angular_forms__WEBPACK_IMPORTED_MODULE_2__.Validators.required,
-                    _angular_forms__WEBPACK_IMPORTED_MODULE_2__.Validators.email
-                ]],
-            document: ['', [
-                    _angular_forms__WEBPACK_IMPORTED_MODULE_2__.Validators.required,
-                ]],
-            role: ['AdminLogis', [
-                    _angular_forms__WEBPACK_IMPORTED_MODULE_2__.Validators.required,
-                ]],
-            phoneNumber: ['', [
-                    _angular_forms__WEBPACK_IMPORTED_MODULE_2__.Validators.required,
-                    _angular_forms__WEBPACK_IMPORTED_MODULE_2__.Validators.minLength(10),
-                    _angular_forms__WEBPACK_IMPORTED_MODULE_2__.Validators.maxLength(10),
-                    _angular_forms__WEBPACK_IMPORTED_MODULE_2__.Validators.pattern('^[0-9]*$')
-                ]],
-            nameCompany: ['', [
-                    _angular_forms__WEBPACK_IMPORTED_MODULE_2__.Validators.required,
-                ]],
-            nitCompany: ['', [
-                    _angular_forms__WEBPACK_IMPORTED_MODULE_2__.Validators.required,
-                ]],
+            term: [true, [_angular_forms__WEBPACK_IMPORTED_MODULE_9__.Validators.requiredTrue]]
         });
         this.form.valueChanges
-            .pipe((0,rxjs_operators__WEBPACK_IMPORTED_MODULE_3__.debounceTime)(350))
+            .pipe((0,rxjs_operators__WEBPACK_IMPORTED_MODULE_10__.debounceTime)(350))
             .subscribe(data => {
+            console.log(data);
             this.validateInput();
         });
     }
+    cwcChangeTerm(event) {
+        this.form.get('term').setValue(event.detail);
+    }
+    clickUpdate() {
+        if (this.form.invalid) {
+            return;
+        }
+        this.alertConfirm = true;
+    }
+    getStatusField(field) {
+        if (this.form.controls[field].errors && this.form.controls[field].touched)
+            return 'error';
+        return 'regular';
+    }
     /*=============================================
-     FUNCIÓN PARA VALIDAR LOS CAMPOS
-    =============================================*/
+    FUNCIÓN PARA VALIDAR LOS CAMPOS
+   =============================================*/
     validateInput() {
-        if (this.form.get('firstName').errors && this.form.get('firstName').dirty) {
+        if (this.form.get('FirstName').errors && this.form.get('FirstName').dirty) {
             this.statusInputName = 'error';
             this.statusInputMessageName = 'Este campo es requerido';
         }
@@ -110,7 +181,7 @@ let EditAdminLogisThirdComponent = class EditAdminLogisThirdComponent {
             this.statusInputName = 'regular';
             this.statusInputMessageName = '';
         }
-        if (this.form.get('lastName').errors && this.form.get('lastName').dirty) {
+        if (this.form.get('LastName').errors && this.form.get('LastName').dirty) {
             this.statusInputLastName = 'error';
             this.statusInputMessageLastName = 'Este campo es requerido';
         }
@@ -118,8 +189,8 @@ let EditAdminLogisThirdComponent = class EditAdminLogisThirdComponent {
             this.statusInputLastName = 'regular';
             this.statusInputMessageLastName = '';
         }
-        if (this.form.get('email').errors && this.form.get('email').dirty) {
-            if (this.form.get('email').errors.email) {
+        if (this.form.get('Email').errors && this.form.get('Email').dirty) {
+            if (this.form.get('Email').errors.email) {
                 this.statusInputEmail = 'error';
                 this.statusInputMessageEmail = 'Ingrese un correo electrónico válido';
             }
@@ -132,16 +203,8 @@ let EditAdminLogisThirdComponent = class EditAdminLogisThirdComponent {
             this.statusInputEmail = 'regular';
             this.statusInputMessageEmail = '';
         }
-        if (this.form.get('document').errors && this.form.get('document').dirty) {
-            this.statusInputDocument = 'error';
-            this.statusInputMessageDocument = 'Este campo es requerido';
-        }
-        else {
-            this.statusInputDocument = 'regular';
-            this.statusInputMessageDocument = '';
-        }
-        if (this.form.get('phoneNumber').errors && this.form.get('phoneNumber').dirty) {
-            if (this.form.get('phoneNumber').errors.minlength || this.form.get('phoneNumber').errors.maxlength) {
+        if (this.form.get('PhoneNumber').errors && this.form.get('PhoneNumber').dirty) {
+            if (this.form.get('PhoneNumber').errors.minlength || this.form.get('PhoneNumber').errors.maxlength) {
                 this.statusInputPhone = 'error';
                 this.statusInputMessagePhone = 'Ingrese un número de celular válido';
             }
@@ -154,37 +217,265 @@ let EditAdminLogisThirdComponent = class EditAdminLogisThirdComponent {
             this.statusInputPhone = 'regular';
             this.statusInputMessagePhone = '';
         }
-        if (this.form.get('nameCompany').errors && this.form.get('nameCompany').dirty) {
-            this.statusInputCompany = 'error';
-            this.statusInputMessageCompany = 'Este campo es requerido';
-        }
-        else {
-            this.statusInputCompany = 'regular';
-            this.statusInputMessageCompany = '';
-        }
-        if (this.form.get('nitCompany').errors && this.form.get('nitCompany').dirty) {
-            this.statusInputNit = 'error';
-            this.statusInputMessageNit = 'Este campo es requerido';
-        }
-        else {
-            this.statusInputNit = 'regular';
-            this.statusInputMessageNit = '';
-        }
     }
 };
 EditAdminLogisThirdComponent.ctorParameters = () => [
-    { type: _angular_forms__WEBPACK_IMPORTED_MODULE_2__.FormBuilder }
+    { type: _angular_forms__WEBPACK_IMPORTED_MODULE_9__.FormBuilder },
+    { type: _services_companies_companies_service__WEBPACK_IMPORTED_MODULE_2__.CompaniesService },
+    { type: _services_error_messages_service__WEBPACK_IMPORTED_MODULE_3__.ErrorMessagesService },
+    { type: _services_adminLogist_admin_logist_service__WEBPACK_IMPORTED_MODULE_4__.AdminLogistService },
+    { type: _ionic_angular__WEBPACK_IMPORTED_MODULE_11__.NavController },
+    { type: _services_auth_login_service__WEBPACK_IMPORTED_MODULE_5__.LoginService }
 ];
-EditAdminLogisThirdComponent.propDecorators = {
-    dataUser: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_4__.Input }]
-};
-EditAdminLogisThirdComponent = (0,tslib__WEBPACK_IMPORTED_MODULE_5__.__decorate)([
-    (0,_angular_core__WEBPACK_IMPORTED_MODULE_4__.Component)({
+EditAdminLogisThirdComponent = (0,tslib__WEBPACK_IMPORTED_MODULE_8__.__decorate)([
+    (0,_angular_core__WEBPACK_IMPORTED_MODULE_7__.Component)({
         selector: 'app-edit-admin-logis-third',
         template: _edit_admin_logis_third_component_html_ngResource__WEBPACK_IMPORTED_MODULE_0__,
         styles: [_edit_admin_logis_third_component_scss_ngResource__WEBPACK_IMPORTED_MODULE_1__]
     })
 ], EditAdminLogisThirdComponent);
+
+
+
+/***/ }),
+
+/***/ 99735:
+/*!*************************************************************************!*\
+  !*** ./src/app/pages/profile/edit/edit-driver/edit-driver.component.ts ***!
+  \*************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "EditDriverComponent": () => (/* binding */ EditDriverComponent)
+/* harmony export */ });
+/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! tslib */ 34929);
+/* harmony import */ var _edit_driver_component_html_ngResource__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./edit-driver.component.html?ngResource */ 81290);
+/* harmony import */ var _edit_driver_component_scss_ngResource__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./edit-driver.component.scss?ngResource */ 86151);
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @angular/core */ 3184);
+/* harmony import */ var _angular_forms__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! @angular/forms */ 90587);
+/* harmony import */ var rxjs_operators__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! rxjs/operators */ 80823);
+/* harmony import */ var _services_companies_companies_service__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../services/companies/companies.service */ 46605);
+/* harmony import */ var _services_error_messages_service__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../../services/error-messages.service */ 47486);
+/* harmony import */ var _services_adminLogist_admin_logist_service__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../../../services/adminLogist/admin-logist.service */ 59543);
+/* harmony import */ var _services_auth_login_service__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../../../services/auth/login.service */ 52876);
+/* harmony import */ var src_app_models_profile_model__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! src/app/models/profile.model */ 22574);
+/* harmony import */ var _ionic_angular__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! @ionic/angular */ 93819);
+
+
+
+
+
+
+
+
+
+
+
+
+let EditDriverComponent = class EditDriverComponent {
+    constructor(formBuilder, companiesService, errorMessages, adminLogistService, navCtrl, loginServices) {
+        this.formBuilder = formBuilder;
+        this.companiesService = companiesService;
+        this.errorMessages = errorMessages;
+        this.adminLogistService = adminLogistService;
+        this.navCtrl = navCtrl;
+        this.loginServices = loginServices;
+        this.propagar = new _angular_core__WEBPACK_IMPORTED_MODULE_7__.EventEmitter();
+        this.profile = new src_app_models_profile_model__WEBPACK_IMPORTED_MODULE_6__.Profile();
+        this.loading = false;
+        this.alertSucces = true;
+        this.alertConfirm = false;
+        this.addIdentityCard = false;
+        this.addDocumentCompany = false;
+        this.toastMessage = '';
+        this.errors = [];
+        this.statusInputName = 'regular';
+        this.statusInputMessageName = '';
+        this.statusInputLastName = 'regular';
+        this.statusInputMessageLastName = '';
+        this.statusInputEmail = 'regular';
+        this.statusInputMessageEmail = '';
+        this.statusInputDocument = 'regular';
+        this.statusInputMessageDocument = '';
+        this.statusInputSap = 'regular';
+        this.statusInputMessageSap = '';
+        this.statusInputPhone = 'regular';
+        this.statusInputMessagePhone = '';
+        this.statusInputCompany = 'regular';
+        this.statusInputMessageCompany = '';
+        this.statusInputNit = 'regular';
+        this.statusInputMessageNit = '';
+        this.openPhotoIdentityCard = false;
+        this.openPhotoDocumentCompany = false;
+        this.profile = loginServices.profileUser;
+        this.previusMail = loginServices.profileUser.Email;
+        this.formBuilderInput();
+    }
+    ngOnInit() {
+        this.alertSucces = false;
+    }
+    updateData() {
+        return (0,tslib__WEBPACK_IMPORTED_MODULE_8__.__awaiter)(this, void 0, void 0, function* () {
+            if (this.form.invalid) {
+                return;
+            }
+            this.data = new FormData();
+            this.addFormData(this.form.value);
+            this.propagar.emit(true);
+            yield this.adminLogistService.updateDriver(this.data, this.previusMail).subscribe((resp) => (0,tslib__WEBPACK_IMPORTED_MODULE_8__.__awaiter)(this, void 0, void 0, function* () {
+                this.propagar.emit(false);
+                this.alertSucces = true;
+                this.addIdentityCard = false;
+                this.addDocumentCompany = false;
+                this.alertConfirm = false;
+                this.alertSucces = true;
+                this.errors = [];
+            }), (error) => {
+                console.log(error);
+                this.propagar.emit(false);
+                this.errors = this.errorMessages.parsearErroresAPI(error);
+            });
+        });
+    }
+    addFormData(objeto) {
+        return (0,tslib__WEBPACK_IMPORTED_MODULE_8__.__awaiter)(this, void 0, void 0, function* () {
+            this.data.append('SapCode', this.profile.SapCode);
+            this.data.append('Document', this.profile.Document);
+            for (var key in objeto) {
+                if (key !== 'term') {
+                    this.data.append(key, objeto[key]);
+                }
+            }
+        });
+    }
+    openAlertConfirm() {
+        if (this.form.invalid) {
+            return;
+        }
+        this.alertConfirm = true;
+    }
+    closeAlertConfirm() {
+        this.alertConfirm = false;
+    }
+    buttonBack() {
+        this.navCtrl.navigateRoot('/dashboard/perfil', { animated: true });
+    }
+    openModalPhotoIdentityCard() {
+        if (this.openPhotoIdentityCard = true) {
+            this.openPhotoIdentityCard = false;
+        }
+        else {
+            this.openPhotoIdentityCard = true;
+        }
+    }
+    openModalPhotoDocumentCompany() {
+        this.openPhotoDocumentCompany = true;
+    }
+    /*=============================================
+     FORMULARIO REACTIVOS
+    =============================================*/
+    formBuilderInput() {
+        this.form = this.formBuilder.group({
+            FirstName: [this.profile.FirstName, [_angular_forms__WEBPACK_IMPORTED_MODULE_9__.Validators.required,]],
+            LastName: [this.profile.LastName, [_angular_forms__WEBPACK_IMPORTED_MODULE_9__.Validators.required,]],
+            Email: [this.profile.Email, [_angular_forms__WEBPACK_IMPORTED_MODULE_9__.Validators.required, _angular_forms__WEBPACK_IMPORTED_MODULE_9__.Validators.email]],
+            Document: [{ value: this.profile.Document, disabled: true }, [_angular_forms__WEBPACK_IMPORTED_MODULE_9__.Validators.required]],
+            SapCode: [{ value: this.profile.SapCode, disabled: true }, [_angular_forms__WEBPACK_IMPORTED_MODULE_9__.Validators.required]],
+            PhoneNumber: [this.profile.PhoneNumber, [
+                    _angular_forms__WEBPACK_IMPORTED_MODULE_9__.Validators.required,
+                    _angular_forms__WEBPACK_IMPORTED_MODULE_9__.Validators.minLength(10),
+                    _angular_forms__WEBPACK_IMPORTED_MODULE_9__.Validators.maxLength(10),
+                    _angular_forms__WEBPACK_IMPORTED_MODULE_9__.Validators.pattern('^[0-9]*$')
+                ]],
+            term: [true, [_angular_forms__WEBPACK_IMPORTED_MODULE_9__.Validators.requiredTrue]]
+        });
+        this.form.valueChanges
+            .pipe((0,rxjs_operators__WEBPACK_IMPORTED_MODULE_10__.debounceTime)(350))
+            .subscribe(data => {
+            console.log(data);
+            this.validateInput();
+        });
+    }
+    cwcChangeTerm(event) {
+        this.form.get('term').setValue(event.detail);
+    }
+    clickUpdate() {
+        if (this.form.invalid) {
+            return;
+        }
+        this.alertConfirm = true;
+    }
+    getStatusField(field) {
+        if (this.form.controls[field].errors && this.form.controls[field].touched)
+            return 'error';
+        return 'regular';
+    }
+    /*=============================================
+    FUNCIÓN PARA VALIDAR LOS CAMPOS
+   =============================================*/
+    validateInput() {
+        if (this.form.get('FirstName').errors && this.form.get('FirstName').dirty) {
+            this.statusInputName = 'error';
+            this.statusInputMessageName = 'Este campo es requerido';
+        }
+        else {
+            this.statusInputName = 'regular';
+            this.statusInputMessageName = '';
+        }
+        if (this.form.get('LastName').errors && this.form.get('LastName').dirty) {
+            this.statusInputLastName = 'error';
+            this.statusInputMessageLastName = 'Este campo es requerido';
+        }
+        else {
+            this.statusInputLastName = 'regular';
+            this.statusInputMessageLastName = '';
+        }
+        if (this.form.get('Email').errors && this.form.get('Email').dirty) {
+            if (this.form.get('Email').errors.email) {
+                this.statusInputEmail = 'error';
+                this.statusInputMessageEmail = 'Ingrese un correo electrónico válido';
+            }
+            else {
+                this.statusInputEmail = 'error';
+                this.statusInputMessageEmail = 'Este campo es requerido';
+            }
+        }
+        else {
+            this.statusInputEmail = 'regular';
+            this.statusInputMessageEmail = '';
+        }
+        if (this.form.get('PhoneNumber').errors && this.form.get('PhoneNumber').dirty) {
+            if (this.form.get('PhoneNumber').errors.minlength || this.form.get('PhoneNumber').errors.maxlength) {
+                this.statusInputPhone = 'error';
+                this.statusInputMessagePhone = 'Ingrese un número de celular válido';
+            }
+            else {
+                this.statusInputPhone = 'error';
+                this.statusInputMessagePhone = 'Este campo es requerido';
+            }
+        }
+        else {
+            this.statusInputPhone = 'regular';
+            this.statusInputMessagePhone = '';
+        }
+    }
+};
+EditDriverComponent.ctorParameters = () => [
+    { type: _angular_forms__WEBPACK_IMPORTED_MODULE_9__.FormBuilder },
+    { type: _services_companies_companies_service__WEBPACK_IMPORTED_MODULE_2__.CompaniesService },
+    { type: _services_error_messages_service__WEBPACK_IMPORTED_MODULE_3__.ErrorMessagesService },
+    { type: _services_adminLogist_admin_logist_service__WEBPACK_IMPORTED_MODULE_4__.AdminLogistService },
+    { type: _ionic_angular__WEBPACK_IMPORTED_MODULE_11__.NavController },
+    { type: _services_auth_login_service__WEBPACK_IMPORTED_MODULE_5__.LoginService }
+];
+EditDriverComponent = (0,tslib__WEBPACK_IMPORTED_MODULE_8__.__decorate)([
+    (0,_angular_core__WEBPACK_IMPORTED_MODULE_7__.Component)({
+        selector: 'app-edit-driver',
+        template: _edit_driver_component_html_ngResource__WEBPACK_IMPORTED_MODULE_0__,
+        styles: [_edit_driver_component_scss_ngResource__WEBPACK_IMPORTED_MODULE_1__]
+    })
+], EditDriverComponent);
 
 
 
@@ -237,14 +528,20 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "EditPageModule": () => (/* binding */ EditPageModule)
 /* harmony export */ });
-/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! tslib */ 34929);
-/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @angular/core */ 3184);
-/* harmony import */ var _angular_common__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @angular/common */ 36362);
-/* harmony import */ var _angular_forms__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @angular/forms */ 90587);
-/* harmony import */ var _ionic_angular__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @ionic/angular */ 93819);
+/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! tslib */ 34929);
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @angular/core */ 3184);
+/* harmony import */ var _angular_common__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! @angular/common */ 36362);
+/* harmony import */ var _angular_forms__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! @angular/forms */ 90587);
+/* harmony import */ var _ionic_angular__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! @ionic/angular */ 93819);
 /* harmony import */ var _edit_routing_module__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./edit-routing.module */ 92958);
 /* harmony import */ var _edit_page__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./edit.page */ 64532);
 /* harmony import */ var _edit_admin_logis_third_edit_admin_logis_third_component__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./edit-admin-logis-third/edit-admin-logis-third.component */ 76489);
+/* harmony import */ var _edit_driver_edit_driver_component__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./edit-driver/edit-driver.component */ 99735);
+/* harmony import */ var _components_components_module__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../../components/components.module */ 45642);
+/* harmony import */ var _cmx_web_components_angular__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @cmx-web-components/angular */ 6145);
+
+
+
 
 
 
@@ -255,18 +552,20 @@ __webpack_require__.r(__webpack_exports__);
 
 let EditPageModule = class EditPageModule {
 };
-EditPageModule = (0,tslib__WEBPACK_IMPORTED_MODULE_3__.__decorate)([
-    (0,_angular_core__WEBPACK_IMPORTED_MODULE_4__.NgModule)({
+EditPageModule = (0,tslib__WEBPACK_IMPORTED_MODULE_6__.__decorate)([
+    (0,_angular_core__WEBPACK_IMPORTED_MODULE_7__.NgModule)({
         imports: [
-            _angular_common__WEBPACK_IMPORTED_MODULE_5__.CommonModule,
-            _angular_forms__WEBPACK_IMPORTED_MODULE_6__.FormsModule,
-            _ionic_angular__WEBPACK_IMPORTED_MODULE_7__.IonicModule,
-            _angular_forms__WEBPACK_IMPORTED_MODULE_6__.ReactiveFormsModule,
-            _edit_routing_module__WEBPACK_IMPORTED_MODULE_0__.EditPageRoutingModule
+            _angular_common__WEBPACK_IMPORTED_MODULE_8__.CommonModule,
+            _ionic_angular__WEBPACK_IMPORTED_MODULE_9__.IonicModule,
+            _angular_forms__WEBPACK_IMPORTED_MODULE_10__.ReactiveFormsModule,
+            _edit_routing_module__WEBPACK_IMPORTED_MODULE_0__.EditPageRoutingModule,
+            _components_components_module__WEBPACK_IMPORTED_MODULE_4__.ComponentsModule,
+            _cmx_web_components_angular__WEBPACK_IMPORTED_MODULE_5__.CmxWebComponentsModule.forRoot(),
         ],
         declarations: [
             _edit_page__WEBPACK_IMPORTED_MODULE_1__.EditPage,
-            _edit_admin_logis_third_edit_admin_logis_third_component__WEBPACK_IMPORTED_MODULE_2__.EditAdminLogisThirdComponent
+            _edit_admin_logis_third_edit_admin_logis_third_component__WEBPACK_IMPORTED_MODULE_2__.EditAdminLogisThirdComponent,
+            _edit_driver_edit_driver_component__WEBPACK_IMPORTED_MODULE_3__.EditDriverComponent
         ]
     })
 ], EditPageModule);
@@ -288,9 +587,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! tslib */ 34929);
 /* harmony import */ var _edit_page_html_ngResource__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./edit.page.html?ngResource */ 91315);
 /* harmony import */ var _edit_page_scss_ngResource__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./edit.page.scss?ngResource */ 87829);
+/* harmony import */ var _angular_common__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @angular/common */ 36362);
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @angular/core */ 3184);
-/* harmony import */ var _ionic_storage_angular__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @ionic/storage-angular */ 80190);
-/* harmony import */ var src_app_services_profile_profile_service__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! src/app/services/profile/profile.service */ 89985);
+/* harmony import */ var _services_auth_login_service__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../services/auth/login.service */ 52876);
 
 
 
@@ -298,70 +597,24 @@ __webpack_require__.r(__webpack_exports__);
 
 
 let EditPage = class EditPage {
-    constructor(storage, profileService) {
-        this.storage = storage;
-        this.profileService = profileService;
+    constructor(loginService, location) {
+        this.loginService = loginService;
+        this.location = location;
         this.loading = false;
         this.rol = '';
-        this.user = {
-            firstName: '',
-            lastName: '',
-            document: '',
-            email: '',
-            status: false,
-            slug: '',
-            phoneNumber: '',
-            roles: '',
-            driver: {
-                documentDrivinglicenseFrontal: '',
-                documentDrivinglicenseBack: '',
-                codeSap: ''
-            },
-            company: {
-                companyNit: '',
-                companyName: '',
-                documentCompany: ''
-            }
-        };
     }
     ngOnInit() {
         return (0,tslib__WEBPACK_IMPORTED_MODULE_3__.__awaiter)(this, void 0, void 0, function* () {
-            yield this.storage.get('current_user').then(resp => {
-                this.user.email = resp.user.email;
-            });
-            this.getDataUserProfile();
+            this.rol = this.loginService.profileUser.Roles;
         });
     }
-    getDataUserProfile() {
-        return (0,tslib__WEBPACK_IMPORTED_MODULE_3__.__awaiter)(this, void 0, void 0, function* () {
-            let urlactual = '';
-            this.loading = true;
-            yield this.profileService.getDataUser(this.user.email).subscribe((resp) => (0,tslib__WEBPACK_IMPORTED_MODULE_3__.__awaiter)(this, void 0, void 0, function* () {
-                this.rol = resp.roles.map(item => item).toString();
-                this.user.firstName = resp.user.firstName;
-                this.user.lastName = resp.user.lastName;
-                this.user.phoneNumber = resp.user.phoneNumber;
-                this.user.document = resp.user.document;
-                this.user.documentIdentityCardFrontal = resp.user.documentIdentityCardFrontal;
-                this.user.documentIdentityCardBack = resp.user.documentIdentityCardBack;
-                this.user.driver.codeSap = resp.codeSap;
-                this.user.driver.documentDrivinglicenseFrontal = resp.documentDrivinglicenseFrontal;
-                this.user.driver.documentDrivinglicenseBack = resp.documentDrivinglicenseBack;
-                this.user.driver.documentSecurityCard = resp.documentSecurityCard;
-                this.user.company.companyName = resp.companyName;
-                this.user.company.documentCompany = resp.documentCompany;
-                this.user.company.companyNit = resp.companyNit;
-                this.loading = false;
-            }), error => {
-                this.loading = false;
-            });
-            urlactual = this.user.driver.documentDrivinglicenseFrontal;
-        });
+    onBack() {
+        this.location.back();
     }
 };
 EditPage.ctorParameters = () => [
-    { type: _ionic_storage_angular__WEBPACK_IMPORTED_MODULE_4__.Storage },
-    { type: src_app_services_profile_profile_service__WEBPACK_IMPORTED_MODULE_2__.ProfileService }
+    { type: _services_auth_login_service__WEBPACK_IMPORTED_MODULE_2__.LoginService },
+    { type: _angular_common__WEBPACK_IMPORTED_MODULE_4__.Location }
 ];
 EditPage = (0,tslib__WEBPACK_IMPORTED_MODULE_3__.__decorate)([
     (0,_angular_core__WEBPACK_IMPORTED_MODULE_5__.Component)({
@@ -370,6 +623,106 @@ EditPage = (0,tslib__WEBPACK_IMPORTED_MODULE_3__.__decorate)([
         styles: [_edit_page_scss_ngResource__WEBPACK_IMPORTED_MODULE_1__]
     })
 ], EditPage);
+
+
+
+/***/ }),
+
+/***/ 59543:
+/*!**************************************************************!*\
+  !*** ./src/app/services/adminLogist/admin-logist.service.ts ***!
+  \**************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "AdminLogistService": () => (/* binding */ AdminLogistService)
+/* harmony export */ });
+/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! tslib */ 34929);
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @angular/core */ 3184);
+/* harmony import */ var _http_http_service__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../http/http.service */ 3755);
+/* harmony import */ var src_environments_environment_prod__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! src/environments/environment.prod */ 89019);
+
+
+
+
+const URL = src_environments_environment_prod__WEBPACK_IMPORTED_MODULE_1__.environment.url;
+let AdminLogistService = class AdminLogistService {
+    constructor(http) {
+        this.http = http;
+    }
+    createAdminLogistThird(data) {
+        return this.http.doPostFormData(`${URL}/api/authentication/CreateUserTPLMTruckMan`, data, { responseType: 'text' });
+    }
+    createDriver(data) {
+        return this.http.doPostFormData(`${URL}/api/authentication/CreateUserDriver`, data, { responseType: 'text' });
+    }
+    updateAdminLogistThird(data, email) {
+        return this.http.doPutFormData(`${URL}/api/authentication/UpdateTPLM_TruckMan/${email}`, data, { responseType: 'text' });
+    }
+    updateDriver(data, email) {
+        return this.http.doPutFormData(`${URL}/api/authentication/UpdateUserDriver/${email}`, data, { responseType: 'text' });
+    }
+};
+AdminLogistService.ctorParameters = () => [
+    { type: _http_http_service__WEBPACK_IMPORTED_MODULE_0__.HttpService }
+];
+AdminLogistService = (0,tslib__WEBPACK_IMPORTED_MODULE_2__.__decorate)([
+    (0,_angular_core__WEBPACK_IMPORTED_MODULE_3__.Injectable)({
+        providedIn: 'root'
+    })
+], AdminLogistService);
+
+
+
+/***/ }),
+
+/***/ 47486:
+/*!****************************************************!*\
+  !*** ./src/app/services/error-messages.service.ts ***!
+  \****************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "ErrorMessagesService": () => (/* binding */ ErrorMessagesService)
+/* harmony export */ });
+/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ 34929);
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ 3184);
+
+
+let ErrorMessagesService = class ErrorMessagesService {
+    constructor() { }
+    parsearErroresAPI(response) {
+        const resultado = [];
+        if (response.status === 500) {
+            resultado.push('Ha ocurrido un error en el servidor. Favor intentar más tarde');
+            return resultado;
+        }
+        if (response.error) {
+            if (typeof response.error === 'string') {
+                resultado.push(response.error);
+            }
+            else {
+                const mapaErrores = response.error.errors;
+                const entradas = Object.entries(mapaErrores);
+                entradas.forEach((arreglo) => {
+                    const campo = arreglo[0];
+                    arreglo[1].forEach((mensajeError) => {
+                        resultado.push(`${campo}: ${mensajeError}`);
+                    });
+                });
+            }
+        }
+        return resultado;
+    }
+};
+ErrorMessagesService.ctorParameters = () => [];
+ErrorMessagesService = (0,tslib__WEBPACK_IMPORTED_MODULE_0__.__decorate)([
+    (0,_angular_core__WEBPACK_IMPORTED_MODULE_1__.Injectable)({
+        providedIn: 'root'
+    })
+], ErrorMessagesService);
 
 
 
@@ -674,7 +1027,17 @@ const async = asyncScheduler;
   \************************************************************************************************************/
 /***/ ((module) => {
 
-module.exports = "\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IiIsImZpbGUiOiJlZGl0LWFkbWluLWxvZ2lzLXRoaXJkLmNvbXBvbmVudC5zY3NzIn0= */";
+module.exports = ".input-check-user {\n  font-size: small;\n  padding-bottom: 2rem;\n}\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbImVkaXQtYWRtaW4tbG9naXMtdGhpcmQuY29tcG9uZW50LnNjc3MiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IkFBQUE7RUFDSSxnQkFBQTtFQUNBLG9CQUFBO0FBQ0oiLCJmaWxlIjoiZWRpdC1hZG1pbi1sb2dpcy10aGlyZC5jb21wb25lbnQuc2NzcyIsInNvdXJjZXNDb250ZW50IjpbIi5pbnB1dC1jaGVjay11c2Vye1xyXG4gICAgZm9udC1zaXplOiBzbWFsbDtcclxuICAgIHBhZGRpbmctYm90dG9tOiAycmVtO1xyXG59Il19 */";
+
+/***/ }),
+
+/***/ 86151:
+/*!**************************************************************************************!*\
+  !*** ./src/app/pages/profile/edit/edit-driver/edit-driver.component.scss?ngResource ***!
+  \**************************************************************************************/
+/***/ ((module) => {
+
+module.exports = ".input-check-user {\n  font-size: small;\n  padding-bottom: 2rem;\n}\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbImVkaXQtZHJpdmVyLmNvbXBvbmVudC5zY3NzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiJBQUFBO0VBQ0ksZ0JBQUE7RUFDQSxvQkFBQTtBQUNKIiwiZmlsZSI6ImVkaXQtZHJpdmVyLmNvbXBvbmVudC5zY3NzIiwic291cmNlc0NvbnRlbnQiOlsiLmlucHV0LWNoZWNrLXVzZXJ7XHJcbiAgICBmb250LXNpemU6IHNtYWxsO1xyXG4gICAgcGFkZGluZy1ib3R0b206IDJyZW07XHJcbn0iXX0= */";
 
 /***/ }),
 
@@ -684,7 +1047,7 @@ module.exports = "\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW
   \**************************************************************/
 /***/ ((module) => {
 
-module.exports = "\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IiIsImZpbGUiOiJlZGl0LnBhZ2Uuc2NzcyJ9 */";
+module.exports = ".header-text {\n  display: flex;\n  align-items: flex-start;\n  justify-content: space-between;\n  position: fixed;\n  top: 1;\n  right: 50;\n  left: 0;\n  margin-left: 1rem;\n}\n\n.attr-name {\n  font-weight: 700;\n}\n\n.content-card {\n  padding-top: 0.5rem;\n  padding-left: 1.5rem;\n  padding-right: 1.5rem;\n  padding-bottom: 1rem;\n  flex: 1 1 auto;\n  overflow: auto;\n}\n\n.content-title {\n  padding-top: 1rem;\n  font-weight: 700;\n}\n\n.content-grid-register {\n  overflow: auto;\n  justify-content: center !important;\n}\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbImVkaXQucGFnZS5zY3NzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiJBQUFBO0VBQ0ksYUFBQTtFQUNBLHVCQUFBO0VBQ0EsOEJBQUE7RUFDQSxlQUFBO0VBQ0EsTUFBQTtFQUNBLFNBQUE7RUFDQSxPQUFBO0VBQ0EsaUJBQUE7QUFDSjs7QUFFQztFQUNHLGdCQUFBO0FBQ0o7O0FBRUM7RUFDRyxtQkFBQTtFQUNBLG9CQUFBO0VBQ0EscUJBQUE7RUFDQSxvQkFBQTtFQUNBLGNBQUE7RUFDQSxjQUFBO0FBQ0o7O0FBRUE7RUFDSSxpQkFBQTtFQUNBLGdCQUFBO0FBQ0o7O0FBRUE7RUFFSSxjQUFBO0VBQ0Esa0NBQUE7QUFBSiIsImZpbGUiOiJlZGl0LnBhZ2Uuc2NzcyIsInNvdXJjZXNDb250ZW50IjpbIi5oZWFkZXItdGV4dHtcclxuICAgIGRpc3BsYXk6IGZsZXg7XHJcbiAgICBhbGlnbi1pdGVtczogZmxleC1zdGFydDtcclxuICAgIGp1c3RpZnktY29udGVudDogc3BhY2UtYmV0d2VlbjtcclxuICAgIHBvc2l0aW9uOiBmaXhlZDtcclxuICAgIHRvcDogMTtcclxuICAgIHJpZ2h0OiA1MDtcclxuICAgIGxlZnQ6IDA7XHJcbiAgICBtYXJnaW4tbGVmdDogMXJlbTtcclxuIH1cclxuIFxyXG4gLmF0dHItbmFtZXtcclxuICAgIGZvbnQtd2VpZ2h0OiA3MDA7ICAgIFxyXG4gfVxyXG5cclxuIC5jb250ZW50LWNhcmR7XHJcbiAgICBwYWRkaW5nLXRvcDogMC41cmVtO1xyXG4gICAgcGFkZGluZy1sZWZ0OiAxLjVyZW07XHJcbiAgICBwYWRkaW5nLXJpZ2h0OiAxLjVyZW07IFxyXG4gICAgcGFkZGluZy1ib3R0b206IDFyZW07XHJcbiAgICBmbGV4OiAxIDEgYXV0bztcclxuICAgIG92ZXJmbG93OiBhdXRvO1xyXG4gfVxyXG5cclxuLmNvbnRlbnQtdGl0bGV7XHJcbiAgICBwYWRkaW5nLXRvcDogMXJlbTtcclxuICAgIGZvbnQtd2VpZ2h0OiA3MDA7XHJcbn1cclxuXHJcbi5jb250ZW50LWdyaWQtcmVnaXN0ZXJ7XHJcbiAgICAvLyBkaXNwbGF5OiBmbGV4ICFpbXBvcnRhbnQ7XHJcbiAgICBvdmVyZmxvdzogYXV0bztcclxuICAgIGp1c3RpZnktY29udGVudDogY2VudGVyICFpbXBvcnRhbnQ7XHJcbiAgICAvLyBhbGlnbi1pdGVtczogY2VudGVyICFpbXBvcnRhbnQ7XHJcbiB9Il19 */";
 
 /***/ }),
 
@@ -694,7 +1057,17 @@ module.exports = "\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW
   \************************************************************************************************************/
 /***/ ((module) => {
 
-module.exports = "<form (submit)=\"register()\" [formGroup]=\"form\" style=\"margin-top: 3rem;\">\r\n  <cwc-grid class=\"demo-grid\" design-version=\"v2\" columns=\"12\" mobile-columns=\"12\">\r\n    <cwc-cell colspan=\"12\" mobile-colspan=\"12\">\r\n      <div class=\"section\">\r\n        <cwc-input class=\"input\" \r\n                   label='Nombre (s)'\r\n                   [status]='statusInputName'\r\n                   [statusMessage]='statusInputMessageName'\r\n                   design-version=\"v2\" \r\n                   formControlName=\"firstName\"\r\n                   ngDefaultControl\r\n                   required\r\n        ></cwc-input>\r\n      </div>\r\n      <div class=\"section\">\r\n        <cwc-input class=\"input\" \r\n                   label='Apellido (s)'\r\n                   [status]='statusInputLastName'\r\n                   [statusMessage]='statusInputMessageLastName'\r\n                   formControlName=\"lastName\"\r\n                   design-version=\"v2\" \r\n                   ngDefaultControl\r\n                   required\r\n        ></cwc-input>\r\n      </div>\r\n      <div class=\"section\">\r\n        <cwc-input class=\"input\" \r\n        label='Correo electrónico'\r\n        [status]='statusInputEmail'\r\n        [statusMessage]='statusInputMessageEmail'\r\n        formControlName=\"email\"\r\n        ngDefaultControl\r\n        design-version=\"v2\" \r\n        required\r\n        ></cwc-input>\r\n      </div>\r\n      <div class=\"section\">\r\n        <cwc-input class=\"input\" \r\n        label='N° documento'\r\n        [status]='statusInputDocument'\r\n        [statusMessage]='statusInputMessageDocument'\r\n        formControlName=\"document\"\r\n        design-version=\"v2\" \r\n        ngDefaultControl\r\n        required\r\n        ></cwc-input>\r\n      </div>\r\n      <div class=\"section\">\r\n        <cwc-input class=\"input\" \r\n        label='Número de celular'\r\n        type=\"number\"\r\n        [status]='statusInputPhone'\r\n        [statusMessage]='statusInputMessagePhone'\r\n        formControlName=\"phoneNumber\"\r\n        design-version=\"v2\"\r\n        ngDefaultControl\r\n        required\r\n        ></cwc-input>\r\n      </div>\r\n      <div class=\"section\">\r\n        <cwc-input class=\"input\" \r\n        label='Nombre empresa'\r\n        [status]='statusInputCompany'\r\n        [statusMessage]='statusInputMessageCompany'\r\n        formControlName=\"nameCompany\"\r\n        design-version=\"v2\"\r\n        ngDefaultControl\r\n        required\r\n        ></cwc-input>\r\n      </div>\r\n      <div class=\"section\">\r\n        <cwc-input class=\"input\" \r\n        label='N° Nit'\r\n        [status]='statusInputNit'\r\n        [statusMessage]='statusInputMessageNit'\r\n        formControlName=\"nitCompany\"\r\n        design-version=\"v2\" \r\n        ngDefaultControl\r\n        required\r\n        ></cwc-input>\r\n      </div>\r\n    </cwc-cell>\r\n  </cwc-grid>";
+module.exports = "<form (submit)=\"register()\" [formGroup]=\"form\">\r\n  <cwc-grid class=\"demo-grid\" design-version=\"v2\" columns=\"12\" mobile-columns=\"12\" style=\"margin-top: 2rem;\">\r\n    <cwc-cell colspan=\"12\" mobile-colspan=\"12\">\r\n      <div class=\"section\">\r\n        <cwc-input \r\n          class=\"input\" \r\n          label='Nombre (s)'\r\n          [status]='statusInputName'\r\n          [statusMessage]='statusInputMessageName'\r\n          design-version=\"v2\" \r\n          formControlName=\"FirstName\"\r\n          ngDefaultControl\r\n          required\r\n        ></cwc-input>\r\n      </div>\r\n      <div class=\"section\">\r\n        <cwc-input \r\n          class=\"input\" \r\n          label='Apellido (s)'\r\n          [status]='statusInputLastName'\r\n          [statusMessage]='statusInputMessageLastName'\r\n          formControlName=\"LastName\"\r\n          design-version=\"v2\" \r\n          ngDefaultControl\r\n          required\r\n        ></cwc-input>\r\n      </div>\r\n      <div class=\"section\">\r\n        <cwc-input class=\"input\" \r\n          label='Número de celular'\r\n          type=\"number\"\r\n          [status]='statusInputPhone'\r\n          [statusMessage]='statusInputMessagePhone'\r\n          formControlName=\"PhoneNumber\"\r\n          design-version=\"v2\"\r\n          ngDefaultControl\r\n          required\r\n        ></cwc-input>\r\n      </div>\r\n      <div class=\"section\">\r\n        <cwc-input class=\"input\"\r\n          label='Correo electrónico'\r\n          [status]='statusInputEmail'\r\n          [statusMessage]='statusInputMessageEmail'\r\n          formControlName=\"Email\"\r\n          ngDefaultControl\r\n          design-version=\"v2\" \r\n          required\r\n        ></cwc-input>\r\n      </div>\r\n        <cwc-checkbox\r\n          (cwcChange)=\"cwcChangeTerm($event)\"\r\n          checked=\"true\"\r\n          mobile=\"true\"\r\n          class='m-end-sm'>          \r\n          <div class=\"input-check-user\">Confirmo que la siguiente información es verdadera.</div>\r\n        </cwc-checkbox>\r\n    </cwc-cell>\r\n  </cwc-grid>\r\n  <div class=\"content-button\">\r\n    <cwc-button \r\n    design-version=\"v1\" \r\n    [disabled]=\"form.invalid\"\r\n    (click)=\"clickUpdate()\"\r\n    variant=\"regular-block\">GUARDAR CAMBIOS</cwc-button>\r\n  </div>\r\n</form>\r\n\r\n<cwc-modal id='alert-confirm' class=\"alert-confirm\" [open] =\"alertConfirm\" (cwcClose)=\"closeAlertConfirm()\">\r\n  <header slot='header'>\r\n      <h2 style='margin:0;'>Atención</h2>\r\n  </header>\r\n  <p>¿Esta seguro que los datos registrados estan correctos?</p>\r\n  <footer slot='footer'>\r\n      <div style='text-align: end'>\r\n        <cwc-button variant='support' (click)=\"closeAlertConfirm()\" style=\"margin-right: 1rem;\">Cancelar</cwc-button>\r\n          <cwc-button variant='primary' (click)=\"updateData()\" >Aceptar</cwc-button>\r\n      </div>\r\n  </footer>\r\n</cwc-modal>\r\n<!--=====================================\r\n\t\tMODAL CONFIRMACIÓN RESPUESTA DE EXITO\r\n======================================-->\r\n<app-alert-success\r\n[alertShow] = \"alertSucces\"\r\ntitle = \"Existoso\"\r\nurlButton = \"/app/profile\"\r\ntextButton = \"Volver al perfil\"\r\nmessage = \"Tus datos se actualizaron correctamente.\">\r\n</app-alert-success>\r\n<!--=====================================\r\n\tTOAST ALERT MENSAJE\r\n======================================-->\r\n<cwc-snackbar id='toast-message-driver' [message]=\"toastMessage\"\r\ncta-message=\"dismiss\" auto-hide-duration='5000'></cwc-snackbar>\r\n\r\n\r\n<!-- Content loanding -->\r\n<div *ngIf=\"loading\" class=\"loading-content\">\r\n  <cwc-loader>\r\n      <span slot='loading'>Espere un momento...</span>\r\n  </cwc-loader>\r\n</div>";
+
+/***/ }),
+
+/***/ 81290:
+/*!**************************************************************************************!*\
+  !*** ./src/app/pages/profile/edit/edit-driver/edit-driver.component.html?ngResource ***!
+  \**************************************************************************************/
+/***/ ((module) => {
+
+module.exports = "<form (submit)=\"register()\" [formGroup]=\"form\">\r\n  <cwc-grid class=\"demo-grid\" design-version=\"v2\" columns=\"12\" mobile-columns=\"12\" style=\"margin-top: 2rem;\">\r\n    <cwc-cell colspan=\"12\" mobile-colspan=\"12\">\r\n      <div class=\"section\">\r\n        <cwc-input \r\n          class=\"input\" \r\n          label='Nombre (s)'\r\n          [status]='statusInputName'\r\n          [statusMessage]='statusInputMessageName'\r\n          design-version=\"v2\" \r\n          formControlName=\"FirstName\"\r\n          ngDefaultControl\r\n          required\r\n        ></cwc-input>\r\n      </div>\r\n      <div class=\"section\">\r\n        <cwc-input \r\n          class=\"input\" \r\n          label='Apellido (s)'\r\n          [status]='statusInputLastName'\r\n          [statusMessage]='statusInputMessageLastName'\r\n          formControlName=\"LastName\"\r\n          design-version=\"v2\" \r\n          ngDefaultControl\r\n          required\r\n        ></cwc-input>\r\n      </div>\r\n      <div class=\"section\">\r\n        <cwc-input class=\"input\" \r\n          label='Número de celular'\r\n          type=\"number\"\r\n          [status]='statusInputPhone'\r\n          [statusMessage]='statusInputMessagePhone'\r\n          formControlName=\"PhoneNumber\"\r\n          design-version=\"v2\"\r\n          ngDefaultControl\r\n          required\r\n        ></cwc-input>\r\n      </div>\r\n      <div class=\"section\">\r\n        <cwc-input class=\"input\" \r\n          label='Código SAP'\r\n          type=\"number\"\r\n          formControlName=\"SapCode\"\r\n          design-version=\"v2\"\r\n          ngDefaultControl\r\n          required\r\n        ></cwc-input>\r\n      </div>\r\n      <div class=\"section\">\r\n        <cwc-input class=\"input\" \r\n          label='Número de Cédula o NIT'\r\n          type=\"number\"\r\n          formControlName=\"Document\"\r\n          design-version=\"v2\"\r\n          ngDefaultControl\r\n          required\r\n        ></cwc-input>\r\n      </div>\r\n      <div class=\"section\">\r\n        <cwc-input class=\"input\"\r\n          label='Correo electrónico'\r\n          [status]='statusInputEmail'\r\n          [statusMessage]='statusInputMessageEmail'\r\n          formControlName=\"Email\"\r\n          ngDefaultControl\r\n          design-version=\"v2\" \r\n          required\r\n        ></cwc-input>\r\n      </div>\r\n        <cwc-checkbox\r\n          (cwcChange)=\"cwcChangeTerm($event)\"\r\n          checked=\"true\"\r\n          mobile=\"true\"\r\n          class='m-end-sm'>          \r\n          <div class=\"input-check-user\">Confirmo que la siguiente información es verdadera.</div>\r\n        </cwc-checkbox>\r\n    </cwc-cell>\r\n  </cwc-grid>\r\n  <div class=\"content-button\">\r\n    <cwc-button \r\n    design-version=\"v1\" \r\n    [disabled]=\"form.invalid\"\r\n    (click)=\"clickUpdate()\"\r\n    variant=\"regular-block\">GUARDAR CAMBIOS</cwc-button>\r\n  </div>\r\n</form>\r\n\r\n<cwc-modal id='alert-confirm' class=\"alert-confirm\" [open] =\"alertConfirm\" (cwcClose)=\"closeAlertConfirm()\">\r\n  <header slot='header'>\r\n      <h2 style='margin:0;'>Atención</h2>\r\n  </header>\r\n  <p>¿Esta seguro que los datos registrados estan correctos?</p>\r\n  <footer slot='footer'>\r\n      <div style='text-align: end'>\r\n        <cwc-button variant='support' (click)=\"closeAlertConfirm()\" style=\"margin-right: 1rem;\">Cancelar</cwc-button>\r\n          <cwc-button variant='primary' (click)=\"updateData()\" >Aceptar</cwc-button>\r\n      </div>\r\n  </footer>\r\n</cwc-modal>\r\n<!--=====================================\r\n\t\tMODAL CONFIRMACIÓN RESPUESTA DE EXITO\r\n======================================-->\r\n<app-alert-success\r\n[alertShow] = \"alertSucces\"\r\ntitle = \"Existoso\"\r\nurlButton = \"/app/profile\"\r\ntextButton = \"Volver al perfil\"\r\nmessage = \"Tus datos se actualizarón correctamente.\">\r\n</app-alert-success>\r\n<!--=====================================\r\n\tTOAST ALERT MENSAJE\r\n======================================-->\r\n<cwc-snackbar id='toast-message-driver' [message]=\"toastMessage\"\r\ncta-message=\"dismiss\" auto-hide-duration='5000'></cwc-snackbar>\r\n\r\n\r\n<!-- Content loanding -->\r\n<div *ngIf=\"loading\" class=\"loading-content\">\r\n  <cwc-loader>\r\n      <span slot='loading'>Espere un momento...</span>\r\n  </cwc-loader>\r\n</div>";
 
 /***/ }),
 
@@ -704,7 +1077,7 @@ module.exports = "<form (submit)=\"register()\" [formGroup]=\"form\" style=\"mar
   \**************************************************************/
 /***/ ((module) => {
 
-module.exports = "<ion-header>\r\n    <ion-toolbar color=\"primary\">\r\n      <ion-buttons slot=\"start\">\r\n        <ion-back-button text=\"\"></ion-back-button>\r\n      </ion-buttons>\r\n      <ion-title>Editar datos</ion-title>\r\n    </ion-toolbar>\r\n  </ion-header>\r\n  \r\n  <div slot=\"main\" class=\"content\">\r\n    <div class=\"content-title-register\">\r\n      <h5>Mis datos</h5>\r\n    </div>\r\n    <div>\r\n        <!--=====================================\r\n\t\t    DATOS DEL ADMINISTRADOR LOGISTICO TERCERO\r\n         ======================================-->\r\n         <div *ngIf=\"rol === 'AdminLogis'\">\r\n            <app-edit-admin-logis-third\r\n             [dataUser]=\"user\"\r\n            >\r\n            </app-edit-admin-logis-third>\r\n         </div>\r\n         \r\n    </div>\r\n  </div>";
+module.exports = "<cwc-header design-version=\"v2\" slot=\"header\" show-Menu-Button=\"false\" show-cemex-logo=\"false\">\r\n  <div class=\"header-text\">\r\n    <ion-icon name=\"arrow-back-outline\" style=\"font-size: 25px;\" (click)=\"onBack()\"></ion-icon>\r\n    <div class=\"attr-name\" style=\"padding-left: 1rem;\">Editar datos</div>\r\n  </div>\r\n</cwc-header>\r\n  <div slot=\"main\" class=\"content-card\">\r\n    <div class=\"content-title\">\r\n      Mis datos\r\n    </div>\r\n    <div>\r\n        <!--=====================================\r\n\t\t    DATOS DEL ADMINISTRADOR LOGISTICO TERCERO\r\n         ======================================-->\r\n        <div *ngIf=\"rol === 'Administrador Logistico Tercero' || rol === 'Hombre Camion'\">\r\n          <app-edit-admin-logis-third>\r\n          </app-edit-admin-logis-third>\r\n        </div>\r\n        <div *ngIf=\"rol === 'Conductor'\">\r\n          <app-edit-driver>\r\n          </app-edit-driver>\r\n        </div>\r\n         \r\n    </div>\r\n  </div>";
 
 /***/ })
 

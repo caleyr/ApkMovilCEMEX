@@ -33,7 +33,7 @@ export class DetailsTripPreviousPage implements OnInit {
     if (this.travelService.id !== null) {
       this.id = this.travelService.id;
       this.travelService.getTravelDetail(this.id).subscribe(data => {
-        this.travel = data;
+        this.travel = data.data;
       });
     }
   }

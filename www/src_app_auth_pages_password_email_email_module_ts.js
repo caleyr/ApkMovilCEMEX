@@ -99,11 +99,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! tslib */ 34929);
 /* harmony import */ var _email_page_html_ngResource__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./email.page.html?ngResource */ 14123);
 /* harmony import */ var _email_page_scss_ngResource__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./email.page.scss?ngResource */ 33290);
-/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @angular/core */ 3184);
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! @angular/core */ 3184);
 /* harmony import */ var _angular_forms__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @angular/forms */ 90587);
 /* harmony import */ var rxjs_operators__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! rxjs/operators */ 80823);
 /* harmony import */ var _services_auth_forgot_password_service__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../services/auth/forgot-password.service */ 61322);
 /* harmony import */ var _services_error_messages_service__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../../services/error-messages.service */ 47486);
+/* harmony import */ var _ionic_angular__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @ionic/angular */ 93819);
+
 
 
 
@@ -113,10 +115,11 @@ __webpack_require__.r(__webpack_exports__);
 
 
 let EmailPage = class EmailPage {
-    constructor(formBuilder, errorMessages, forgotPasswordService) {
+    constructor(formBuilder, errorMessages, forgotPasswordService, navCtrl) {
         this.formBuilder = formBuilder;
         this.errorMessages = errorMessages;
         this.forgotPasswordService = forgotPasswordService;
+        this.navCtrl = navCtrl;
         this.statusInputEmail = 'regular';
         this.statusInputMessageEmail = '';
         this.email = null;
@@ -131,24 +134,25 @@ let EmailPage = class EmailPage {
         return (0,tslib__WEBPACK_IMPORTED_MODULE_4__.__awaiter)(this, void 0, void 0, function* () {
             this.loading = true;
             yield this.forgotPasswordService.forgotPassword(this.form.value).subscribe((resp) => (0,tslib__WEBPACK_IMPORTED_MODULE_4__.__awaiter)(this, void 0, void 0, function* () {
-                // eslint-disable-next-line @typescript-eslint/dot-notation
-                if (resp['token']) {
-                    this.loading = false;
-                    this.alertSucces = true;
-                    this.form.reset();
-                }
+                this.forgotPasswordService.email = this.form.get('Email').value;
+                this.loading = false;
+                this.alertSucces = true;
+                console.log(resp);
             }), (error) => {
                 this.loading = false;
-                this.errors = this.errorMessages.parsearErroresAPI(error);
+                console.log(error);
             });
         });
+    }
+    onBack() {
+        this.navCtrl.navigateRoot('/login', { animated: true });
     }
     /*=============================================
      FORMULARIOS REACTIVOS
     =============================================*/
     formBuilderInput() {
         this.form = this.formBuilder.group({
-            email: ['', [
+            Email: ['', [
                     _angular_forms__WEBPACK_IMPORTED_MODULE_5__.Validators.required,
                 ]],
         });
@@ -159,7 +163,7 @@ let EmailPage = class EmailPage {
         });
     }
     validateInput() {
-        if (this.form.get('email').errors && this.form.get('email').dirty) {
+        if (this.form.get('Email').errors && this.form.get('Email').dirty) {
             this.statusInputEmail = 'error';
             this.statusInputMessageEmail = 'Este campo es requerido';
         }
@@ -172,10 +176,11 @@ let EmailPage = class EmailPage {
 EmailPage.ctorParameters = () => [
     { type: _angular_forms__WEBPACK_IMPORTED_MODULE_5__.FormBuilder },
     { type: _services_error_messages_service__WEBPACK_IMPORTED_MODULE_3__.ErrorMessagesService },
-    { type: _services_auth_forgot_password_service__WEBPACK_IMPORTED_MODULE_2__.ForgotPasswordService }
+    { type: _services_auth_forgot_password_service__WEBPACK_IMPORTED_MODULE_2__.ForgotPasswordService },
+    { type: _ionic_angular__WEBPACK_IMPORTED_MODULE_7__.NavController }
 ];
 EmailPage = (0,tslib__WEBPACK_IMPORTED_MODULE_4__.__decorate)([
-    (0,_angular_core__WEBPACK_IMPORTED_MODULE_7__.Component)({
+    (0,_angular_core__WEBPACK_IMPORTED_MODULE_8__.Component)({
         selector: 'app-email',
         template: _email_page_html_ngResource__WEBPACK_IMPORTED_MODULE_0__,
         styles: [_email_page_scss_ngResource__WEBPACK_IMPORTED_MODULE_1__]
@@ -186,41 +191,52 @@ EmailPage = (0,tslib__WEBPACK_IMPORTED_MODULE_4__.__decorate)([
 
 /***/ }),
 
-/***/ 61322:
-/*!**********************************************************!*\
-  !*** ./src/app/services/auth/forgot-password.service.ts ***!
-  \**********************************************************/
+/***/ 47486:
+/*!****************************************************!*\
+  !*** ./src/app/services/error-messages.service.ts ***!
+  \****************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "ForgotPasswordService": () => (/* binding */ ForgotPasswordService)
+/* harmony export */   "ErrorMessagesService": () => (/* binding */ ErrorMessagesService)
 /* harmony export */ });
-/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! tslib */ 34929);
-/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @angular/core */ 3184);
-/* harmony import */ var _angular_common_http__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/common/http */ 28784);
-/* harmony import */ var src_environments_environment__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! src/environments/environment */ 92340);
+/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ 34929);
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ 3184);
 
 
-
-
-const URL = src_environments_environment__WEBPACK_IMPORTED_MODULE_0__.environment.url;
-let ForgotPasswordService = class ForgotPasswordService {
-    constructor(http) {
-        this.http = http;
-    }
-    forgotPassword(data) {
-        return this.http.post(`${URL}/api/auth/forgot-password`, data);
+let ErrorMessagesService = class ErrorMessagesService {
+    constructor() { }
+    parsearErroresAPI(response) {
+        const resultado = [];
+        if (response.status === 500) {
+            resultado.push('Ha ocurrido un error en el servidor. Favor intentar más tarde');
+            return resultado;
+        }
+        if (response.error) {
+            if (typeof response.error === 'string') {
+                resultado.push(response.error);
+            }
+            else {
+                const mapaErrores = response.error.errors;
+                const entradas = Object.entries(mapaErrores);
+                entradas.forEach((arreglo) => {
+                    const campo = arreglo[0];
+                    arreglo[1].forEach((mensajeError) => {
+                        resultado.push(`${campo}: ${mensajeError}`);
+                    });
+                });
+            }
+        }
+        return resultado;
     }
 };
-ForgotPasswordService.ctorParameters = () => [
-    { type: _angular_common_http__WEBPACK_IMPORTED_MODULE_1__.HttpClient }
-];
-ForgotPasswordService = (0,tslib__WEBPACK_IMPORTED_MODULE_2__.__decorate)([
-    (0,_angular_core__WEBPACK_IMPORTED_MODULE_3__.Injectable)({
+ErrorMessagesService.ctorParameters = () => [];
+ErrorMessagesService = (0,tslib__WEBPACK_IMPORTED_MODULE_0__.__decorate)([
+    (0,_angular_core__WEBPACK_IMPORTED_MODULE_1__.Injectable)({
         providedIn: 'root'
     })
-], ForgotPasswordService);
+], ErrorMessagesService);
 
 
 
@@ -535,7 +551,7 @@ module.exports = ".content-grid-reset-password {\n  margin-top: 2rem !important;
   \**********************************************************************/
 /***/ ((module) => {
 
-module.exports = "<div slot=\"main\" class=\"content-grid-reset-password content\">\r\n  <form (submit)=\"sendEmail()\" [formGroup]=\"form\">\r\n  <cwc-grid class=\"demo-grid\" design-version=\"v2\" columns=\"12\" mobile-columns=\"12\">\r\n    <cwc-cell colspan=\"12\" mobile-colspan=\"12\">\r\n        <h3 class=\"title-reset-password\">¿Olvidó su contraseña?</h3>\r\n        <div class=\"border-red\"></div>\r\n        <h6 class=\"subtitle-reset-password\">Ingrese su correo electrónico para recuperar su contraseña</h6>\r\n        <div class=\"content-form-reset-password\">\r\n          <cwc-input class=\"input-email-reset-password input\" \r\n                  design-version=\"v2\" \r\n                  [status]='statusInputEmail'\r\n                  [statusMessage]='statusInputMessageEmail'\r\n                  label='Correo electrónico'\r\n                  formControlName=\"email\"\r\n                  ngDefaultControl\r\n                  required \r\n                  ></cwc-input>\r\n            <cwc-button class=\"btn-login\" \r\n                  [disabled]=\"form.invalid\"\r\n                  (click)=\"sendEmail()\" \r\n                  design-version=\"v1\" \r\n                  disabled=\"false\" \r\n                  variant=\"primary-block\">RECUPERAR CONTRASEÑA</cwc-button>\r\n                  <app-error-messages [errors]=\"errors\"></app-error-messages> \r\n                  <p class=\"text-message-email\">Envíaremos a su correo electrónico con un link para que recupere su contraseña</p>\r\n                  <div class=\"button\">\r\n                    <cwc-button variant=\"link\" [routerLink]=\"['/login']\" routerLinkActive=\"router-link-active\"  leading-icon=\"arrow-left-straight\">Iniciar Sesión</cwc-button>\r\n                </div>\r\n        </div>\r\n    </cwc-cell>\r\n  </cwc-grid>\r\n  </form>\r\n</div>\r\n<div class=\"loading-content\" *ngIf=\"loading\">\r\n  <cwc-loader>\r\n    <span slot='loading'>Espere un momento...</span>\r\n    <span slot='delay'>Enviando correo electrónico...</span>\r\n  </cwc-loader>\r\n</div>\r\n<app-alert-success\r\n[alertShow] = \"alertSucces\"\r\ntitle = \"Existoso\" \r\nurlButton = \"/login\"\r\ntextButton = \"Volver al login\"\r\nmessage = \"Envíamos un correo electrónico con las instrucciones para que pueda reestablecer su contraseña\">\r\n</app-alert-success>\r\n";
+module.exports = "<div slot=\"main\" class=\"content-grid-reset-password content\">\r\n  <form (submit)=\"sendEmail()\" [formGroup]=\"form\">\r\n  <cwc-grid class=\"demo-grid\" design-version=\"v2\" columns=\"12\" mobile-columns=\"12\">\r\n    <cwc-cell colspan=\"12\" mobile-colspan=\"12\">\r\n        <h3 class=\"title-reset-password\">¿Olvidó su contraseña?</h3>\r\n        <div class=\"border-red\"></div>\r\n        <h6 class=\"subtitle-reset-password\">Ingrese su correo electrónico para recuperar su contraseña</h6>\r\n        <div class=\"content-form-reset-password\">\r\n          <cwc-input class=\"input-email-reset-password input\" \r\n                  design-version=\"v2\" \r\n                  [status]='statusInputEmail'\r\n                  [statusMessage]='statusInputMessageEmail'\r\n                  label='Correo electrónico'\r\n                  formControlName=\"Email\"\r\n                  ngDefaultControl\r\n                  required \r\n                  ></cwc-input>\r\n            <cwc-button class=\"btn-login\" \r\n                  [disabled]=\"form.invalid\"\r\n                  (click)=\"sendEmail()\" \r\n                  design-version=\"v1\" \r\n                  disabled=\"false\" \r\n                  variant=\"primary-block\">RECUPERAR CONTRASEÑA</cwc-button>\r\n                  <app-error-messages [errors]=\"errors\"></app-error-messages> \r\n                  <p class=\"text-message-email\">Envíaremos a su correo electrónico con un codígo para que recupere su contraseña</p>\r\n                  <div class=\"button\">\r\n                    <cwc-button variant=\"link\" (click)=\"onBack()\" leading-icon=\"arrow-left-straight\">Iniciar Sesión</cwc-button>\r\n                </div>\r\n        </div>\r\n    </cwc-cell>\r\n  </cwc-grid>\r\n  </form>\r\n</div>\r\n<div class=\"loading-content\" *ngIf=\"loading\">\r\n  <cwc-loader>\r\n    <span slot='loading'>Espere un momento...</span>\r\n    <span slot='delay'>Enviando correo electrónico...</span>\r\n  </cwc-loader>\r\n</div>\r\n<app-alert-success\r\n[alertShow] = \"alertSucces\"\r\ntitle = \"Existoso\" \r\nurlButton = \"/change-password\"\r\ntextButton = \"Ingresar Codigo\"\r\nmessage = \"Envíamos un correo electrónico con un codigo para que pueda reestablecer su contraseña\">\r\n</app-alert-success>\r\n";
 
 /***/ })
 

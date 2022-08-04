@@ -46,7 +46,7 @@ export class UpdateVehiclePage implements OnInit {
     this.alertSucces = false;   
     this.vehicle = this.vehiclesService.vehicle;    
     this.companiesService.getCompany(this.loginService.profileUser.CompanyId).subscribe(async data=>{
-      this.company = data;
+      this.company = data.data;
     })
     this.formBuilderInput();
   }

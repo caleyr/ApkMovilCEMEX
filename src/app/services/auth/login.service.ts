@@ -2,11 +2,11 @@
 import { Injectable } from '@angular/core';
 import { Storage } from '@ionic/storage-angular';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { environment } from 'src/environments/environment';
 import { NavController, Platform } from '@ionic/angular';
 import { Location } from '@angular/common';
 import { HttpService } from '../http/http.service';
 import { Profile } from '../../models/profile.model';
+import { environment } from 'src/environments/environment.prod';
 
 const URL = environment.url;
 const headersHttp = new HttpHeaders({
@@ -44,11 +44,17 @@ export class LoginService {
   }
 
   loginWeb(data: any) {
-    return this.http.post(`${URL}/api/authentication/login`, data, {headers: headersHttp});      
+    return this.HTTP.doPost(`${URL}/api/authentication/login`, data, {});      
   }
 
-  loginAndroid(data: any) {      
-    return this.HTTP.doPost(`${URL}/api/authentication/login`, data, {headers: headersHttp});
+  getData (token){
+    alert('Entro');
+    var base64Url = token.split('.')[1];
+    var base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+    var jsonPayload = decodeURIComponent(atob(base64).split('').map(function(c) {
+        return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+    }).join(''));
+    alert(JSON.parse(jsonPayload));
   }
 
   async saveDataProfile (token){

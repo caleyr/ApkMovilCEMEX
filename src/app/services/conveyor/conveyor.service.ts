@@ -1,8 +1,9 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable, Output, EventEmitter } from '@angular/core';
 import { ConveyorListDTO, CreateConveyorDrive, TypeConveyorListDTO } from 'src/app/interfaces/conveyor/conveyor';
-import { environment } from 'src/environments/environment';
+import { environment } from 'src/environments/environment.prod';
 import { CreateConveyorManTruck, CreateConveyorAdminLogistThird } from '../../interfaces/conveyor/conveyor';
+import { HttpService } from '../http/http.service';
 
 const URL = environment.url;
 @Injectable({
@@ -11,26 +12,26 @@ const URL = environment.url;
 export class ConveyorService {
 
   constructor(
-    private http: HttpClient,
+    private http: HttpService,
   ) { }
 
   public registerManTruck(createManTruck: CreateConveyorDrive){
     const formData = this.formDataDriver(createManTruck);
-    return this.http.post(`${URL}/api/conveyor/register-mantruck`, formData);
+    return this.http.doPostFormData(`${URL}/api/conveyor/register-mantruck`, formData, {});
   }
   public registerAdminLogistThird(createLogistThird: CreateConveyorAdminLogistThird){
     const formData = this.formDataAdminLogistThird(createLogistThird);
-    return this.http.post(`${URL}/api/conveyor/register-admin-logist-third`, formData);
+    return this.http.doPostFormData(`${URL}/api/conveyor/register-admin-logist-third`, formData, {});
   }
 
   public registerDriver(createDriver: CreateConveyorDrive){
 
      const formData =  this.formDataDriver(createDriver);
 
-     return this.http.post(`${URL}/api/driver/register`, formData);
+     return this.http.doPostFormData(`${URL}/api/driver/register`, formData, {});
    }
   public getConveyors() {
-    return this.http.get<ConveyorListDTO>(`${URL}/api/conveyor/list-conveyors`);
+    return this.http.doGet(`${URL}/api/conveyor/list-conveyors`, {});
   }
 
   public formDataAdminLogistThird(createLogistThird: CreateConveyorAdminLogistThird){

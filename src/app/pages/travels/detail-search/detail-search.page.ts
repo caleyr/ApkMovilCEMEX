@@ -42,10 +42,10 @@ export class DetailSearchPage implements OnInit {
 
   getData(code){
     this.travelService.getTravelsForCode(code).subscribe(data=>{
-      this.travel = data;
+      this.travel = data.data;
     });
     this.driversService.getDriverList(this.loginService.profileUser.CompanyId).subscribe(result =>{
-      this.driverList = result;
+      this.driverList = result.data;
     })
   }
   
@@ -73,7 +73,7 @@ export class DetailSearchPage implements OnInit {
     this.driverValidate = false;
   }
 
-  async onClickCreateRequestDrive(){
+  async onClickCreateRequest(){
     const dataFormC = new FormData();
     dataFormC.append('StatusRequestTravels', '1');
     dataFormC.append('DriverId', this.loginService.profileUser.id);
@@ -86,23 +86,6 @@ export class DetailSearchPage implements OnInit {
     await this.updateTravel(this.travel.id ,dataFormU);
     this.addDriver = false;
     this.alertShow = true;
-  }
-
-  async onClickCreateRequestAdmin(){
-    const dataFormC = new FormData();
-    dataFormC.append('StatusRequestTravels', '1');
-    dataFormC.append('DriverId', this.driverAssign);
-    dataFormC.append('TravelId', this.travel.id);
-    await this.createTravel(dataFormC);
-    console.log('Paso');
-    
-
-    const dataFormU = new FormData();    
-    dataFormU.append('Id', this.travel.id);
-    dataFormU.append('UserId', this.driverAssign);
-    await this.updateTravel(this.travel.id ,dataFormU);
-    this.alertShow = true;
-    console.log('Llego');
   }
 
   createTravel(dataForm){

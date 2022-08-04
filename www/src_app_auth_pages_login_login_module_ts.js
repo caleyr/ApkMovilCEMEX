@@ -129,37 +129,40 @@ let LoginPage = class LoginPage {
         this.error = null;
         this.errors = [];
         this.message = null;
-        this.roles = [];
         this.isDriver = true;
         this.loading = false;
+        this.formBuilderInput();
     }
     ngOnInit() {
-        this.formBuilderInput();
     }
     login() {
         return (0,tslib__WEBPACK_IMPORTED_MODULE_4__.__awaiter)(this, void 0, void 0, function* () {
             if (this.form.invalid) {
                 return;
             }
-            this.loading = true;
-            yield this.loginService.login(this.form.value).subscribe((resp) => (0,tslib__WEBPACK_IMPORTED_MODULE_4__.__awaiter)(this, void 0, void 0, function* () {
-                yield this.loginService.saveToken(resp['token'], resp['expiracion'], resp, resp['roles']);
-                this.errors = [];
-                this.roles = resp['roles'];
-                this.roles.map((role) => {
-                    if (role !== 'Driver') {
-                        this.isDriver = false;
-                    }
-                });
-                this.navCtrl.navigateRoot('/app/home', { animated: true });
-                this.loading = false;
+            yield this.loginService.loginWeb(this.form.value).subscribe((resp) => (0,tslib__WEBPACK_IMPORTED_MODULE_4__.__awaiter)(this, void 0, void 0, function* () {
+                const session = JSON.parse(resp.data)["token"];
+                this.role = JSON.parse(atob(session.split('.')[1]))["Roles"];
+                if (this.role !== 'Power User CEMEX' && this.role !== 'Administrador Logistico Cemex') {
+                    this.errors = [];
+                    yield this.loginService.saveDataProfile(session);
+                    yield this.loginService.getDataProfile(session);
+                    this.navCtrl.navigateRoot('/app/home', { animated: true });
+                    this.loading = false;
+                }
+                else {
+                    this.loading = false;
+                }
             }), (error) => {
-                this.errors = this.errorMessages.parsearErroresAPI(error);
+                alert(error);
                 this.statusInputEmail = 'error';
                 this.statusInputPassword = 'error';
                 this.loading = false;
             });
         });
+    }
+    onClickPassword() {
+        this.navCtrl.navigateRoot('/reset-password-email', { animated: true });
     }
     /*=============================================
      FORMULARIOS REACTIVOS
@@ -215,6 +218,57 @@ LoginPage = (0,tslib__WEBPACK_IMPORTED_MODULE_4__.__decorate)([
         styles: [_login_page_scss_ngResource__WEBPACK_IMPORTED_MODULE_1__]
     })
 ], LoginPage);
+
+
+
+/***/ }),
+
+/***/ 47486:
+/*!****************************************************!*\
+  !*** ./src/app/services/error-messages.service.ts ***!
+  \****************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "ErrorMessagesService": () => (/* binding */ ErrorMessagesService)
+/* harmony export */ });
+/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ 34929);
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ 3184);
+
+
+let ErrorMessagesService = class ErrorMessagesService {
+    constructor() { }
+    parsearErroresAPI(response) {
+        const resultado = [];
+        if (response.status === 500) {
+            resultado.push('Ha ocurrido un error en el servidor. Favor intentar más tarde');
+            return resultado;
+        }
+        if (response.error) {
+            if (typeof response.error === 'string') {
+                resultado.push(response.error);
+            }
+            else {
+                const mapaErrores = response.error.errors;
+                const entradas = Object.entries(mapaErrores);
+                entradas.forEach((arreglo) => {
+                    const campo = arreglo[0];
+                    arreglo[1].forEach((mensajeError) => {
+                        resultado.push(`${campo}: ${mensajeError}`);
+                    });
+                });
+            }
+        }
+        return resultado;
+    }
+};
+ErrorMessagesService.ctorParameters = () => [];
+ErrorMessagesService = (0,tslib__WEBPACK_IMPORTED_MODULE_0__.__decorate)([
+    (0,_angular_core__WEBPACK_IMPORTED_MODULE_1__.Injectable)({
+        providedIn: 'root'
+    })
+], ErrorMessagesService);
 
 
 
@@ -519,7 +573,7 @@ const async = asyncScheduler;
   \*************************************************************/
 /***/ ((module) => {
 
-module.exports = ".content-grid-login {\n  display: flex !important;\n  justify-content: center !important;\n  overflow: auto;\n  margin-bottom: 2rem;\n}\n\n.input-login {\n  width: 100%;\n  padding-bottom: 0.7rem;\n  margin-bottom: 0rem;\n}\n\n.content-title-login {\n  margin-bottom: 2rem;\n}\n\n.content-title-login h4 {\n  color: #002a59;\n}\n\nspan.cwc-status-message {\n  font-size: 0.9rem;\n  color: red;\n}\n\n.content-message-error-login {\n  margin-top: -1rem;\n  margin-bottom: 1.3rem;\n}\n\n@font-face {\n  font-family: \"Roboto-medium\";\n  src: url('Roboto-Medium.ttf');\n}\n\n.link-forgot-password {\n  font-family: \"Roboto-medium\" !important;\n  margin-top: 1rem;\n  font-weight: bold !important;\n}\n\n.content-title-welcome h1 {\n  color: #002a59;\n  font-size: 2.5rem !important;\n}\n\n.content-title-welcome {\n  padding-top: 1rem;\n  padding-bottom: 3rem;\n}\n\n.toolbar-login {\n  --background: #F4F6F9;\n  padding: 5rem !important;\n}\n\n.content-line-login {\n  padding-top: 1.5rem;\n  padding-bottom: 0.5rem;\n}\n\n.text-not-account {\n  color: #002a59 !important;\n}\n\n.text-not-account span {\n  color: #3FA9F5 !important;\n  font-weight: 700;\n}\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbImxvZ2luLnBhZ2Uuc2NzcyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiQUFBQTtFQUNJLHdCQUFBO0VBQ0Esa0NBQUE7RUFDQSxjQUFBO0VBQ0EsbUJBQUE7QUFDSjs7QUFFQTtFQUNJLFdBQUE7RUFDQSxzQkFBQTtFQUNBLG1CQUFBO0FBQ0o7O0FBQ0E7RUFDSSxtQkFBQTtBQUVKOztBQUFBO0VBQ0ksY0FBQTtBQUdKOztBQURBO0VBQ0ksaUJBQUE7RUFDQSxVQUFBO0FBSUo7O0FBRkE7RUFDSSxpQkFBQTtFQUNBLHFCQUFBO0FBS0o7O0FBSEE7RUFDSSw0QkFBQTtFQUNBLDZCQUFBO0FBTUo7O0FBSkE7RUFDSSx1Q0FBQTtFQUNBLGdCQUFBO0VBQ0EsNEJBQUE7QUFNSjs7QUFKQTtFQUNJLGNBQUE7RUFDQSw0QkFBQTtBQU9KOztBQUxBO0VBQ0ssaUJBQUE7RUFDQSxvQkFBQTtBQVFMOztBQU5BO0VBQ0kscUJBQUE7RUFDQSx3QkFBQTtBQVNKOztBQVBBO0VBQ0ksbUJBQUE7RUFDQSxzQkFBQTtBQVVKOztBQVJBO0VBQ0kseUJBQUE7QUFXSjs7QUFUQTtFQUNJLHlCQUFBO0VBQ0EsZ0JBQUE7QUFZSiIsImZpbGUiOiJsb2dpbi5wYWdlLnNjc3MiLCJzb3VyY2VzQ29udGVudCI6WyIuY29udGVudC1ncmlkLWxvZ2lue1xyXG4gICAgZGlzcGxheTogZmxleCAhaW1wb3J0YW50O1xyXG4gICAganVzdGlmeS1jb250ZW50OiBjZW50ZXIgIWltcG9ydGFudDtcclxuICAgIG92ZXJmbG93OiBhdXRvO1xyXG4gICAgbWFyZ2luLWJvdHRvbTogMnJlbTtcclxuICAgIC8vIGFsaWduLWl0ZW1zOiBjZW50ZXIgIWltcG9ydGFudDtcclxuIH1cclxuLmlucHV0LWxvZ2lue1xyXG4gICAgd2lkdGg6IDEwMCU7XHJcbiAgICBwYWRkaW5nLWJvdHRvbTogMC43cmVtO1xyXG4gICAgbWFyZ2luLWJvdHRvbTogMHJlbTtcclxufVxyXG4uY29udGVudC10aXRsZS1sb2dpbntcclxuICAgIG1hcmdpbi1ib3R0b206IDJyZW07XHJcbn1cclxuLmNvbnRlbnQtdGl0bGUtbG9naW4gaDR7XHJcbiAgICBjb2xvcjogIzAwMmE1OTtcclxufVxyXG5zcGFuLmN3Yy1zdGF0dXMtbWVzc2FnZXtcclxuICAgIGZvbnQtc2l6ZTogMC45cmVtO1xyXG4gICAgY29sb3I6IHJlZDtcclxufVxyXG4uY29udGVudC1tZXNzYWdlLWVycm9yLWxvZ2lue1xyXG4gICAgbWFyZ2luLXRvcDogLTFyZW07XHJcbiAgICBtYXJnaW4tYm90dG9tOiAxLjNyZW07XHJcbn1cclxuQGZvbnQtZmFjZSB7XHJcbiAgICBmb250LWZhbWlseTogJ1JvYm90by1tZWRpdW0nO1xyXG4gICAgc3JjOiB1cmwoJy4uLy4uLy4uLy4uL2Fzc2V0cy9mb250cy9Sb2JvdG8tTWVkaXVtLnR0ZicpO1xyXG4gIH1cclxuLmxpbmstZm9yZ290LXBhc3N3b3Jke1xyXG4gICAgZm9udC1mYW1pbHk6ICdSb2JvdG8tbWVkaXVtJyAhaW1wb3J0YW50O1xyXG4gICAgbWFyZ2luLXRvcDogMXJlbTtcclxuICAgIGZvbnQtd2VpZ2h0OiBib2xkICFpbXBvcnRhbnQ7XHJcbn1cclxuLmNvbnRlbnQtdGl0bGUtd2VsY29tZSBoMXtcclxuICAgIGNvbG9yOiAjMDAyYTU5O1xyXG4gICAgZm9udC1zaXplOiAyLjVyZW0gIWltcG9ydGFudDtcclxufVxyXG4uY29udGVudC10aXRsZS13ZWxjb21le1xyXG4gICAgIHBhZGRpbmctdG9wOiAxcmVtO1xyXG4gICAgIHBhZGRpbmctYm90dG9tOiAzcmVtO1xyXG59XHJcbi50b29sYmFyLWxvZ2lue1xyXG4gICAgLS1iYWNrZ3JvdW5kOiAjRjRGNkY5O1xyXG4gICAgcGFkZGluZzogNXJlbSAhaW1wb3J0YW50O1xyXG59XHJcbi5jb250ZW50LWxpbmUtbG9naW57XHJcbiAgICBwYWRkaW5nLXRvcDogMS41cmVtO1xyXG4gICAgcGFkZGluZy1ib3R0b206IDAuNXJlbTtcclxufVxyXG4udGV4dC1ub3QtYWNjb3VudHtcclxuICAgIGNvbG9yOiAjMDAyYTU5ICFpbXBvcnRhbnQ7XHJcbn1cclxuLnRleHQtbm90LWFjY291bnQgc3BhbntcclxuICAgIGNvbG9yOiAjM0ZBOUY1ICFpbXBvcnRhbnQ7XHJcbiAgICBmb250LXdlaWdodDogNzAwO1xyXG59Il19 */";
+module.exports = ".content-grid-login {\n  display: flex !important;\n  justify-content: center !important;\n  overflow: auto;\n  margin-bottom: 2rem;\n}\n\n.input-login {\n  width: 100%;\n  padding-bottom: 0.7rem;\n  margin-bottom: 0rem;\n}\n\n.content-title-login {\n  margin-bottom: 2rem;\n}\n\n.content-title-login h4 {\n  color: #002a59;\n}\n\nspan.cwc-status-message {\n  font-size: 0.9rem;\n  color: red;\n}\n\n.content-message-error-login {\n  margin-top: -1rem;\n  margin-bottom: 1.3rem;\n}\n\n@font-face {\n  font-family: \"Roboto-medium\";\n  src: url('Roboto-Medium.ttf');\n}\n\n.link-forgot-password {\n  font-family: \"Roboto-medium\" !important;\n  margin-top: 1rem;\n  font-weight: bold !important;\n}\n\n.content-title-welcome h1 {\n  color: #002a59;\n  font-size: 2.5rem !important;\n}\n\n.content-title-welcome {\n  padding-top: 1rem;\n  padding-bottom: 3rem;\n}\n\n.toolbar-login {\n  --background: #F4F6F9;\n  padding: 5rem !important;\n}\n\n.content-line-login {\n  padding-top: 1.5rem;\n  padding-bottom: 0.5rem;\n}\n\n.text-not-account {\n  color: #002a59 !important;\n}\n\n.text-not-account span {\n  color: #3FA9F5 !important;\n  font-weight: 700;\n  font-size: small;\n}\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbImxvZ2luLnBhZ2Uuc2NzcyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiQUFBQTtFQUNJLHdCQUFBO0VBQ0Esa0NBQUE7RUFDQSxjQUFBO0VBQ0EsbUJBQUE7QUFDSjs7QUFFQTtFQUNJLFdBQUE7RUFDQSxzQkFBQTtFQUNBLG1CQUFBO0FBQ0o7O0FBQ0E7RUFDSSxtQkFBQTtBQUVKOztBQUFBO0VBQ0ksY0FBQTtBQUdKOztBQURBO0VBQ0ksaUJBQUE7RUFDQSxVQUFBO0FBSUo7O0FBRkE7RUFDSSxpQkFBQTtFQUNBLHFCQUFBO0FBS0o7O0FBSEE7RUFDSSw0QkFBQTtFQUNBLDZCQUFBO0FBTUo7O0FBSkE7RUFDSSx1Q0FBQTtFQUNBLGdCQUFBO0VBQ0EsNEJBQUE7QUFNSjs7QUFKQTtFQUNJLGNBQUE7RUFDQSw0QkFBQTtBQU9KOztBQUxBO0VBQ0ssaUJBQUE7RUFDQSxvQkFBQTtBQVFMOztBQU5BO0VBQ0kscUJBQUE7RUFDQSx3QkFBQTtBQVNKOztBQVBBO0VBQ0ksbUJBQUE7RUFDQSxzQkFBQTtBQVVKOztBQVJBO0VBQ0kseUJBQUE7QUFXSjs7QUFUQTtFQUNJLHlCQUFBO0VBQ0EsZ0JBQUE7RUFDQSxnQkFBQTtBQVlKIiwiZmlsZSI6ImxvZ2luLnBhZ2Uuc2NzcyIsInNvdXJjZXNDb250ZW50IjpbIi5jb250ZW50LWdyaWQtbG9naW57XHJcbiAgICBkaXNwbGF5OiBmbGV4ICFpbXBvcnRhbnQ7XHJcbiAgICBqdXN0aWZ5LWNvbnRlbnQ6IGNlbnRlciAhaW1wb3J0YW50O1xyXG4gICAgb3ZlcmZsb3c6IGF1dG87XHJcbiAgICBtYXJnaW4tYm90dG9tOiAycmVtO1xyXG4gICAgLy8gYWxpZ24taXRlbXM6IGNlbnRlciAhaW1wb3J0YW50O1xyXG4gfVxyXG4uaW5wdXQtbG9naW57XHJcbiAgICB3aWR0aDogMTAwJTtcclxuICAgIHBhZGRpbmctYm90dG9tOiAwLjdyZW07XHJcbiAgICBtYXJnaW4tYm90dG9tOiAwcmVtO1xyXG59XHJcbi5jb250ZW50LXRpdGxlLWxvZ2lue1xyXG4gICAgbWFyZ2luLWJvdHRvbTogMnJlbTtcclxufVxyXG4uY29udGVudC10aXRsZS1sb2dpbiBoNHtcclxuICAgIGNvbG9yOiAjMDAyYTU5O1xyXG59XHJcbnNwYW4uY3djLXN0YXR1cy1tZXNzYWdle1xyXG4gICAgZm9udC1zaXplOiAwLjlyZW07XHJcbiAgICBjb2xvcjogcmVkO1xyXG59XHJcbi5jb250ZW50LW1lc3NhZ2UtZXJyb3ItbG9naW57XHJcbiAgICBtYXJnaW4tdG9wOiAtMXJlbTtcclxuICAgIG1hcmdpbi1ib3R0b206IDEuM3JlbTtcclxufVxyXG5AZm9udC1mYWNlIHtcclxuICAgIGZvbnQtZmFtaWx5OiAnUm9ib3RvLW1lZGl1bSc7XHJcbiAgICBzcmM6IHVybCgnLi4vLi4vLi4vLi4vYXNzZXRzL2ZvbnRzL1JvYm90by1NZWRpdW0udHRmJyk7XHJcbiAgfVxyXG4ubGluay1mb3Jnb3QtcGFzc3dvcmR7XHJcbiAgICBmb250LWZhbWlseTogJ1JvYm90by1tZWRpdW0nICFpbXBvcnRhbnQ7XHJcbiAgICBtYXJnaW4tdG9wOiAxcmVtO1xyXG4gICAgZm9udC13ZWlnaHQ6IGJvbGQgIWltcG9ydGFudDtcclxufVxyXG4uY29udGVudC10aXRsZS13ZWxjb21lIGgxe1xyXG4gICAgY29sb3I6ICMwMDJhNTk7XHJcbiAgICBmb250LXNpemU6IDIuNXJlbSAhaW1wb3J0YW50O1xyXG59XHJcbi5jb250ZW50LXRpdGxlLXdlbGNvbWV7XHJcbiAgICAgcGFkZGluZy10b3A6IDFyZW07XHJcbiAgICAgcGFkZGluZy1ib3R0b206IDNyZW07XHJcbn1cclxuLnRvb2xiYXItbG9naW57XHJcbiAgICAtLWJhY2tncm91bmQ6ICNGNEY2Rjk7XHJcbiAgICBwYWRkaW5nOiA1cmVtICFpbXBvcnRhbnQ7XHJcbn1cclxuLmNvbnRlbnQtbGluZS1sb2dpbntcclxuICAgIHBhZGRpbmctdG9wOiAxLjVyZW07XHJcbiAgICBwYWRkaW5nLWJvdHRvbTogMC41cmVtO1xyXG59XHJcbi50ZXh0LW5vdC1hY2NvdW50e1xyXG4gICAgY29sb3I6ICMwMDJhNTkgIWltcG9ydGFudDtcclxufVxyXG4udGV4dC1ub3QtYWNjb3VudCBzcGFue1xyXG4gICAgY29sb3I6ICMzRkE5RjUgIWltcG9ydGFudDtcclxuICAgIGZvbnQtd2VpZ2h0OiA3MDA7XHJcbiAgICBmb250LXNpemU6IHNtYWxsO1xyXG59Il19 */";
 
 /***/ }),
 
@@ -529,7 +583,7 @@ module.exports = ".content-grid-login {\n  display: flex !important;\n  justify-
   \*************************************************************/
 /***/ ((module) => {
 
-module.exports = "<div slot=\"main\" class=\"content-grid-login content\">\r\n  <form  (submit)=\"login()\" [formGroup]=\"form\">\r\n  <cwc-grid class=\"demo-grid\" design-version=\"v2\" columns=\"12\" mobile-columns=\"12\">\r\n    <cwc-cell colspan=\"12\" mobile-colspan=\"12\">\r\n      <div class=\"content-title-welcome\">\r\n        <h1>Bienvenido</h1>\r\n        <div class=\"border-red\"></div>\r\n      </div>\r\n      <div class=\"content-title-login\">\r\n        <h4>Iniciar Sesión</h4>\r\n      </div>\r\n        <cwc-input class=\"input-login input\" \r\n                   [status]='statusInputEmail'\r\n                   [statusMessage]='statusInputMessageEmail'\r\n                   label='Correo electrónico'\r\n                   formControlName=\"email\"\r\n                   design-version=\"v2\" \r\n                   required\r\n                   ></cwc-input>\r\n        <cwc-input class=\"input-login input\"\r\n                   [status]=\"statusInputPassword\"\r\n                   [statusMessage]='statusInputMessagePassword'\r\n                   design-version=\"v2\" \r\n                   formControlName=\"password\"\r\n                   type='password' \r\n                   label='Contraseña'\r\n                   allow-password-show='true'\r\n                   required \r\n                   ></cwc-input>\r\n                   <div class=\"content-message-error-login\">\r\n                    <span class=\"cwc-status-message\" aria-live=\"assertive\" id=\"cwc-input-1-error\">{{message}}</span>\r\n                   </div>\r\n        <cwc-button class=\"btn-login\" \r\n                    [disabled]=\"form.invalid\"\r\n                    (click)=\"login()\" \r\n                    design-version=\"v1\" \r\n                    variant=\"primary-block\">INICIAR SESIÓN</cwc-button>\r\n                  \r\n        <app-error-messages [errors]=\"errors\"></app-error-messages>  \r\n        <cwc-button variant=\"link\" class=\"link-forgot-password\" [routerLink]=\"['/reset-password-email']\" routerLinkActive=\"router-link-active\" >¿Olvidó su contraseña?</cwc-button>           \r\n    </cwc-cell>\r\n  </cwc-grid>\r\n<cwc-grid>\r\n<cwc-cell colspan=\"12\" mobile-colspan=\"12\">\r\n  <div class=\"content-line-login\">\r\n    <div class=\"border-gray\"></div>\r\n  </div>\r\n  <div>\r\n    <h6 class=\"text-not-account\">¿Aún no tienes cuenta? <span [routerLink]=\"['/register']\" routerLinkActive=\"router-link-active\" >Registrate</span></h6>\r\n  </div>\r\n</cwc-cell>\r\n</cwc-grid>\r\n</form>\r\n<cwc-snackbar id='snackbar' message=\"{{message}}\" cta-message=\"dismiss\" auto-hide-duration='5000'></cwc-snackbar>\r\n</div>\r\n<div class=\"loading-content\" *ngIf=\"loading\">\r\n  <cwc-loader>\r\n    <span slot='loading'>Espere un momento...</span>\r\n  </cwc-loader>\r\n</div>";
+module.exports = "<div slot=\"main\" class=\"content-grid-login content\">\r\n  <form  (submit)=\"login()\" [formGroup]=\"form\">\r\n  <cwc-grid class=\"demo-grid\" design-version=\"v2\" columns=\"12\" mobile-columns=\"12\">\r\n    <cwc-cell colspan=\"12\" mobile-colspan=\"12\">\r\n      <div class=\"content-title-welcome\">\r\n        <h1>Bienvenido</h1>\r\n        <div class=\"border-red\"></div>\r\n      </div>\r\n      <div class=\"content-title-login\">\r\n        <h4>Iniciar Sesión</h4>\r\n      </div>\r\n        <cwc-input class=\"input-login input\" \r\n                   [status]='statusInputEmail'\r\n                   [statusMessage]='statusInputMessageEmail'\r\n                   label='Correo electrónico'\r\n                   formControlName=\"email\"\r\n                   design-version=\"v2\" \r\n                   required\r\n                   ></cwc-input>\r\n        <cwc-input class=\"input-login input\"\r\n                   [status]=\"statusInputPassword\"\r\n                   [statusMessage]='statusInputMessagePassword'\r\n                   design-version=\"v2\" \r\n                   formControlName=\"password\"\r\n                   type='password' \r\n                   label='Contraseña'\r\n                   allow-password-show='true'\r\n                   required \r\n                   (keydown.enter)=\"login()\"\r\n                   ></cwc-input>\r\n                   <div class=\"content-message-error-login\">\r\n                    <span class=\"cwc-status-message\" aria-live=\"assertive\" id=\"cwc-input-1-error\">{{message}}</span>\r\n                   </div>\r\n        <cwc-button class=\"btn-login\" \r\n                    [disabled]=\"form.invalid\"\r\n                    (click)=\"login()\" \r\n                    design-version=\"v1\" \r\n                    variant=\"primary-block\">INICIAR SESIÓN</cwc-button>\r\n                  \r\n        <app-error-messages [errors]=\"errors\"></app-error-messages>  \r\n        <cwc-button variant=\"link\" class=\"link-forgot-password\" (click)=\"onClickPassword()\" >¿Olvidó su contraseña?</cwc-button>           \r\n    </cwc-cell>\r\n  </cwc-grid>\r\n<cwc-grid>\r\n<cwc-cell colspan=\"12\" mobile-colspan=\"12\">\r\n  <div class=\"content-line-login\">\r\n    <div class=\"border-gray\"></div>\r\n  </div>\r\n  <div>\r\n    <h6 class=\"text-not-account\">¿Aún no tienes cuenta? <span [routerLink]=\"['/register']\" routerLinkActive=\"router-link-active\" >Registrate</span></h6>\r\n  </div>\r\n</cwc-cell>\r\n</cwc-grid>\r\n</form>\r\n<cwc-snackbar id='snackbar' message=\"{{message}}\" cta-message=\"dismiss\" auto-hide-duration='5000'></cwc-snackbar>\r\n</div>\r\n<div class=\"loading-content\" *ngIf=\"loading\">\r\n  <cwc-loader>\r\n    <span slot='loading'>Espere un momento...</span>\r\n  </cwc-loader>\r\n</div>";
 
 /***/ })
 

@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { environment } from 'src/environments/environment';
 import { Companies } from '../../interfaces/companies/companies';
 import { Observable } from 'rxjs';
+import { environment } from 'src/environments/environment.prod';
+import { HttpService } from '../http/http.service';
 const URL = environment.url;
+
 
 @Injectable({
   providedIn: 'root'
@@ -11,15 +12,15 @@ const URL = environment.url;
 export class CompaniesService {
 
   constructor(
-    private http: HttpClient,
+    private http: HttpService,
   ) { }
 
   getCompanies(){
-    return this.http.get<Companies[]>(`${URL}/api/companies`);
+    return this.http.doGet(`${URL}/api/companies`, {'Content-Type': 'application/json'});
   }
 
   getCompany(id : string) {
-    return this.http.get<Companies>(`${URL}/api/companies/${id}`);
+    return this.http.doGet(`${URL}/api/companies/${id}`, {'Content-Type': 'application/json'});
   }
 
 }

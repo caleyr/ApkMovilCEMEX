@@ -214,7 +214,7 @@ const routes = [
     },
     {
         path: 'update-archives',
-        loadChildren: () => Promise.all(/*! import() */[__webpack_require__.e("default-src_app_services_convert-photo-camera_convert-photo-camera_service_ts-node_modules_ca-b1e384"), __webpack_require__.e("default-src_app_pages_profile_update-archives_update-archives_module_ts")]).then(__webpack_require__.bind(__webpack_require__, /*! ./update-archives/update-archives.module */ 56769)).then(m => m.UpdateArchivesPageModule)
+        loadChildren: () => Promise.all(/*! import() */[__webpack_require__.e("default-src_app_services_convert-photo-camera_convert-photo-camera_service_ts-node_modules_ca-b1e384"), __webpack_require__.e("src_app_pages_profile_update-archives_update-archives_module_ts")]).then(__webpack_require__.bind(__webpack_require__, /*! ./update-archives/update-archives.module */ 56769)).then(m => m.UpdateArchivesPageModule)
     },
     {
         path: 'edit',
@@ -248,11 +248,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "ProfilePageModule": () => (/* binding */ ProfilePageModule)
 /* harmony export */ });
-/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! tslib */ 34929);
-/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! @angular/core */ 3184);
-/* harmony import */ var _angular_common__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! @angular/common */ 36362);
-/* harmony import */ var _angular_forms__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! @angular/forms */ 90587);
-/* harmony import */ var _ionic_angular__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! @ionic/angular */ 93819);
+/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! tslib */ 34929);
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! @angular/core */ 3184);
+/* harmony import */ var _angular_common__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! @angular/common */ 36362);
+/* harmony import */ var _angular_forms__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! @angular/forms */ 90587);
+/* harmony import */ var _ionic_angular__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! @ionic/angular */ 93819);
 /* harmony import */ var _profile_routing_module__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./profile-routing.module */ 41474);
 /* harmony import */ var _profile_page__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./profile.page */ 64629);
 /* harmony import */ var src_app_components_components_module__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! src/app/components/components.module */ 45642);
@@ -260,6 +260,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _modal_document_driving_licence_document_driving_licence_document_driving_licence_component__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./modal-document-driving-licence/document-driving-licence/document-driving-licence.component */ 88950);
 /* harmony import */ var _modal_document_company_document_company_document_company_component__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./modal-document-company/document-company/document-company.component */ 24509);
 /* harmony import */ var _modal_security_card_document_security_card_document_security_card_component__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./modal-security-card/document-security-card/document-security-card.component */ 3828);
+/* harmony import */ var _layout_layout_module__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../layout/layout.module */ 93077);
 
 
 
@@ -273,16 +274,18 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
 let ProfilePageModule = class ProfilePageModule {
 };
-ProfilePageModule = (0,tslib__WEBPACK_IMPORTED_MODULE_7__.__decorate)([
-    (0,_angular_core__WEBPACK_IMPORTED_MODULE_8__.NgModule)({
+ProfilePageModule = (0,tslib__WEBPACK_IMPORTED_MODULE_8__.__decorate)([
+    (0,_angular_core__WEBPACK_IMPORTED_MODULE_9__.NgModule)({
         imports: [
-            _angular_common__WEBPACK_IMPORTED_MODULE_9__.CommonModule,
-            _angular_forms__WEBPACK_IMPORTED_MODULE_10__.FormsModule,
-            _ionic_angular__WEBPACK_IMPORTED_MODULE_11__.IonicModule,
+            _angular_common__WEBPACK_IMPORTED_MODULE_10__.CommonModule,
+            _angular_forms__WEBPACK_IMPORTED_MODULE_11__.FormsModule,
+            _ionic_angular__WEBPACK_IMPORTED_MODULE_12__.IonicModule,
             src_app_components_components_module__WEBPACK_IMPORTED_MODULE_2__.ComponentsModule,
-            _profile_routing_module__WEBPACK_IMPORTED_MODULE_0__.ProfilePageRoutingModule
+            _profile_routing_module__WEBPACK_IMPORTED_MODULE_0__.ProfilePageRoutingModule,
+            _layout_layout_module__WEBPACK_IMPORTED_MODULE_7__.LayoutPageModule
         ],
         declarations: [
             _profile_page__WEBPACK_IMPORTED_MODULE_1__.ProfilePage,
@@ -308,15 +311,16 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "ProfilePage": () => (/* binding */ ProfilePage)
 /* harmony export */ });
-/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! tslib */ 34929);
+/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! tslib */ 34929);
 /* harmony import */ var _profile_page_html_ngResource__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./profile.page.html?ngResource */ 67364);
 /* harmony import */ var _profile_page_scss_ngResource__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./profile.page.scss?ngResource */ 62581);
-/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! @angular/core */ 3184);
-/* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @angular/router */ 52816);
-/* harmony import */ var _ionic_storage_angular__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @ionic/storage-angular */ 80190);
-/* harmony import */ var rxjs_operators__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! rxjs/operators */ 59151);
-/* harmony import */ var rxjs_operators__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! rxjs/operators */ 86942);
-/* harmony import */ var _services_profile_profile_service__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../services/profile/profile.service */ 89985);
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! @angular/core */ 3184);
+/* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @angular/router */ 52816);
+/* harmony import */ var rxjs_operators__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! rxjs/operators */ 59151);
+/* harmony import */ var rxjs_operators__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! rxjs/operators */ 86942);
+/* harmony import */ var src_app_models_profile_model__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! src/app/models/profile.model */ 22574);
+/* harmony import */ var _services_auth_login_service__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../services/auth/login.service */ 52876);
+/* harmony import */ var _services_companies_companies_service__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../services/companies/companies.service */ 46605);
 
 
 
@@ -326,31 +330,13 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
 let ProfilePage = class ProfilePage {
-    constructor(storage, profileService, router) {
-        this.storage = storage;
-        this.profileService = profileService;
+    constructor(router, loginService, companiesService) {
         this.router = router;
-        this.user = {
-            firstName: '',
-            lastName: '',
-            document: '',
-            email: '',
-            status: false,
-            slug: '',
-            phoneNumber: '',
-            roles: '',
-            driver: {
-                documentDrivinglicenseFrontal: '',
-                documentDrivinglicenseBack: '',
-                codeSap: ''
-            },
-            company: {
-                companyNit: '',
-                companyName: '',
-                documentCompany: ''
-            }
-        };
+        this.loginService = loginService;
+        this.companiesService = companiesService;
+        this.profile = new src_app_models_profile_model__WEBPACK_IMPORTED_MODULE_2__.Profile();
         this.showModalArchiveDocumentCompany = false;
         this.showModalIndentityCard = false;
         this.showModalLicence = false;
@@ -358,7 +344,9 @@ let ProfilePage = class ProfilePage {
         this.loading = false;
         this.titleSubs = this.getTitleRuote().subscribe(event => {
             if (event === '/app/profile') {
-                this.getDataUserProfile();
+                this.loading = true;
+                this.profile = this.loginService.profileUser;
+                this.loading = false;
             }
         });
     }
@@ -366,60 +354,64 @@ let ProfilePage = class ProfilePage {
         this.titleSubs.unsubscribe();
     }
     ngOnInit() {
-        return (0,tslib__WEBPACK_IMPORTED_MODULE_3__.__awaiter)(this, void 0, void 0, function* () {
-            yield this.storage.get('current_user').then(resp => {
-                console.log(resp);
-                this.user.email = resp.user.email;
+        return (0,tslib__WEBPACK_IMPORTED_MODULE_5__.__awaiter)(this, void 0, void 0, function* () {
+            this.loading = true;
+            this.profile = this.loginService.profileUser;
+            this.companiesService.getCompany(this.profile.CompanyId).subscribe(data => {
+                this.profile.CompanyName = data.data.datacompanyName;
+                this.loading = false;
             });
-            this.getDataUserProfile();
+            //this.getDataUserProfile();
         });
     }
     getTitleRuote() {
         return this.router.events
-            .pipe((0,rxjs_operators__WEBPACK_IMPORTED_MODULE_4__.filter)(event => event instanceof _angular_router__WEBPACK_IMPORTED_MODULE_5__.ActivationEnd), (0,rxjs_operators__WEBPACK_IMPORTED_MODULE_4__.filter)((event) => event.snapshot.firstChild === null), (0,rxjs_operators__WEBPACK_IMPORTED_MODULE_6__.map)((event) => event.snapshot['_routerState'].url));
+            .pipe((0,rxjs_operators__WEBPACK_IMPORTED_MODULE_6__.filter)(event => event instanceof _angular_router__WEBPACK_IMPORTED_MODULE_7__.ActivationEnd), (0,rxjs_operators__WEBPACK_IMPORTED_MODULE_6__.filter)((event) => event.snapshot.firstChild === null), (0,rxjs_operators__WEBPACK_IMPORTED_MODULE_8__.map)((event) => event.snapshot['_routerState'].url));
     }
-    getDataUserProfile() {
-        return (0,tslib__WEBPACK_IMPORTED_MODULE_3__.__awaiter)(this, void 0, void 0, function* () {
-            let urlactual = '';
-            this.loading = true;
-            yield this.profileService.getDataUser(this.user.email).subscribe((resp) => (0,tslib__WEBPACK_IMPORTED_MODULE_3__.__awaiter)(this, void 0, void 0, function* () {
-                const rol = resp.roles.map(item => item);
-                this.user.firstName = resp.user.firstName;
-                this.user.lastName = resp.user.lastName;
-                this.user.document = resp.user.document;
-                this.user.roles = rol.toString();
-                this.user.documentIdentityCardFrontal = resp.user.documentIdentityCardFrontal;
-                this.user.documentIdentityCardBack = resp.user.documentIdentityCardBack;
-                this.user.driver.codeSap = resp.codeSap;
-                this.user.driver.documentDrivinglicenseFrontal = resp.documentDrivinglicenseFrontal;
-                this.user.driver.documentDrivinglicenseBack = resp.documentDrivinglicenseBack;
-                this.user.driver.documentSecurityCard = resp.documentSecurityCard;
-                this.user.company.companyName = resp.companyName;
-                this.user.company.documentCompany = resp.documentCompany;
-                this.loading = false;
-            }), error => {
-                this.loading = false;
-            });
-            urlactual = this.user.driver.documentDrivinglicenseFrontal;
-        });
-    }
+    /*
+    async getDataUserProfile(){
+      let urlactual = '';
+      this.loading = true;
+      await this.profileService.getDataUser(this.user.email).subscribe(async resp=>{
+        const rol =  resp.roles.map(item =>  item);
+        this.user.firstName = resp.user.firstName;
+        this.user.lastName = resp.user.lastName;
+        this.user.document = resp.user.document;
+        this.user.roles = rol.toString();
+        this.user.documentIdentityCardFrontal = resp.user.documentIdentityCardFrontal;
+        this.user.documentIdentityCardBack = resp.user.documentIdentityCardBack;
+  
+        this.user.driver.codeSap = resp.codeSap;
+        this.user.driver.documentDrivinglicenseFrontal = resp.documentDrivinglicenseFrontal;
+        this.user.driver.documentDrivinglicenseBack = resp.documentDrivinglicenseBack;
+        this.user.driver.documentSecurityCard = resp.documentSecurityCard;
+  
+        this.user.company.companyName = resp.companyName;
+        this.user.company.documentCompany = resp.documentCompany;
+  
+        this.loading = false;
+     }, error =>{
+        this.loading = false;
+     });
+        urlactual = this.user.driver.documentDrivinglicenseFrontal;
+    }*/
     showModalIndentity() {
-        if (this.user.documentIdentityCardFrontal || this.user.documentIdentityCardBack) {
+        if (this.profile.DocumentIdentityCard) {
             this.showModalIndentityCard = true;
         }
     }
     showModalDocumentCompany() {
-        if (this.user.company.documentCompany) {
+        if (this.profile.SapCode) {
             this.showModalArchiveDocumentCompany = true;
         }
     }
     showModalDrivingLicence() {
-        if (this.user.driver.documentDrivinglicenseFrontal || this.user.driver.documentDrivinglicenseBack) {
+        if (this.profile.Drivinglicense) {
             this.showModalLicence = true;
         }
     }
     showModalSecurityCard() {
-        if (this.user.driver.documentSecurityCard) {
+        if (this.profile.SecurityCard) {
             this.showModalSecurityCardApp = true;
         }
     }
@@ -437,12 +429,12 @@ let ProfilePage = class ProfilePage {
     }
 };
 ProfilePage.ctorParameters = () => [
-    { type: _ionic_storage_angular__WEBPACK_IMPORTED_MODULE_7__.Storage },
-    { type: _services_profile_profile_service__WEBPACK_IMPORTED_MODULE_2__.ProfileService },
-    { type: _angular_router__WEBPACK_IMPORTED_MODULE_5__.Router }
+    { type: _angular_router__WEBPACK_IMPORTED_MODULE_7__.Router },
+    { type: _services_auth_login_service__WEBPACK_IMPORTED_MODULE_3__.LoginService },
+    { type: _services_companies_companies_service__WEBPACK_IMPORTED_MODULE_4__.CompaniesService }
 ];
-ProfilePage = (0,tslib__WEBPACK_IMPORTED_MODULE_3__.__decorate)([
-    (0,_angular_core__WEBPACK_IMPORTED_MODULE_8__.Component)({
+ProfilePage = (0,tslib__WEBPACK_IMPORTED_MODULE_5__.__decorate)([
+    (0,_angular_core__WEBPACK_IMPORTED_MODULE_9__.Component)({
         selector: 'app-profile',
         template: _profile_page_html_ngResource__WEBPACK_IMPORTED_MODULE_0__,
         styles: [_profile_page_scss_ngResource__WEBPACK_IMPORTED_MODULE_1__]
@@ -499,7 +491,7 @@ module.exports = "\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW
   \************************************************************/
 /***/ ((module) => {
 
-module.exports = "\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IiIsImZpbGUiOiJwcm9maWxlLnBhZ2Uuc2NzcyJ9 */";
+module.exports = ".card-size {\n  padding: 0;\n}\n\nspan.number-phone {\n  padding-left: 8px;\n  padding-right: 10px;\n}\n\nspan.style-name {\n  margin-left: 0.2rem;\n  font-size: small;\n  font-weight: 700;\n}\n\n.attr-user {\n  font-size: x-small;\n  font-weight: 700;\n  text-transform: uppercase;\n}\n\n.attr-document {\n  font-size: smaller;\n  font-weight: 700;\n  padding-bottom: 0.5rem;\n}\n\n.center-cell {\n  margin-top: 1.5rem;\n  margin-bottom: 1.5rem;\n}\n\n.text-info {\n  font-size: small;\n}\n\nspan.text-archive {\n  font-size: small;\n  color: black;\n}\n\n.cell-button {\n  padding-top: 2rem;\n  text-align: right;\n}\n\n.button-cell {\n  font-size: small;\n  font-weight: 700;\n  text-transform: uppercase;\n}\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInByb2ZpbGUucGFnZS5zY3NzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiJBQUFBO0VBQ0ksVUFBQTtBQUNKOztBQUdBO0VBQ0ksaUJBQUE7RUFDQSxtQkFBQTtBQUFKOztBQUdBO0VBQ0ksbUJBQUE7RUFDQSxnQkFBQTtFQUNBLGdCQUFBO0FBQUo7O0FBR0E7RUFDSSxrQkFBQTtFQUNBLGdCQUFBO0VBQ0EseUJBQUE7QUFBSjs7QUFHQTtFQUNJLGtCQUFBO0VBQ0EsZ0JBQUE7RUFDQSxzQkFBQTtBQUFKOztBQUdBO0VBQ0ksa0JBQUE7RUFDQSxxQkFBQTtBQUFKOztBQUdBO0VBQ0ksZ0JBQUE7QUFBSjs7QUFHQTtFQUNJLGdCQUFBO0VBQ0EsWUFBQTtBQUFKOztBQUdBO0VBQ0ksaUJBQUE7RUFDQSxpQkFBQTtBQUFKOztBQUlBO0VBQ0ksZ0JBQUE7RUFDQSxnQkFBQTtFQUNBLHlCQUFBO0FBREoiLCJmaWxlIjoicHJvZmlsZS5wYWdlLnNjc3MiLCJzb3VyY2VzQ29udGVudCI6WyIuY2FyZC1zaXple1xyXG4gICAgcGFkZGluZzogMDtcclxufVxyXG5cclxuXHJcbnNwYW4ubnVtYmVyLXBob25lIHtcclxuICAgIHBhZGRpbmctbGVmdDogOHB4O1xyXG4gICAgcGFkZGluZy1yaWdodDogMTBweDtcclxufVxyXG5cclxuc3Bhbi5zdHlsZS1uYW1lIHtcclxuICAgIG1hcmdpbi1sZWZ0OiAwLjJyZW07XHJcbiAgICBmb250LXNpemU6IHNtYWxsO1xyXG4gICAgZm9udC13ZWlnaHQ6IDcwMDtcclxufVxyXG5cclxuLmF0dHItdXNlciB7XHJcbiAgICBmb250LXNpemU6IHgtc21hbGw7XHJcbiAgICBmb250LXdlaWdodDogNzAwO1xyXG4gICAgdGV4dC10cmFuc2Zvcm06IHVwcGVyY2FzZTtcclxufVxyXG5cclxuLmF0dHItZG9jdW1lbnQge1xyXG4gICAgZm9udC1zaXplOiBzbWFsbGVyO1xyXG4gICAgZm9udC13ZWlnaHQ6IDcwMDtcclxuICAgIHBhZGRpbmctYm90dG9tOiAwLjVyZW07XHJcbn1cclxuXHJcbi5jZW50ZXItY2VsbCB7XHJcbiAgICBtYXJnaW4tdG9wOiAxLjVyZW07XHJcbiAgICBtYXJnaW4tYm90dG9tOiAxLjVyZW07XHJcbn1cclxuXHJcbi50ZXh0LWluZm97XHJcbiAgICBmb250LXNpemU6IHNtYWxsO1xyXG59XHJcblxyXG5zcGFuLnRleHQtYXJjaGl2ZXtcclxuICAgIGZvbnQtc2l6ZTogc21hbGw7XHJcbiAgICBjb2xvcjogYmxhY2s7XHJcbn1cclxuXHJcbi5jZWxsLWJ1dHRvbntcclxuICAgIHBhZGRpbmctdG9wOiAycmVtO1xyXG4gICAgdGV4dC1hbGlnbjogcmlnaHQ7XHJcbiAgICBcclxufVxyXG5cclxuLmJ1dHRvbi1jZWxse1xyXG4gICAgZm9udC1zaXplOiBzbWFsbDtcclxuICAgIGZvbnQtd2VpZ2h0OiA3MDA7XHJcbiAgICB0ZXh0LXRyYW5zZm9ybTogdXBwZXJjYXNlO1xyXG59Il19 */";
 
 /***/ }),
 
@@ -549,7 +541,7 @@ module.exports = "<cwc-modal id='modal-show-security-card' [open] =\"showModalAr
   \************************************************************/
 /***/ ((module) => {
 
-module.exports = "<app-layout>\r\n  <cwc-card class=\"m-all-xs\">\r\n        <div class=\"card-content\">\r\n          <div class=\"content-avatar-menu\" style=\"margin-left: 0.5; margin-right: 0.5rem; display: flex; justify-content: space-between;\">\r\n            <div style=\"display: flex;\">\r\n              <div>\r\n                <cwc-avatar size=\"small\" variant=\"negative\" [name]=\"user.firstName+' '+user.lastName\" class=\"m-h-xs\" style=\"width: 6%; padding: 1.3rem\"></cwc-avatar>\r\n              </div>\r\n              <div>\r\n                  <h5 style=\"margin: 0;\">{{ user.firstName }} {{ user.lastName }} </h5>\r\n                  <p style=\"margin: 0;\">{{ user.document }}</p>\r\n              </div>\r\n            </div>\r\n            <div>\r\n              <cwc-button variant=\"link\" class=\"m-h-reg link-cwc\" [routerLink]=\"['/app/edit']\" routerLinkActive=\"router-link-active\" >EDITAR</cwc-button>\r\n            </div>\r\n          </div>\r\n          <div *ngIf=\"user.roles ==='AdminLogis'\" >\r\n            <div style=\"margin-top: 2rem\">\r\n              <h6>Empresa</h6>\r\n            </div>\r\n            <p style=\"margin: 0;\">{{ user.company.companyName }}</p>\r\n            <div style=\" border: 0.1px solid #d1d1d1; background: #d1d1d1; margin-bottom: 1rem; margin-top: 0.5rem;\"></div>\r\n          </div>\r\n          \r\n          <div style=\"margin-top: 2rem;\">\r\n            <h6>Documentación</h6>\r\n          </div>\r\n          <div style=\" border: 0.1px solid #d1d1d1; background: #d1d1d1; margin-bottom: 1rem;\"></div>\r\n          <div>\r\n            <cwc-grid class=\"demo-grid\" design-version=\"v2\" columns=\"12\" mobile-columns=\"12\" style=\"margin-top: 2rem;\" style=\"margin-bottom: 2rem\">\r\n              <!--=====================================\r\n\t\t            DOCUMENTO CEDULA\r\n              ======================================-->\r\n              <cwc-cell colspan=\"3\" mobile-colspan=\"6\" style=\"cursor: pointer;\" (click)=\"showModalIndentity()\">\r\n                <label for=\"\">\r\n                  <cwc-icon [name]=\"user.documentIdentityCardFrontal || user.documentIdentityCardBack ? 'check-rounded-active-fill' : 'error-rounded-fill'\" \r\n                  [color]=\"user.documentIdentityCardFrontal || user.documentIdentityCardBack ? 'bright-green' : 'true-black'\">\r\n                </cwc-icon> Cédula de Ciudadanía</label>\r\n              </cwc-cell>\r\n              <!--=====================================\r\n\t\t            DOCUMENTO DE LA EMPRESA\r\n              ======================================-->\r\n              <cwc-cell *ngIf=\"user.roles ==='AdminLogis'\" colspan=\"3\" mobile-colspan=\"6\" style=\"cursor: pointer;\" (click)=\"showModalDocumentCompany()\">\r\n                <label for=\"\">\r\n                  <cwc-icon [name]=\"user.company.documentCompany ? 'check-rounded-active-fill' : 'error-rounded-fill'\" \r\n                  [color]=\"user.company.documentCompany ? 'bright-green' : 'true-black'\">\r\n                </cwc-icon> Documento Empresa</label>\r\n              </cwc-cell>\r\n              <!--=====================================\r\n\t\t            DOCUMENTO LICENCIA DE CONDUCCIÓN\r\n              ======================================-->\r\n              <cwc-cell *ngIf=\"user.roles !=='AdminLogis'\" colspan=\"3\" mobile-colspan=\"6\" style=\"cursor: pointer;\" (click)=\"showModalDrivingLicence()\">\r\n                <label for=\"\">\r\n                  <cwc-icon [name]=\"user.driver.documentDrivinglicenseFrontal || user.driver.documentDrivinglicenseBack ? 'check-rounded-active-fill' : 'error-rounded-fill'\" \r\n                  [color]=\"user.driver.documentDrivinglicenseFrontal || user.driver.documentDrivinglicenseFrontal ? 'bright-green' : 'true-black'\">\r\n                </cwc-icon> Licencia de Conducción</label>\r\n              </cwc-cell>\r\n              <!--=====================================\r\n\t\t            DOCUMENTO CARNE DE SEGURIDAD\r\n              ======================================-->\r\n              <cwc-cell *ngIf=\"user.roles !=='AdminLogis'\" colspan=\"3\" mobile-colspan=\"6\" style=\"cursor: pointer\" (click)=\"showModalSecurityCard()\">\r\n                <label for=\"\">\r\n                  <cwc-icon [name]=\"user.driver.documentSecurityCard ? 'check-rounded-active-fill' : 'error-rounded-fill'\" name=\"error-rounded-fill\" \r\n                  [color]=\"user.driver.documentSecurityCard ? 'bright-green' : 'true-black'\">\r\n                </cwc-icon> Carné de Seguridad</label>\r\n              </cwc-cell>\r\n            </cwc-grid>\r\n            <div>\r\n              <cwc-button variant=\"link\" class=\"m-h-reg link-cwc\" style=\"display: flex; justify-content: end;\" [routerLink]=\"['/app/update-archives']\" routerLinkActive=\"router-link-active\" >ACTUALIZAR DOCUMENTOS</cwc-button>\r\n            </div>\r\n          </div>\r\n          <!--=====================================\r\n\t\t            DOCUMENTO CEDULA\r\n          ======================================-->\r\n          <app-document-identity-card \r\n          (closeModalIdentity)=\"closeModalIdentity($event)\"\r\n          [urlIdentityCardFrontal]=\"user.documentIdentityCardFrontal\" \r\n          [urlIdentityCardBack]=\"user.documentIdentityCardBack\" \r\n          [showModalIdentityCard]=\"showModalIndentityCard\"\r\n          >\r\n          </app-document-identity-card>\r\n          <!--=====================================\r\n\t\t         DOCUMENTO DE LA EMPRESA\r\n           ======================================-->\r\n          <app-document-company\r\n          (closeModalDocumentCompany)=\"closeModalDocumentCompany($event)\"\r\n          [urlDocumentCompanyFrontal]=\"user.company.documentCompany\" \r\n          [showModalArchiveDocumentCompany]=\"showModalArchiveDocumentCompany\"\r\n          >\r\n          </app-document-company>\r\n          <!--=====================================\r\n\t\t         DOCUMENTO CARNE DE SEGURIDAD\r\n           ======================================-->\r\n           <app-document-security-card\r\n           (closeModalSecurityCard)=\"closeModalSecurityCard($event)\"\r\n           [urlSecurityCardFrontal]=\"user.driver.documentSecurityCard \" \r\n           [showModalArchiveSecurityCard]=\"showModalSecurityCardApp\"\r\n           >\r\n           </app-document-security-card>\r\n        <!--=====================================\r\n\t\t            DOCUMENTO DE LA LICENCIA\r\n        ======================================-->\r\n        <app-document-driving-licence\r\n        (closeModalLicence)=\"closeModalLicence($event)\"\r\n        [urlLicenceFrontal]=\"user.driver.documentDrivinglicenseFrontal\" \r\n        [urlLicenceBack]=\"user.driver.documentDrivinglicenseBack\" \r\n        [showModalDrivingLicence]=\"showModalLicence\"\r\n        ></app-document-driving-licence>\r\n        </div>\r\n    </cwc-card>\r\n    <cwc-card class=\"m-all-xs\" style=\"margin-top: 1rem;\">\r\n      <div class=\"card-content\">\r\n       <h6 style=\"text-align: center;\">Accede a tu cuenta Clever</h6>\r\n       <p style=\"text-align: center;\">Revisa tus datos y manten tu perfil actualizado para un mejor seguimiento</p>\r\n       <div>\r\n        <cwc-button variant=\"regular-block\">CLEVER GLOBAL</cwc-button>\r\n       </div>\r\n      </div>\r\n  </cwc-card>\r\n</app-layout>\r\n<!--=====================================\r\n\t\tLOADING\r\n======================================-->\r\n<div class=\"loading-content\" *ngIf=\"loading\">\r\n  <cwc-loader>\r\n    <span slot='loading'>Espere un momento...</span>\r\n  </cwc-loader>\r\n</div>";
+module.exports = "<app-layout class=\"card-size\">\r\n  <cwc-card class=\"m-all-xs\">\r\n        <div class=\"card-content\">\r\n          <div class=\"content-avatar-menu\" style=\"margin-left: 0.2rem; margin-right: 0.1rem; display: flex; justify-content: space-between;\">\r\n            <div style=\"display: flex;\">\r\n              <div>\r\n                <cwc-avatar size=\"small\" variant=\"negative\" [name]=\" profile.FirstName +' '+ profile.LastName \" class=\"m-h-xs\" style=\"width: 6%; padding: 1.3rem\"></cwc-avatar>\r\n              </div>\r\n              <div>\r\n                  <span class=\"style-name\">{{profile.FirstName +' '+ profile.LastName}}</span>\r\n                  <br>\r\n                  <cwc-icon name=\"phone\" size=\"14px\" color=\"true-black\">\r\n                  </cwc-icon>\r\n                  <span class=\"number-phone\">{{profile.PhoneNumber}}</span>\r\n              </div>\r\n            </div>\r\n            <div>\r\n              <cwc-button variant=\"link\" class=\"m-h-reg link-cwc\" [routerLink]=\"['/app/edit']\" routerLinkActive=\"router-link-active\" >EDITAR</cwc-button>\r\n            </div>\r\n          </div>\r\n\r\n          <div>\r\n\r\n            <cwc-grid style=\"padding-top: 1rem; padding-bottom: 1rem;\">\r\n              <cwc-cell mobile-colspan=\"12\">   \r\n                <cwc-icon name='check-rounded-active-fill' size=\"12px\" color='bright-green'></cwc-icon>\r\n                <span class=\"text-archive\">Disponible</span>\r\n              </cwc-cell>\r\n            </cwc-grid>\r\n\r\n            <cwc-grid class=\"demo-grid\" >\r\n              <cwc-cell colspan=\"12\" mobile-colspan=\"12\">   \r\n                  <div class=\"attr-user\">Correo electrónico</div>\r\n                  <span class=\"text-info\">{{profile.Email}}</span>\r\n              </cwc-cell>\r\n            </cwc-grid>\r\n\r\n            <div *ngIf=\"profile.Roles === 'Conductor'\">\r\n              <cwc-grid class=\"demo-grid center-cell\" >\r\n                <cwc-cell mobile-colspan=\"4\">\r\n                    <div class=\"attr-user\">Código Sap</div>\r\n                    <span class=\"text-info\">{{profile.SapCode}}</span>\r\n                </cwc-cell>\r\n                <cwc-cell mobile-colspan=\"5\">   \r\n                    <div class=\"attr-user\">Cédula o NIT</div>\r\n                    <span class=\"text-info\">{{profile.Document}}</span>\r\n                </cwc-cell>\r\n              </cwc-grid>\r\n            </div>\r\n            \r\n\r\n            <cwc-grid class=\"demo-grid center-cell\" >\r\n              <cwc-cell colspan=\"12\" mobile-colspan=\"12\">   \r\n                  <div class=\"attr-user\">Empresa</div>\r\n                  <span class=\"text-info\">{{profile.CompanyName}}</span>\r\n              </cwc-cell>\r\n            </cwc-grid>\r\n          </div>\r\n          \r\n          <div class=\"attr-document\" >Documentación</div>\r\n          <div style=\" border: 0.1px solid #d1d1d1; background: #d1d1d1; margin-bottom: 0.5rem;\"></div>\r\n\r\n          <cwc-grid column-gap=\"5px\">\r\n            <cwc-cell mobile-colspan=\"6\">   \r\n              <cwc-icon name='check-rounded-active-fill' size=\"12px\" color='bright-green'></cwc-icon>\r\n              <span class=\"text-archive\">Licencia de conducción</span>\r\n            </cwc-cell>\r\n            <cwc-cell mobile-colspan=\"6\">   \r\n              <cwc-icon name='check-rounded-active-fill' size=\"12px\" color='bright-green'></cwc-icon>\r\n              <span class=\"text-archive\">Cédula de ciudadanía</span>\r\n            </cwc-cell>\r\n          </cwc-grid>\r\n          <cwc-grid>\r\n            <cwc-cell mobile-colspan=\"12\">   \r\n              <cwc-icon name='check-rounded-active-fill' size=\"12px\" color='bright-green'></cwc-icon>\r\n              <span class=\"text-archive\">Carné de seguridad</span>\r\n            </cwc-cell>\r\n          </cwc-grid>\r\n          <cwc-grid>\r\n            <cwc-cell mobile-colspan=\"12\" class=\"cell-button\">        \r\n              <cwc-button (click)=\"updateDocumentsUser()\" variant=\"link\" class=\"m-h-reg link-cwc\">ACTUALIZAR DOCUMENTOS</cwc-button>\r\n              </cwc-cell>\r\n          </cwc-grid>\r\n        </div>\r\n    </cwc-card>\r\n    <cwc-card class=\"m-all-xs\" style=\"margin-top: 1rem;\">\r\n      <div class=\"card-content\">\r\n       <h6 style=\"text-align: center;\">Accede a tu cuenta Clever</h6>\r\n       <p style=\"text-align: center;\">Revisa tus datos y manten tu perfil actualizado para un mejor seguimiento</p>\r\n       <div>\r\n        <cwc-button variant=\"regular-block\">CLEVER GLOBAL</cwc-button>\r\n       </div>\r\n      </div>\r\n    </cwc-card>\r\n</app-layout>\r\n<!--=====================================\r\n\t\tLOADING\r\n======================================-->\r\n<div class=\"loading-content\" *ngIf=\"loading\">\r\n  <cwc-loader>\r\n    <span slot='loading'>Espere un momento...</span>\r\n  </cwc-loader>\r\n</div>";
 
 /***/ })
 

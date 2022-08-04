@@ -23,7 +23,7 @@ export class WaitingListPage implements OnInit {
 
   getData() {
     this.requestService.getRequestByIdUser(this.loginService.profileUser.Email).subscribe(data => {
-      this.requestsList = data;
+      this.requestsList = data.data;
     })
   }
 

@@ -1,186 +1,346 @@
 "use strict";
 (self["webpackChunkapp"] = self["webpackChunkapp"] || []).push([["common"],{
 
-/***/ 47486:
-/*!****************************************************!*\
-  !*** ./src/app/services/error-messages.service.ts ***!
-  \****************************************************/
+/***/ 81098:
+/*!***************************************************!*\
+  !*** ./src/app/interfaces/companies/companies.ts ***!
+  \***************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "ErrorMessagesService": () => (/* binding */ ErrorMessagesService)
+/* harmony export */   "Companies": () => (/* binding */ Companies)
 /* harmony export */ });
-/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ 34929);
-/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ 3184);
+class Companies {
+}
 
 
-let ErrorMessagesService = class ErrorMessagesService {
-    constructor() { }
-    parsearErroresAPI(response) {
-        const resultado = [];
-        if (response.status === 500) {
-            resultado.push('Ha ocurrido un error en el servidor. Favor intentar más tarde');
-            return resultado;
-        }
-        if (response.error) {
-            if (typeof response.error === 'string') {
-                resultado.push(response.error);
-            }
-            else {
-                const mapaErrores = response.error.errors;
-                const entradas = Object.entries(mapaErrores);
-                entradas.forEach((arreglo) => {
-                    const campo = arreglo[0];
-                    arreglo[1].forEach((mensajeError) => {
-                        resultado.push(`${campo}: ${mensajeError}`);
-                    });
-                });
-            }
-        }
-        return resultado;
+/***/ }),
+
+/***/ 44577:
+/*!**********************************************!*\
+  !*** ./src/app/interfaces/travels/travel.ts ***!
+  \**********************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "Travel": () => (/* binding */ Travel)
+/* harmony export */ });
+class Travel {
+}
+
+
+/***/ }),
+
+/***/ 56192:
+/*!**************************************************!*\
+  !*** ./src/app/pages/vehicles/models/vehicle.ts ***!
+  \**************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "Vehicle": () => (/* binding */ Vehicle)
+/* harmony export */ });
+class Vehicle {
+}
+
+
+/***/ }),
+
+/***/ 61322:
+/*!**********************************************************!*\
+  !*** ./src/app/services/auth/forgot-password.service.ts ***!
+  \**********************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "ForgotPasswordService": () => (/* binding */ ForgotPasswordService)
+/* harmony export */ });
+/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! tslib */ 34929);
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @angular/core */ 3184);
+/* harmony import */ var _angular_common_http__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/common/http */ 28784);
+/* harmony import */ var src_environments_environment_prod__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! src/environments/environment.prod */ 89019);
+/* harmony import */ var _http_http_service__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../http/http.service */ 3755);
+
+
+
+
+
+const URL = src_environments_environment_prod__WEBPACK_IMPORTED_MODULE_0__.environment.url;
+const headersHttp = new _angular_common_http__WEBPACK_IMPORTED_MODULE_2__.HttpHeaders({
+    'Content-Type': 'application/json',
+    'X-Requested-With': 'XMLHttpRequest'
+});
+let ForgotPasswordService = class ForgotPasswordService {
+    constructor(http) {
+        this.http = http;
+    }
+    forgotPassword(data) {
+        return this.http.doPost(`${URL}/api/authentication/SendPasswordResetCode`, data, {});
+    }
+    changePassword(data) {
+        return this.http.doPost(`${URL}/api/authentication/ResetPassword`, data, {});
     }
 };
-ErrorMessagesService.ctorParameters = () => [];
-ErrorMessagesService = (0,tslib__WEBPACK_IMPORTED_MODULE_0__.__decorate)([
-    (0,_angular_core__WEBPACK_IMPORTED_MODULE_1__.Injectable)({
+ForgotPasswordService.ctorParameters = () => [
+    { type: _http_http_service__WEBPACK_IMPORTED_MODULE_1__.HttpService }
+];
+ForgotPasswordService = (0,tslib__WEBPACK_IMPORTED_MODULE_3__.__decorate)([
+    (0,_angular_core__WEBPACK_IMPORTED_MODULE_4__.Injectable)({
         providedIn: 'root'
     })
-], ErrorMessagesService);
+], ForgotPasswordService);
 
 
 
 /***/ }),
 
-/***/ 89985:
-/*!*****************************************************!*\
-  !*** ./src/app/services/profile/profile.service.ts ***!
-  \*****************************************************/
+/***/ 46605:
+/*!*********************************************************!*\
+  !*** ./src/app/services/companies/companies.service.ts ***!
+  \*********************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "ProfileService": () => (/* binding */ ProfileService)
+/* harmony export */   "CompaniesService": () => (/* binding */ CompaniesService)
 /* harmony export */ });
 /* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! tslib */ 34929);
-/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ 3184);
-/* harmony import */ var _angular_common_http__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @angular/common/http */ 28784);
-/* harmony import */ var src_environments_environment__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! src/environments/environment */ 92340);
-/* harmony import */ var _ionic_storage_angular__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @ionic/storage-angular */ 80190);
-
-/* eslint-disable quote-props */
-/* eslint-disable @typescript-eslint/naming-convention */
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @angular/core */ 3184);
+/* harmony import */ var src_environments_environment_prod__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! src/environments/environment.prod */ 89019);
+/* harmony import */ var _http_http_service__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../http/http.service */ 3755);
 
 
 
 
-const URL = src_environments_environment__WEBPACK_IMPORTED_MODULE_0__.environment.url;
-let ProfileService = class ProfileService {
-    constructor(storage, http) {
-        this.storage = storage;
+const URL = src_environments_environment_prod__WEBPACK_IMPORTED_MODULE_0__.environment.url;
+let CompaniesService = class CompaniesService {
+    constructor(http) {
         this.http = http;
-        this.firstName = '';
-        this.lastName = '';
-        this.document = '';
-        // eslint-disable-next-line @typescript-eslint/member-ordering
-        this.updateDataUser = new _angular_core__WEBPACK_IMPORTED_MODULE_1__.EventEmitter();
-        this.init();
     }
-    init() {
-        return (0,tslib__WEBPACK_IMPORTED_MODULE_2__.__awaiter)(this, void 0, void 0, function* () {
-            yield this.storage.create();
-            yield this.storage.get('current_user').then(resp => {
-                this.urlActualLicenceFrontal = resp.documentDrivinglicenseFrontal;
-                this.urlActualLicenceBack = resp.documentDrivinglicenseBack;
-                this.firstName = resp.user.firstName;
-                this.lastName = resp.user.lastName;
-                this.document = resp.user.document;
-                this.idDriver = resp.idDriver;
-                this.token = resp.token;
-            });
-        });
+    getCompanies() {
+        return this.http.doGet(`${URL}/api/companies`, { 'Content-Type': 'application/json' });
     }
-    getDataUser(email) {
-        const headerToken = new _angular_common_http__WEBPACK_IMPORTED_MODULE_3__.HttpHeaders({
-            'Authorization': this.token,
-        });
-        return this.http.get(`${URL}/api/profile/get-data-user/${email}`);
-    }
-    /*=============================================
-      ACTUALIZAR LICENCIA DE CODUCCIÓN
-    =============================================*/
-    updatePhotoLicence(user, data) {
-        const headerToken = new _angular_common_http__WEBPACK_IMPORTED_MODULE_3__.HttpHeaders({
-            'Authorization': this.token,
-        });
-        const formData = new FormData();
-        formData.append('firstName', user.firstName);
-        formData.append('lastName', user.lastName);
-        formData.append('document', this.document);
-        formData.append('urlActualLicenceFrontal', user.documentDrivinglicenseFrontal);
-        formData.append('urlActualLicenceBack', user.documentDrivinglicenseBack);
-        formData.append('documentDrivinglicenseFrontal', data.documentDrivinglicenseFrontal.bob, data.documentDrivinglicenseFrontal.filepath);
-        formData.append('documentDrivinglicenseBack', data.documentDrivinglicenseBack.bob, data.documentDrivinglicenseBack.filepath);
-        return this.http.put(`${URL}/api/profile/${user.idDriver}`, formData);
-    }
-    /*=============================================
-      ACTUALIZAR CÉDULA DE CIUDADANÍA
-    =============================================*/
-    updatePhotoIdentityCard(data, user, email) {
-        const headerToken = new _angular_common_http__WEBPACK_IMPORTED_MODULE_3__.HttpHeaders({
-            'Authorization': this.token,
-        });
-        const formData = new FormData();
-        formData.append('firstName', user.firstName);
-        formData.append('lastName', user.lastName);
-        formData.append('document', user.document);
-        formData.append('urlActualIdentityCardFrontal', user.documentIdentityCardFrontal);
-        formData.append('urlActualIdentityCardBack', user.documentIdentityCardBack);
-        formData.append('documentIdentityCardFrontal', data.documentIdentityCardFrontal.bob, data.documentIdentityCardFrontal.filepath);
-        formData.append('documentIdentityCardBack', data.documentIdentityCardBack.bob, data.documentIdentityCardBack.filepath);
-        return this.http.put(`${URL}/api/profile/update-photo-identity-card/${email}`, formData);
-    }
-    /*=============================================
-      ACTUALIZAR DOCUMENTO DE LA EMPRESA
-    =============================================*/
-    updatePhotoSecurityCard(user, data) {
-        const headerToken = new _angular_common_http__WEBPACK_IMPORTED_MODULE_3__.HttpHeaders({
-            'Authorization': this.token,
-        });
-        const formData = new FormData();
-        formData.append('firstName', user.firstName);
-        formData.append('lastName', user.lastName);
-        formData.append('urlActualSecurityCard', user.documentSecurityCard);
-        formData.append('documentSecurityCard', data.documentSecurityCardFrontal.bob, data.documentSecurityCardFrontal.filepath);
-        return this.http.put(`${URL}/api/profile/update-photo-security-card/${user.idDriver}`, formData);
-    }
-    /*=============================================
-      ACTUALIZAR DOCUMENTO DE LA EMPRESA
-    =============================================*/
-    updatePhotoDocumentCompany(user, data) {
-        const headerToken = new _angular_common_http__WEBPACK_IMPORTED_MODULE_3__.HttpHeaders({
-            'Authorization': this.token,
-        });
-        const formData = new FormData();
-        formData.append('firstName', user.user.firstName);
-        formData.append('lastName', user.user.lastName);
-        formData.append('UrlActualDocumentCompany', user.documentCompany);
-        formData.append('documentCompany', data.documentCompanyFrontal.bob, data.documentCompanyFrontal.filepath);
-        return this.http.put(`${URL}/api/profile/update-photo-document-company/${user.companyId}`, formData);
+    getCompany(id) {
+        return this.http.doGet(`${URL}/api/companies/${id}`, { 'Content-Type': 'application/json' });
     }
 };
-ProfileService.ctorParameters = () => [
-    { type: _ionic_storage_angular__WEBPACK_IMPORTED_MODULE_4__.Storage },
-    { type: _angular_common_http__WEBPACK_IMPORTED_MODULE_3__.HttpClient }
+CompaniesService.ctorParameters = () => [
+    { type: _http_http_service__WEBPACK_IMPORTED_MODULE_1__.HttpService }
 ];
-ProfileService.propDecorators = {
-    updateDataUser: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_1__.Output }]
-};
-ProfileService = (0,tslib__WEBPACK_IMPORTED_MODULE_2__.__decorate)([
-    (0,_angular_core__WEBPACK_IMPORTED_MODULE_1__.Injectable)({
+CompaniesService = (0,tslib__WEBPACK_IMPORTED_MODULE_2__.__decorate)([
+    (0,_angular_core__WEBPACK_IMPORTED_MODULE_3__.Injectable)({
         providedIn: 'root'
     })
-], ProfileService);
+], CompaniesService);
+
+
+
+/***/ }),
+
+/***/ 50774:
+/*!*********************************************!*\
+  !*** ./src/app/services/drivers.service.ts ***!
+  \*********************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "DriversService": () => (/* binding */ DriversService)
+/* harmony export */ });
+/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! tslib */ 34929);
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @angular/core */ 3184);
+/* harmony import */ var rxjs__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! rxjs */ 92218);
+/* harmony import */ var rxjs_operators__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! rxjs/operators */ 88759);
+/* harmony import */ var _http_http_service__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./http/http.service */ 3755);
+/* harmony import */ var src_environments_environment_prod__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! src/environments/environment.prod */ 89019);
+
+
+
+
+
+
+const URL = src_environments_environment_prod__WEBPACK_IMPORTED_MODULE_1__.environment.url;
+let DriversService = class DriversService {
+    constructor(http) {
+        this.http = http;
+        this._refresh$ = new rxjs__WEBPACK_IMPORTED_MODULE_2__.Subject();
+    }
+    get refresh$() {
+        return this._refresh$;
+    }
+    createDriver(data) {
+        return this.http.doPostFormData(`${URL}/api/authentication/CreateUserDriver`, data, {});
+    }
+    updateDriver(id, data) {
+        return this.http.doPutFormData(`${URL}/api/drivers/${id}`, data, {}).pipe((0,rxjs_operators__WEBPACK_IMPORTED_MODULE_3__.tap)(() => {
+            this._refresh$.next();
+        }));
+    }
+    getDriverById(id) {
+        return this.http.doGet(`${URL}/api/authentication/GetUserDetail/${id}`, {});
+    }
+    getDriverForUpdate(id) {
+        return this.http.doGet(`${URL}/api/authentication/GetUserInfoForUpdate/${id}`, {});
+    }
+    getDriverList(id) {
+        return this.http.doGet(`${URL}/api/authentication/GetUserByIdCompany/${id}`, {});
+    }
+};
+DriversService.ctorParameters = () => [
+    { type: _http_http_service__WEBPACK_IMPORTED_MODULE_0__.HttpService }
+];
+DriversService = (0,tslib__WEBPACK_IMPORTED_MODULE_4__.__decorate)([
+    (0,_angular_core__WEBPACK_IMPORTED_MODULE_5__.Injectable)({
+        providedIn: 'root'
+    })
+], DriversService);
+
+
+
+/***/ }),
+
+/***/ 74894:
+/*!****************************************************!*\
+  !*** ./src/app/services/travels/travel.service.ts ***!
+  \****************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "TravelService": () => (/* binding */ TravelService)
+/* harmony export */ });
+/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! tslib */ 34929);
+/* harmony import */ var rxjs__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! rxjs */ 92218);
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @angular/core */ 3184);
+/* harmony import */ var _http_http_service__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../http/http.service */ 3755);
+/* harmony import */ var src_environments_environment_prod__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! src/environments/environment.prod */ 89019);
+
+
+
+
+
+const BASE_URL_API = src_environments_environment_prod__WEBPACK_IMPORTED_MODULE_1__.environment.url;
+let TravelService = class TravelService {
+    constructor(http) {
+        this.http = http;
+        this._refresh$ = new rxjs__WEBPACK_IMPORTED_MODULE_2__.Subject();
+    }
+    get refresh$() {
+        return this._refresh$;
+    }
+    getTravels() {
+        return this.http.doGet(`${BASE_URL_API}/api/travels`, {});
+    }
+    getTravelDetail(id) {
+        return this.http.doGet(`${BASE_URL_API}/api/travels/GetDetailTravel/${id}`, {});
+    }
+    getTravelsSource(departament) {
+        return this.http.doGet(`${BASE_URL_API}/api/travels/GetSourceTravelByIdDepartament/${departament}`, {});
+    }
+    getTravelsDate(source) {
+        return this.http.doGet(`${BASE_URL_API}/api/travels/GetDatesTravelByIdSource/${source}`, {});
+    }
+    getTravelsForHour(date) {
+        return this.http.doGet(`${BASE_URL_API}/api/travels/GetHoursTravelByIdDate/${date}`, {});
+    }
+    getTravelsForCode(code) {
+        return this.http.doGet(`${BASE_URL_API}/api/travels/GetDetailTravelSearch/${code}`, {});
+    }
+    searchTravelList(departament, source, date, time) {
+        return this.http.doGet(`${BASE_URL_API}/api/travels/GetSearchTravel/${departament}/${source}/${date}/${time}`, {});
+    }
+    createTravel(data) {
+        return this.http.doPostFormData(`${BASE_URL_API}/api/travelRequests/`, data, {});
+    }
+    updateTravel(id, data) {
+        return this.http.doPutFormData(`${BASE_URL_API}/api/travels/AssignmentsTravelDriver/${id}`, data, {});
+    }
+    getFilterTravelByIdDriver(id) {
+        return this.http.doGet(`${BASE_URL_API}/api/travels/GetFilterTravelByIdDriver/${id}`, {});
+    }
+    getFilterTravelByAdmonTercero(companyId) {
+        return this.http.doGet(`${BASE_URL_API}/api/travels/GetFilterTravelByAdmonTercero/${companyId}`, {});
+    }
+};
+TravelService.ctorParameters = () => [
+    { type: _http_http_service__WEBPACK_IMPORTED_MODULE_0__.HttpService }
+];
+TravelService = (0,tslib__WEBPACK_IMPORTED_MODULE_3__.__decorate)([
+    (0,_angular_core__WEBPACK_IMPORTED_MODULE_4__.Injectable)({
+        providedIn: 'root'
+    })
+], TravelService);
+
+
+
+/***/ }),
+
+/***/ 66817:
+/*!**********************************************!*\
+  !*** ./src/app/services/vehicles.service.ts ***!
+  \**********************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "VehiclesService": () => (/* binding */ VehiclesService)
+/* harmony export */ });
+/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! tslib */ 34929);
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @angular/core */ 3184);
+/* harmony import */ var rxjs__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! rxjs */ 92218);
+/* harmony import */ var rxjs_operators__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! rxjs/operators */ 88759);
+/* harmony import */ var src_environments_environment_prod__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! src/environments/environment.prod */ 89019);
+/* harmony import */ var _http_http_service__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./http/http.service */ 3755);
+
+
+
+
+
+
+const URL = src_environments_environment_prod__WEBPACK_IMPORTED_MODULE_0__.environment.url;
+let VehiclesService = class VehiclesService {
+    constructor(http) {
+        this.http = http;
+        this._refresh$ = new rxjs__WEBPACK_IMPORTED_MODULE_2__.Subject();
+    }
+    get refresh$() {
+        return this._refresh$;
+    }
+    createVehicle(data) {
+        return this.http.doPost(`${URL}/api/vehicles`, data, {});
+    }
+    updateVehicle(id, data) {
+        return this.http.doPutFormData(`${URL}/api/vehicles/${id}`, data, {}).pipe((0,rxjs_operators__WEBPACK_IMPORTED_MODULE_3__.tap)(() => {
+            this._refresh$.next();
+        }));
+    }
+    driverAssignmentVehicle(id, data) {
+        return this.http.doPutFormData(`${URL}/api/vehicles/DriverAssignmentVehicle/${id}`, data, {}).pipe((0,rxjs_operators__WEBPACK_IMPORTED_MODULE_3__.tap)(() => {
+            this._refresh$.next();
+        }));
+    }
+    getVehicleById(id) {
+        return this.http.doGet(`${URL}/api/vehicles/${id}`, {});
+    }
+    getVehicleList(id) {
+        return this.http.doGet(`${URL}/api/vehicles/GetVehiclesForUser/${id}`, {});
+    }
+    getVehiclesUserByIdCompany(id) {
+        return this.http.doGet(`${URL}/api/vehicles/GetVehiclesForUser/${id}`, {});
+    }
+};
+VehiclesService.ctorParameters = () => [
+    { type: _http_http_service__WEBPACK_IMPORTED_MODULE_1__.HttpService }
+];
+VehiclesService = (0,tslib__WEBPACK_IMPORTED_MODULE_4__.__decorate)([
+    (0,_angular_core__WEBPACK_IMPORTED_MODULE_5__.Injectable)({
+        providedIn: 'root'
+    })
+], VehiclesService);
 
 
 
@@ -434,7 +594,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "a": () => (/* binding */ attachComponent),
 /* harmony export */   "d": () => (/* binding */ detachComponent)
 /* harmony export */ });
-/* harmony import */ var D_Documentos_Documentos_DocumentosPersonales_Cemex_appcemex_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./node_modules/@babel/runtime/helpers/esm/asyncToGenerator.js */ 71670);
+/* harmony import */ var D_Documentos_Documentos_DocumentosPersonales_Cemex_ApkMovilCEMEX_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./node_modules/@babel/runtime/helpers/esm/asyncToGenerator.js */ 71670);
 /* harmony import */ var _helpers_6e1e5b65_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./helpers-6e1e5b65.js */ 88345);
 
 
@@ -444,7 +604,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 const attachComponent = /*#__PURE__*/function () {
-  var _ref = (0,D_Documentos_Documentos_DocumentosPersonales_Cemex_appcemex_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* (delegate, container, component, cssClasses, componentProps, inline) {
+  var _ref = (0,D_Documentos_Documentos_DocumentosPersonales_Cemex_ApkMovilCEMEX_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* (delegate, container, component, cssClasses, componentProps, inline) {
     if (delegate) {
       return delegate.attachViewToDom(container, component, componentProps, cssClasses);
     }
@@ -491,7 +651,7 @@ const CoreDelegate = () => {
   let Reference;
 
   const attachViewToDom = /*#__PURE__*/function () {
-    var _ref2 = (0,D_Documentos_Documentos_DocumentosPersonales_Cemex_appcemex_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* (parentElement, userComponent, userComponentProps = {}, cssClasses = []) {
+    var _ref2 = (0,D_Documentos_Documentos_DocumentosPersonales_Cemex_ApkMovilCEMEX_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* (parentElement, userComponent, userComponentProps = {}, cssClasses = []) {
       BaseComponent = parentElement;
       /**
        * If passing in a component via the `component` props
@@ -1180,7 +1340,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "h": () => (/* binding */ hostContext),
 /* harmony export */   "o": () => (/* binding */ openURL)
 /* harmony export */ });
-/* harmony import */ var D_Documentos_Documentos_DocumentosPersonales_Cemex_appcemex_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./node_modules/@babel/runtime/helpers/esm/asyncToGenerator.js */ 71670);
+/* harmony import */ var D_Documentos_Documentos_DocumentosPersonales_Cemex_ApkMovilCEMEX_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./node_modules/@babel/runtime/helpers/esm/asyncToGenerator.js */ 71670);
 
 
 /*!
@@ -1219,7 +1379,7 @@ const getClassMap = classes => {
 const SCHEME = /^[a-z][a-z0-9+\-.]*:/;
 
 const openURL = /*#__PURE__*/function () {
-  var _ref = (0,D_Documentos_Documentos_DocumentosPersonales_Cemex_appcemex_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* (url, ev, direction, animation) {
+  var _ref = (0,D_Documentos_Documentos_DocumentosPersonales_Cemex_ApkMovilCEMEX_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* (url, ev, direction, animation) {
     if (url != null && url[0] !== '#' && !SCHEME.test(url)) {
       const router = document.querySelector('ion-router');
 

@@ -36,21 +36,23 @@ export class MyTravelsAdminComponent implements OnInit {
 
   getData() {
     this.travelService.getFilterTravelByAdmonTercero(this.companyId).subscribe(data => {
-      this.previousTripsList = data.filter(travel =>
-        travel.statusTravelAvailabilityString.includes('Completado')
+      this.previousTripsList = data.data.filter(travel =>
+        travel.statusTravelAvailabilityString.includes('Finalizado') ||
+        travel.statusTravelAvailabilityString.includes('Documentos cargados')
       )
 
       this.sizePrevious = this.previousTripsList.length;
 
-      this.scheduledTripsList = data.filter(travel =>
-        travel.statusTravelAvailabilityString.includes('Pre-Turno') ||
-        travel.statusTravelAvailabilityString.includes('En turno')
+      this.scheduledTripsList = data.data.filter(travel =>
+        travel.statusTravelAvailabilityString.includes('Confirmado') ||
+        travel.statusTravelAvailabilityString.includes('En proceso') ||
+        travel.statusTravelAvailabilityString.includes('Con novedad')
       )
 
       this.sizeScheduled = this.scheduledTripsList.length;
 
-      this.requestTripsList = data.filter(travel =>
-        travel.statusTravelAvailabilityString.includes('Por asignar')
+      this.requestTripsList = data.data.filter(travel =>
+        travel.statusTravelAvailabilityString.includes('Asignado')
       )
 
       this.sizeRequest = this.requestTripsList.length;

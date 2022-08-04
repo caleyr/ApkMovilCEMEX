@@ -34,15 +34,18 @@ export class MyTravelsDriveComponent implements OnInit {
 
   getData() {
     this.travelService.getFilterTravelByIdDriver(this.userId).subscribe(data => {
-      this.previousTripsList = data.filter(travel =>
-        travel.statusTravelAvailabilityString.includes('Completado')
+      this.previousTripsList = data.data.filter(travel =>
+        travel.statusTravelAvailabilityString.includes('Finalizado') ||
+        travel.statusTravelAvailabilityString.includes('Documentos cargados')
       )
 
       this.sizePrevious = this.previousTripsList.length;
 
-      this.scheduledTripsList = data.filter(travel =>
-        travel.statusTravelAvailabilityString.includes('Pre-Turno') ||
-        travel.statusTravelAvailabilityString.includes('En turno')
+      this.scheduledTripsList = data.data.filter(travel =>
+        travel.statusTravelAvailabilityString.includes('Asignado') ||
+        travel.statusTravelAvailabilityString.includes('Confirmado') ||
+        travel.statusTravelAvailabilityString.includes('En proceso') ||
+        travel.statusTravelAvailabilityString.includes('Con novedad')
       )
 
       this.sizeScheduled = this.scheduledTripsList.length;

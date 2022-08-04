@@ -43,7 +43,7 @@ export class UpdateDriverPage implements OnInit {
     this.driver = driversService.driverUpdate;
     this.formBuilderInput(loginService.profileUser.CompanyId);
     this.companiesService.getCompany(loginService.profileUser.CompanyId).subscribe(async data =>{
-      this.company = data;
+      this.company = data.data;
     });
   }
 

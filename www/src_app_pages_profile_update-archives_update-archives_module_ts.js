@@ -1,5 +1,5 @@
 "use strict";
-(self["webpackChunkapp"] = self["webpackChunkapp"] || []).push([["default-src_app_pages_profile_update-archives_update-archives_module_ts"],{
+(self["webpackChunkapp"] = self["webpackChunkapp"] || []).push([["src_app_pages_profile_update-archives_update-archives_module_ts"],{
 
 /***/ 22950:
 /*!*********************************************************************************************************************!*\
@@ -186,11 +186,11 @@ let PhotoIdentityCardComponent = class PhotoIdentityCardComponent {
                 this.email = resp.user.email;
             });
             this.profileService.getDataUser(this.email).subscribe(resp => {
-                this.user.firstName = resp.user.firstName;
-                this.user.lastName = resp.user.lastName;
-                this.user.document = resp.user.document;
-                this.user.documentIdentityCardFrontal = resp.user.documentIdentityCardFrontal;
-                this.user.documentIdentityCardBack = resp.user.documentIdentityCardBack;
+                this.user.firstName = resp.data.user.firstName;
+                this.user.lastName = resp.data.user.lastName;
+                this.user.document = resp.data.user.document;
+                this.user.documentIdentityCardFrontal = resp.data.user.documentIdentityCardFrontal;
+                this.user.documentIdentityCardBack = resp.data.user.documentIdentityCardBack;
             });
         });
     }
@@ -348,11 +348,11 @@ let PhotoLicenceDocumentComponent = class PhotoLicenceDocumentComponent {
     }
     ngOnInit() {
         this.profileService.getDataUser(this.email).subscribe(resp => {
-            this.user.idDriver = resp.idDriver;
-            this.user.firstName = resp.user.firstName;
-            this.user.lastName = resp.user.lastName;
-            this.user.documentDrivinglicenseFrontal = resp.documentDrivinglicenseFrontal;
-            this.user.documentDrivinglicenseBack = resp.documentDrivinglicenseBack;
+            this.user.idDriver = resp.data.idDriver;
+            this.user.firstName = resp.data.user.firstName;
+            this.user.lastName = resp.data.user.lastName;
+            this.user.documentDrivinglicenseFrontal = resp.data.documentDrivinglicenseFrontal;
+            this.user.documentDrivinglicenseBack = resp.data.documentDrivinglicenseBack;
         });
     }
     openCameraOne() {
@@ -510,10 +510,10 @@ let PhotoSecurityCardComponent = class PhotoSecurityCardComponent {
     ngOnInit() {
         return (0,tslib__WEBPACK_IMPORTED_MODULE_6__.__awaiter)(this, void 0, void 0, function* () {
             yield this.profileService.getDataUser(this.email).subscribe(resp => {
-                this.user.idDriver = resp.idDriver;
-                this.user.firstName = resp.user.firstName;
-                this.user.lastName = resp.user.lastName;
-                this.user.documentSecurityCard = resp.documentSecurityCard;
+                this.user.idDriver = resp.data.idDriver;
+                this.user.firstName = resp.data.user.firstName;
+                this.user.lastName = resp.data.user.lastName;
+                this.user.documentSecurityCard = resp.data.documentSecurityCard;
             });
         });
     }
@@ -758,13 +758,13 @@ let UpdateArchivesPage = class UpdateArchivesPage {
         return (0,tslib__WEBPACK_IMPORTED_MODULE_3__.__awaiter)(this, void 0, void 0, function* () {
             this.loading = true;
             yield this.profileService.getDataUser(this.email).subscribe((resp) => (0,tslib__WEBPACK_IMPORTED_MODULE_3__.__awaiter)(this, void 0, void 0, function* () {
-                this.rol = resp.roles.map(item => item).toString();
-                this.user.user.firstName = resp.user.firstName;
-                this.user.user.email = resp.user.email;
-                this.user.user.lastName = resp.user.lastName;
-                this.user.companyId = resp.companyId;
-                this.user.companyName = resp.companyName;
-                this.user.documentCompany = resp.documentCompany;
+                this.rol = resp.data.roles.map(item => item).toString();
+                this.user.user.firstName = resp.data.user.firstName;
+                this.user.user.email = resp.data.user.email;
+                this.user.user.lastName = resp.data.user.lastName;
+                this.user.companyId = resp.data.companyId;
+                this.user.companyName = resp.data.companyName;
+                this.user.documentCompany = resp.data.documentCompany;
                 this.loading = false;
             }), error => {
                 this.loading = false;
@@ -873,6 +873,140 @@ UpdateArchivesPage = (0,tslib__WEBPACK_IMPORTED_MODULE_3__.__decorate)([
 
 /***/ }),
 
+/***/ 89985:
+/*!*****************************************************!*\
+  !*** ./src/app/services/profile/profile.service.ts ***!
+  \*****************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "ProfileService": () => (/* binding */ ProfileService)
+/* harmony export */ });
+/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! tslib */ 34929);
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/core */ 3184);
+/* harmony import */ var _angular_common_http__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @angular/common/http */ 28784);
+/* harmony import */ var _ionic_storage_angular__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @ionic/storage-angular */ 80190);
+/* harmony import */ var src_environments_environment_prod__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! src/environments/environment.prod */ 89019);
+/* harmony import */ var _http_http_service__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../http/http.service */ 3755);
+
+
+
+
+
+
+const URL = src_environments_environment_prod__WEBPACK_IMPORTED_MODULE_0__.environment.url;
+let ProfileService = class ProfileService {
+    constructor(storage, http) {
+        this.storage = storage;
+        this.http = http;
+        this.firstName = '';
+        this.lastName = '';
+        this.document = '';
+        // eslint-disable-next-line @typescript-eslint/member-ordering
+        this.updateDataUser = new _angular_core__WEBPACK_IMPORTED_MODULE_2__.EventEmitter();
+        this.init();
+    }
+    init() {
+        return (0,tslib__WEBPACK_IMPORTED_MODULE_3__.__awaiter)(this, void 0, void 0, function* () {
+            yield this.storage.create();
+            yield this.storage.get('current_user').then(resp => {
+                this.urlActualLicenceFrontal = resp.documentDrivinglicenseFrontal;
+                this.urlActualLicenceBack = resp.documentDrivinglicenseBack;
+                this.firstName = resp.user.firstName;
+                this.lastName = resp.user.lastName;
+                this.document = resp.user.document;
+                this.idDriver = resp.idDriver;
+                this.token = resp.token;
+            });
+        });
+    }
+    getDataUser(email) {
+        const headerToken = new _angular_common_http__WEBPACK_IMPORTED_MODULE_4__.HttpHeaders({
+            'Authorization': this.token,
+        });
+        return this.http.doGet(`${URL}/api/profile/get-data-user/${email}`, {});
+    }
+    /*=============================================
+      ACTUALIZAR LICENCIA DE CODUCCIÓN
+    =============================================*/
+    updatePhotoLicence(user, data) {
+        const headerToken = new _angular_common_http__WEBPACK_IMPORTED_MODULE_4__.HttpHeaders({
+            'Authorization': this.token,
+        });
+        const formData = new FormData();
+        formData.append('firstName', user.firstName);
+        formData.append('lastName', user.lastName);
+        formData.append('document', this.document);
+        formData.append('urlActualLicenceFrontal', user.documentDrivinglicenseFrontal);
+        formData.append('urlActualLicenceBack', user.documentDrivinglicenseBack);
+        formData.append('documentDrivinglicenseFrontal', data.documentDrivinglicenseFrontal.bob, data.documentDrivinglicenseFrontal.filepath);
+        formData.append('documentDrivinglicenseBack', data.documentDrivinglicenseBack.bob, data.documentDrivinglicenseBack.filepath);
+        return this.http.doPutFormData(`${URL}/api/profile/${user.idDriver}`, formData, {});
+    }
+    /*=============================================
+      ACTUALIZAR CÉDULA DE CIUDADANÍA
+    =============================================*/
+    updatePhotoIdentityCard(data, user, email) {
+        const headerToken = new _angular_common_http__WEBPACK_IMPORTED_MODULE_4__.HttpHeaders({
+            'Authorization': this.token,
+        });
+        const formData = new FormData();
+        formData.append('firstName', user.firstName);
+        formData.append('lastName', user.lastName);
+        formData.append('document', user.document);
+        formData.append('urlActualIdentityCardFrontal', user.documentIdentityCardFrontal);
+        formData.append('urlActualIdentityCardBack', user.documentIdentityCardBack);
+        formData.append('documentIdentityCardFrontal', data.documentIdentityCardFrontal.bob, data.documentIdentityCardFrontal.filepath);
+        formData.append('documentIdentityCardBack', data.documentIdentityCardBack.bob, data.documentIdentityCardBack.filepath);
+        return this.http.doPostFormData(`${URL}/api/profile/update-photo-identity-card/${email}`, formData, {});
+    }
+    /*=============================================
+      ACTUALIZAR DOCUMENTO DE LA EMPRESA
+    =============================================*/
+    updatePhotoSecurityCard(user, data) {
+        const headerToken = new _angular_common_http__WEBPACK_IMPORTED_MODULE_4__.HttpHeaders({
+            'Authorization': this.token,
+        });
+        const formData = new FormData();
+        formData.append('firstName', user.firstName);
+        formData.append('lastName', user.lastName);
+        formData.append('urlActualSecurityCard', user.documentSecurityCard);
+        formData.append('documentSecurityCard', data.documentSecurityCardFrontal.bob, data.documentSecurityCardFrontal.filepath);
+        return this.http.doPutFormData(`${URL}/api/profile/update-photo-security-card/${user.idDriver}`, formData, {});
+    }
+    /*=============================================
+      ACTUALIZAR DOCUMENTO DE LA EMPRESA
+    =============================================*/
+    updatePhotoDocumentCompany(user, data) {
+        const headerToken = new _angular_common_http__WEBPACK_IMPORTED_MODULE_4__.HttpHeaders({
+            'Authorization': this.token,
+        });
+        const formData = new FormData();
+        formData.append('firstName', user.user.firstName);
+        formData.append('lastName', user.user.lastName);
+        formData.append('UrlActualDocumentCompany', user.documentCompany);
+        formData.append('documentCompany', data.documentCompanyFrontal.bob, data.documentCompanyFrontal.filepath);
+        return this.http.doPut(`${URL}/api/profile/update-photo-document-company/${user.companyId}`, formData, {});
+    }
+};
+ProfileService.ctorParameters = () => [
+    { type: _ionic_storage_angular__WEBPACK_IMPORTED_MODULE_5__.Storage },
+    { type: _http_http_service__WEBPACK_IMPORTED_MODULE_1__.HttpService }
+];
+ProfileService.propDecorators = {
+    updateDataUser: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_2__.Output }]
+};
+ProfileService = (0,tslib__WEBPACK_IMPORTED_MODULE_3__.__decorate)([
+    (0,_angular_core__WEBPACK_IMPORTED_MODULE_2__.Injectable)({
+        providedIn: 'root'
+    })
+], ProfileService);
+
+
+
+/***/ }),
+
 /***/ 29402:
 /*!**********************************************************************************************************************************!*\
   !*** ./src/app/pages/profile/update-archives/components/photo-document-company/photo-document-company.component.scss?ngResource ***!
@@ -974,4 +1108,4 @@ module.exports = "<ion-header>\r\n  <ion-toolbar color=\"primary\">\r\n    <ion-
 /***/ })
 
 }]);
-//# sourceMappingURL=default-src_app_pages_profile_update-archives_update-archives_module_ts.js.map
+//# sourceMappingURL=src_app_pages_profile_update-archives_update-archives_module_ts.js.map

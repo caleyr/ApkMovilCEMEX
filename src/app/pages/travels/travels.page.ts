@@ -33,7 +33,7 @@ export class TravelsPage implements OnInit {
 
   getListDepartament(){
     this.travelService.getTravels().subscribe(data=>{
-      this.departamentList = [...new Set(data.map(item => item.departamentSource))];
+      this.departamentList = data.data.departamentSource;
     });
   }
 
@@ -50,7 +50,7 @@ export class TravelsPage implements OnInit {
     }else{
       this.departament = event.detail.value;
       this.travelService.getTravelsSource(event.detail.value).subscribe(data=>{
-        this.sourceList = [...new Set(data.map(item => item.source))];
+        this.sourceList = data.data.source;
       });
     }    
   }
@@ -66,7 +66,7 @@ export class TravelsPage implements OnInit {
     }else{
       this.source = event.detail.value;
       this.travelService.getTravelsDate(event.detail.value).subscribe(data=>{
-        this.dateList = [...new Set(data.map(item => item.dateTravel))];
+        this.dateList = data.data.dateTravel;
       });
     }    
   }
@@ -79,7 +79,7 @@ export class TravelsPage implements OnInit {
     }else{
       this.dataO = event.detail.value;
       this.travelService.getTravelsForHour(event.detail.value).subscribe(data=>{
-        this.timeList = [...new Set(data.map(item => item.timerStar))];
+        this.timeList = data.data.timerStar;
       });
     }
   }
@@ -103,7 +103,7 @@ export class TravelsPage implements OnInit {
   getTravelListSearch(){
     return new Promise((resolved, reject)=>{
       this.travelService.searchTravelList(this.departament, this.source, this.dataO, this.timeO).subscribe(data=>{
-        this.travelService.traveSearchList = data;
+        this.travelService.traveSearchList = data.data;
         resolved(data);
       })
     });    

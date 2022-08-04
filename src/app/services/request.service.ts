@@ -1,9 +1,9 @@
 import { Request } from './../pages/waiting-list/models/request';
-import { environment } from './../../environments/environment';
-import { HttpClient } from '@angular/common/http';
 import { Subject } from 'rxjs';
 import { Injectable } from '@angular/core';
 import { tap } from 'rxjs/operators';
+import { HttpService } from './http/http.service';
+import { environment } from 'src/environments/environment.prod';
 
 const BASE_URL_API = environment.url;
 
@@ -16,18 +16,18 @@ export class RequestService {
   request: Request;
   private _refresh$ = new Subject<void>();
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpService) { }
 
   get refresh$(){
     return this._refresh$;
   }
 
   createRequest(data: any){
-    return this.http.post(`${BASE_URL_API}/api/waitingList/CreateRequestTravel`, data, {responseType: 'text'});
+    return this.http.doPostFormData(`${BASE_URL_API}/api/waitingList/CreateRequestTravel`, data, {});
   }
 
   updateRequest(id: string, data: any){
-    return this.http.put(`${BASE_URL_API}/api/waitingList/${id}`, data, {responseType: 'text'}).pipe(
+    return this.http.doPut(`${BASE_URL_API}/api/waitingList/${id}`, data, {}).pipe(
       tap(() => {
         this._refresh$.next();
       })
@@ -35,18 +35,14 @@ export class RequestService {
   }
 
   getRequestDetail(id: string){
-    return this.http.get<Request>(`${BASE_URL_API}/api/waitingList/RequestById/${id}`);
+    return this.http.doGet(`${BASE_URL_API}/api/waitingList/RequestById/${id}`, {});
   }
 
   getRequestByIdUser(correo: string){
-    return this.http.get<Request[]>(`${BASE_URL_API}/api/waitingList/GetRequestByIdUser/${correo}`);
+    return this.http.doGet(`${BASE_URL_API}/api/waitingList/GetRequestByIdUser/${correo}`, {});
   }
 
   getRequests(){
-    return this.http.get<Request[]>(`${BASE_URL_API}/api/waitingList/`);
-  }
-
-  deleteRequest(id: string){
-    return this.http.delete(`${BASE_URL_API}/api/waitingList/${id}`);
+    return this.http.doGet(`${BASE_URL_API}/api/waitingList/`, {});
   }
 }

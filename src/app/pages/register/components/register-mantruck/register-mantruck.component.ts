@@ -65,7 +65,7 @@ export class RegisterMantruckComponent implements OnInit {
   ) {    
     this.formBuilderInput();
     this.companiesService.getCompanies().subscribe(async data =>{
-      this.listCompanies = data;
+      this.listCompanies = data.data;
     });
   }
 

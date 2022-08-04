@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { environment } from 'src/environments/environment';
+import { environment } from 'src/environments/environment.prod';
+import { HttpService } from '../http/http.service';
 const URL = environment.url;
 const headersHttp = new HttpHeaders({
   'Content-Type': 'application/json',
@@ -15,15 +16,15 @@ export class ForgotPasswordService {
   email : string;
 
   constructor(
-    private http: HttpClient
+    private http: HttpService
   ) { }
 
   public forgotPassword(data: any) {
-    return this.http.post(`${URL}/api/authentication/SendPasswordResetCode`, data, {headers: headersHttp, responseType: 'text'});
+    return this.http.doPost(`${URL}/api/authentication/SendPasswordResetCode`, data, {});
   }
 
   public changePassword(data: any) {
-    return this.http.post(`${URL}/api/authentication/ResetPassword`, data, {headers: headersHttp});
+    return this.http.doPost(`${URL}/api/authentication/ResetPassword`, data, {});
   }
 
   // forgotPassword(email: string){

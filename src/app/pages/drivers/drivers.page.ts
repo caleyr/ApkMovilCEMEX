@@ -24,7 +24,7 @@ export class DriversPage implements OnInit {
 
   getDataList(){
     this.driversService.getDriverList(this.loginService.profileUser.CompanyId).subscribe(data=>{
-      this.driversList = data;
+      this.driversList = data.data;
     });
   }
 

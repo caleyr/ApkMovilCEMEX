@@ -69,11 +69,11 @@ export class PhotoIdentityCardComponent implements OnInit {
       this.email = resp.user.email;
   });
     this.profileService.getDataUser(this.email).subscribe(resp => {
-       this.user.firstName = resp.user.firstName;
-       this.user.lastName = resp.user.lastName;
-       this.user.document = resp.user.document;
-       this.user.documentIdentityCardFrontal = resp.user.documentIdentityCardFrontal;
-       this.user.documentIdentityCardBack = resp.user.documentIdentityCardBack;
+       this.user.firstName = resp.data.user.firstName;
+       this.user.lastName = resp.data.user.lastName;
+       this.user.document = resp.data.user.document;
+       this.user.documentIdentityCardFrontal = resp.data.user.documentIdentityCardFrontal;
+       this.user.documentIdentityCardBack = resp.data.user.documentIdentityCardBack;
     });
   }
 

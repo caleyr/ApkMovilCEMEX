@@ -20,7 +20,7 @@ export class VehiclesPage implements OnInit {
     private companiesService : CompaniesService
     ) { 
       this.companiesService.getCompany(loginService.profileUser.CompanyId).subscribe(async data =>{
-        this.company = data.companyName;
+        this.company = data.data.companyName;
       }); 
     }
 
@@ -31,7 +31,7 @@ export class VehiclesPage implements OnInit {
   getDataList(){
     this.vehiclesService.getVehicleList(this.loginService.profileUser.CompanyId).subscribe(data=>{
       console.log(data);      
-      this.vehiclesList = data;
+      this.vehiclesList = data.data;
     });
   }
 

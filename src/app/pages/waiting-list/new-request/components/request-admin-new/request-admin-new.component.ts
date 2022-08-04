@@ -94,13 +94,13 @@ export class RequestAdminNewComponent implements OnInit {
 
   getListVehicles(){
     this.vehiclesService.getVehicleList(this.loginService.profileUser.CompanyId).subscribe(data => {
-      this.vehicleList = data;
+      this.vehicleList = data.data;
     });
   }
 
   getListDrivers(){
     this.driversService.getDriverList(this.loginService.profileUser.CompanyId).subscribe(data => {
-      this.driverList = data;
+      this.driverList = data.data;
     });
   }
 

@@ -70,7 +70,7 @@ export class RegisterDriverComponent implements OnInit {
 
   async ngOnInit() {  
     this.companiesService.getCompanies().subscribe(result=>{
-      this.listCompanies = result;
+      this.listCompanies = result.data;
     })  
   }
 
@@ -85,18 +85,23 @@ export class RegisterDriverComponent implements OnInit {
     this.data = new FormData();
     this.addFormData(this.form.value);
     this.propagar.emit(true);
+
+    
+
     await this.adminLogistService.createDriver(this.data).subscribe(async resp =>{
+      alert(resp);
+      /*
        this.propagar.emit(false);
        this.alertSucces = true;
        this.addIdentityCard = false;
        this.addDocumentCompany = false;
        this.alertConfirm = false;
        this.alertSucces = true;
-       this.errors = [];
-    }, (error) =>{
+       this.errors = [];*/
+    }, (error) =>{/*
       console.log(error);      
        this.propagar.emit(false);
-       this.errors = this.errorMessages.parsearErroresAPI(error);
+       this.errors = this.errorMessages.parsearErroresAPI(error);*/
     });
   }
 

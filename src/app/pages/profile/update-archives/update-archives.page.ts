@@ -56,13 +56,13 @@ export class UpdateArchivesPage implements OnInit {
     this.loading = true;
     await this.profileService.getDataUser(this.email).subscribe(async resp=>{
 
-      this.rol =  resp.roles.map(item =>  item).toString();
-      this.user.user.firstName = resp.user.firstName;
-      this.user.user.email = resp.user.email;
-      this.user.user.lastName = resp.user.lastName;
-      this.user.companyId = resp.companyId;
-      this.user.companyName = resp.companyName;
-      this.user.documentCompany = resp.documentCompany;
+      this.rol =  resp.data.roles.map(item =>  item).toString();
+      this.user.user.firstName = resp.data.user.firstName;
+      this.user.user.email = resp.data.user.email;
+      this.user.user.lastName = resp.data.user.lastName;
+      this.user.companyId = resp.data.companyId;
+      this.user.companyName = resp.data.companyName;
+      this.user.documentCompany = resp.data.documentCompany;
 
       this.loading = false;
    }, error =>{

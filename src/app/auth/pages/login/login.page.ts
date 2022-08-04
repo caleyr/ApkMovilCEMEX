@@ -6,7 +6,7 @@ import { Router } from '@angular/router';
 import { NavController } from '@ionic/angular';
 import { debounceTime } from 'rxjs/operators';
 import { ErrorMessagesService } from '../../../services/error-messages.service';
-import { Storage } from '@ionic/storage-angular';
+
 
 @Component({
   selector: 'app-login',
@@ -30,7 +30,6 @@ export class LoginPage implements OnInit {
   isDriver: any = true;
 
   loading = false;
-
   constructor(
     private formBuilder: FormBuilder,
     private loginService: LoginService,
@@ -47,21 +46,21 @@ export class LoginPage implements OnInit {
     if(this.form.invalid){
       return;
     }
-    this.loading = true;
-    await this.loginService.loginWeb(this.form.value).subscribe(async resp =>{      
-      this.role = JSON.parse(window.atob(resp['token'].split('.')[1]))["Roles"];
-        if(this.role !== 'Power User CEMEX' && this.role !== 'Administrador Logistico Cemex'){          
+    await this.loginService.loginWeb(this.form.value).subscribe(async resp =>{ 
+      const session : string = JSON.parse(resp.data)["token"];
+      this.role = JSON.parse(atob(session.split('.')[1]))["Roles"];
+        if(this.role !== 'Power User CEMEX' && this.role !== 'Administrador Logistico Cemex'){
           this.errors = [];
-          await this.loginService.saveDataProfile(resp['token']);
-          await this.loginService.getDataProfile(resp['token']);
+          await this.loginService.saveDataProfile(session);
+          await this.loginService.getDataProfile(session);
           this.navCtrl.navigateRoot('/app/home', {animated:true});
           this.loading = false;
         }else{
           this.loading = false;
-        }  
+        }
       },
       (error) =>{
-        //this.errors = this.errorMessages.parsearErroresAPI(error);
+        alert(error)
         this.statusInputEmail = 'error';
         this.statusInputPassword = 'error';
         this.loading = false;

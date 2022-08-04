@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { TypeConveyorListDTO } from 'src/app/interfaces/conveyor/conveyor';
-import { environment } from 'src/environments/environment';
+import { environment } from 'src/environments/environment.prod';
+import { HttpService } from '../http/http.service';
 
 const URL = environment.url;
 @Injectable({
@@ -10,10 +10,10 @@ const URL = environment.url;
 export class TypeConveyorService {
 
   constructor(
-    private http: HttpClient,
+    private http: HttpService,
   ) { }
 
   public getTypeConveyor() {
-    return this.http.get<TypeConveyorListDTO>(`${URL}/api/type-conveyor/list-type-conveyors`);
+    return this.http.doGet(`${URL}/api/type-conveyor/list-type-conveyors`, {});
   }
 }

@@ -49,7 +49,7 @@ export class ProfilePage implements OnInit, OnDestroy {
     this.loading = true;
     this.profile = this.loginService.profileUser;
     this.companiesService.getCompany(this.profile.CompanyId).subscribe(data=>{
-      this.profile.CompanyName = data.companyName;      
+      this.profile.CompanyName = data.data.datacompanyName;      
       this.loading = false;
     });
     //this.getDataUserProfile();
