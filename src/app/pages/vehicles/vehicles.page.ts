@@ -30,7 +30,6 @@ export class VehiclesPage implements OnInit {
 
   getDataList(){
     this.vehiclesService.getVehicleList(this.loginService.profileUser.CompanyId).subscribe(data=>{
-      console.log(data);      
       this.vehiclesList = data;
     });
   }

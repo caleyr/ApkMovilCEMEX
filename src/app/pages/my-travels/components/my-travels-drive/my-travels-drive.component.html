@@ -1,7 +1,7 @@
 <app-layout class="card-size">
   <cwc-tabs>
-    <cwc-tab name='anteriores' active='true' (click)="changeTab('anteriores')">Anteriores</cwc-tab>
-    <cwc-tab name='programados' (click)="changeTab('programados')">Programados</cwc-tab>
+    <cwc-tab [active]="selectedTab == 'anteriores'" name='anteriores' (click)="changeTab('anteriores')">Anteriores</cwc-tab>
+    <cwc-tab [active]="selectedTab == 'programados'" name='programados' (click)="changeTab('programados')">Programados</cwc-tab>
   </cwc-tabs>
   <cwc-grid class="demo-grid" row-gap="2px">
     <cwc-cell mobile-colspan="11" style="padding-top: 0.8rem;">     

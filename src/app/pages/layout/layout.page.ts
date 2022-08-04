@@ -1,8 +1,8 @@
+import { ActiveTabsService } from './../../services/active-tabs.service';
 /* eslint-disable prefer-const */
 import { Component, OnInit } from '@angular/core';
 import { Storage } from '@ionic/storage-angular';
 import { LoginService } from 'src/app/services/auth/login.service';
-import { SidebarMenuService } from 'src/app/services/sidebar-menu.service';
 
 @Component({
   selector: 'app-layout',
@@ -13,14 +13,13 @@ export class LayoutPage implements OnInit {
 
   notDriver = false;
   roles: string;
-  menu: any[] = [];
   user = {
     name: '',
   };
   constructor(
     private storage: Storage,
-    private sideBarMenu: SidebarMenuService,
-    private loginService: LoginService
+    private loginService: LoginService,
+    private activeTabsService: ActiveTabsService
     ) {
       if(loginService.profileUser.Roles !== "Conductor"){
         this.notDriver = true;
@@ -29,8 +28,10 @@ export class LayoutPage implements OnInit {
     }
 
   async ngOnInit() {
-      await this.storage.create();      
-      //await this.getData(); 
+      await this.storage.create();
+  }
+  ionViewWillLeave(){
+    this.activeTabsService.clearSelectedTabs();
   }
 
   async currentUser(){
@@ -44,7 +45,7 @@ export class LayoutPage implements OnInit {
   }
 
   logout(){
-    this.menu = [];
+    this.activeTabsService.clearSelectedTabs();
     this.roles = " ";
     this.loginService.logout();
   }
