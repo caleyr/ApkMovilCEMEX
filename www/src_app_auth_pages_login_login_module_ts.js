@@ -140,6 +140,7 @@ let LoginPage = class LoginPage {
             if (this.form.invalid) {
                 return;
             }
+            this.loading = false;
             yield this.loginService.loginWeb(this.form.value).subscribe((resp) => (0,tslib__WEBPACK_IMPORTED_MODULE_4__.__awaiter)(this, void 0, void 0, function* () {
                 const session = JSON.parse(resp.data)["token"];
                 this.role = JSON.parse(atob(session.split('.')[1]))["Roles"];
@@ -154,7 +155,6 @@ let LoginPage = class LoginPage {
                     this.loading = false;
                 }
             }), (error) => {
-                alert(error);
                 this.statusInputEmail = 'error';
                 this.statusInputPassword = 'error';
                 this.loading = false;

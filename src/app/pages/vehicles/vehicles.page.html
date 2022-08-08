@@ -14,8 +14,13 @@
     </cwc-cell>    
   </cwc-grid>  
   <h6 class="text-vehicles">Vehículos ({{vehiclesList.length}})</h6>
-  <div class="navbar">
-    <app-vehicle-list [vehicles]="vehiclesList" [companyName]="company"></app-vehicle-list>
-  </div>  
+  <ion-content>
+    <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+      <ion-refresher-content></ion-refresher-content>
+    </ion-refresher>
+    <div class="navbar">
+      <app-vehicle-list [vehicles]="vehiclesList" [companyName]="company"></app-vehicle-list>
+    </div>  
+  </ion-content>  
   <cwc-button class="float" routerLink="agregar" design-version="v2" size="large" variant="ghost" ratio="square" trailing-icon="plus"></cwc-button>
 </app-layout>

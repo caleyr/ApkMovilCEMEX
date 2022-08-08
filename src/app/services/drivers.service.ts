@@ -37,6 +37,14 @@ export class DriversService {
     )
   }
 
+  confirmDrive(id : string, data: any){
+    return this.http.doPutFormData(`${URL}/api/travels/ConfirmTravelByUser/${id}`, data, {}).pipe(
+      tap(() => {
+        this._refresh$.next();
+      })
+    )
+  }
+
   getDriverById(id : string){
     return this.http.doGet(`${URL}/api/authentication/GetUserDetail/${id}`, {});
   }

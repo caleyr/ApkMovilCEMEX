@@ -96,17 +96,17 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "NewVehiclePage": () => (/* binding */ NewVehiclePage)
 /* harmony export */ });
-/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! tslib */ 34929);
+/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! tslib */ 34929);
 /* harmony import */ var _new_vehicle_page_html_ngResource__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./new-vehicle.page.html?ngResource */ 55320);
 /* harmony import */ var _new_vehicle_page_scss_ngResource__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./new-vehicle.page.scss?ngResource */ 54641);
-/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @angular/core */ 3184);
-/* harmony import */ var _angular_forms__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! @angular/forms */ 90587);
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! @angular/core */ 3184);
+/* harmony import */ var _angular_forms__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! @angular/forms */ 90587);
 /* harmony import */ var _interfaces_companies_companies__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../interfaces/companies/companies */ 81098);
 /* harmony import */ var _services_companies_companies_service__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../services/companies/companies.service */ 46605);
 /* harmony import */ var _services_error_messages_service__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../../services/error-messages.service */ 47486);
-/* harmony import */ var rxjs_operators__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! rxjs/operators */ 80823);
+/* harmony import */ var rxjs_operators__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! rxjs/operators */ 80823);
 /* harmony import */ var _services_vehicles_service__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../../services/vehicles.service */ 66817);
-/* harmony import */ var _angular_common__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! @angular/common */ 36362);
+/* harmony import */ var _angular_common__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! @angular/common */ 36362);
 /* harmony import */ var _services_auth_login_service__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../../services/auth/login.service */ 52876);
 
 
@@ -128,7 +128,6 @@ let NewVehiclePage = class NewVehiclePage {
         this.errorMessages = errorMessages;
         this.vehiclesService = vehiclesService;
         this.location = location;
-        this.propagar = new _angular_core__WEBPACK_IMPORTED_MODULE_7__.EventEmitter();
         this.company = new _interfaces_companies_companies__WEBPACK_IMPORTED_MODULE_2__.Companies();
         this.alertSucces = true;
         this.alertConfirm = false;
@@ -137,7 +136,7 @@ let NewVehiclePage = class NewVehiclePage {
         this.toastMessage = '';
         this.errors = [];
         this.formBuilderInput(loginService.profileUser.CompanyId);
-        this.companiesService.getCompany(loginService.profileUser.CompanyId).subscribe((data) => (0,tslib__WEBPACK_IMPORTED_MODULE_8__.__awaiter)(this, void 0, void 0, function* () {
+        this.companiesService.getCompany(loginService.profileUser.CompanyId).subscribe((data) => (0,tslib__WEBPACK_IMPORTED_MODULE_7__.__awaiter)(this, void 0, void 0, function* () {
             this.company = data.data;
         }));
     }
@@ -145,25 +144,25 @@ let NewVehiclePage = class NewVehiclePage {
         this.alertSucces = false;
     }
     createVehicle() {
-        return (0,tslib__WEBPACK_IMPORTED_MODULE_8__.__awaiter)(this, void 0, void 0, function* () {
+        return (0,tslib__WEBPACK_IMPORTED_MODULE_7__.__awaiter)(this, void 0, void 0, function* () {
             if (this.form.invalid) {
+                this.alertSucces = false;
                 return;
             }
+            alert('Entro');
             this.data = new FormData();
             this.addFormData(this.form.value);
-            this.propagar.emit(true);
-            yield this.vehiclesService.createVehicle(this.data).subscribe((resp) => (0,tslib__WEBPACK_IMPORTED_MODULE_8__.__awaiter)(this, void 0, void 0, function* () {
-                this.propagar.emit(false);
+            yield this.vehiclesService.createVehicle(this.data).subscribe((resp) => (0,tslib__WEBPACK_IMPORTED_MODULE_7__.__awaiter)(this, void 0, void 0, function* () {
+                alert(resp);
                 this.alertSucces = true;
                 this.errors = [];
             }), (error) => {
-                this.propagar.emit(false);
                 this.errors = this.errorMessages.parsearErroresAPI(error);
             });
         });
     }
     addFormData(objeto) {
-        return (0,tslib__WEBPACK_IMPORTED_MODULE_8__.__awaiter)(this, void 0, void 0, function* () {
+        return (0,tslib__WEBPACK_IMPORTED_MODULE_7__.__awaiter)(this, void 0, void 0, function* () {
             for (var key in objeto) {
                 if (key !== 'term') {
                     this.data.append(key, objeto[key]);
@@ -205,22 +204,22 @@ let NewVehiclePage = class NewVehiclePage {
     =============================================*/
     formBuilderInput(id) {
         this.form = this.formBuilder.group({
-            Model: ['', [_angular_forms__WEBPACK_IMPORTED_MODULE_9__.Validators.required]],
-            LicenseVehiculo: ['', [_angular_forms__WEBPACK_IMPORTED_MODULE_9__.Validators.required]],
-            TypeTrailer: ['', [_angular_forms__WEBPACK_IMPORTED_MODULE_9__.Validators.required]],
-            CompanyId: [id, [_angular_forms__WEBPACK_IMPORTED_MODULE_9__.Validators.required]],
-            Soat: ['', [_angular_forms__WEBPACK_IMPORTED_MODULE_9__.Validators.required]],
+            Model: ['', [_angular_forms__WEBPACK_IMPORTED_MODULE_8__.Validators.required]],
+            LicenseVehiculo: ['', [_angular_forms__WEBPACK_IMPORTED_MODULE_8__.Validators.required]],
+            TypeTrailer: ['', [_angular_forms__WEBPACK_IMPORTED_MODULE_8__.Validators.required]],
+            CompanyId: [id, [_angular_forms__WEBPACK_IMPORTED_MODULE_8__.Validators.required]],
+            Soat: ['', [_angular_forms__WEBPACK_IMPORTED_MODULE_8__.Validators.required]],
             SoatDocument: [''],
             TechnomechanicsDocument: [''],
             PolicyDocument: [''],
             CardPropertyDocument: [''],
             StatusVehicle: ['1'],
             StatusTravel: ['1'],
-            UserId: ['1'],
-            term: [false, [_angular_forms__WEBPACK_IMPORTED_MODULE_9__.Validators.requiredTrue]]
+            UserId: [this.loginService.profileUser.id],
+            term: [false, [_angular_forms__WEBPACK_IMPORTED_MODULE_8__.Validators.requiredTrue]]
         });
         this.form.valueChanges
-            .pipe((0,rxjs_operators__WEBPACK_IMPORTED_MODULE_10__.debounceTime)(350))
+            .pipe((0,rxjs_operators__WEBPACK_IMPORTED_MODULE_9__.debounceTime)(350))
             .subscribe(data => {
             console.log(data);
             //this.validateInput();
@@ -228,15 +227,15 @@ let NewVehiclePage = class NewVehiclePage {
     }
 };
 NewVehiclePage.ctorParameters = () => [
-    { type: _angular_forms__WEBPACK_IMPORTED_MODULE_9__.FormBuilder },
+    { type: _angular_forms__WEBPACK_IMPORTED_MODULE_8__.FormBuilder },
     { type: _services_auth_login_service__WEBPACK_IMPORTED_MODULE_6__.LoginService },
     { type: _services_companies_companies_service__WEBPACK_IMPORTED_MODULE_3__.CompaniesService },
     { type: _services_error_messages_service__WEBPACK_IMPORTED_MODULE_4__.ErrorMessagesService },
     { type: _services_vehicles_service__WEBPACK_IMPORTED_MODULE_5__.VehiclesService },
-    { type: _angular_common__WEBPACK_IMPORTED_MODULE_11__.Location }
+    { type: _angular_common__WEBPACK_IMPORTED_MODULE_10__.Location }
 ];
-NewVehiclePage = (0,tslib__WEBPACK_IMPORTED_MODULE_8__.__decorate)([
-    (0,_angular_core__WEBPACK_IMPORTED_MODULE_7__.Component)({
+NewVehiclePage = (0,tslib__WEBPACK_IMPORTED_MODULE_7__.__decorate)([
+    (0,_angular_core__WEBPACK_IMPORTED_MODULE_11__.Component)({
         selector: 'app-new-vehicle',
         template: _new_vehicle_page_html_ngResource__WEBPACK_IMPORTED_MODULE_0__,
         styles: [_new_vehicle_page_scss_ngResource__WEBPACK_IMPORTED_MODULE_1__]
@@ -607,7 +606,7 @@ module.exports = ".header-text {\n  display: flex;\n  align-items: flex-start;\n
   \*****************************************************************************/
 /***/ ((module) => {
 
-module.exports = "<cwc-header design-version=\"v2\" slot=\"header\" show-Menu-Button=\"false\" show-cemex-logo=\"false\">\r\n  <div class=\"header-text\">\r\n    <ion-icon name=\"arrow-back-outline\" style=\"font-size: 25px;\" (click)=\"onBack()\"></ion-icon>\r\n    <div class=\"attr-name\" style=\"padding-left: 1rem;\">Agregar vehículo</div>\r\n  </div>\r\n</cwc-header>\r\n<div slot=\"main\" class=\"content-card\">\r\n  <div class=\"content-title\">\r\n    Nuevo vehículo\r\n  </div>\r\n  <form (submit)=\"createVehicle()\" [formGroup]=\"form\">\r\n    <cwc-grid class=\"demo-grid\" design-version=\"v2\" columns=\"12\" mobile-columns=\"12\">\r\n      <cwc-cell colspan=\"12\" mobile-colspan=\"12\">\r\n        <div>\r\n          <cwc-input class=\"input\" \r\n            label='Medelo de vehículo'\r\n            placeholder=\"Agrega el tipo de camión\"\r\n            design-version=\"v1\" \r\n            formControlName=\"Model\"\r\n            required\r\n          ></cwc-input>\r\n        </div>\r\n        <div>\r\n          <cwc-input class=\"input\" \r\n            label='Placa'\r\n            formControlName=\"LicenseVehiculo\"\r\n            design-version=\"v1\"\r\n            placeholder=\"Agrega número de serie\"\r\n            required\r\n          ></cwc-input>\r\n        </div>\r\n        <div>\r\n          <cwc-input class=\"input\" \r\n            label='Tipo de trailer'\r\n            formControlName=\"TypeTrailer\"\r\n            placeholder=\"Características especiales del vehículo\"\r\n            design-version=\"v1\" \r\n            required\r\n          ></cwc-input>\r\n        </div>\r\n        <div class=\"content-picker\">\r\n          <cwc-picker\r\n            class=\"w-full select-filter\"\r\n            label=\"Empresa\"\r\n            filter-no-resultsMessage=\"No se encontraron resultados\" \r\n            filter-placeholder=\"Filtrar Empresas\"\r\n            [placeholder]=\"company.companyName\" \r\n            mobile=\"false\"\r\n            string-values=\"true\"\r\n            disabled=\"true\"\r\n            filter>\r\n          </cwc-picker>\r\n        </div>\r\n        <div>\r\n          <cwc-input class=\"input\" \r\n          label='Número de SOAT (opcional)'\r\n          type=\"text\"\r\n          formControlName=\"Soat\"\r\n          placeholder=\"Agregar los 20 dígitos de su número de SOAT\"\r\n          design-version=\"v1\" \r\n          ngDefaultControl\r\n          required\r\n          ></cwc-input>\r\n        </div>\r\n      </cwc-cell>\r\n    </cwc-grid>\r\n    <!--=====================================\r\n        DOCUMENTO DE LA EMPRESA\r\n      ======================================-->\r\n    <label for=\"\"> Documento de SOAT</label>\r\n    <div>\r\n      <cwc-grid class=\"demo-grid content-archive\" >\r\n        <cwc-cell class=\"border\" colspan=\"6\" mobile-colspan=\"6\" style=\"cursor: pointer;\">\r\n          <div class=\"item-archives\">\r\n            <cwc-icon name=\"camera\" size=\"28px\" color=\"bright-blue\"></cwc-icon>\r\n            <h5 class=\"text-archive\">Tomar fotografía</h5>\r\n          </div>\r\n        </cwc-cell>\r\n        <cwc-cell colspan=\"6\" mobile-colspan=\"6\" style=\"cursor: pointer;\">\r\n          <div class=\"item-archives\">\r\n            <cwc-icon name=\"document\" size=\"28px\" color=\"bright-blue\"></cwc-icon>\r\n            <h5 class=\"text-archive\">Seleccionar archivo</h5>\r\n          </div>\r\n        </cwc-cell>\r\n    </cwc-grid>\r\n    </div>\r\n\r\n\r\n    <label for=\"\"> Certificado de revisión tecno mecánica</label>\r\n    <div>\r\n      <cwc-grid class=\"demo-grid content-archive\" >\r\n        <cwc-cell class=\"border\" colspan=\"6\" mobile-colspan=\"6\" style=\"cursor: pointer;\">\r\n          <div class=\"item-archives\">\r\n            <cwc-icon name=\"camera\" size=\"28px\" color=\"bright-blue\"></cwc-icon>\r\n            <h5 class=\"text-archive\">Tomar fotografía</h5>\r\n          </div>\r\n        </cwc-cell>\r\n        <cwc-cell colspan=\"6\" mobile-colspan=\"6\" style=\"cursor: pointer;\">\r\n          <div class=\"item-archives\">\r\n            <cwc-icon name=\"document\" size=\"28px\" color=\"bright-blue\"></cwc-icon>\r\n            <h5 class=\"text-archive\">Seleccionar archivo</h5>\r\n          </div>\r\n        </cwc-cell>\r\n    </cwc-grid>\r\n    </div>\r\n\r\n    <label for=\"\"> Póliza </label>\r\n    <div>\r\n      <cwc-grid class=\"demo-grid content-archive\" >\r\n        <cwc-cell class=\"border\" colspan=\"6\" mobile-colspan=\"6\" style=\"cursor: pointer;\">\r\n          <div class=\"item-archives\">\r\n            <cwc-icon name=\"camera\" size=\"28px\" color=\"bright-blue\"></cwc-icon>\r\n            <h5 class=\"text-archive\">Tomar fotografía</h5>\r\n          </div>\r\n        </cwc-cell>\r\n        <cwc-cell colspan=\"6\" mobile-colspan=\"6\" style=\"cursor: pointer;\">\r\n          <div class=\"item-archives\">\r\n            <cwc-icon name=\"document\" size=\"28px\" color=\"bright-blue\"></cwc-icon>\r\n            <h5 class=\"text-archive\">Seleccionar archivo</h5>\r\n          </div>\r\n        </cwc-cell>\r\n    </cwc-grid>\r\n    </div>\r\n\r\n    <label for=\"\"> Tarjeta de propiedad</label>\r\n    <div>\r\n      <cwc-grid class=\"demo-grid content-archive\" >\r\n        <cwc-cell class=\"border\" colspan=\"6\" mobile-colspan=\"6\" style=\"cursor: pointer;\">\r\n          <div class=\"item-archives\">\r\n            <cwc-icon name=\"camera\" size=\"28px\" color=\"bright-blue\"></cwc-icon>\r\n            <h5 class=\"text-archive\">Tomar fotografía</h5>\r\n          </div>\r\n        </cwc-cell>\r\n        <cwc-cell colspan=\"6\" mobile-colspan=\"6\" style=\"cursor: pointer;\">\r\n          <div class=\"item-archives\">\r\n            <cwc-icon name=\"document\" size=\"28px\" color=\"bright-blue\"></cwc-icon>\r\n            <h5 class=\"text-archive\">Seleccionar archivo</h5>\r\n          </div>\r\n        </cwc-cell>\r\n    </cwc-grid>\r\n    </div>\r\n\r\n    <cwc-checkbox\r\n      formControlName=\"term\"\r\n      mobile=\"true\"\r\n      class='m-end-sm'>          \r\n      <div class=\"input-check\">Confirmo que la siguiente información es verdadera.</div>\r\n    </cwc-checkbox>\r\n\r\n    <app-error-messages [errors]=\"errors\"></app-error-messages> \r\n    <!--=====================================\r\n      BOTON PARA GUARDAR EL REGISTRO\r\n    ======================================-->\r\n    <div class=\"content-button\">\r\n      <cwc-button \r\n        design-version=\"v1\" \r\n        [disabled]=\"form.invalid\"\r\n        (click)=\"openAlertConfirm()\" \r\n        variant=\"regular-block\">AGREGAR VEHÍCULO</cwc-button>\r\n    </div>\r\n  </form>\r\n</div>\r\n<!--=====================================\r\n\t\tMODAL ALERTA CONFIRMAR DATOS GUARDAR\r\n======================================-->\r\n<cwc-modal id='alert-confirm' class=\"alert-confirm\" [open] =\"alertConfirm\" (cwcClose)=\"closeAlertConfirm()\">\r\n  <header slot='header'>\r\n      <h2 style='margin:0;'>Atención</h2>\r\n  </header>\r\n  <p>¿Esta seguro que los datos registrados estan correctos?</p>\r\n  <footer slot='footer'>\r\n      <div style='text-align: end'>\r\n        <cwc-button variant='support' (click)=\"closeAlertConfirm()\" style=\"margin-right: 1rem;\">Cancelar</cwc-button>\r\n          <cwc-button variant='primary' (click)=\"createVehicle()\" >Aceptar</cwc-button>\r\n      </div>\r\n  </footer>\r\n</cwc-modal>\r\n<!--=====================================\r\n\t\tMODAL CONFIRMACIÓN RESPUESTA DE EXITO\r\n======================================-->\r\n<app-alert-success\r\n  [alertShow] = \"alertSucces\"\r\n  title = \"Sun informacion ha sido guardada\"\r\n  urlButton = \"/app/vehiculos\"\r\n  textButton = \"OK\"\r\n  message = \"Los datos se están procesando, y al ser aprobado su vehículo recibirá una notificación.\">\r\n</app-alert-success>\r\n<!--=====================================\r\n\tTOAST ALERT MENSAJE\r\n======================================-->\r\n<cwc-snackbar id='toast-message-driver' [message]=\"toastMessage\"\r\ncta-message=\"dismiss\" auto-hide-duration='5000'></cwc-snackbar>\r\n";
+module.exports = "<cwc-header design-version=\"v2\" slot=\"header\" show-Menu-Button=\"false\" show-cemex-logo=\"false\">\r\n  <div class=\"header-text\">\r\n    <ion-icon name=\"arrow-back-outline\" style=\"font-size: 25px;\" (click)=\"onBack()\"></ion-icon>\r\n    <div class=\"attr-name\" style=\"padding-left: 1rem;\">Agregar vehículo</div>\r\n  </div>\r\n</cwc-header>\r\n<div slot=\"main\" class=\"content-card\">\r\n  <div class=\"content-title\">\r\n    Nuevo vehículo\r\n  </div>\r\n  <form (submit)=\"createVehicle()\" [formGroup]=\"form\">\r\n    <cwc-grid class=\"demo-grid\" design-version=\"v2\" columns=\"12\" mobile-columns=\"12\">\r\n      <cwc-cell colspan=\"12\" mobile-colspan=\"12\">\r\n        <div>\r\n          <cwc-input class=\"input\" \r\n            label='Medelo de vehículo'\r\n            placeholder=\"Agrega el tipo de camión\"\r\n            design-version=\"v1\" \r\n            formControlName=\"Model\"\r\n            required\r\n          ></cwc-input>\r\n        </div>\r\n        <div>\r\n          <cwc-input class=\"input\" \r\n            label='Placa'\r\n            formControlName=\"LicenseVehiculo\"\r\n            design-version=\"v1\"\r\n            placeholder=\"Agrega número de serie\"\r\n            required\r\n          ></cwc-input>\r\n        </div>\r\n        <div>\r\n          <cwc-input class=\"input\" \r\n            label='Tipo de trailer'\r\n            formControlName=\"TypeTrailer\"\r\n            placeholder=\"Características especiales del vehículo\"\r\n            design-version=\"v1\" \r\n            required\r\n          ></cwc-input>\r\n        </div>\r\n        <div class=\"content-picker\">\r\n          <cwc-picker\r\n            class=\"w-full select-filter\"\r\n            label=\"Empresa\"\r\n            filter-no-resultsMessage=\"No se encontraron resultados\" \r\n            filter-placeholder=\"Filtrar Empresas\"\r\n            [placeholder]=\"company.companyName\" \r\n            mobile=\"false\"\r\n            string-values=\"true\"\r\n            disabled=\"true\"\r\n            filter>\r\n          </cwc-picker>\r\n        </div>\r\n        <div>\r\n          <cwc-input class=\"input\" \r\n          label='Número de SOAT (opcional)'\r\n          type=\"text\"\r\n          formControlName=\"Soat\"\r\n          placeholder=\"Agregar los 20 dígitos de su número de SOAT\"\r\n          design-version=\"v1\" \r\n          ngDefaultControl\r\n          required\r\n          ></cwc-input>\r\n        </div>\r\n      </cwc-cell>\r\n    </cwc-grid>\r\n    <!--=====================================\r\n        DOCUMENTO DE LA EMPRESA\r\n      ======================================-->\r\n    <label for=\"\"> Documento de SOAT</label>\r\n    <div>\r\n      <cwc-grid class=\"demo-grid content-archive\" >\r\n        <cwc-cell class=\"border\" colspan=\"6\" mobile-colspan=\"6\" style=\"cursor: pointer;\">\r\n          <div class=\"item-archives\">\r\n            <cwc-icon name=\"camera\" size=\"28px\" color=\"bright-blue\"></cwc-icon>\r\n            <div class=\"text-archive\">Tomar fotografía</div>\r\n          </div>\r\n        </cwc-cell>\r\n        <cwc-cell colspan=\"6\" mobile-colspan=\"6\" style=\"cursor: pointer;\">\r\n          <div class=\"item-archives\">\r\n            <cwc-icon name=\"document\" size=\"28px\" color=\"bright-blue\"></cwc-icon>\r\n            <div class=\"text-archive\">Seleccionar archivo</div>\r\n          </div>\r\n        </cwc-cell>\r\n    </cwc-grid>\r\n    </div>\r\n\r\n\r\n    <label for=\"\"> Certificado de revisión tecno mecánica</label>\r\n    <div>\r\n      <cwc-grid class=\"demo-grid content-archive\" >\r\n        <cwc-cell class=\"border\" colspan=\"6\" mobile-colspan=\"6\" style=\"cursor: pointer;\">\r\n          <div class=\"item-archives\">\r\n            <cwc-icon name=\"camera\" size=\"28px\" color=\"bright-blue\"></cwc-icon>\r\n            <div class=\"text-archive\">Tomar fotografía</div>\r\n          </div>\r\n        </cwc-cell>\r\n        <cwc-cell colspan=\"6\" mobile-colspan=\"6\" style=\"cursor: pointer;\">\r\n          <div class=\"item-archives\">\r\n            <cwc-icon name=\"document\" size=\"28px\" color=\"bright-blue\"></cwc-icon>\r\n            <div class=\"text-archive\">Seleccionar archivo</div>\r\n          </div>\r\n        </cwc-cell>\r\n    </cwc-grid>\r\n    </div>\r\n\r\n    <label for=\"\"> Póliza </label>\r\n    <div>\r\n      <cwc-grid class=\"demo-grid content-archive\" >\r\n        <cwc-cell class=\"border\" colspan=\"6\" mobile-colspan=\"6\" style=\"cursor: pointer;\">\r\n          <div class=\"item-archives\">\r\n            <cwc-icon name=\"camera\" size=\"28px\" color=\"bright-blue\"></cwc-icon>\r\n            <div class=\"text-archive\">Tomar fotografía</div>\r\n          </div>\r\n        </cwc-cell>\r\n        <cwc-cell colspan=\"6\" mobile-colspan=\"6\" style=\"cursor: pointer;\">\r\n          <div class=\"item-archives\">\r\n            <cwc-icon name=\"document\" size=\"28px\" color=\"bright-blue\"></cwc-icon>\r\n            <div class=\"text-archive\">Seleccionar archivo</div>\r\n          </div>\r\n        </cwc-cell>\r\n    </cwc-grid>\r\n    </div>\r\n\r\n    <label for=\"\"> Tarjeta de propiedad</label>\r\n    <div>\r\n      <cwc-grid class=\"demo-grid content-archive\" >\r\n        <cwc-cell class=\"border\" colspan=\"6\" mobile-colspan=\"6\" style=\"cursor: pointer;\">\r\n          <div class=\"item-archives\">\r\n            <cwc-icon name=\"camera\" size=\"28px\" color=\"bright-blue\"></cwc-icon>\r\n            <div class=\"text-archive\">Tomar fotografía</div>\r\n          </div>\r\n        </cwc-cell>\r\n        <cwc-cell colspan=\"6\" mobile-colspan=\"6\" style=\"cursor: pointer;\">\r\n          <div class=\"item-archives\">\r\n            <cwc-icon name=\"document\" size=\"28px\" color=\"bright-blue\"></cwc-icon>\r\n            <div class=\"text-archive\">Seleccionar archivo</div>\r\n          </div>\r\n        </cwc-cell>\r\n    </cwc-grid>\r\n    </div>\r\n\r\n    <cwc-checkbox\r\n      formControlName=\"term\"\r\n      mobile=\"true\"\r\n      class='m-end-sm'>          \r\n      <div class=\"input-check\">Confirmo que la siguiente información es verdadera.</div>\r\n    </cwc-checkbox>\r\n\r\n    <app-error-messages [errors]=\"errors\"></app-error-messages> \r\n    <!--=====================================\r\n      BOTON PARA GUARDAR EL REGISTRO\r\n    ======================================-->\r\n    <div class=\"content-button\">\r\n      <cwc-button \r\n        design-version=\"v1\" \r\n        [disabled]=\"form.invalid\"\r\n        (click)=\"openAlertConfirm()\" \r\n        variant=\"regular-block\">AGREGAR VEHÍCULO</cwc-button>\r\n    </div>\r\n  </form>\r\n</div>\r\n<!--=====================================\r\n\t\tMODAL ALERTA CONFIRMAR DATOS GUARDAR\r\n======================================-->\r\n<cwc-modal id='alert-confirm' class=\"alert-confirm\" [open] =\"alertConfirm\" (cwcClose)=\"closeAlertConfirm()\">\r\n  <header slot='header'>\r\n      <h2 style='margin:0;'>Atención</h2>\r\n  </header>\r\n  <p>¿Esta seguro que los datos registrados estan correctos?</p>\r\n  <footer slot='footer'>\r\n      <div style='text-align: end'>\r\n        <cwc-button variant='support' (cwcClick)=\"closeAlertConfirm()\" style=\"margin-right: 1rem;\">Cancelar</cwc-button>\r\n          <cwc-button variant='primary' (cwcClick)=\"createVehicle()\" >Aceptar</cwc-button>\r\n      </div>\r\n  </footer>\r\n</cwc-modal>\r\n<!--=====================================\r\n\t\tMODAL CONFIRMACIÓN RESPUESTA DE EXITO\r\n======================================-->\r\n<app-alert-success\r\n  [alertShow] = \"alertSucces\"\r\n  title = \"Sun informacion ha sido guardada\"\r\n  urlButton = \"/app/vehiculos\"\r\n  textButton = \"OK\"\r\n  message = \"Los datos se están procesando, y al ser aprobado su vehículo recibirá una notificación.\">\r\n</app-alert-success>\r\n<!--=====================================\r\n\tTOAST ALERT MENSAJE\r\n======================================-->\r\n<cwc-snackbar id='toast-message-driver' [message]=\"toastMessage\"\r\ncta-message=\"dismiss\" auto-hide-duration='5000'></cwc-snackbar>\r\n";
 
 /***/ })
 

@@ -47,6 +47,12 @@
     font-style: normal;
   }
 
+ion-modal {
+  .message-modal{
+    border-radius: 100px;
+  }
+}
+
 ion-content{
  --ion-background-color:#F4F6F9  !important;
 }
@@ -209,4 +215,35 @@ h1.text-black{
 .center-remove-photo-archive{
   display: flex;
   justify-content: center;
+}
+
+.pac-container{
+  position: relative;
+}
+
+.pac-item {
+  padding: 10px;
+  font-size: small;
+  font-family: 'Roboto-medium';
+  cursor: pointer;
+  float: none;
+}
+
+.pac-item:hover {
+  background-color: #ececec;
+  float: none;
+}
+
+.pac-item-query {
+  font-size: small;
+  float: none;
+  font-family: 'Roboto-medium';
+}
+
+.pac-container:after {
+  float: none;
+  background-image: none !important;
+  height: 0px;
+  padding: 0;
+  margin: 0;
 }

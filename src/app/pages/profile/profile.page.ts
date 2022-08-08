@@ -54,6 +54,7 @@ export class ProfilePage implements OnInit, OnDestroy {
     });
     //this.getDataUserProfile();
   }
+  
   getTitleRuote() {
     return this.router.events
       .pipe(

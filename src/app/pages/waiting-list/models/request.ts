@@ -1,5 +1,6 @@
 export class Request {
     id: string;
+    codeRequest: string;
     origen: string;
     destino: string;
     dateTravels: string;
@@ -11,5 +12,6 @@ export class Request {
     vehicleName: string;
     vehicleLisence: string;
     statusRequest: number;
+    statusRequeststring: string;
     travelsCode: number;
 }

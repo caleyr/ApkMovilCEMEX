@@ -3,6 +3,7 @@ import { NavController } from '@ionic/angular';
 import { TravelService } from './../../../../services/travels/travel.service';
 import { Travel } from './../../../../interfaces/travels/travel';
 import { Component, Input, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-scheduled-trips-list',
@@ -18,22 +19,32 @@ export class ScheduledTripsListComponent implements OnInit {
 
   constructor(private travelService: TravelService,
     private loginService: LoginService,
-    private navCtrl: NavController) { }
+    private navCtrl: NavController,
+    private router: Router) { }
 
   ngOnInit() {
     this.rol = this.loginService.profileUser.Roles;
   }
 
   detailTrip(id: string, travelAvailability: string) {
-    console.log(travelAvailability);
     if (this.rol === 'Conductor') {
+
+      if(travelAvailability === 'Confirmado'){
+        this.travelService.id = id;
+        this.navCtrl.navigateRoot('/app/my-travels/driver-confirmed-trip-detail', { animated: false });
+      }
+
+      /*
       if (travelAvailability === 'Pre-Turno') {
         this.travelService.id = id;
         this.navCtrl.navigateRoot('/app/my-travels/scheduled-details', { animated: false });
+      } else if(travelAvailability === 'Confirmado'){
+        this.travelService.id = id;
+        this.navCtrl.navigateRoot('/app/my-travels/driver-confirmed-trip-detail', { animated: false });
       } else {
         this.travelService.id = id;
         this.navCtrl.navigateRoot('/app/my-travels/scheduled-details-driver', { animated: false });
-      }
+      }*/
     } else {
       this.travelService.id = id;
       this.navCtrl.navigateRoot('/app/my-travels/scheduled-details', { animated: false });

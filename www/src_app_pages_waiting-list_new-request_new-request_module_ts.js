@@ -11,16 +11,20 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "RequestAdminNewComponent": () => (/* binding */ RequestAdminNewComponent)
 /* harmony export */ });
-/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! tslib */ 34929);
+/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! tslib */ 34929);
 /* harmony import */ var _request_admin_new_component_html_ngResource__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./request-admin-new.component.html?ngResource */ 3321);
 /* harmony import */ var _request_admin_new_component_scss_ngResource__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./request-admin-new.component.scss?ngResource */ 68261);
 /* harmony import */ var _services_auth_login_service__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./../../../../../services/auth/login.service */ 52876);
 /* harmony import */ var _services_drivers_service__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./../../../../../services/drivers.service */ 50774);
-/* harmony import */ var _services_vehicles_service__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./../../../../../services/vehicles.service */ 66817);
-/* harmony import */ var _ionic_angular__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! @ionic/angular */ 93819);
-/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! @angular/core */ 3184);
-/* harmony import */ var _angular_forms__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @angular/forms */ 90587);
-/* harmony import */ var _services_request_service__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../../../../services/request.service */ 79854);
+/* harmony import */ var _ionic_angular__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! @ionic/angular */ 93819);
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! @angular/core */ 3184);
+/* harmony import */ var _angular_forms__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @angular/forms */ 90587);
+/* harmony import */ var _services_request_service__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../../../../services/request.service */ 79854);
+/* harmony import */ var src_app_services_user_service__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! src/app/services/user.service */ 73071);
+/* harmony import */ var src_app_services_vehicles_service__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! src/app/services/vehicles.service */ 66817);
+/* harmony import */ var _angular_common__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! @angular/common */ 36362);
+
+
 
 
 
@@ -32,26 +36,27 @@ __webpack_require__.r(__webpack_exports__);
 
 
 let RequestAdminNewComponent = class RequestAdminNewComponent {
-    constructor(vehiclesService, driversService, loginService, formBuilder, requestService, navCtrl) {
+    constructor(vehiclesService, driversService, loginService, formBuilder, requestService, navCtrl, userService, datepipe) {
         this.vehiclesService = vehiclesService;
         this.driversService = driversService;
         this.loginService = loginService;
         this.formBuilder = formBuilder;
         this.requestService = requestService;
         this.navCtrl = navCtrl;
-        this.sourceList = [];
-        this.departamentList = [];
-        this.dateList = [];
-        this.timeList = [];
-        this.geocoder = null;
+        this.userService = userService;
+        this.datepipe = datepipe;
+        this.autocompleteO = null;
+        this.autocompleteD = null;
+        this.driveSelected = 'Seleccionar';
+        this.typeD = ['administrative_area_level_1', 'political'];
+        this.typeM = ['locality', 'political'];
         this.data = new FormData();
         this.alertShow = false;
         this.buttonActivate = false;
     }
     ngOnInit() {
         this.formBuilderInput();
-        this.loadGoogle();
-        this.getListVehicles();
+        this.loadGooglePlace();
         this.getListDrivers();
     }
     getStatusField(field) {
@@ -68,55 +73,56 @@ let RequestAdminNewComponent = class RequestAdminNewComponent {
     }
     formBuilderInput() {
         this.form = this.formBuilder.group({
-            Origen: ['', [_angular_forms__WEBPACK_IMPORTED_MODULE_6__.Validators.required]],
-            Destino: ['', [_angular_forms__WEBPACK_IMPORTED_MODULE_6__.Validators.required]],
-            TimerStar: ['', [_angular_forms__WEBPACK_IMPORTED_MODULE_6__.Validators.required]],
-            TimerEnd: ['', [_angular_forms__WEBPACK_IMPORTED_MODULE_6__.Validators.required]],
-            DateTravels: ['', [_angular_forms__WEBPACK_IMPORTED_MODULE_6__.Validators.required]],
-            DriverId: ['', [_angular_forms__WEBPACK_IMPORTED_MODULE_6__.Validators.required]],
-            VehicleId: ['', [_angular_forms__WEBPACK_IMPORTED_MODULE_6__.Validators.required]],
+            Origen: ['', [_angular_forms__WEBPACK_IMPORTED_MODULE_7__.Validators.required]],
+            Destino: ['', [_angular_forms__WEBPACK_IMPORTED_MODULE_7__.Validators.required]],
+            TimerStar: ['', [_angular_forms__WEBPACK_IMPORTED_MODULE_7__.Validators.required]],
+            TimerEnd: ['', [_angular_forms__WEBPACK_IMPORTED_MODULE_7__.Validators.required]],
+            DateTravels: ['', [_angular_forms__WEBPACK_IMPORTED_MODULE_7__.Validators.required]],
+            DriverId: ['', [_angular_forms__WEBPACK_IMPORTED_MODULE_7__.Validators.required]],
+            VehicleId: [''],
             StatusRequest: ['1'],
             TravelsCode: ['1'],
             CodeRequest: ['1'],
-            DepartamentSource: [''],
-            DepartamentDestiny: ['']
+            DepartamentSource: ['', [_angular_forms__WEBPACK_IMPORTED_MODULE_7__.Validators.required]],
+            DepartamentDestiny: ['', [_angular_forms__WEBPACK_IMPORTED_MODULE_7__.Validators.required]]
         });
     }
-    loadGoogle() {
-        this.geocoder = new google.maps.Geocoder();
+    loadGooglePlace() {
+        this.activeGooglePlaceOrigin();
+        this.activeGooglePlaceDestiny();
+    }
+    activeGooglePlaceOrigin() {
+        let input = document.getElementById('input-origin');
+        this.autocompleteO = new google.maps.places.Autocomplete(input, { types: ['geocode', 'establishment'] });
+        google.maps.event.addListener(this.autocompleteO, 'place_changed', () => {
+            let place = this.autocompleteO.getPlace();
+            this.form.get('Origen').setValue(place.formatted_address);
+            for (let index = 0; index < place.address_components.length; index++) {
+                if (place.address_components[index].types[0] === this.typeD[0]) {
+                    this.form.get('DepartamentSource').setValue(place.address_components[index].long_name);
+                }
+            }
+        });
+    }
+    activeGooglePlaceDestiny() {
+        let input = document.getElementById('input-destiny');
+        this.autocompleteD = new google.maps.places.Autocomplete(input, { types: ['geocode', 'establishment'] });
+        google.maps.event.addListener(this.autocompleteD, 'place_changed', () => {
+            let place = this.autocompleteD.getPlace();
+            this.form.get('Destino').setValue(place.formatted_address);
+            for (let index = 0; index < place.address_components.length; index++) {
+                if (place.address_components[index].types[0] === this.typeD[0]) {
+                    this.form.get('DepartamentDestiny').setValue(place.address_components[index].long_name);
+                }
+            }
+        });
     }
     goMyRequest() {
         this.navCtrl.back();
     }
-    getListVehicles() {
-        this.vehiclesService.getVehicleList(this.loginService.profileUser.CompanyId).subscribe(data => {
-            this.vehicleList = data.data;
-        });
-    }
     getListDrivers() {
         this.driversService.getDriverList(this.loginService.profileUser.CompanyId).subscribe(data => {
             this.driverList = data.data;
-        });
-    }
-    codificacion(direccionText, tipo) {
-        return (0,tslib__WEBPACK_IMPORTED_MODULE_7__.__awaiter)(this, void 0, void 0, function* () {
-            return new Promise((resolve) => {
-                this.geocoder.geocode({
-                    address: direccionText
-                }).then((result) => {
-                    const { results } = result;
-                    if (tipo === 'Origen') {
-                        this.form.get('DepartamentSource').setValue(results[0].address_components[2].long_name);
-                        resolve(result);
-                    }
-                    else {
-                        this.form.get('DepartamentDestiny').setValue(results[0].address_components[2].long_name);
-                        resolve(result);
-                    }
-                }).catch((e) => {
-                    console.log(e);
-                });
-            });
         });
     }
     changTimeStar(event) {
@@ -126,54 +132,61 @@ let RequestAdminNewComponent = class RequestAdminNewComponent {
         this.form.get('TimerEnd').setValue(`${event.detail.hours}:${event.detail.minutes}`);
     }
     changeDateTime(event) {
-        this.form.get('DateTravels').setValue(`${event.detail.getDate()}-${event.detail.getMonth()}-${event.detail.getMonth()}`);
+        const fecha = this.datepipe.transform(event.detail, 'dd-MM-yyyy');
+        this.form.get('DateTravels').setValue(fecha);
     }
-    changeDriverId(event) {
-        this.form.get('DriverId').setValue(event.detail.value);
-    }
-    changeVehicleId(event) {
-        this.form.get('VehicleId').setValue(event.detail.value);
+    changeDriver(event) {
+        if (event.detail.value === '0') {
+            this.driveSelected = 'Seleccionar';
+            this.form.get('DriverId').setValue('');
+            this.form.get('VehicleId').setValue('');
+        }
+        else {
+            this.form.get('DriverId').setValue(event.detail.value);
+            this.userService.getUserDetail(event.detail.value).subscribe(data => {
+                this.vehiclesService.getVehicleById(data.data.lisenseVehicle).subscribe(dataV => {
+                    this.form.get('VehicleId').setValue(data.data.lisenseVehicle);
+                    this.driveSelected = dataV.data.licenseVehiculo;
+                });
+            });
+        }
     }
     searchTrips() {
-        return (0,tslib__WEBPACK_IMPORTED_MODULE_7__.__awaiter)(this, void 0, void 0, function* () {
+        return (0,tslib__WEBPACK_IMPORTED_MODULE_8__.__awaiter)(this, void 0, void 0, function* () {
+            alert(JSON.stringify(this.form.value));
             if (this.form.invalid) {
                 this.form.markAllAsTouched();
                 return;
             }
-            yield this.codificacion(this.getOrigin(), 'Origen');
-            yield this.codificacion(this.getDestino(), 'Destino');
             this.addFormData(this.form.value);
             this.requestService.createRequest(this.data).subscribe(() => {
                 this.alertShow = true;
             }, (error) => {
+                alert(JSON.stringify(error));
                 this.goMyRequest();
             });
         });
     }
     addFormData(objeto) {
-        return (0,tslib__WEBPACK_IMPORTED_MODULE_7__.__awaiter)(this, void 0, void 0, function* () {
+        return (0,tslib__WEBPACK_IMPORTED_MODULE_8__.__awaiter)(this, void 0, void 0, function* () {
             for (var key in objeto) {
                 this.data.append(key, objeto[key]);
             }
         });
     }
-    getOrigin() {
-        return this.form.get('Origen').value;
-    }
-    getDestino() {
-        return this.form.get('Destino').value;
-    }
 };
 RequestAdminNewComponent.ctorParameters = () => [
-    { type: _services_vehicles_service__WEBPACK_IMPORTED_MODULE_4__.VehiclesService },
+    { type: src_app_services_vehicles_service__WEBPACK_IMPORTED_MODULE_6__.VehiclesService },
     { type: _services_drivers_service__WEBPACK_IMPORTED_MODULE_3__.DriversService },
     { type: _services_auth_login_service__WEBPACK_IMPORTED_MODULE_2__.LoginService },
-    { type: _angular_forms__WEBPACK_IMPORTED_MODULE_6__.FormBuilder },
-    { type: _services_request_service__WEBPACK_IMPORTED_MODULE_5__.RequestService },
-    { type: _ionic_angular__WEBPACK_IMPORTED_MODULE_8__.NavController }
+    { type: _angular_forms__WEBPACK_IMPORTED_MODULE_7__.FormBuilder },
+    { type: _services_request_service__WEBPACK_IMPORTED_MODULE_4__.RequestService },
+    { type: _ionic_angular__WEBPACK_IMPORTED_MODULE_9__.NavController },
+    { type: src_app_services_user_service__WEBPACK_IMPORTED_MODULE_5__.UserService },
+    { type: _angular_common__WEBPACK_IMPORTED_MODULE_10__.DatePipe }
 ];
-RequestAdminNewComponent = (0,tslib__WEBPACK_IMPORTED_MODULE_7__.__decorate)([
-    (0,_angular_core__WEBPACK_IMPORTED_MODULE_9__.Component)({
+RequestAdminNewComponent = (0,tslib__WEBPACK_IMPORTED_MODULE_8__.__decorate)([
+    (0,_angular_core__WEBPACK_IMPORTED_MODULE_11__.Component)({
         selector: 'app-request-admin-new',
         template: _request_admin_new_component_html_ngResource__WEBPACK_IMPORTED_MODULE_0__,
         styles: [_request_admin_new_component_scss_ngResource__WEBPACK_IMPORTED_MODULE_1__]
@@ -397,18 +410,16 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "NewRequestPageModule": () => (/* binding */ NewRequestPageModule)
 /* harmony export */ });
-/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! tslib */ 34929);
-/* harmony import */ var _layout_layout_module__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./../../layout/layout.module */ 93077);
-/* harmony import */ var _cmx_web_components_angular__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @cmx-web-components/angular */ 6145);
-/* harmony import */ var _components_request_drive_new_request_drive_new_component__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./components/request-drive-new/request-drive-new.component */ 72172);
-/* harmony import */ var _components_request_admin_new_request_admin_new_component__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./components/request-admin-new/request-admin-new.component */ 99323);
-/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @angular/core */ 3184);
-/* harmony import */ var _angular_common__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! @angular/common */ 36362);
-/* harmony import */ var _angular_forms__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! @angular/forms */ 90587);
-/* harmony import */ var _ionic_angular__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! @ionic/angular */ 93819);
-/* harmony import */ var _new_request_routing_module__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./new-request-routing.module */ 90073);
-/* harmony import */ var _new_request_page__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./new-request.page */ 21814);
-
+/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! tslib */ 34929);
+/* harmony import */ var _cmx_web_components_angular__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @cmx-web-components/angular */ 6145);
+/* harmony import */ var _components_request_drive_new_request_drive_new_component__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./components/request-drive-new/request-drive-new.component */ 72172);
+/* harmony import */ var _components_request_admin_new_request_admin_new_component__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./components/request-admin-new/request-admin-new.component */ 99323);
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @angular/core */ 3184);
+/* harmony import */ var _angular_common__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @angular/common */ 36362);
+/* harmony import */ var _angular_forms__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! @angular/forms */ 90587);
+/* harmony import */ var _ionic_angular__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! @ionic/angular */ 93819);
+/* harmony import */ var _new_request_routing_module__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./new-request-routing.module */ 90073);
+/* harmony import */ var _new_request_page__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./new-request.page */ 21814);
 
 
 
@@ -421,20 +432,19 @@ __webpack_require__.r(__webpack_exports__);
 
 let NewRequestPageModule = class NewRequestPageModule {
 };
-NewRequestPageModule = (0,tslib__WEBPACK_IMPORTED_MODULE_6__.__decorate)([
-    (0,_angular_core__WEBPACK_IMPORTED_MODULE_7__.NgModule)({
+NewRequestPageModule = (0,tslib__WEBPACK_IMPORTED_MODULE_5__.__decorate)([
+    (0,_angular_core__WEBPACK_IMPORTED_MODULE_6__.NgModule)({
         imports: [
-            _angular_common__WEBPACK_IMPORTED_MODULE_8__.CommonModule,
-            _angular_forms__WEBPACK_IMPORTED_MODULE_9__.FormsModule,
-            _ionic_angular__WEBPACK_IMPORTED_MODULE_10__.IonicModule,
-            _new_request_routing_module__WEBPACK_IMPORTED_MODULE_4__.NewRequestPageRoutingModule,
-            _cmx_web_components_angular__WEBPACK_IMPORTED_MODULE_1__.CmxWebComponentsModule.forRoot(),
-            _layout_layout_module__WEBPACK_IMPORTED_MODULE_0__.LayoutPageModule,
-            _angular_forms__WEBPACK_IMPORTED_MODULE_9__.ReactiveFormsModule
+            _angular_common__WEBPACK_IMPORTED_MODULE_7__.CommonModule,
+            _angular_forms__WEBPACK_IMPORTED_MODULE_8__.FormsModule,
+            _ionic_angular__WEBPACK_IMPORTED_MODULE_9__.IonicModule,
+            _new_request_routing_module__WEBPACK_IMPORTED_MODULE_3__.NewRequestPageRoutingModule,
+            _cmx_web_components_angular__WEBPACK_IMPORTED_MODULE_0__.CmxWebComponentsModule.forRoot(),
+            _angular_forms__WEBPACK_IMPORTED_MODULE_8__.ReactiveFormsModule
         ],
-        declarations: [_new_request_page__WEBPACK_IMPORTED_MODULE_5__.NewRequestPage,
-            _components_request_admin_new_request_admin_new_component__WEBPACK_IMPORTED_MODULE_3__.RequestAdminNewComponent,
-            _components_request_drive_new_request_drive_new_component__WEBPACK_IMPORTED_MODULE_2__.RequestDriveNewComponent]
+        declarations: [_new_request_page__WEBPACK_IMPORTED_MODULE_4__.NewRequestPage,
+            _components_request_admin_new_request_admin_new_component__WEBPACK_IMPORTED_MODULE_2__.RequestAdminNewComponent,
+            _components_request_drive_new_request_drive_new_component__WEBPACK_IMPORTED_MODULE_1__.RequestDriveNewComponent]
     })
 ], NewRequestPageModule);
 
@@ -498,7 +508,7 @@ NewRequestPage = (0,tslib__WEBPACK_IMPORTED_MODULE_4__.__decorate)([
   \*************************************************************************************************************************/
 /***/ ((module) => {
 
-module.exports = ".content-card {\n  padding-top: 0.5rem;\n  padding-left: 1.5rem;\n  padding-right: 1.5rem;\n  padding-bottom: 1rem;\n  flex: 1 1 auto;\n  overflow: auto;\n}\n\n.content-title {\n  padding-top: 1rem;\n  font-weight: 700;\n}\n\n.content-grid-register {\n  overflow: auto;\n  justify-content: center !important;\n}\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInJlcXVlc3QtYWRtaW4tbmV3LmNvbXBvbmVudC5zY3NzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiJBQUFBO0VBQ0ksbUJBQUE7RUFDQSxvQkFBQTtFQUNBLHFCQUFBO0VBQ0Esb0JBQUE7RUFDQSxjQUFBO0VBQ0EsY0FBQTtBQUNKOztBQUVBO0VBQ0ksaUJBQUE7RUFDQSxnQkFBQTtBQUNKOztBQUVBO0VBRUksY0FBQTtFQUNBLGtDQUFBO0FBQUoiLCJmaWxlIjoicmVxdWVzdC1hZG1pbi1uZXcuY29tcG9uZW50LnNjc3MiLCJzb3VyY2VzQ29udGVudCI6WyIuY29udGVudC1jYXJke1xyXG4gICAgcGFkZGluZy10b3A6IDAuNXJlbTtcclxuICAgIHBhZGRpbmctbGVmdDogMS41cmVtO1xyXG4gICAgcGFkZGluZy1yaWdodDogMS41cmVtOyBcclxuICAgIHBhZGRpbmctYm90dG9tOiAxcmVtO1xyXG4gICAgZmxleDogMSAxIGF1dG87XHJcbiAgICBvdmVyZmxvdzogYXV0bztcclxuIH1cclxuXHJcbi5jb250ZW50LXRpdGxle1xyXG4gICAgcGFkZGluZy10b3A6IDFyZW07XHJcbiAgICBmb250LXdlaWdodDogNzAwO1xyXG59XHJcblxyXG4uY29udGVudC1ncmlkLXJlZ2lzdGVye1xyXG4gICAgLy8gZGlzcGxheTogZmxleCAhaW1wb3J0YW50O1xyXG4gICAgb3ZlcmZsb3c6IGF1dG87XHJcbiAgICBqdXN0aWZ5LWNvbnRlbnQ6IGNlbnRlciAhaW1wb3J0YW50O1xyXG4gICAgLy8gYWxpZ24taXRlbXM6IGNlbnRlciAhaW1wb3J0YW50O1xyXG4gfSJdfQ== */";
+module.exports = ".content-card {\n  padding-top: 1rem;\n  padding-left: 1.5rem;\n  padding-right: 1.5rem;\n  padding-bottom: 1rem;\n  flex: 1 1 auto;\n  overflow: auto;\n}\n\n.content-title {\n  padding-top: 1rem;\n  font-weight: 700;\n}\n\n.content-grid-register {\n  overflow: auto;\n  justify-content: center !important;\n}\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInJlcXVlc3QtYWRtaW4tbmV3LmNvbXBvbmVudC5zY3NzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiJBQUFBO0VBQ0ksaUJBQUE7RUFDQSxvQkFBQTtFQUNBLHFCQUFBO0VBQ0Esb0JBQUE7RUFDQSxjQUFBO0VBQ0EsY0FBQTtBQUNKOztBQUVBO0VBQ0ksaUJBQUE7RUFDQSxnQkFBQTtBQUNKOztBQUVBO0VBRUksY0FBQTtFQUNBLGtDQUFBO0FBQUoiLCJmaWxlIjoicmVxdWVzdC1hZG1pbi1uZXcuY29tcG9uZW50LnNjc3MiLCJzb3VyY2VzQ29udGVudCI6WyIuY29udGVudC1jYXJke1xyXG4gICAgcGFkZGluZy10b3A6IDFyZW07XHJcbiAgICBwYWRkaW5nLWxlZnQ6IDEuNXJlbTtcclxuICAgIHBhZGRpbmctcmlnaHQ6IDEuNXJlbTsgXHJcbiAgICBwYWRkaW5nLWJvdHRvbTogMXJlbTtcclxuICAgIGZsZXg6IDEgMSBhdXRvO1xyXG4gICAgb3ZlcmZsb3c6IGF1dG87XHJcbiB9XHJcblxyXG4uY29udGVudC10aXRsZXtcclxuICAgIHBhZGRpbmctdG9wOiAxcmVtO1xyXG4gICAgZm9udC13ZWlnaHQ6IDcwMDtcclxufVxyXG5cclxuLmNvbnRlbnQtZ3JpZC1yZWdpc3RlcntcclxuICAgIC8vIGRpc3BsYXk6IGZsZXggIWltcG9ydGFudDtcclxuICAgIG92ZXJmbG93OiBhdXRvO1xyXG4gICAganVzdGlmeS1jb250ZW50OiBjZW50ZXIgIWltcG9ydGFudDtcclxuICAgIC8vIGFsaWduLWl0ZW1zOiBjZW50ZXIgIWltcG9ydGFudDtcclxuIH0iXX0= */";
 
 /***/ }),
 
@@ -528,7 +538,7 @@ module.exports = ".header-text {\n  display: flex;\n  align-items: flex-start;\n
   \*************************************************************************************************************************/
 /***/ ((module) => {
 
-module.exports = "<div slot=\"main\" class=\"content-card\">\r\n  <form [formGroup]=\"form\">\r\n    <cwc-grid class=\"demo-grid\" design-version=\"v2\" row-gap=\"5px\" columns=\"12\" mobile-columns=\"12\" style=\"margin-top: 1rem;\">\r\n        <cwc-cell colspan=\"12\" mobile-colspan=\"12\">\r\n          <cwc-input\r\n            formControlName=\"Origen\"\r\n            [status]=\"getStatusField('Origen')\"\r\n            [statusMessage]=\"getMsgField('Origen', 'origen')\"\r\n            style=\"width: 100%;\"\r\n            label='Origen (Municipio)'\r\n            design-version=\"v2\">\r\n            </cwc-input>\r\n          </cwc-cell>\r\n        <cwc-cell colspan=\"12\" mobile-colspan=\"12\">\r\n          <cwc-input\r\n            formControlName=\"Destino\"\r\n            [status]=\"getStatusField('Destino')\"\r\n            [statusMessage]=\"getMsgField('Destino', 'destino')\"\r\n            style=\"width: 100%;\"\r\n            label='Destino (Municipio)'\r\n            design-version=\"v2\">\r\n            </cwc-input>\r\n        </cwc-cell>\r\n        <cwc-cell class=\"flex flex__align--bullseye\" mobile-colspan=\"12\">          \r\n          <div style=\"text-align: center; padding-bottom: 1rem; font-weight: 900;\" >Rango de Hora</div>\r\n        </cwc-cell>\r\n        <cwc-cell mobile-colspan=\"6\" class=\"flex flex__align--center\">\r\n          <cwc-input-time\r\n            formControlName=\"TimerStar\"\r\n            label='Hora (Inicio)'\r\n            [status]=\"getStatusField('TimerStar')\"\r\n            [statusMessage]=\"getMsgField('TimerStar', 'tiempo de inicio')\"\r\n            (cwcChange)=\"changTimeStar($event)\"\r\n            placeholder=\"--:--\"\r\n            design-version=\"v2\">\r\n          </cwc-input-time>\r\n        </cwc-cell>\r\n        <cwc-cell mobile-colspan=\"6\" class=\"flex flex__align--center\">\r\n          <cwc-input-time\r\n            formControlName=\"TimerEnd\"\r\n            label='Hora (Inicio)'\r\n            [status]=\"getStatusField('TimerEnd')\"\r\n            [statusMessage]=\"getMsgField('TimerEnd', 'tiempo final')\"\r\n            (cwcChange)=\"changeTimeEnd($event)\"\r\n            placeholder=\"--:--\"\r\n            design-version=\"v2\">\r\n          </cwc-input-time>\r\n        </cwc-cell>\r\n        <cwc-cell class=\"flex flex__align--bullseye\" mobile-colspan=\"12\">          \r\n          <div style=\"text-align: center; padding-bottom: 0.5rem; font-weight: 900;\" >Fecha</div>\r\n        </cwc-cell>\r\n        <cwc-cell colspan=\"12\" mobile-colspan=\"12\">\r\n          <cwc-input-date\r\n            return-format=\"date\"\r\n            hover-range=\"multiple-week\"\r\n            formControlName=\"DateTravels\"\r\n            [status]=\"getStatusField('DateTravels')\"\r\n            (cwcChange)=\"changeDateTime($event)\"\r\n            style=\"width: 100%;\"\r\n            placeholder=\"Seleccionar fecha\"\r\n            [statusMessage]=\"getMsgField('DateTravels', 'fecha')\"\r\n            design-version=\"v2\">\r\n          </cwc-input-date>\r\n        </cwc-cell>\r\n        <cwc-cell colspan=\"12\" mobile-colspan=\"12\">\r\n          <cwc-select\r\n            formControlName=\"DriverId\"\r\n            [status]=\"getStatusField('DriverId')\"\r\n            [statusMessage]=\"getMsgField('DriverId', 'conductor')\"\r\n            (cwcChange)=\"changeDriverId($event)\"\r\n            style=\"width: 100%;\"\r\n            label='Conductor'\r\n            design-version=\"v2\">\r\n            <cwc-select-option value=\"0\" selected=\"\">Seleccionar</cwc-select-option>\r\n            <cwc-select-option [value]=\"driver.id\" *ngFor=\"let driver of driverList\" >{{driver.firstLastName}}</cwc-select-option>\r\n            </cwc-select>\r\n        </cwc-cell>\r\n        <cwc-cell colspan=\"12\" mobile-colspan=\"12\">\r\n            <cwc-select\r\n              formControlName=\"VehicleId\"\r\n              [status]=\"getStatusField('VehicleId')\"\r\n              [statusMessage]=\"getMsgField('VehicleId', 'vehiculo')\"\r\n              (cwcChange)=\"changeVehicleId($event)\" \r\n              style=\"width: 100%;\"\r\n              label='Vehiculo'\r\n              design-version=\"v2\">\r\n              <cwc-select-option value=\"0\" selected=\"\">Seleccionar</cwc-select-option>\r\n              <cwc-select-option [value]=\"vehicle.id\" *ngFor=\"let vehicle of vehicleList\" >{{vehicle.model}}</cwc-select-option>\r\n              </cwc-select>\r\n        </cwc-cell>\r\n        <cwc-cell colspan=\"12\" mobile-colspan=\"12\">\r\n          <div class=\"content-button\">\r\n            <cwc-button\r\n            (cwcClick)=\"searchTrips()\"\r\n            [disabled]=\"form.invalid\"\r\n            design-version=\"v1\"\r\n            variant=\"regular-block\">ENVIAR SOLICITUD</cwc-button>\r\n          </div>\r\n        </cwc-cell>        \r\n    </cwc-grid> \r\n  </form>\r\n</div>\r\n\r\n<cwc-modal id='alert-modal-succes' [open]=\"alertShow\" close-on-bd-click=\"false\" show-close-btn=\"false\" (cwcClose)=\"goMyRequest()\">\r\n  <div style='text-align: center'>\r\n      <cwc-icon name='accepted-ok' size='120px' color='bright-green'></cwc-icon>\r\n      <h4 class='modal--confirmation__message'>La solicitud ha sido enviada correctamente.</h4>\r\n  </div>\r\n  <footer slot='footer'>\r\n    <div style='text-align: center'>\r\n        <cwc-button variant='link' (click)=\"goMyRequest()\" routerLinkActive=\"router-link-active\">\r\n          <div style=\"color: #7AC943; font-size: large; padding-bottom: 1rem;\" >Regresar</div>\r\n        </cwc-button>\r\n    </div>\r\n</footer>\r\n</cwc-modal>\r\n";
+module.exports = "<div slot=\"main\" class=\"content-card\">\r\n  <form [formGroup]=\"form\">\r\n    <cwc-grid class=\"demo-grid\" design-version=\"v2\" row-gap=\"5px\" columns=\"12\" mobile-columns=\"12\" style=\"margin-top: 1rem;\">\r\n        <cwc-cell colspan=\"12\" mobile-colspan=\"12\">\r\n          <cwc-input\r\n            [status]=\"getStatusField('Origen')\"\r\n            [statusMessage]=\"getMsgField('Origen', 'origen')\"\r\n            id=\"input-origin\"\r\n            style=\"width: 100%;\"\r\n            label='Origen (Municipio)'\r\n            design-version=\"v2\">\r\n            </cwc-input>\r\n          </cwc-cell>\r\n        <cwc-cell colspan=\"12\" mobile-colspan=\"12\">\r\n          <cwc-input\r\n            [status]=\"getStatusField('Destino')\"\r\n            [statusMessage]=\"getMsgField('Destino', 'destino')\"\r\n            id=\"input-destiny\"\r\n            style=\"width: 100%;\"\r\n            label='Destino (Municipio)'\r\n            design-version=\"v2\">\r\n            </cwc-input>\r\n        </cwc-cell>\r\n        <cwc-cell class=\"flex flex__align--bullseye\" mobile-colspan=\"12\">          \r\n          <div style=\"text-align: center; padding-bottom: 1rem; font-weight: 900;\" >Rango de Hora</div>\r\n        </cwc-cell>\r\n        <cwc-cell mobile-colspan=\"6\" class=\"flex flex__align--center\">\r\n          <cwc-input-time\r\n            formControlName=\"TimerStar\"\r\n            label='Hora (Inicio)'\r\n            [status]=\"getStatusField('TimerStar')\"\r\n            [statusMessage]=\"getMsgField('TimerStar', 'tiempo de inicio')\"\r\n            (cwcChange)=\"changTimeStar($event)\"\r\n            placeholder=\"--:--\"\r\n            design-version=\"v2\">\r\n          </cwc-input-time>\r\n        </cwc-cell>\r\n        <cwc-cell mobile-colspan=\"6\" class=\"flex flex__align--center\">\r\n          <cwc-input-time\r\n            formControlName=\"TimerEnd\"\r\n            label='Hora (Fin)'\r\n            [status]=\"getStatusField('TimerEnd')\"\r\n            [statusMessage]=\"getMsgField('TimerEnd', 'tiempo final')\"\r\n            (cwcChange)=\"changeTimeEnd($event)\"\r\n            placeholder=\"--:--\"\r\n            design-version=\"v2\">\r\n          </cwc-input-time>\r\n        </cwc-cell>\r\n        <cwc-cell class=\"flex flex__align--bullseye\" mobile-colspan=\"12\">          \r\n          <div style=\"text-align: center; padding-bottom: 0.5rem; font-weight: 900;\" >Fecha</div>\r\n        </cwc-cell>\r\n        <cwc-cell colspan=\"12\" mobile-colspan=\"12\">\r\n          <cwc-input-date\r\n            formControlName=\"DateTravels\"\r\n            [status]=\"getStatusField('DateTravels')\"\r\n            (cwcChange)=\"changeDateTime($event)\"\r\n            style=\"width: 100%;\"\r\n            placeholder=\"Seleccionar fecha\"\r\n            [statusMessage]=\"getMsgField('DateTravels', 'fecha')\"\r\n            design-version=\"v2\">\r\n          </cwc-input-date>\r\n        </cwc-cell>\r\n        <cwc-cell colspan=\"12\" mobile-colspan=\"12\">\r\n          <cwc-select\r\n            formControlName=\"DriverId\"\r\n            [status]=\"getStatusField('DriverId')\"\r\n            [statusMessage]=\"getMsgField('DriverId', 'conductor')\"\r\n            (cwcChange)=\"changeDriver($event)\"\r\n            style=\"width: 100%;\"\r\n            label='Conductor'\r\n            design-version=\"v2\">\r\n            <cwc-select-option value=\"0\" selected=\"\">Seleccionar</cwc-select-option>\r\n            <cwc-select-option [value]=\"driver.id\" *ngFor=\"let driver of driverList\" >{{driver.firstLastName}}</cwc-select-option>\r\n            </cwc-select>\r\n        </cwc-cell>\r\n        <cwc-cell colspan=\"12\" mobile-colspan=\"12\">\r\n            <cwc-input\r\n              style=\"width: 100%;\"\r\n              design-version=\"v1\"\r\n              label='Vehiculo'\r\n              [value]=\"driveSelected\"\r\n              class='input-update-user'\r\n              disabled=\"true\"\r\n              placeholder=\"Seleccionar\">\r\n              </cwc-input>\r\n        </cwc-cell>\r\n        <cwc-cell colspan=\"12\" mobile-colspan=\"12\">\r\n          <div class=\"content-button\">\r\n            <cwc-button\r\n            (cwcClick)=\"searchTrips()\"\r\n            [disabled]=\"form.invalid\"\r\n            design-version=\"v1\"\r\n            variant=\"regular-block\">ENVIAR SOLICITUD</cwc-button>\r\n          </div>\r\n        </cwc-cell>        \r\n    </cwc-grid> \r\n  </form>\r\n</div>\r\n\r\n<cwc-modal id='alert-modal-succes' [open]=\"alertShow\" close-on-bd-click=\"false\" show-close-btn=\"false\" (cwcClose)=\"goMyRequest()\">\r\n  <div style='text-align: center'>\r\n      <cwc-icon name='accepted-ok' size='120px' color='bright-green'></cwc-icon>\r\n      <h4 class='modal--confirmation__message'>La solicitud ha sido enviada correctamente.</h4>\r\n  </div>\r\n  <footer slot='footer'>\r\n    <div style='text-align: center'>\r\n        <cwc-button variant='link' (click)=\"goMyRequest()\" routerLinkActive=\"router-link-active\">\r\n          <div style=\"color: #7AC943; font-size: large; padding-bottom: 1rem;\" >Regresar</div>\r\n        </cwc-button>\r\n    </div>\r\n</footer>\r\n</cwc-modal>\r\n";
 
 /***/ }),
 

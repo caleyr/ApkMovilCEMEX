@@ -14,8 +14,20 @@
     </cwc-cell>    
   </cwc-grid>  
   <h6 class="text-vehicles">Conductores ({{driversList.length}})</h6>
-  <div class="navbar">
-    <app-driver-list [drivers]="driversList"></app-driver-list>
-  </div>  
+  <ion-content>
+    <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+      <ion-refresher-content></ion-refresher-content>
+    </ion-refresher>
+    <div class="navbar">    
+      <app-driver-list [drivers]="driversList"></app-driver-list>
+    </div>  
+  </ion-content>
+  
   <cwc-button class="float" routerLink="agregar" design-version="v2" size="large" variant="ghost" ratio="square" trailing-icon="plus"></cwc-button>
 </app-layout>
+
+<div class="loading-content" *ngIf="loading">
+  <cwc-loader>
+    <span slot='loading'>Espere un momento...</span>
+  </cwc-loader>
+</div>

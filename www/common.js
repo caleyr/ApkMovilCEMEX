@@ -180,6 +180,11 @@ let DriversService = class DriversService {
             this._refresh$.next();
         }));
     }
+    confirmDrive(id, data) {
+        return this.http.doPutFormData(`${URL}/api/travels/ConfirmTravelByUser/${id}`, data, {}).pipe((0,rxjs_operators__WEBPACK_IMPORTED_MODULE_3__.tap)(() => {
+            this._refresh$.next();
+        }));
+    }
     getDriverById(id) {
         return this.http.doGet(`${URL}/api/authentication/GetUserDetail/${id}`, {});
     }
@@ -213,11 +218,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "TravelService": () => (/* binding */ TravelService)
 /* harmony export */ });
-/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! tslib */ 34929);
+/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! tslib */ 34929);
 /* harmony import */ var rxjs__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! rxjs */ 92218);
-/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @angular/core */ 3184);
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @angular/core */ 3184);
 /* harmony import */ var _http_http_service__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../http/http.service */ 3755);
 /* harmony import */ var src_environments_environment_prod__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! src/environments/environment.prod */ 89019);
+/* harmony import */ var rxjs_operators__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! rxjs/operators */ 88759);
+
 
 
 
@@ -257,7 +264,14 @@ let TravelService = class TravelService {
         return this.http.doPostFormData(`${BASE_URL_API}/api/travelRequests/`, data, {});
     }
     updateTravel(id, data) {
-        return this.http.doPutFormData(`${BASE_URL_API}/api/travels/AssignmentsTravelDriver/${id}`, data, {});
+        return this.http.doPutFormData(`${BASE_URL_API}/api/travels/AssignmentsTravelDriver/${id}`, data, {}).pipe((0,rxjs_operators__WEBPACK_IMPORTED_MODULE_3__.tap)(() => {
+            this._refresh$.next();
+        }));
+    }
+    startTravel(id, data) {
+        return this.http.doPutFormData(`${BASE_URL_API}/api/travels/StarProcessTravelByUser/${id}`, data, {}).pipe((0,rxjs_operators__WEBPACK_IMPORTED_MODULE_3__.tap)(() => {
+            this._refresh$.next();
+        }));
     }
     getFilterTravelByIdDriver(id) {
         return this.http.doGet(`${BASE_URL_API}/api/travels/GetFilterTravelByIdDriver/${id}`, {});
@@ -269,11 +283,51 @@ let TravelService = class TravelService {
 TravelService.ctorParameters = () => [
     { type: _http_http_service__WEBPACK_IMPORTED_MODULE_0__.HttpService }
 ];
-TravelService = (0,tslib__WEBPACK_IMPORTED_MODULE_3__.__decorate)([
-    (0,_angular_core__WEBPACK_IMPORTED_MODULE_4__.Injectable)({
+TravelService = (0,tslib__WEBPACK_IMPORTED_MODULE_4__.__decorate)([
+    (0,_angular_core__WEBPACK_IMPORTED_MODULE_5__.Injectable)({
         providedIn: 'root'
     })
 ], TravelService);
+
+
+
+/***/ }),
+
+/***/ 73071:
+/*!******************************************!*\
+  !*** ./src/app/services/user.service.ts ***!
+  \******************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "UserService": () => (/* binding */ UserService)
+/* harmony export */ });
+/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! tslib */ 34929);
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @angular/core */ 3184);
+/* harmony import */ var src_environments_environment_prod__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! src/environments/environment.prod */ 89019);
+/* harmony import */ var _http_http_service__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./http/http.service */ 3755);
+
+
+
+
+const BASE_URL_API = src_environments_environment_prod__WEBPACK_IMPORTED_MODULE_0__.environment.url;
+let UserService = class UserService {
+    constructor(http) {
+        this.http = http;
+    }
+    getUserDetail(id) {
+        return this.http.doGet(`${BASE_URL_API}/api/authentication/GetUserDetail/${id}`, {});
+    }
+};
+UserService.ctorParameters = () => [
+    { type: _http_http_service__WEBPACK_IMPORTED_MODULE_1__.HttpService }
+];
+UserService = (0,tslib__WEBPACK_IMPORTED_MODULE_2__.__decorate)([
+    (0,_angular_core__WEBPACK_IMPORTED_MODULE_3__.Injectable)({
+        providedIn: 'root'
+    })
+], UserService);
 
 
 
@@ -311,7 +365,7 @@ let VehiclesService = class VehiclesService {
         return this._refresh$;
     }
     createVehicle(data) {
-        return this.http.doPost(`${URL}/api/vehicles`, data, {});
+        return this.http.doPostFormData(`${URL}/api/vehicles`, data, {});
     }
     updateVehicle(id, data) {
         return this.http.doPutFormData(`${URL}/api/vehicles/${id}`, data, {}).pipe((0,rxjs_operators__WEBPACK_IMPORTED_MODULE_3__.tap)(() => {

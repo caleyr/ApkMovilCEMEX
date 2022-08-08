@@ -11,12 +11,14 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "MyTravelsAdminComponent": () => (/* binding */ MyTravelsAdminComponent)
 /* harmony export */ });
-/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! tslib */ 34929);
+/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! tslib */ 34929);
 /* harmony import */ var _my_travels_admin_component_html_ngResource__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./my-travels-admin.component.html?ngResource */ 81508);
 /* harmony import */ var _my_travels_admin_component_scss_ngResource__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./my-travels-admin.component.scss?ngResource */ 54858);
-/* harmony import */ var _services_travels_travel_service__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./../../../../services/travels/travel.service */ 74894);
-/* harmony import */ var src_app_services_auth_login_service__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! src/app/services/auth/login.service */ 52876);
-/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @angular/core */ 3184);
+/* harmony import */ var _services_active_tabs_service__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./../../../../services/active-tabs.service */ 6109);
+/* harmony import */ var _services_travels_travel_service__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./../../../../services/travels/travel.service */ 74894);
+/* harmony import */ var src_app_services_auth_login_service__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! src/app/services/auth/login.service */ 52876);
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @angular/core */ 3184);
+
 
 
 
@@ -24,21 +26,26 @@ __webpack_require__.r(__webpack_exports__);
 
 
 let MyTravelsAdminComponent = class MyTravelsAdminComponent {
-    constructor(loginService, travelService) {
+    constructor(loginService, travelService, activeTabsService) {
         this.loginService = loginService;
         this.travelService = travelService;
-        this.selectedTab = 'anteriores';
+        this.activeTabsService = activeTabsService;
         this.previousTripsList = [];
         this.scheduledTripsList = [];
         this.requestTripsList = [];
     }
-    ionViewWillEnter() {
+    ngOnInit() {
+        this.selectedTab = this.activeTabsService.myTravelsTab !== null ? this.activeTabsService.myTravelsTab : 'programados';
         this.companyId = this.loginService.profileUser.CompanyId;
         this.getData();
     }
-    ngOnInit() {
+    ionViewWillEnter() {
+        this.selectedTab = this.activeTabsService.myTravelsTab !== null ? this.activeTabsService.myTravelsTab : 'programados';
         this.companyId = this.loginService.profileUser.CompanyId;
         this.getData();
+    }
+    ionViewWillUnload() {
+        this.activeTabsService.myTravelsTab = this.selectedTab;
     }
     getData() {
         this.travelService.getFilterTravelByAdmonTercero(this.companyId).subscribe(data => {
@@ -58,11 +65,12 @@ let MyTravelsAdminComponent = class MyTravelsAdminComponent {
     }
 };
 MyTravelsAdminComponent.ctorParameters = () => [
-    { type: src_app_services_auth_login_service__WEBPACK_IMPORTED_MODULE_3__.LoginService },
-    { type: _services_travels_travel_service__WEBPACK_IMPORTED_MODULE_2__.TravelService }
+    { type: src_app_services_auth_login_service__WEBPACK_IMPORTED_MODULE_4__.LoginService },
+    { type: _services_travels_travel_service__WEBPACK_IMPORTED_MODULE_3__.TravelService },
+    { type: _services_active_tabs_service__WEBPACK_IMPORTED_MODULE_2__.ActiveTabsService }
 ];
-MyTravelsAdminComponent = (0,tslib__WEBPACK_IMPORTED_MODULE_4__.__decorate)([
-    (0,_angular_core__WEBPACK_IMPORTED_MODULE_5__.Component)({
+MyTravelsAdminComponent = (0,tslib__WEBPACK_IMPORTED_MODULE_5__.__decorate)([
+    (0,_angular_core__WEBPACK_IMPORTED_MODULE_6__.Component)({
         selector: 'app-my-travels-admin',
         template: _my_travels_admin_component_html_ngResource__WEBPACK_IMPORTED_MODULE_0__,
         styles: [_my_travels_admin_component_scss_ngResource__WEBPACK_IMPORTED_MODULE_1__]
@@ -83,12 +91,14 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "MyTravelsDriveComponent": () => (/* binding */ MyTravelsDriveComponent)
 /* harmony export */ });
-/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! tslib */ 34929);
+/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! tslib */ 34929);
 /* harmony import */ var _my_travels_drive_component_html_ngResource__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./my-travels-drive.component.html?ngResource */ 25810);
 /* harmony import */ var _my_travels_drive_component_scss_ngResource__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./my-travels-drive.component.scss?ngResource */ 93203);
-/* harmony import */ var _services_travels_travel_service__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./../../../../services/travels/travel.service */ 74894);
-/* harmony import */ var src_app_services_auth_login_service__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! src/app/services/auth/login.service */ 52876);
-/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @angular/core */ 3184);
+/* harmony import */ var _services_active_tabs_service__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./../../../../services/active-tabs.service */ 6109);
+/* harmony import */ var _services_travels_travel_service__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./../../../../services/travels/travel.service */ 74894);
+/* harmony import */ var src_app_services_auth_login_service__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! src/app/services/auth/login.service */ 52876);
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @angular/core */ 3184);
+
 
 
 
@@ -96,20 +106,25 @@ __webpack_require__.r(__webpack_exports__);
 
 
 let MyTravelsDriveComponent = class MyTravelsDriveComponent {
-    constructor(loginService, travelService) {
+    constructor(loginService, travelService, activeTabsService) {
         this.loginService = loginService;
         this.travelService = travelService;
-        this.selectedTab = 'anteriores';
+        this.activeTabsService = activeTabsService;
         this.previousTripsList = [];
         this.scheduledTripsList = [];
     }
-    ionViewWillEnter() {
+    ngOnInit() {
+        this.selectedTab = this.activeTabsService.myTravelsTab !== null ? this.activeTabsService.myTravelsTab : 'programados';
         this.userId = this.loginService.profileUser.id;
         this.getData();
     }
-    ngOnInit() {
+    ionViewWillEnter() {
+        this.selectedTab = this.activeTabsService.myTravelsTab !== null ? this.activeTabsService.myTravelsTab : 'programados';
         this.userId = this.loginService.profileUser.id;
         this.getData();
+    }
+    ionViewWillUnload() {
+        this.activeTabsService.myTravelsTab = this.selectedTab;
     }
     getData() {
         this.travelService.getFilterTravelByIdDriver(this.userId).subscribe(data => {
@@ -128,11 +143,12 @@ let MyTravelsDriveComponent = class MyTravelsDriveComponent {
     }
 };
 MyTravelsDriveComponent.ctorParameters = () => [
-    { type: src_app_services_auth_login_service__WEBPACK_IMPORTED_MODULE_3__.LoginService },
-    { type: _services_travels_travel_service__WEBPACK_IMPORTED_MODULE_2__.TravelService }
+    { type: src_app_services_auth_login_service__WEBPACK_IMPORTED_MODULE_4__.LoginService },
+    { type: _services_travels_travel_service__WEBPACK_IMPORTED_MODULE_3__.TravelService },
+    { type: _services_active_tabs_service__WEBPACK_IMPORTED_MODULE_2__.ActiveTabsService }
 ];
-MyTravelsDriveComponent = (0,tslib__WEBPACK_IMPORTED_MODULE_4__.__decorate)([
-    (0,_angular_core__WEBPACK_IMPORTED_MODULE_5__.Component)({
+MyTravelsDriveComponent = (0,tslib__WEBPACK_IMPORTED_MODULE_5__.__decorate)([
+    (0,_angular_core__WEBPACK_IMPORTED_MODULE_6__.Component)({
         selector: 'app-my-travels-drive',
         template: _my_travels_drive_component_html_ngResource__WEBPACK_IMPORTED_MODULE_0__,
         styles: [_my_travels_drive_component_scss_ngResource__WEBPACK_IMPORTED_MODULE_1__]
@@ -259,13 +275,15 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "ScheduledTripsListComponent": () => (/* binding */ ScheduledTripsListComponent)
 /* harmony export */ });
-/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! tslib */ 34929);
+/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! tslib */ 34929);
 /* harmony import */ var _scheduled_trips_list_component_html_ngResource__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./scheduled-trips-list.component.html?ngResource */ 42361);
 /* harmony import */ var _scheduled_trips_list_component_scss_ngResource__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./scheduled-trips-list.component.scss?ngResource */ 60265);
 /* harmony import */ var _services_auth_login_service__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./../../../../services/auth/login.service */ 52876);
 /* harmony import */ var _ionic_angular__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @ionic/angular */ 93819);
 /* harmony import */ var _services_travels_travel_service__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./../../../../services/travels/travel.service */ 74894);
-/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @angular/core */ 3184);
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @angular/core */ 3184);
+/* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @angular/router */ 52816);
+
 
 
 
@@ -274,25 +292,32 @@ __webpack_require__.r(__webpack_exports__);
 
 
 let ScheduledTripsListComponent = class ScheduledTripsListComponent {
-    constructor(travelService, loginService, navCtrl) {
+    constructor(travelService, loginService, navCtrl, router) {
         this.travelService = travelService;
         this.loginService = loginService;
         this.navCtrl = navCtrl;
+        this.router = router;
     }
     ngOnInit() {
         this.rol = this.loginService.profileUser.Roles;
     }
     detailTrip(id, travelAvailability) {
-        console.log(travelAvailability);
         if (this.rol === 'Conductor') {
+            if (travelAvailability === 'Confirmado') {
+                this.travelService.id = id;
+                this.navCtrl.navigateRoot('/app/my-travels/driver-confirmed-trip-detail', { animated: false });
+            }
+            /*
             if (travelAvailability === 'Pre-Turno') {
-                this.travelService.id = id;
-                this.navCtrl.navigateRoot('/app/my-travels/scheduled-details', { animated: false });
-            }
-            else {
-                this.travelService.id = id;
-                this.navCtrl.navigateRoot('/app/my-travels/scheduled-details-driver', { animated: false });
-            }
+              this.travelService.id = id;
+              this.navCtrl.navigateRoot('/app/my-travels/scheduled-details', { animated: false });
+            } else if(travelAvailability === 'Confirmado'){
+              this.travelService.id = id;
+              this.navCtrl.navigateRoot('/app/my-travels/driver-confirmed-trip-detail', { animated: false });
+            } else {
+              this.travelService.id = id;
+              this.navCtrl.navigateRoot('/app/my-travels/scheduled-details-driver', { animated: false });
+            }*/
         }
         else {
             this.travelService.id = id;
@@ -303,14 +328,15 @@ let ScheduledTripsListComponent = class ScheduledTripsListComponent {
 ScheduledTripsListComponent.ctorParameters = () => [
     { type: _services_travels_travel_service__WEBPACK_IMPORTED_MODULE_3__.TravelService },
     { type: _services_auth_login_service__WEBPACK_IMPORTED_MODULE_2__.LoginService },
-    { type: _ionic_angular__WEBPACK_IMPORTED_MODULE_4__.NavController }
+    { type: _ionic_angular__WEBPACK_IMPORTED_MODULE_4__.NavController },
+    { type: _angular_router__WEBPACK_IMPORTED_MODULE_5__.Router }
 ];
 ScheduledTripsListComponent.propDecorators = {
-    tripsList: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_5__.Input }],
-    sizeList: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_5__.Input }]
+    tripsList: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_6__.Input }],
+    sizeList: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_6__.Input }]
 };
-ScheduledTripsListComponent = (0,tslib__WEBPACK_IMPORTED_MODULE_6__.__decorate)([
-    (0,_angular_core__WEBPACK_IMPORTED_MODULE_5__.Component)({
+ScheduledTripsListComponent = (0,tslib__WEBPACK_IMPORTED_MODULE_7__.__decorate)([
+    (0,_angular_core__WEBPACK_IMPORTED_MODULE_6__.Component)({
         selector: 'app-scheduled-trips-list',
         template: _scheduled_trips_list_component_html_ngResource__WEBPACK_IMPORTED_MODULE_0__,
         styles: [_scheduled_trips_list_component_scss_ngResource__WEBPACK_IMPORTED_MODULE_1__]
@@ -342,7 +368,11 @@ __webpack_require__.r(__webpack_exports__);
 const routes = [
     {
         path: '',
-        component: _my_travels_page__WEBPACK_IMPORTED_MODULE_0__.MyTravelsPage
+        component: _my_travels_page__WEBPACK_IMPORTED_MODULE_0__.MyTravelsPage,
+    },
+    {
+        path: 'driver-confirmed-trip-detail',
+        loadChildren: () => Promise.all(/*! import() */[__webpack_require__.e("common"), __webpack_require__.e("src_app_pages_my-travels_maps_driver-confirmed-trip-detail_driver-confirmed-trip-detail_module_ts")]).then(__webpack_require__.bind(__webpack_require__, /*! ./maps/driver-confirmed-trip-detail/driver-confirmed-trip-detail.module */ 26065)).then(m => m.DriverConfirmedTripDetailPageModule)
     },
     {
         path: 'previous-details',
@@ -360,14 +390,6 @@ const routes = [
         path: 'request-details',
         loadChildren: () => Promise.all(/*! import() */[__webpack_require__.e("common"), __webpack_require__.e("src_app_pages_my-travels_details-trip-request_details-trip-request_module_ts")]).then(__webpack_require__.bind(__webpack_require__, /*! ./details-trip-request/details-trip-request.module */ 23106)).then(m => m.DetailsTripRequestPageModule)
     },
-    {
-        path: 'details-trip-scheduled',
-        loadChildren: () => Promise.all(/*! import() */[__webpack_require__.e("common"), __webpack_require__.e("src_app_pages_my-travels_details-trip-scheduled_details-trip-scheduled_module_ts")]).then(__webpack_require__.bind(__webpack_require__, /*! ./details-trip-scheduled/details-trip-scheduled.module */ 92263)).then(m => m.DetailsTripScheduledPageModule)
-    },
-    {
-        path: 'details-trip-request',
-        loadChildren: () => Promise.all(/*! import() */[__webpack_require__.e("common"), __webpack_require__.e("src_app_pages_my-travels_details-trip-request_details-trip-request_module_ts")]).then(__webpack_require__.bind(__webpack_require__, /*! ./details-trip-request/details-trip-request.module */ 23106)).then(m => m.DetailsTripRequestPageModule)
-    }
 ];
 let MyTravelsPageRoutingModule = class MyTravelsPageRoutingModule {
 };
@@ -561,7 +583,7 @@ module.exports = "\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW
   \*********************************************************************************************************/
 /***/ ((module) => {
 
-module.exports = "<app-layout class=\"card-size\">\r\n  <cwc-tabs>\r\n    <cwc-tab name='anteriores' active='true' (click)=\"changeTab('anteriores')\">Anteriores</cwc-tab>\r\n    <cwc-tab name='programados' (click)=\"changeTab('programados')\">Programados</cwc-tab>\r\n    <cwc-tab name='solicitudes' (click)=\"changeTab('solicitudes')\">Solicitudes</cwc-tab>\r\n  </cwc-tabs>\r\n  <cwc-grid class=\"demo-grid\" row-gap=\"2px\">\r\n    <cwc-cell mobile-colspan=\"11\" style=\"padding-top: 0.8rem;\">     \r\n      <div>\r\n        <cwc-input design-version=\"v2\" class=\"search-text\" variant=\"regular\" rtl=\"false\" trailing-icon='magnifier-glass' placeholder='Buscar...'></cwc-input>  \r\n      </div>       \r\n    </cwc-cell> \r\n    <cwc-cell mobile-colspan=\"1\">    \r\n      <div class=\"icon\">\r\n        <cwc-button variant=\"link\">          \r\n          <cwc-icon variant=\"link\" name='controls' size=\"20px\" aria-role=\"button\"></cwc-icon>\r\n        </cwc-button>\r\n      </div>  \r\n    </cwc-cell>    \r\n  </cwc-grid>  \r\n  <div [ngSwitch]=\"selectedTab\" class=\"navbar\" style=\"padding-top: 0.8rem;\">\r\n    <app-previous-trips-list *ngSwitchCase=\"'anteriores'\" [tripsList]=\"previousTripsList\" [sizeList]=\"sizePrevious\"></app-previous-trips-list>\r\n    <app-scheduled-trips-list *ngSwitchCase=\"'programados'\" [tripsList]=\"scheduledTripsList\" [sizeList]=\"sizeScheduled\"></app-scheduled-trips-list>\r\n    <app-request-travel-list *ngSwitchCase=\"'solicitudes'\" [tripsList]=\"requestTripsList\" [sizeList]=\"sizePrevious\"></app-request-travel-list>\r\n  </div>\r\n</app-layout>";
+module.exports = "<app-layout class=\"card-size\">\r\n  <cwc-tabs>\r\n    <cwc-tab [active]=\"selectedTab == 'anteriores'\" name='anteriores' (click)=\"changeTab('anteriores')\">Anteriores</cwc-tab>\r\n    <cwc-tab [active]=\"selectedTab == 'programados'\" name='programados' (click)=\"changeTab('programados')\">Programados</cwc-tab>\r\n    <cwc-tab [active]=\"selectedTab == 'solicitudes'\" name='solicitudes' (click)=\"changeTab('solicitudes')\">Solicitudes</cwc-tab>\r\n  </cwc-tabs>\r\n  <cwc-grid class=\"demo-grid\" row-gap=\"2px\">\r\n    <cwc-cell mobile-colspan=\"11\" style=\"padding-top: 0.8rem;\">     \r\n      <div>\r\n        <cwc-input design-version=\"v2\" class=\"search-text\" variant=\"regular\" rtl=\"false\" trailing-icon='magnifier-glass' placeholder='Buscar...'></cwc-input>  \r\n      </div>       \r\n    </cwc-cell> \r\n    <cwc-cell mobile-colspan=\"1\">    \r\n      <div class=\"icon\">\r\n        <cwc-button variant=\"link\">          \r\n          <cwc-icon variant=\"link\" name='controls' size=\"20px\" aria-role=\"button\"></cwc-icon>\r\n        </cwc-button>\r\n      </div>  \r\n    </cwc-cell>    \r\n  </cwc-grid>  \r\n  <div [ngSwitch]=\"selectedTab\" class=\"navbar\" style=\"padding-top: 0.8rem;\">\r\n    <app-previous-trips-list *ngSwitchCase=\"'anteriores'\" [tripsList]=\"previousTripsList\" [sizeList]=\"sizePrevious\"></app-previous-trips-list>\r\n    <app-scheduled-trips-list *ngSwitchCase=\"'programados'\" [tripsList]=\"scheduledTripsList\" [sizeList]=\"sizeScheduled\"></app-scheduled-trips-list>\r\n    <app-request-travel-list *ngSwitchCase=\"'solicitudes'\" [tripsList]=\"requestTripsList\" [sizeList]=\"sizePrevious\"></app-request-travel-list>\r\n  </div>\r\n</app-layout>";
 
 /***/ }),
 
@@ -571,7 +593,7 @@ module.exports = "<app-layout class=\"card-size\">\r\n  <cwc-tabs>\r\n    <cwc-t
   \*********************************************************************************************************/
 /***/ ((module) => {
 
-module.exports = "<app-layout class=\"card-size\">\r\n  <cwc-tabs>\r\n    <cwc-tab name='anteriores' active='true' (click)=\"changeTab('anteriores')\">Anteriores</cwc-tab>\r\n    <cwc-tab name='programados' (click)=\"changeTab('programados')\">Programados</cwc-tab>\r\n  </cwc-tabs>\r\n  <cwc-grid class=\"demo-grid\" row-gap=\"2px\">\r\n    <cwc-cell mobile-colspan=\"11\" style=\"padding-top: 0.8rem;\">     \r\n      <div>\r\n        <cwc-input design-version=\"v2\" class=\"search-text\" variant=\"regular\" rtl=\"false\" trailing-icon='magnifier-glass' placeholder='Buscar...'></cwc-input>  \r\n      </div>       \r\n    </cwc-cell> \r\n    <cwc-cell mobile-colspan=\"1\">    \r\n      <div class=\"icon\">\r\n        <cwc-button variant=\"link\">          \r\n          <cwc-icon variant=\"link\" name='controls' size=\"20px\" aria-role=\"button\"></cwc-icon>\r\n        </cwc-button>\r\n      </div>  \r\n    </cwc-cell>    \r\n  </cwc-grid>  \r\n  <div [ngSwitch]=\"selectedTab\" class=\"navbar\" style=\"padding-top: 0.8rem;\">\r\n    <app-previous-trips-list *ngSwitchCase=\"'anteriores'\" [tripsList]=\"previousTripsList\" [sizeList]=\"sizePrevious\"></app-previous-trips-list>\r\n    <app-scheduled-trips-list *ngSwitchCase=\"'programados'\" [tripsList]=\"scheduledTripsList\" [sizeList]=\"sizeScheduled\"></app-scheduled-trips-list>\r\n  </div>\r\n</app-layout>";
+module.exports = "<app-layout class=\"card-size\">\r\n  <cwc-tabs>\r\n    <cwc-tab [active]=\"selectedTab == 'anteriores'\" name='anteriores' (click)=\"changeTab('anteriores')\">Anteriores</cwc-tab>\r\n    <cwc-tab [active]=\"selectedTab == 'programados'\" name='programados' (click)=\"changeTab('programados')\">Programados</cwc-tab>\r\n  </cwc-tabs>\r\n  <cwc-grid class=\"demo-grid\" row-gap=\"2px\">\r\n    <cwc-cell mobile-colspan=\"11\" style=\"padding-top: 0.8rem;\">     \r\n      <div>\r\n        <cwc-input design-version=\"v2\" class=\"search-text\" variant=\"regular\" rtl=\"false\" trailing-icon='magnifier-glass' placeholder='Buscar...'></cwc-input>  \r\n      </div>       \r\n    </cwc-cell> \r\n    <cwc-cell mobile-colspan=\"1\">    \r\n      <div class=\"icon\">\r\n        <cwc-button variant=\"link\">          \r\n          <cwc-icon variant=\"link\" name='controls' size=\"20px\" aria-role=\"button\"></cwc-icon>\r\n        </cwc-button>\r\n      </div>  \r\n    </cwc-cell>    \r\n  </cwc-grid>  \r\n  <div [ngSwitch]=\"selectedTab\" class=\"navbar\" style=\"padding-top: 0.8rem;\">\r\n    <app-previous-trips-list *ngSwitchCase=\"'anteriores'\" [tripsList]=\"previousTripsList\" [sizeList]=\"sizePrevious\"></app-previous-trips-list>\r\n    <app-scheduled-trips-list *ngSwitchCase=\"'programados'\" [tripsList]=\"scheduledTripsList\" [sizeList]=\"sizeScheduled\"></app-scheduled-trips-list>\r\n  </div>\r\n</app-layout>";
 
 /***/ }),
 
@@ -591,7 +613,7 @@ module.exports = "<cwc-grid class=\"demo-grid\" style=\"padding-top: 1rem; paddi
   \***************************************************************************************************************/
 /***/ ((module) => {
 
-module.exports = "<cwc-grid class=\"demo-grid\" style=\"padding-top: 1rem; padding-bottom: 0.5rem\">\r\n  <cwc-cell colspan=\"6\" mobile-colspan=\"9\">\r\n    <div class=\"detail_list_travels\">Semana 22 de Agosto, 2020</div>\r\n  </cwc-cell>\r\n  <cwc-cell colspan=\"6\" mobile-colspan=\"3\">\r\n    <div class=\"detail_list_travels\" style=\"text-align: end;\">{{sizeList}}/{{tripsList.length}} viajes</div>\r\n  </cwc-cell>\r\n</cwc-grid>\r\n\r\n<cwc-grid class=\"demo-grid\">\r\n  <cwc-cell (click)=\"detailTrip(trip.id)\" *ngFor=\"let trip of tripsList\" colspan=\"6\" mobile-colspan=\"12\">\r\n    <cwc-card class=\"card-info\" design-version=\"v1\">\r\n      <div class=\"main-content-card\">\r\n          <div class=\"header-card\">\r\n              <div class=\"avatar-info\">\r\n                  <span class=\"style-name\">Viaje {{trip.codeTravel}}</span>\r\n              </div>                     \r\n              <cwc-status-indicator style=\"text-align: end;\" size=\"small\" class=\"statusI\" variant='success'>\r\n                <div class=\"statusI\">{{trip.statusTravelString}}</div>\r\n              </cwc-status-indicator>              \r\n              <ion-icon name=\"ellipsis-vertical-outline\" size=\"15\"></ion-icon>\r\n          </div>    \r\n\r\n          <hr color=\"#D0D0D0\"/>\r\n          <cwc-grid class=\"demo-grid\" style=\"padding-top: 0.5rem;\">\r\n              <cwc-cell colspan=\"12\" mobile-colspan=\"12\">   \r\n                  <div class=\"attr-user\">Origen</div>\r\n                  <span class=\"attr-detail\">{{trip.source}}</span>\r\n              </cwc-cell>\r\n          </cwc-grid>\r\n\r\n          <cwc-grid class=\"demo-grid center-cell\">\r\n              <cwc-cell colspan=\"12\" mobile-colspan=\"12\">\r\n                  <div class=\"attr-user\">Destino</div>\r\n                  <span class=\"attr-detail\">{{trip.destiny}}</span>\r\n              </cwc-cell>                  \r\n          </cwc-grid>\r\n\r\n          <cwc-grid class=\"demo-grid\">\r\n            <cwc-cell mobile-colspan=\"6\">\r\n                <div class=\"attr-user\">Número de Placa</div>\r\n                <span class=\"attr-detail\">{{trip.vehicleLissenceName}}</span>\r\n            </cwc-cell>\r\n            <cwc-cell mobile-colspan=\"6\">\r\n              <div class=\"attr-user\">Fecha y Hora de Cita</div>\r\n              <span class=\"attr-detail\">{{trip.dateTravel}} {{trip.timerStar}}</span>\r\n            </cwc-cell>\r\n          </cwc-grid>\r\n      </div>\r\n    </cwc-card>\r\n  </cwc-cell>\r\n</cwc-grid>";
+module.exports = "<cwc-grid class=\"demo-grid\" style=\"padding-top: 1rem; padding-bottom: 0.5rem\">\r\n  <cwc-cell colspan=\"6\" mobile-colspan=\"9\">\r\n    <div class=\"detail_list_travels\">Semana 22 de Agosto, 2020</div>\r\n  </cwc-cell>\r\n  <cwc-cell colspan=\"6\" mobile-colspan=\"3\">\r\n    <div class=\"detail_list_travels\" style=\"text-align: end;\">{{sizeList}}/{{tripsList.length}} viajes</div>\r\n  </cwc-cell>\r\n</cwc-grid>\r\n\r\n<cwc-grid class=\"demo-grid\">\r\n  <cwc-cell (click)=\"detailTrip(trip.id)\" *ngFor=\"let trip of tripsList\" colspan=\"6\" mobile-colspan=\"12\">\r\n    <cwc-card class=\"card-info\" design-version=\"v1\">\r\n      <div class=\"main-content-card\">\r\n          <div class=\"header-card\">\r\n              <div class=\"avatar-info\">\r\n                  <span class=\"style-name\">Viaje {{trip.codeTravel}}</span>\r\n              </div>                     \r\n              <cwc-status-indicator style=\"text-align: end;\" size=\"small\" class=\"statusI\" variant='success'>\r\n                <div class=\"statusI\">{{trip.statusTravelString}}</div>\r\n              </cwc-status-indicator>              \r\n              <ion-icon name=\"ellipsis-vertical-outline\" size=\"15\"></ion-icon>\r\n          </div>    \r\n\r\n          <hr color=\"#D0D0D0\"/>\r\n          <cwc-grid class=\"demo-grid\" style=\"padding-top: 0.5rem;\">\r\n              <cwc-cell colspan=\"12\" mobile-colspan=\"12\">   \r\n                  <div class=\"attr-user\">Origen</div>\r\n                  <span class=\"attr-detail\">{{trip.source}}</span>\r\n              </cwc-cell>\r\n          </cwc-grid>\r\n\r\n          <cwc-grid class=\"demo-grid center-cell\">\r\n              <cwc-cell colspan=\"12\" mobile-colspan=\"12\">\r\n                  <div class=\"attr-user\">Destino</div>\r\n                  <span class=\"attr-detail\">{{trip.destiny}}</span>\r\n              </cwc-cell>                  \r\n          </cwc-grid>\r\n\r\n          <cwc-grid class=\"demo-grid\">\r\n            <cwc-cell mobile-colspan=\"6\" *ngIf=\"trip.vehicleLissenceName\">\r\n                <div class=\"attr-user\">Número de Placa</div>\r\n                <span class=\"attr-detail\">{{trip.vehicleLissenceName}}</span>\r\n            </cwc-cell>\r\n            <cwc-cell mobile-colspan=\"6\">\r\n              <div class=\"attr-user\">Fecha y Hora de Cita</div>\r\n              <span class=\"attr-detail\">{{trip.dateTravel}} {{trip.timerStar}}</span>\r\n            </cwc-cell>\r\n          </cwc-grid>\r\n      </div>\r\n    </cwc-card>\r\n  </cwc-cell>\r\n</cwc-grid>";
 
 /***/ }),
 

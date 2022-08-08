@@ -25,7 +25,7 @@
         <cwc-grid class="demo-grid center-cell" >
           <cwc-cell colspan="12" mobile-colspan="12">   
               <div class="attr-user">Empresa</div>
-              <span class="text-info">{{company}}</span>
+              <span class="text-info">{{vehicle.companyName}}</span>
           </cwc-cell>
         </cwc-grid>
 
@@ -81,12 +81,12 @@
         </cwc-cell>
       </cwc-grid>
       
-      <div style="margin-top: 1rem;" *ngIf="vehicle.userId !== idTercero">
+      <div style="margin-top: 1rem;" *ngIf="vehicle.userId !== idTercero && vehicle.userId !== idAdmin">
         <div class="attr-document" >Conductor</div>
         <div style=" border: 0.1px solid #d1d1d1; background: #d1d1d1; margin-bottom: 0.5rem;"></div>
         <div style="display: flex; justify-content: space-between;">
           <p class="attr-conductor">
-            {{vehicle.userId}}
+            {{vehicle.userName}}
           </p>
           <cwc-button variant="link" class="m-h-reg link-cwc" style="margin-top: 1rem; margin-bottom: 0;" routerLinkActive="router-link-active" >
             <div style="font-size: small;">REMOVER</div>
@@ -95,7 +95,7 @@
       </div>
     </div>
   </cwc-card>
-  <cwc-grid class="demo-grid" *ngIf="rol !== 'Hombre Camion' && vehicle.userId === idTercero">
+  <cwc-grid class="demo-grid" *ngIf="rol !== 'Hombre Camion' && (vehicle.userId === idTercero || vehicle.userId === idAdmin)">
     <cwc-cell colspan="12" mobile-colspan="12">
         <div class="footer-detal-request">
             <div class="content-btns">

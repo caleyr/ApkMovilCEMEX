@@ -73,13 +73,13 @@
         <cwc-cell class="border" colspan="6" mobile-colspan="6" style="cursor: pointer;">
           <div class="item-archives">
             <cwc-icon name="camera" size="28px" color="bright-blue"></cwc-icon>
-            <h5 class="text-archive">Tomar fotografía</h5>
+            <div class="text-archive">Tomar fotografía</div>
           </div>
         </cwc-cell>
         <cwc-cell colspan="6" mobile-colspan="6" style="cursor: pointer;">
           <div class="item-archives">
             <cwc-icon name="document" size="28px" color="bright-blue"></cwc-icon>
-            <h5 class="text-archive">Seleccionar archivo</h5>
+            <div class="text-archive">Seleccionar archivo</div>
           </div>
         </cwc-cell>
     </cwc-grid>
@@ -92,13 +92,13 @@
         <cwc-cell class="border" colspan="6" mobile-colspan="6" style="cursor: pointer;">
           <div class="item-archives">
             <cwc-icon name="camera" size="28px" color="bright-blue"></cwc-icon>
-            <h5 class="text-archive">Tomar fotografía</h5>
+            <div class="text-archive">Tomar fotografía</div>
           </div>
         </cwc-cell>
         <cwc-cell colspan="6" mobile-colspan="6" style="cursor: pointer;">
           <div class="item-archives">
             <cwc-icon name="document" size="28px" color="bright-blue"></cwc-icon>
-            <h5 class="text-archive">Seleccionar archivo</h5>
+            <div class="text-archive">Seleccionar archivo</div>
           </div>
         </cwc-cell>
     </cwc-grid>
@@ -110,13 +110,13 @@
         <cwc-cell class="border" colspan="6" mobile-colspan="6" style="cursor: pointer;">
           <div class="item-archives">
             <cwc-icon name="camera" size="28px" color="bright-blue"></cwc-icon>
-            <h5 class="text-archive">Tomar fotografía</h5>
+            <div class="text-archive">Tomar fotografía</div>
           </div>
         </cwc-cell>
         <cwc-cell colspan="6" mobile-colspan="6" style="cursor: pointer;">
           <div class="item-archives">
             <cwc-icon name="document" size="28px" color="bright-blue"></cwc-icon>
-            <h5 class="text-archive">Seleccionar archivo</h5>
+            <div class="text-archive">Seleccionar archivo</div>
           </div>
         </cwc-cell>
     </cwc-grid>
@@ -128,13 +128,13 @@
         <cwc-cell class="border" colspan="6" mobile-colspan="6" style="cursor: pointer;">
           <div class="item-archives">
             <cwc-icon name="camera" size="28px" color="bright-blue"></cwc-icon>
-            <h5 class="text-archive">Tomar fotografía</h5>
+            <div class="text-archive">Tomar fotografía</div>
           </div>
         </cwc-cell>
         <cwc-cell colspan="6" mobile-colspan="6" style="cursor: pointer;">
           <div class="item-archives">
             <cwc-icon name="document" size="28px" color="bright-blue"></cwc-icon>
-            <h5 class="text-archive">Seleccionar archivo</h5>
+            <div class="text-archive">Seleccionar archivo</div>
           </div>
         </cwc-cell>
     </cwc-grid>
@@ -170,8 +170,8 @@
   <p>¿Esta seguro que los datos registrados estan correctos?</p>
   <footer slot='footer'>
       <div style='text-align: end'>
-        <cwc-button variant='support' (click)="closeAlertConfirm()" style="margin-right: 1rem;">Cancelar</cwc-button>
-          <cwc-button variant='primary' (click)="createVehicle()" >Aceptar</cwc-button>
+        <cwc-button variant='support' (cwcClick)="closeAlertConfirm()" style="margin-right: 1rem;">Cancelar</cwc-button>
+          <cwc-button variant='primary' (cwcClick)="createVehicle()" >Aceptar</cwc-button>
       </div>
   </footer>
 </cwc-modal>

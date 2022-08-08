@@ -30,13 +30,16 @@ export class VehiclesPage implements OnInit {
 
   getDataList(){
     this.vehiclesService.getVehicleList(this.loginService.profileUser.CompanyId).subscribe(data=>{
-<<<<<<< HEAD
-      console.log(data);      
       this.vehiclesList = data.data;
-=======
-      this.vehiclesList = data;
->>>>>>> 27789ed10925a636f3efff4d759fe370986d64d8
     });
+  }
+
+  doRefresh(event){
+    setTimeout(()=>{      
+      this.vehiclesList = [];
+      this.getDataList();
+      event.target.complete();
+    }, 2000);
   }
 
 }

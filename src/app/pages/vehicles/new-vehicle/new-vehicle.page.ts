@@ -14,8 +14,6 @@ import { LoginService } from '../../../services/auth/login.service';
   styleUrls: ['./new-vehicle.page.scss'],
 })
 export class NewVehiclePage implements OnInit {
-  
-  propagar = new EventEmitter<boolean>();
 
   form: FormGroup;
   data : FormData;
@@ -49,17 +47,17 @@ export class NewVehiclePage implements OnInit {
 
   async createVehicle(){
     if(this.form.invalid){
+      this.alertSucces = false;
       return;
     }
+    alert('Entro');
     this.data = new FormData();
     this.addFormData(this.form.value);
-    this.propagar.emit(true);
     await this.vehiclesService.createVehicle(this.data).subscribe(async resp =>{
-       this.propagar.emit(false);
+      alert(resp);
        this.alertSucces = true;
        this.errors = [];
     }, (error) =>{
-       this.propagar.emit(false);
        this.errors = this.errorMessages.parsearErroresAPI(error);
     });
   }
@@ -122,7 +120,7 @@ export class NewVehiclePage implements OnInit {
       CardPropertyDocument: [''],
       StatusVehicle: ['1'],
       StatusTravel: [ '1'],
-      UserId: [ '1' ],
+      UserId: [ this.loginService.profileUser.id ],
       term: [false, [ Validators.requiredTrue ]]
     });
 

@@ -73,7 +73,8 @@ const routes = [
             },
             {
                 path: 'waiting-list',
-                loadChildren: () => Promise.all(/*! import() */[__webpack_require__.e("default-src_app_pages_layout_layout_module_ts"), __webpack_require__.e("src_app_pages_waiting-list_waiting-list_module_ts")]).then(__webpack_require__.bind(__webpack_require__, /*! ./pages/waiting-list/waiting-list.module */ 91598)).then(m => m.WaitingListPageModule)
+                loadChildren: () => Promise.all(/*! import() */[__webpack_require__.e("default-src_app_pages_layout_layout_module_ts"), __webpack_require__.e("src_app_pages_waiting-list_waiting-list_module_ts")]).then(__webpack_require__.bind(__webpack_require__, /*! ./pages/waiting-list/waiting-list.module */ 91598)).then(m => m.WaitingListPageModule),
+                canLoad: [_guards_auth_guard__WEBPACK_IMPORTED_MODULE_0__.AuthGuard]
             },
             {
                 path: 'travels',
@@ -136,6 +137,9 @@ let AppComponent = class AppComponent {
         document.body.classList.toggle('light');
         console.log(theme.matches);
     }
+    ionViewWillEnter() {
+        console.log('WillEnter');
+    }
 };
 AppComponent.ctorParameters = () => [];
 AppComponent = (0,tslib__WEBPACK_IMPORTED_MODULE_2__.__decorate)([
@@ -173,6 +177,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _angular_common_http__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! @angular/common/http */ 28784);
 /* harmony import */ var _components_components_module__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./components/components.module */ 45642);
 /* harmony import */ var _awesome_cordova_plugins_http_ngx__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @awesome-cordova-plugins/http/ngx */ 26123);
+/* harmony import */ var _angular_common__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! @angular/common */ 36362);
+
 
 
 
@@ -200,7 +206,7 @@ AppModule = (0,tslib__WEBPACK_IMPORTED_MODULE_5__.__decorate)([
             _app_routing_module__WEBPACK_IMPORTED_MODULE_1__.AppRoutingModule,
             _cmx_web_components_angular__WEBPACK_IMPORTED_MODULE_2__.CmxWebComponentsModule.forRoot()
         ],
-        providers: [{ provide: _angular_router__WEBPACK_IMPORTED_MODULE_11__.RouteReuseStrategy, useClass: _ionic_angular__WEBPACK_IMPORTED_MODULE_9__.IonicRouteStrategy }, _awesome_cordova_plugins_http_ngx__WEBPACK_IMPORTED_MODULE_4__.HTTP],
+        providers: [{ provide: _angular_router__WEBPACK_IMPORTED_MODULE_11__.RouteReuseStrategy, useClass: _ionic_angular__WEBPACK_IMPORTED_MODULE_9__.IonicRouteStrategy }, _awesome_cordova_plugins_http_ngx__WEBPACK_IMPORTED_MODULE_4__.HTTP, _angular_common__WEBPACK_IMPORTED_MODULE_12__.DatePipe],
         bootstrap: [_app_component__WEBPACK_IMPORTED_MODULE_0__.AppComponent],
     })
 ], AppModule);

@@ -3,9 +3,9 @@
     <cwc-grid class="demo-grid" design-version="v2" row-gap="5px" columns="12" mobile-columns="12" style="margin-top: 1rem;">
         <cwc-cell colspan="12" mobile-colspan="12">
           <cwc-input
-            formControlName="Origen"
             [status]="getStatusField('Origen')"
             [statusMessage]="getMsgField('Origen', 'origen')"
+            id="input-origin"
             style="width: 100%;"
             label='Origen (Municipio)'
             design-version="v2">
@@ -13,9 +13,9 @@
           </cwc-cell>
         <cwc-cell colspan="12" mobile-colspan="12">
           <cwc-input
-            formControlName="Destino"
             [status]="getStatusField('Destino')"
             [statusMessage]="getMsgField('Destino', 'destino')"
+            id="input-destiny"
             style="width: 100%;"
             label='Destino (Municipio)'
             design-version="v2">
@@ -38,7 +38,7 @@
         <cwc-cell mobile-colspan="6" class="flex flex__align--center">
           <cwc-input-time
             formControlName="TimerEnd"
-            label='Hora (Inicio)'
+            label='Hora (Fin)'
             [status]="getStatusField('TimerEnd')"
             [statusMessage]="getMsgField('TimerEnd', 'tiempo final')"
             (cwcChange)="changeTimeEnd($event)"
@@ -51,8 +51,6 @@
         </cwc-cell>
         <cwc-cell colspan="12" mobile-colspan="12">
           <cwc-input-date
-            return-format="date"
-            hover-range="multiple-week"
             formControlName="DateTravels"
             [status]="getStatusField('DateTravels')"
             (cwcChange)="changeDateTime($event)"
@@ -67,7 +65,7 @@
             formControlName="DriverId"
             [status]="getStatusField('DriverId')"
             [statusMessage]="getMsgField('DriverId', 'conductor')"
-            (cwcChange)="changeDriverId($event)"
+            (cwcChange)="changeDriver($event)"
             style="width: 100%;"
             label='Conductor'
             design-version="v2">
@@ -76,17 +74,15 @@
             </cwc-select>
         </cwc-cell>
         <cwc-cell colspan="12" mobile-colspan="12">
-            <cwc-select
-              formControlName="VehicleId"
-              [status]="getStatusField('VehicleId')"
-              [statusMessage]="getMsgField('VehicleId', 'vehiculo')"
-              (cwcChange)="changeVehicleId($event)" 
+            <cwc-input
               style="width: 100%;"
+              design-version="v1"
               label='Vehiculo'
-              design-version="v2">
-              <cwc-select-option value="0" selected="">Seleccionar</cwc-select-option>
-              <cwc-select-option [value]="vehicle.id" *ngFor="let vehicle of vehicleList" >{{vehicle.model}}</cwc-select-option>
-              </cwc-select>
+              [value]="driveSelected"
+              class='input-update-user'
+              disabled="true"
+              placeholder="Seleccionar">
+              </cwc-input>
         </cwc-cell>
         <cwc-cell colspan="12" mobile-colspan="12">
           <div class="content-button">

@@ -19,7 +19,6 @@ import { NewRequestPage } from './new-request.page';
     IonicModule,
     NewRequestPageRoutingModule,
     CmxWebComponentsModule.forRoot(),
-    LayoutPageModule,
     ReactiveFormsModule
   ],
   declarations: [NewRequestPage,

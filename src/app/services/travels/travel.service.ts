@@ -6,6 +6,7 @@ import { TravelListUnique } from 'src/app/interfaces/travels/travel-list-unique'
 import { TravelSearch } from 'src/app/interfaces/travels/travel-search';
 import { HttpService } from '../http/http.service';
 import { environment } from 'src/environments/environment.prod';
+import { tap } from 'rxjs/operators';
 
 const BASE_URL_API = environment.url;
 
@@ -59,7 +60,19 @@ export class TravelService {
   }
 
   updateTravel(id, data){   
-    return this.http.doPutFormData(`${BASE_URL_API}/api/travels/AssignmentsTravelDriver/${id}`, data, {});
+    return this.http.doPutFormData(`${BASE_URL_API}/api/travels/AssignmentsTravelDriver/${id}`, data, {}).pipe(
+      tap(() => {
+        this._refresh$.next();
+      })
+    );
+  }
+
+  startTravel(id, data){   
+    return this.http.doPutFormData(`${BASE_URL_API}/api/travels/StarProcessTravelByUser/${id}`, data, {}).pipe(
+      tap(() => {
+        this._refresh$.next();
+      })
+    );
   }
 
   getFilterTravelByIdDriver(id: string){

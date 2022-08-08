@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { TravelService } from '../../services/travels/travel.service';
 import { NavController } from '@ionic/angular';
+import { Travel } from 'src/app/interfaces/travels/travel';
+import { TravelListUnique } from 'src/app/interfaces/travels/travel-list-unique';
 
 @Component({
   selector: 'app-travels',
@@ -10,10 +12,10 @@ import { NavController } from '@ionic/angular';
 })
 export class TravelsPage implements OnInit {
 
-  sourceList : string[] = [];
-  departamentList : string[] = [];
-  dateList : string[] = [];
-  timeList : string[] = [];
+  departamentList : Travel[] = [];  
+  sourceList : TravelListUnique[] = [];
+  dateList : TravelListUnique[] = [];
+  timeList : TravelListUnique[] = [];
 
   source : string;
   departament : string;
@@ -33,7 +35,7 @@ export class TravelsPage implements OnInit {
 
   getListDepartament(){
     this.travelService.getTravels().subscribe(data=>{
-      this.departamentList = data.data.departamentSource;
+      this.departamentList = data.data;
     });
   }
 
@@ -50,7 +52,7 @@ export class TravelsPage implements OnInit {
     }else{
       this.departament = event.detail.value;
       this.travelService.getTravelsSource(event.detail.value).subscribe(data=>{
-        this.sourceList = data.data.source;
+        this.sourceList = data.data;
       });
     }    
   }
@@ -66,7 +68,7 @@ export class TravelsPage implements OnInit {
     }else{
       this.source = event.detail.value;
       this.travelService.getTravelsDate(event.detail.value).subscribe(data=>{
-        this.dateList = data.data.dateTravel;
+        this.dateList = data.data;
       });
     }    
   }
@@ -79,7 +81,7 @@ export class TravelsPage implements OnInit {
     }else{
       this.dataO = event.detail.value;
       this.travelService.getTravelsForHour(event.detail.value).subscribe(data=>{
-        this.timeList = data.data.timerStar;
+        this.timeList = data.data;
       });
     }
   }
@@ -107,5 +109,17 @@ export class TravelsPage implements OnInit {
         resolved(data);
       })
     });    
+  }
+
+  doRefresh(event){
+    setTimeout(()=>{      
+      this.departamentList = [];
+      this.sourceList = [];
+      this.timeList = [];
+      this.dateList = [];
+      this.buttonActivate = false;
+      this.getListDepartament();
+      event.target.complete();
+    }, 2000);
   }
 }

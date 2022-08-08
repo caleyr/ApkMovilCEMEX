@@ -37,7 +37,7 @@
           </cwc-grid>
 
           <cwc-grid class="demo-grid">
-            <cwc-cell mobile-colspan="6">
+            <cwc-cell mobile-colspan="6" *ngIf="trip.vehicleLissenceName">
                 <div class="attr-user">Número de Placa</div>
                 <span class="attr-detail">{{trip.vehicleLissenceName}}</span>
             </cwc-cell>

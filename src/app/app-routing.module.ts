@@ -56,7 +56,8 @@ const routes: Routes = [
       },
       {
         path: 'waiting-list',
-        loadChildren: () => import('./pages/waiting-list/waiting-list.module').then( m => m.WaitingListPageModule)
+        loadChildren: () => import('./pages/waiting-list/waiting-list.module').then( m => m.WaitingListPageModule),
+        canLoad:[AuthGuard]
       },
       {
         path: 'travels',

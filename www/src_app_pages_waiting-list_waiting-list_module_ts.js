@@ -161,14 +161,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "WaitingListPage": () => (/* binding */ WaitingListPage)
 /* harmony export */ });
-/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! tslib */ 34929);
+/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! tslib */ 34929);
 /* harmony import */ var _waiting_list_page_html_ngResource__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./waiting-list.page.html?ngResource */ 93303);
 /* harmony import */ var _waiting_list_page_scss_ngResource__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./waiting-list.page.scss?ngResource */ 46775);
 /* harmony import */ var src_app_services_auth_login_service__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! src/app/services/auth/login.service */ 52876);
 /* harmony import */ var _services_request_service__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./../../services/request.service */ 79854);
-/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @angular/core */ 3184);
-/* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @angular/router */ 52816);
-
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @angular/core */ 3184);
 
 
 
@@ -176,28 +174,43 @@ __webpack_require__.r(__webpack_exports__);
 
 
 let WaitingListPage = class WaitingListPage {
-    constructor(router, requestService, loginService) {
-        this.router = router;
+    constructor(requestService, loginService) {
         this.requestService = requestService;
         this.loginService = loginService;
         this.requestsList = [];
     }
     ngOnInit() {
+        this.suscripcion = this.requestService.refresh$.subscribe(() => {
+            this.getData();
+        });
         this.getData();
     }
     getData() {
-        this.requestService.getRequestByIdUser(this.loginService.profileUser.Email).subscribe(data => {
-            this.requestsList = data.data;
-        });
+        if (this.loginService.profileUser.Roles === 'Conductor') {
+            this.requestService.getRequestByIdUser(this.loginService.profileUser.Email).subscribe(data => {
+                this.requestsList = data.data;
+            });
+        }
+        else {
+            this.requestService.getRequestByIdCompany(this.loginService.profileUser.CompanyId).subscribe(data => {
+                this.requestsList = data.data;
+            });
+        }
+    }
+    doRefresh(event) {
+        setTimeout(() => {
+            this.requestsList = [];
+            this.getData();
+            event.target.complete();
+        }, 2000);
     }
 };
 WaitingListPage.ctorParameters = () => [
-    { type: _angular_router__WEBPACK_IMPORTED_MODULE_4__.Router },
     { type: _services_request_service__WEBPACK_IMPORTED_MODULE_3__.RequestService },
     { type: src_app_services_auth_login_service__WEBPACK_IMPORTED_MODULE_2__.LoginService }
 ];
-WaitingListPage = (0,tslib__WEBPACK_IMPORTED_MODULE_5__.__decorate)([
-    (0,_angular_core__WEBPACK_IMPORTED_MODULE_6__.Component)({
+WaitingListPage = (0,tslib__WEBPACK_IMPORTED_MODULE_4__.__decorate)([
+    (0,_angular_core__WEBPACK_IMPORTED_MODULE_5__.Component)({
         selector: 'app-waiting-list',
         template: _waiting_list_page_html_ngResource__WEBPACK_IMPORTED_MODULE_0__,
         styles: [_waiting_list_page_scss_ngResource__WEBPACK_IMPORTED_MODULE_1__]
@@ -241,7 +254,9 @@ let RequestService = class RequestService {
         return this._refresh$;
     }
     createRequest(data) {
-        return this.http.doPostFormData(`${BASE_URL_API}/api/waitingList/CreateRequestTravel`, data, {});
+        return this.http.doPostFormData(`${BASE_URL_API}/api/waitingList/CreateRequestTravel`, data, {}).pipe((0,rxjs_operators__WEBPACK_IMPORTED_MODULE_3__.tap)(() => {
+            this._refresh$.next();
+        }));
     }
     updateRequest(id, data) {
         return this.http.doPut(`${BASE_URL_API}/api/waitingList/${id}`, data, {}).pipe((0,rxjs_operators__WEBPACK_IMPORTED_MODULE_3__.tap)(() => {
@@ -253,6 +268,9 @@ let RequestService = class RequestService {
     }
     getRequestByIdUser(correo) {
         return this.http.doGet(`${BASE_URL_API}/api/waitingList/GetRequestByIdUser/${correo}`, {});
+    }
+    getRequestByIdCompany(idCompany) {
+        return this.http.doGet(`${BASE_URL_API}/api/waitingList/GetListWaitingByIdCompany/${idCompany}`, {});
     }
     getRequests() {
         return this.http.doGet(`${BASE_URL_API}/api/waitingList/`, {});
@@ -287,7 +305,7 @@ module.exports = "/***  styles btn asing trip  ***/\n.content-btn-assign-trip {\
   \**********************************************************************/
 /***/ ((module) => {
 
-module.exports = ".navbar {\n  width: 100%;\n  height: 100%;\n}\n\n.icon {\n  display: flex;\n  justify-content: center;\n  align-items: center;\n  padding-top: 18px;\n}\n\n.search-text {\n  width: 100%;\n  height: 10px;\n  padding-bottom: 0;\n}\n\n.text-vehicles {\n  font-size: small;\n  font-weight: 700;\n}\n\n.float {\n  position: fixed;\n  bottom: 15px;\n  right: 15px;\n  text-align: center;\n  background-color: #05376E;\n  border-radius: 30px;\n}\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIndhaXRpbmctbGlzdC5wYWdlLnNjc3MiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IkFBQUE7RUFDSSxXQUFBO0VBQ0EsWUFBQTtBQUNKOztBQUVBO0VBQ0ksYUFBQTtFQUNBLHVCQUFBO0VBQ0EsbUJBQUE7RUFDQSxpQkFBQTtBQUNKOztBQUVBO0VBQ0csV0FBQTtFQUNBLFlBQUE7RUFDQSxpQkFBQTtBQUNIOztBQUVBO0VBQ0ksZ0JBQUE7RUFDQSxnQkFBQTtBQUNKOztBQUVBO0VBQ0MsZUFBQTtFQUNBLFlBQUE7RUFDQSxXQUFBO0VBQ0Esa0JBQUE7RUFDRyx5QkFBQTtFQUNBLG1CQUFBO0FBQ0oiLCJmaWxlIjoid2FpdGluZy1saXN0LnBhZ2Uuc2NzcyIsInNvdXJjZXNDb250ZW50IjpbIi5uYXZiYXIge1xyXG4gICAgd2lkdGg6IDEwMCU7XHJcbiAgICBoZWlnaHQ6IDEwMCU7XHJcbn1cclxuXHJcbi5pY29ue1xyXG4gICAgZGlzcGxheTogZmxleDtcclxuICAgIGp1c3RpZnktY29udGVudDogY2VudGVyO1xyXG4gICAgYWxpZ24taXRlbXM6IGNlbnRlcjtcclxuICAgIHBhZGRpbmctdG9wOiAxOHB4O1xyXG59XHJcblxyXG4uc2VhcmNoLXRleHR7XHJcbiAgIHdpZHRoOiAxMDAlO1xyXG4gICBoZWlnaHQ6IDEwcHg7XHJcbiAgIHBhZGRpbmctYm90dG9tOiAwO1xyXG59XHJcblxyXG4udGV4dC12ZWhpY2xlc3tcclxuICAgIGZvbnQtc2l6ZTogc21hbGw7XHJcbiAgICBmb250LXdlaWdodDogNzAwO1xyXG59XHJcblxyXG4uZmxvYXR7XHJcblx0cG9zaXRpb246Zml4ZWQ7XHJcblx0Ym90dG9tOjE1cHg7XHJcblx0cmlnaHQ6MTVweDtcclxuXHR0ZXh0LWFsaWduOiBjZW50ZXI7XHJcbiAgICBiYWNrZ3JvdW5kLWNvbG9yOiAjMDUzNzZFO1xyXG4gICAgYm9yZGVyLXJhZGl1czogMzBweFxyXG59Il19 */";
+module.exports = ".navbar {\n  margin-top: 6.5rem;\n  margin-left: 1rem;\n  margin-right: 1rem;\n  margin-bottom: 1rem;\n  position: fixed;\n  top: 0;\n  bottom: 0;\n  right: 0;\n  left: 0;\n  overflow: auto;\n}\n\n.icon {\n  display: flex;\n  justify-content: center;\n  align-items: center;\n  padding-top: 18px;\n}\n\n.search-text {\n  width: 100%;\n  height: 10px;\n  padding-bottom: 0;\n}\n\n.text-vehicles {\n  font-size: small;\n  font-weight: 700;\n}\n\n.float {\n  position: fixed;\n  bottom: 15px;\n  right: 15px;\n  text-align: center;\n  background-color: #05376E;\n  border-radius: 30px;\n}\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIndhaXRpbmctbGlzdC5wYWdlLnNjc3MiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IkFBQUE7RUFDSSxrQkFBQTtFQUNBLGlCQUFBO0VBQ0Esa0JBQUE7RUFDQSxtQkFBQTtFQUNBLGVBQUE7RUFDQSxNQUFBO0VBQ0EsU0FBQTtFQUNBLFFBQUE7RUFDQSxPQUFBO0VBQ0EsY0FBQTtBQUNKOztBQUVBO0VBQ0ksYUFBQTtFQUNBLHVCQUFBO0VBQ0EsbUJBQUE7RUFDQSxpQkFBQTtBQUNKOztBQUVBO0VBQ0csV0FBQTtFQUNBLFlBQUE7RUFDQSxpQkFBQTtBQUNIOztBQUVBO0VBQ0ksZ0JBQUE7RUFDQSxnQkFBQTtBQUNKOztBQUVBO0VBQ0MsZUFBQTtFQUNBLFlBQUE7RUFDQSxXQUFBO0VBQ0Esa0JBQUE7RUFDRyx5QkFBQTtFQUNBLG1CQUFBO0FBQ0oiLCJmaWxlIjoid2FpdGluZy1saXN0LnBhZ2Uuc2NzcyIsInNvdXJjZXNDb250ZW50IjpbIi5uYXZiYXIge1xyXG4gICAgbWFyZ2luLXRvcDogNi41cmVtO1xyXG4gICAgbWFyZ2luLWxlZnQ6IDFyZW07XHJcbiAgICBtYXJnaW4tcmlnaHQ6IDFyZW07XHJcbiAgICBtYXJnaW4tYm90dG9tOiAxcmVtO1xyXG4gICAgcG9zaXRpb246IGZpeGVkO1xyXG4gICAgdG9wOiAwO1xyXG4gICAgYm90dG9tOiAwO1xyXG4gICAgcmlnaHQ6IDA7XHJcbiAgICBsZWZ0OiAwO1xyXG4gICAgb3ZlcmZsb3c6IGF1dG87XHJcbn1cclxuXHJcbi5pY29ue1xyXG4gICAgZGlzcGxheTogZmxleDtcclxuICAgIGp1c3RpZnktY29udGVudDogY2VudGVyO1xyXG4gICAgYWxpZ24taXRlbXM6IGNlbnRlcjtcclxuICAgIHBhZGRpbmctdG9wOiAxOHB4O1xyXG59XHJcblxyXG4uc2VhcmNoLXRleHR7XHJcbiAgIHdpZHRoOiAxMDAlO1xyXG4gICBoZWlnaHQ6IDEwcHg7XHJcbiAgIHBhZGRpbmctYm90dG9tOiAwO1xyXG59XHJcblxyXG4udGV4dC12ZWhpY2xlc3tcclxuICAgIGZvbnQtc2l6ZTogc21hbGw7XHJcbiAgICBmb250LXdlaWdodDogNzAwO1xyXG59XHJcblxyXG4uZmxvYXR7XHJcblx0cG9zaXRpb246Zml4ZWQ7XHJcblx0Ym90dG9tOjE1cHg7XHJcblx0cmlnaHQ6MTVweDtcclxuXHR0ZXh0LWFsaWduOiBjZW50ZXI7XHJcbiAgICBiYWNrZ3JvdW5kLWNvbG9yOiAjMDUzNzZFO1xyXG4gICAgYm9yZGVyLXJhZGl1czogMzBweFxyXG59Il19 */";
 
 /***/ }),
 
@@ -297,7 +315,7 @@ module.exports = ".navbar {\n  width: 100%;\n  height: 100%;\n}\n\n.icon {\n  di
   \*******************************************************************************************************************/
 /***/ ((module) => {
 
-module.exports = "<cwc-grid class=\"demo-grid\">\r\n  <cwc-cell colspan=\"6\" mobile-colspan=\"12\" *ngFor=\"let request of requests\">\r\n    <cwc-card class=\"card-info\" design-version=\"v2\">\r\n      <div class=\"main-content-card\">\r\n        <div class=\"header-card\">\r\n          <div class=\"avatar-info\">\r\n            <span class=\"style-name\">Viaje {{request.travelsCode}}</span>\r\n          </div>\r\n            <cwc-status-indicator size=\"small\" class=\"statusI\" variant='success'>\r\n              <div class=\"statusI\">{{request.statusRequest}}</div>\r\n            </cwc-status-indicator>\r\n        </div>\r\n\r\n        <hr color=\"#D0D0D0\"/>\r\n\r\n        <cwc-grid class=\"demo-grid\" style=\"padding-top: 0.5rem;\">\r\n          <cwc-cell colspan=\"12\" mobile-colspan=\"12\">   \r\n            <div class=\"attr-user\">Origen</div>\r\n            <span class=\"attr-detail\">{{request.origen}}</span>\r\n          </cwc-cell>\r\n        </cwc-grid>\r\n\r\n        <cwc-grid class=\"demo-grid center-cell\">\r\n          <cwc-cell colspan=\"12\" mobile-colspan=\"12\">\r\n            <div class=\"attr-user\">Destino</div>\r\n            <span class=\"attr-detail\">{{request.destino}}</span>\r\n          </cwc-cell>\r\n        </cwc-grid>\r\n\r\n        <cwc-grid class=\"demo-grid center-cell\">\r\n          <cwc-cell mobile-colspan=\"6\">\r\n            <div class=\"attr-user\">Fecha y hora</div>\r\n            <span class=\"attr-detail\">{{request.dateTravels}} {{request.timerStar}}</span>\r\n          </cwc-cell>\r\n          <cwc-cell mobile-colspan=\"6\">\r\n            <div class=\"attr-user\">Numero de Placa</div>\r\n            <span class=\"attr-detail\">{{request.vehicleLisence}}</span>\r\n          </cwc-cell>\r\n        </cwc-grid>\r\n\r\n        <cwc-grid class=\"demo-grid center-cell\">\r\n          <cwc-cell colspan=\"12\" mobile-colspan=\"12\">\r\n            <div class=\"attr-user\">Modelo</div>\r\n            <span class=\"attr-detail\">{{request.vehicleName}}</span>\r\n          </cwc-cell>\r\n        </cwc-grid>\r\n\r\n        <cwc-grid class=\"demo-grid center-cell\">\r\n          <cwc-cell colspan=\"6\" mobile-colspan=\"12\">\r\n            <div class=\"attr-user\">Inicio de viaje</div>\r\n            <span class=\"attr-detail\">{{request.timerStar}}</span>\r\n          </cwc-cell>\r\n        </cwc-grid>\r\n      </div>\r\n    </cwc-card>\r\n  </cwc-cell>\r\n</cwc-grid>";
+module.exports = "<cwc-grid class=\"demo-grid\">\r\n  <cwc-cell colspan=\"6\" mobile-colspan=\"12\" *ngFor=\"let request of requests\">\r\n    <cwc-card class=\"card-info\" design-version=\"v1\">\r\n      <div class=\"main-content-card\">\r\n        <div class=\"header-card\">\r\n          <div class=\"avatar-info\">\r\n            <span class=\"style-name\">Viaje {{request.codeRequest}}</span>\r\n          </div>\r\n            <cwc-status-indicator size=\"small\" class=\"statusI\" variant='success'>\r\n              <div class=\"statusI\">{{request.statusRequeststring}}</div>\r\n            </cwc-status-indicator>\r\n        </div>\r\n\r\n        <hr color=\"#D0D0D0\"/>\r\n\r\n        <cwc-grid class=\"demo-grid\" style=\"padding-top: 0.5rem;\">\r\n          <cwc-cell colspan=\"12\" mobile-colspan=\"12\">   \r\n            <div class=\"attr-user\">Origen</div>\r\n            <span class=\"attr-detail\">{{request.origen}}</span>\r\n          </cwc-cell>\r\n        </cwc-grid>\r\n\r\n        <cwc-grid class=\"demo-grid center-cell\">\r\n          <cwc-cell colspan=\"12\" mobile-colspan=\"12\">\r\n            <div class=\"attr-user\">Destino</div>\r\n            <span class=\"attr-detail\">{{request.destino}}</span>\r\n          </cwc-cell>\r\n        </cwc-grid>\r\n\r\n        <cwc-grid class=\"demo-grid center-cell\">\r\n          <cwc-cell mobile-colspan=\"6\">\r\n            <div class=\"attr-user\">Fecha y hora</div>\r\n            <span class=\"attr-detail\">{{request.dateTravels}} {{request.timerStar}}</span>\r\n          </cwc-cell>\r\n          <cwc-cell mobile-colspan=\"6\">\r\n            <div class=\"attr-user\">Numero de Placa</div>\r\n            <span class=\"attr-detail\">{{request.vehicleLisence}}</span>\r\n          </cwc-cell>\r\n        </cwc-grid>\r\n\r\n        <cwc-grid class=\"demo-grid center-cell\">\r\n          <cwc-cell colspan=\"12\" mobile-colspan=\"12\">\r\n            <div class=\"attr-user\">Vehículo</div>\r\n            <span class=\"attr-detail\">{{request.vehicleName}}</span>\r\n          </cwc-cell>\r\n        </cwc-grid>\r\n      </div>\r\n    </cwc-card>\r\n  </cwc-cell>\r\n</cwc-grid>";
 
 /***/ }),
 
@@ -307,7 +325,7 @@ module.exports = "<cwc-grid class=\"demo-grid\">\r\n  <cwc-cell colspan=\"6\" mo
   \**********************************************************************/
 /***/ ((module) => {
 
-module.exports = "<app-layout class=\"card-size\">\r\n  <cwc-grid class=\"demo-grid\" style=\"padding-top: 1rem;\">\r\n    <cwc-cell colspan=\"6\" mobile-colspan=\"9\">\r\n      <div>Semana 22 de Agosto, 2020</div>\r\n    </cwc-cell>\r\n    <cwc-cell colspan=\"6\" mobile-colspan=\"3\">\r\n      <div style=\"text-align: end;\">{{requestsList.length}} Viajes</div>\r\n    </cwc-cell>\r\n  </cwc-grid>\r\n  <div class=\"navbar\" style=\"padding-top: 0.5rem;\">\r\n    <app-request-waiting-list [requests]=\"requestsList\"></app-request-waiting-list>\r\n  </div>\r\n  <cwc-button class=\"float\" routerLink=\"new-request\" design-version=\"v2\" size=\"large\" variant=\"ghost\" ratio=\"square\" trailing-icon=\"plus\"></cwc-button>\r\n</app-layout>\r\n ";
+module.exports = "<app-layout class=\"card-size\">\r\n  <cwc-grid class=\"demo-grid\" style=\"padding-top: 1rem;\">\r\n    <cwc-cell colspan=\"6\" mobile-colspan=\"9\">\r\n      <div>Semana 22 de Agosto, 2020</div>\r\n    </cwc-cell>\r\n    <cwc-cell colspan=\"6\" mobile-colspan=\"3\">\r\n      <div style=\"text-align: end;\">{{requestsList.length}} Viajes</div>\r\n    </cwc-cell>\r\n  </cwc-grid>\r\n  <ion-content>   \r\n    <ion-refresher slot=\"fixed\" (ionRefresh)=\"doRefresh($event)\">\r\n      <ion-refresher-content></ion-refresher-content>\r\n    </ion-refresher>\r\n    <div class=\"navbar\" style=\"padding-top: 0.5rem;\">\r\n      <app-request-waiting-list [requests]=\"requestsList\"></app-request-waiting-list>\r\n    </div>\r\n  </ion-content>\r\n  <cwc-button class=\"float\" routerLink=\"new-request\" design-version=\"v2\" size=\"large\" variant=\"ghost\" ratio=\"square\" trailing-icon=\"plus\"></cwc-button>\r\n</app-layout>\r\n ";
 
 /***/ })
 

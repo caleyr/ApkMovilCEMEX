@@ -27,8 +27,7 @@ export class LoginPage implements OnInit {
 
   message: string = null;
   role: string;
-  isDriver: any = true;
-
+  isDriver: any = true;  
   loading = false;
   constructor(
     private formBuilder: FormBuilder,
@@ -46,6 +45,7 @@ export class LoginPage implements OnInit {
     if(this.form.invalid){
       return;
     }
+    this.loading = false;
     await this.loginService.loginWeb(this.form.value).subscribe(async resp =>{ 
       const session : string = JSON.parse(resp.data)["token"];
       this.role = JSON.parse(atob(session.split('.')[1]))["Roles"];
@@ -60,7 +60,6 @@ export class LoginPage implements OnInit {
         }
       },
       (error) =>{
-        alert(error)
         this.statusInputEmail = 'error';
         this.statusInputPassword = 'error';
         this.loading = false;

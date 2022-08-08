@@ -4,13 +4,13 @@ export class Travel {
     source: string;
     departamentSource: string;
     directionSource: string;
-    latitudeSource: string;
-    longitudeSource: string;
+    latitudeSource: number;
+    longitudeSource: number;
     destiny: string;
     departamentDestiny: string;
     directionDestiny: string;
-    latitudeDestiny: string;
-    longitudeDestiny: string;
+    latitudeDestiny: number;
+    longitudeDestiny: number;
     productName: string;
     amount: number;
     dateTravel: string;

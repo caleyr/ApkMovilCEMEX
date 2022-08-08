@@ -1,13 +1,13 @@
 <cwc-grid class="demo-grid">
   <cwc-cell colspan="6" mobile-colspan="12" *ngFor="let request of requests">
-    <cwc-card class="card-info" design-version="v2">
+    <cwc-card class="card-info" design-version="v1">
       <div class="main-content-card">
         <div class="header-card">
           <div class="avatar-info">
-            <span class="style-name">Viaje {{request.travelsCode}}</span>
+            <span class="style-name">Viaje {{request.codeRequest}}</span>
           </div>
             <cwc-status-indicator size="small" class="statusI" variant='success'>
-              <div class="statusI">{{request.statusRequest}}</div>
+              <div class="statusI">{{request.statusRequeststring}}</div>
             </cwc-status-indicator>
         </div>
 
@@ -40,15 +40,8 @@
 
         <cwc-grid class="demo-grid center-cell">
           <cwc-cell colspan="12" mobile-colspan="12">
-            <div class="attr-user">Modelo</div>
+            <div class="attr-user">Vehículo</div>
             <span class="attr-detail">{{request.vehicleName}}</span>
-          </cwc-cell>
-        </cwc-grid>
-
-        <cwc-grid class="demo-grid center-cell">
-          <cwc-cell colspan="6" mobile-colspan="12">
-            <div class="attr-user">Inicio de viaje</div>
-            <span class="attr-detail">{{request.timerStar}}</span>
           </cwc-cell>
         </cwc-grid>
       </div>

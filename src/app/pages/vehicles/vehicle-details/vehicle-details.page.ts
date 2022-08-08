@@ -24,6 +24,7 @@ export class VehicleDetailsPage implements OnInit {
   suscripcion : Subscription;
 
   idTercero : string;
+  idAdmin = '0h174cfb–4418–1c3e-a2bf-89f716w72cu3';
 
   addDriver = false;
   alertShow = false;

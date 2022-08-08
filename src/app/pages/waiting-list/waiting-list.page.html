@@ -7,9 +7,14 @@
       <div style="text-align: end;">{{requestsList.length}} Viajes</div>
     </cwc-cell>
   </cwc-grid>
-  <div class="navbar" style="padding-top: 0.5rem;">
-    <app-request-waiting-list [requests]="requestsList"></app-request-waiting-list>
-  </div>
+  <ion-content>   
+    <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+      <ion-refresher-content></ion-refresher-content>
+    </ion-refresher>
+    <div class="navbar" style="padding-top: 0.5rem;">
+      <app-request-waiting-list [requests]="requestsList"></app-request-waiting-list>
+    </div>
+  </ion-content>
   <cwc-button class="float" routerLink="new-request" design-version="v2" size="large" variant="ghost" ratio="square" trailing-icon="plus"></cwc-button>
 </app-layout>
  

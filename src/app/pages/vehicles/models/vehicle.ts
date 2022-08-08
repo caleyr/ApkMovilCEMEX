@@ -5,8 +5,10 @@ export class Vehicle{
     typeTrailer : string;
     soat : string;
     companyId : string;
+    companyName : string;
     users : string;
     userId : string;
+    userName : string;
     statusVehicle : string;
     statusTravel : number;
     soatDocument : number;

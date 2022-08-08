@@ -23,7 +23,11 @@ export class RequestService {
   }
 
   createRequest(data: any){
-    return this.http.doPostFormData(`${BASE_URL_API}/api/waitingList/CreateRequestTravel`, data, {});
+    return this.http.doPostFormData(`${BASE_URL_API}/api/waitingList/CreateRequestTravel`, data, {}).pipe(
+      tap(() => {
+        this._refresh$.next();
+      })
+    )
   }
 
   updateRequest(id: string, data: any){
@@ -40,6 +44,10 @@ export class RequestService {
 
   getRequestByIdUser(correo: string){
     return this.http.doGet(`${BASE_URL_API}/api/waitingList/GetRequestByIdUser/${correo}`, {});
+  }
+
+  getRequestByIdCompany(idCompany: string){
+    return this.http.doGet(`${BASE_URL_API}/api/waitingList/GetListWaitingByIdCompany/${idCompany}`, {});
   }
 
   getRequests(){

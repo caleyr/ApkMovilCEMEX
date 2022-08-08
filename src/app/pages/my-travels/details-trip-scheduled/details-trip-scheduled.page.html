@@ -9,12 +9,14 @@
     <div class="card-content">
       <div *ngIf="rol !== 'Conductor'" class="header-card">
         <div class="avatar-info">
-          <div class="attr-name">CONDUCTOR</div>
-          <cwc-button variant="link" leading-icon="download">{{travel.userName}}</cwc-button>
+          <div class="attr-user">CHOFER</div>
+          <cwc-icon name="phone" size="14px" color="true-black">
+          </cwc-icon>
+          <span class="number-phone" style="margin-left: 0.5rem;">{{travel.userName}}</span>
         </div>
         <cwc-cell class="flex flex__align--bullseye" style="text-align: end;">
           <cwc-button variant="link">
-            <div style="font-size: 15px; font-weight: normal;">CONTACTAR</div>
+            <div style="font-size: small; font-weight: 900;">CONTACTAR</div>
           </cwc-button>
         </cwc-cell>
       </div>
@@ -30,7 +32,7 @@
       </div>
 
       <hr color="#D0D0D0" />
-      <cwc-grid class="demo-grid center-cell" style="padding-top: 0.5rem;">
+      <cwc-grid class="demo-grid center-cell">
         <cwc-cell colspan="12" mobile-colspan="12">
           <div class="attr-user">ORIGEN</div>
           <span class="attr-detail">{{travel.source}}</span>
@@ -85,10 +87,33 @@
       </cwc-grid>
 
       <div *ngIf="rol !== 'Conductor'">
-        <div>Boton RASTREAR VIAJE</div>
+        <cwc-cell colspan="12" mobile-colspan="12" style="padding-bottom: 0.5rem;">
+          <cwc-button
+            design-version="v1"
+            variant="regular-block">RASTREAR VIAJE</cwc-button>
+        </cwc-cell>
 
         <hr color="#D0D0D0" />
-        <div>Despliege Actualizaciones</div>
+        <cwc-grid class="demo-grid" style="padding-top: 0.5rem; padding-bottom: 1rem;">
+          <cwc-cell mobile-colspan="6" >                       
+              <div>Actualizaciones</div>
+          </cwc-cell>
+          <cwc-cell mobile-colspan="6" style="text-align: end;">
+              <cwc-button variant="link">
+                  <div class="text-button">Mostrar</div>
+              </cwc-button>
+          </cwc-cell>
+        </cwc-grid>
+        <cwc-grid class="demo-grid">
+            <cwc-cell mobile-colspan="12">
+                <div class="attr-user">Fecha y hora de cita</div>
+                <span>10:30 am</span>
+            </cwc-cell>
+            <cwc-cell mobile-colspan="12">   
+                <div class="attr-user">Actualización</div>
+                <span>Lluvias y deslabe en la carretera de planta Medellín, posible retraso de 1 hora.</span>
+            </cwc-cell>
+        </cwc-grid>
       </div>
 
       <div *ngIf="rol === 'Conductor'">

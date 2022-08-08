@@ -104,10 +104,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! tslib */ 34929);
 /* harmony import */ var _layout_page_html_ngResource__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./layout.page.html?ngResource */ 81697);
 /* harmony import */ var _layout_page_scss_ngResource__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./layout.page.scss?ngResource */ 10225);
+/* harmony import */ var _services_active_tabs_service__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./../../services/active-tabs.service */ 6109);
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @angular/core */ 3184);
 /* harmony import */ var _ionic_storage_angular__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @ionic/storage-angular */ 80190);
-/* harmony import */ var src_app_services_auth_login_service__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! src/app/services/auth/login.service */ 52876);
-/* harmony import */ var src_app_services_sidebar_menu_service__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! src/app/services/sidebar-menu.service */ 56997);
+/* harmony import */ var src_app_services_auth_login_service__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! src/app/services/auth/login.service */ 52876);
+
 
 
 
@@ -115,14 +116,12 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-
 let LayoutPage = class LayoutPage {
-    constructor(storage, sideBarMenu, loginService) {
+    constructor(storage, loginService, activeTabsService) {
         this.storage = storage;
-        this.sideBarMenu = sideBarMenu;
         this.loginService = loginService;
+        this.activeTabsService = activeTabsService;
         this.notDriver = false;
-        this.menu = [];
         this.user = {
             name: '',
         };
@@ -134,8 +133,10 @@ let LayoutPage = class LayoutPage {
     ngOnInit() {
         return (0,tslib__WEBPACK_IMPORTED_MODULE_4__.__awaiter)(this, void 0, void 0, function* () {
             yield this.storage.create();
-            //await this.getData(); 
         });
+    }
+    ionViewWillLeave() {
+        this.activeTabsService.clearSelectedTabs();
     }
     currentUser() {
         return (0,tslib__WEBPACK_IMPORTED_MODULE_4__.__awaiter)(this, void 0, void 0, function* () {
@@ -150,15 +151,15 @@ let LayoutPage = class LayoutPage {
         });
     }
     logout() {
-        this.menu = [];
+        this.activeTabsService.clearSelectedTabs();
         this.roles = " ";
         this.loginService.logout();
     }
 };
 LayoutPage.ctorParameters = () => [
     { type: _ionic_storage_angular__WEBPACK_IMPORTED_MODULE_5__.Storage },
-    { type: src_app_services_sidebar_menu_service__WEBPACK_IMPORTED_MODULE_3__.SidebarMenuService },
-    { type: src_app_services_auth_login_service__WEBPACK_IMPORTED_MODULE_2__.LoginService }
+    { type: src_app_services_auth_login_service__WEBPACK_IMPORTED_MODULE_3__.LoginService },
+    { type: _services_active_tabs_service__WEBPACK_IMPORTED_MODULE_2__.ActiveTabsService }
 ];
 LayoutPage = (0,tslib__WEBPACK_IMPORTED_MODULE_4__.__decorate)([
     (0,_angular_core__WEBPACK_IMPORTED_MODULE_6__.Component)({
@@ -172,83 +173,38 @@ LayoutPage = (0,tslib__WEBPACK_IMPORTED_MODULE_4__.__decorate)([
 
 /***/ }),
 
-/***/ 56997:
-/*!**************************************************!*\
-  !*** ./src/app/services/sidebar-menu.service.ts ***!
-  \**************************************************/
+/***/ 6109:
+/*!*************************************************!*\
+  !*** ./src/app/services/active-tabs.service.ts ***!
+  \*************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "SidebarMenuService": () => (/* binding */ SidebarMenuService)
+/* harmony export */   "ActiveTabsService": () => (/* binding */ ActiveTabsService)
 /* harmony export */ });
 /* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ 34929);
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ 3184);
 
-/* eslint-disable @typescript-eslint/member-ordering */
 
-let SidebarMenuService = class SidebarMenuService {
-    constructor() { }
-    getMenu(role) {
-        const menu = [
-            {
-                title: 'Inicio',
-                icon: 'radio-static',
-                url: 'home',
-                show: true,
-            },
-            {
-                title: 'Mis viajes',
-                icon: 'radio-static',
-                url: 'travels',
-                show: true,
-            },
-            {
-                title: 'Buscar viaje',
-                icon: 'radio-static',
-                url: 'search-travel',
-                show: true,
-            },
-            {
-                title: 'Notificaciones',
-                icon: 'radio-static',
-                url: 'notifications',
-                show: true,
-            },
-            {
-                title: 'Lista de espera',
-                icon: 'radio-static',
-                url: 'waiting-list',
-                show: true,
-            },
-            {
-                title: 'Vehículos',
-                icon: 'radio-static',
-                url: 'vehicles',
-                show: role !== 'Driver' ? true : false
-            },
-            {
-                title: 'Conductores',
-                icon: 'radio-static',
-                url: 'drivers',
-                show: role !== 'Driver' ? true : false
-            },
-            {
-                title: 'Llamar a centro de servicio',
-                icon: 'radio-static',
-                url: 'call-service',
-                show: true,
-            },
-        ];
-        return menu;
+let ActiveTabsService = class ActiveTabsService {
+    constructor() {
+        this.myTravelsTab = 'programados';
+        this.usersTab = 'actuales';
+        this.vehiclesTab = 'actuales';
+    }
+    clearSelectedTabs() {
+        this.myTravelsTab = 'programados';
+        this.usersTab = 'actuales';
+        this.vehiclesTab = 'actuales';
     }
 };
-SidebarMenuService.ctorParameters = () => [];
-SidebarMenuService = (0,tslib__WEBPACK_IMPORTED_MODULE_0__.__decorate)([
+ActiveTabsService.ctorParameters = () => [];
+ActiveTabsService = (0,tslib__WEBPACK_IMPORTED_MODULE_0__.__decorate)([
     (0,_angular_core__WEBPACK_IMPORTED_MODULE_1__.Injectable)({
         providedIn: 'root'
     })
-], SidebarMenuService);
+], ActiveTabsService);
 
 
 
@@ -270,7 +226,7 @@ module.exports = ".content-avatar-menu {\n  padding-top: 0.8rem;\n  padding-left
   \**********************************************************/
 /***/ ((module) => {
 
-module.exports = "<cwc-page design-version=\"v2\" variant=\"positive\">\r\n\r\n    <cwc-header design-version=\"v2\" slot=\"header\" show-cemex-logo=\"true\" show-Menu-Button=\"true\">\r\n        <!-- <cwc-overlay design-version=\"v2\" min-width=\"300px\" variant=\"popover\" height=\"286px\">\r\n            <div slot=\"target\" class=\"flex content-notification flex__align--center m-end-xs\" >\r\n                <cwc-button variant=\"link\" leading-icon=\"notification\" white size=\"medium\" class=\"m-end-xs\">Notificaciones</cwc-button>\r\n                <div class=\"display-inline-block p-all-xs border-radius--circle bg--true-red badge-notification\" style=\"width: 1rem; height: 1rem; text-align: center; line-height: 1rem;\">2</div>\r\n            </div>\r\n        </cwc-overlay> -->\r\n    </cwc-header>\r\n  \r\n\r\n    <cwc-sidenav slot=\"sidenav\" variant=\"positive\">\r\n        <!-- <cwc-entity-selector slot=\"legal-entity-selection\" variant=\"positive\">\r\n            <cwc-entity-selector-item entity-icon=\"user\" entity-name=\"Amanda Lopez\" entity-id=\"Hombre Camnión\" active>\r\n                <cwc-avatar size=\"small\" variant=\"negative\" name=\"Michael Wasserman\" class=\"m-h-xs\"></cwc-avatar>\r\n            </cwc-entity-selector-item>\r\n            <cwc-entity-selector-item entity-name=\"Grand Valley Construction\" entity-id=\"#1323555\"></cwc-entity-selector-item>\r\n        </cwc-entity-selector> -->\r\n    \r\n        <cwc-sidenav-menu id=\"menuNav\" slot=\"menu-items\" variant=\"positive\">\r\n            <div class=\"content-avatar-menu\" style=\"margin-left: 0.5; margin-right: 0.5rem; display: flex; align-items: center;\" [routerLink]=\"['/app/profile']\" routerLinkActive=\"router-link-active\" >\r\n                <cwc-avatar size=\"small\" variant=\"negative\" [name]=\"user.name\" class=\"m-h-xs\" style=\"width: 15%; padding: 1rem\"></cwc-avatar>\r\n                 <p style=\"margin-left: 0.5rem;\">{{ user.name }}</p>\r\n            </div>\r\n            \r\n            <!-- <div>\r\n                <ul *ngFor=\"let menudDriver of menu\">\r\n                    <li>\r\n                        <cwc-icon name=\"module-customer-information\" color=\"true-black\"></cwc-icon>\r\n                        {{menudDriver.title}}\r\n                    </li>\r\n                </ul>\r\n            </div> -->\r\n            <!-- <cwc-sidenav-menu-item *ngFor=\"let menudDriver of menu\" [label]=\"menudDriver.title\" [iconName]=\"menudDriver.icon\" [routerLink]=\"menudDriver.url\" routerLinkActive=\"router-link-active\" ></cwc-sidenav-menu-item> -->\r\n\r\n            <!-- <div *ngFor=\"let menudDriver of menu\">\r\n                <cwc-sidenav-menu-item *ngIf=\"menudDriver.show\"  [label]=\"menudDriver.title\" [routerLink]=\"menudDriver.url\" routerLinkActive=\"router-link-active\" ></cwc-sidenav-menu-item>\r\n            </div> -->\r\n        <cwc-sidenav-menu-item  label=\"Inicio\" [iconName]=\"'radio-static'\" [routerLink]=\"['/app/home']\" routerLinkActive=\"router-link-active\"  ></cwc-sidenav-menu-item>\r\n        <cwc-sidenav-menu-item  label=\"Mis viajes\" [iconName]=\"'radio-static'\" [routerLink]=\"['/app/my-travels']\" routerLinkActive=\"router-link-active\"  ></cwc-sidenav-menu-item>\r\n        <cwc-sidenav-menu-item  label=\"Buscar viaje\" [iconName]=\"'radio-static'\" [routerLink]=\"['/app/travels']\" routerLinkActive=\"router-link-active\"  ></cwc-sidenav-menu-item>\r\n        <cwc-sidenav-menu-item  label=\"Notificaciones\" [iconName]=\"'radio-static'\" [routerLink]=\"['/app/notifications']\" routerLinkActive=\"router-link-active\"  ></cwc-sidenav-menu-item>\r\n        <cwc-sidenav-menu-item  label=\"Lista de espera\" [iconName]=\"'radio-static'\" [routerLink]=\"['/app/waiting-list']\" routerLinkActive=\"router-link-active\"  ></cwc-sidenav-menu-item>\r\n        <cwc-sidenav-menu-item *ngIf=\"notDriver\"  label=\"Vehículos\" [iconName]=\"'radio-static'\" [routerLink]=\"['/app/vehiculos']\" routerLinkActive=\"router-link-active\"  ></cwc-sidenav-menu-item>\r\n        <cwc-sidenav-menu-item *ngIf=\"notDriver\" label=\"Conductores\" [iconName]=\"'radio-static'\" [routerLink]=\"['/app/conductores']\" routerLinkActive=\"router-link-active\"  ></cwc-sidenav-menu-item>\r\n        <cwc-sidenav-menu-item  label=\"Llamar a centro de servicio\" [iconName]=\"'radio-static'\" [routerLink]=\"['/app/call-service']\" routerLinkActive=\"router-link-active\"  ></cwc-sidenav-menu-item>\r\n\r\n        </cwc-sidenav-menu>\r\n        <cwc-footer-menu slot=\"links\">\r\n            <cwc-footer-menu-item label=\"Legal\" href=\"https://www.cemex.com/legal\" target=\"_blank\"></cwc-footer-menu-item>\r\n            <cwc-footer-menu-item label=\"Privacy\" onclick=\"window.alert('Triggered by a javascript function')\"></cwc-footer-menu-item>\r\n            <cwc-footer-menu-item label=\"cemex.com\" href=\"https://www.cemex.com\" target=\"_blank\"></cwc-footer-menu-item>\r\n        </cwc-footer-menu>\r\n    \r\n        <div slot=\"copyright\">\r\n            <div class=\"button\" (click)=\"logout()\">\r\n                <cwc-button variant=\"link\">Cerrar Sesión</cwc-button>\r\n            </div>\r\n            <br>\r\n            © 2017-2019 CEMEX\r\n            International<br /> Holding AG.\r\n            All rights reserved.\r\n        </div>\r\n    </cwc-sidenav>\r\n  \r\n  \r\n    <div slot=\"main\" style=\"padding: 15px; flex: 1 1 auto\">\r\n        <!-- <h1 style=\"margin-top: 0\">Page Demo</h1>\r\n        <ion-router-outlet style=\"flex: 1 1 auto;\"></ion-router-outlet> -->\r\n        <ng-content></ng-content>\r\n      </div>\r\n  </cwc-page>";
+module.exports = "<cwc-page design-version=\"v2\" variant=\"positive\">\r\n\r\n    <cwc-header design-version=\"v2\" slot=\"header\" show-cemex-logo=\"true\" show-Menu-Button=\"true\">\r\n        <!-- <cwc-overlay design-version=\"v2\" min-width=\"300px\" variant=\"popover\" height=\"286px\">\r\n            <div slot=\"target\" class=\"flex content-notification flex__align--center m-end-xs\" >\r\n                <cwc-button variant=\"link\" leading-icon=\"notification\" white size=\"medium\" class=\"m-end-xs\">Notificaciones</cwc-button>\r\n                <div class=\"display-inline-block p-all-xs border-radius--circle bg--true-red badge-notification\" style=\"width: 1rem; height: 1rem; text-align: center; line-height: 1rem;\">2</div>\r\n            </div>\r\n        </cwc-overlay> -->\r\n    </cwc-header>\r\n\r\n    <cwc-sidenav slot=\"sidenav\" variant=\"positive\">\r\n        <!-- <cwc-entity-selector slot=\"legal-entity-selection\" variant=\"positive\">\r\n            <cwc-entity-selector-item entity-icon=\"user\" entity-name=\"Amanda Lopez\" entity-id=\"Hombre Camnión\" active>\r\n                <cwc-avatar size=\"small\" variant=\"negative\" name=\"Michael Wasserman\" class=\"m-h-xs\"></cwc-avatar>\r\n            </cwc-entity-selector-item>\r\n            <cwc-entity-selector-item entity-name=\"Grand Valley Construction\" entity-id=\"#1323555\"></cwc-entity-selector-item>\r\n        </cwc-entity-selector> -->\r\n\r\n        <cwc-sidenav-menu id=\"menuNav\" slot=\"menu-items\" variant=\"positive\">\r\n            <div class=\"content-avatar-menu\"\r\n                style=\"margin-left: 0.5; margin-right: 0.5rem; display: flex; align-items: center;\"\r\n                [routerLink]=\"['/app/profile']\" routerLinkActive=\"router-link-active\">\r\n                <cwc-avatar size=\"small\" variant=\"negative\" [name]=\"user.name\" class=\"m-h-xs\"\r\n                    style=\"width: 15%; padding: 1rem\"></cwc-avatar>\r\n                <p style=\"margin-left: 0.5rem;\">{{ user.name }}</p>\r\n            </div>\r\n\r\n            <!-- <div>\r\n                <ul *ngFor=\"let menudDriver of menu\">\r\n                    <li>\r\n                        <cwc-icon name=\"module-customer-information\" color=\"true-black\"></cwc-icon>\r\n                        {{menudDriver.title}}\r\n                    </li>\r\n                </ul>\r\n            </div> -->\r\n            <!-- <cwc-sidenav-menu-item *ngFor=\"let menudDriver of menu\" [label]=\"menudDriver.title\" [iconName]=\"menudDriver.icon\" [routerLink]=\"menudDriver.url\" routerLinkActive=\"router-link-active\" ></cwc-sidenav-menu-item> -->\r\n\r\n            <!-- <div *ngFor=\"let menudDriver of menu\">\r\n                <cwc-sidenav-menu-item *ngIf=\"menudDriver.show\"  [label]=\"menudDriver.title\" [routerLink]=\"menudDriver.url\" routerLinkActive=\"router-link-active\" ></cwc-sidenav-menu-item>\r\n            </div> -->\r\n            <cwc-sidenav-menu-item label=\"Inicio\" [iconName]=\"'radio-static'\" [routerLink]=\"['/app/home']\"\r\n                routerLinkActive=\"router-link-active\"></cwc-sidenav-menu-item>\r\n            <cwc-sidenav-menu-item label=\"Mis viajes\" [iconName]=\"'radio-static'\" [routerLink]=\"['/app/my-travels']\"\r\n                routerLinkActive=\"router-link-active\"></cwc-sidenav-menu-item>\r\n            <cwc-sidenav-menu-item label=\"Buscar viaje\" [iconName]=\"'radio-static'\" [routerLink]=\"['/app/travels']\"\r\n                routerLinkActive=\"router-link-active\"></cwc-sidenav-menu-item>\r\n            <cwc-sidenav-menu-item label=\"Notificaciones\" [iconName]=\"'radio-static'\"\r\n                [routerLink]=\"['/app/notifications']\" routerLinkActive=\"router-link-active\"></cwc-sidenav-menu-item>\r\n            <cwc-sidenav-menu-item label=\"Lista de espera\" [iconName]=\"'radio-static'\"\r\n                [routerLink]=\"['/app/waiting-list']\" routerLinkActive=\"router-link-active\"></cwc-sidenav-menu-item>\r\n            <cwc-sidenav-menu-item *ngIf=\"notDriver\" label=\"Vehículos\" [iconName]=\"'radio-static'\"\r\n                [routerLink]=\"['/app/vehiculos']\" routerLinkActive=\"router-link-active\"></cwc-sidenav-menu-item>\r\n            <cwc-sidenav-menu-item *ngIf=\"notDriver\" label=\"Conductores\" [iconName]=\"'radio-static'\"\r\n                [routerLink]=\"['/app/conductores']\" routerLinkActive=\"router-link-active\"></cwc-sidenav-menu-item>\r\n            <cwc-sidenav-menu-item label=\"Llamar a centro de servicio\" [iconName]=\"'radio-static'\"\r\n                [routerLink]=\"['/app/call-service']\" routerLinkActive=\"router-link-active\"></cwc-sidenav-menu-item>\r\n\r\n        </cwc-sidenav-menu>\r\n\r\n        <cwc-footer-menu slot=\"links\">\r\n            <cwc-footer-menu-item label=\"Legal\" href=\"https://www.cemex.com/legal\" target=\"_blank\">\r\n            </cwc-footer-menu-item>\r\n            <cwc-footer-menu-item label=\"Privacy\" onclick=\"window.alert('Triggered by a javascript function')\">\r\n            </cwc-footer-menu-item>\r\n            <cwc-footer-menu-item label=\"cemex.com\" href=\"https://www.cemex.com\" target=\"_blank\"></cwc-footer-menu-item>\r\n        </cwc-footer-menu>\r\n\r\n        <div slot=\"copyright\">\r\n            <div class=\"button\" (click)=\"logout()\">\r\n                <cwc-button variant=\"link\">Cerrar Sesión</cwc-button>\r\n            </div>\r\n            <br>\r\n            © 2017-2019 CEMEX\r\n            International<br /> Holding AG.\r\n            All rights reserved.\r\n        </div>\r\n    </cwc-sidenav>\r\n\r\n\r\n    <div slot=\"main\" style=\"padding: 15px; flex: 1 1 auto\">\r\n        <!-- <h1 style=\"margin-top: 0\">Page Demo</h1>\r\n        <ion-router-outlet style=\"flex: 1 1 auto;\"></ion-router-outlet> -->\r\n        <ng-content></ng-content>\r\n    </div>\r\n</cwc-page>";
 
 /***/ })
 

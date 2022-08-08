@@ -13,6 +13,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { ComponentsModule } from './components/components.module';
 import { HTTP } from '@awesome-cordova-plugins/http/ngx';
 import { NgOtpInputModule } from 'ng-otp-input';
+import { DatePipe } from '@angular/common';
 
 
 
@@ -28,7 +29,7 @@ import { NgOtpInputModule } from 'ng-otp-input';
     AppRoutingModule,
     CmxWebComponentsModule.forRoot()
   ],
-  providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }, HTTP],
+  providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }, HTTP, DatePipe],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

@@ -170,12 +170,14 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "DriversPage": () => (/* binding */ DriversPage)
 /* harmony export */ });
-/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! tslib */ 34929);
+/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! tslib */ 34929);
 /* harmony import */ var _drivers_page_html_ngResource__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./drivers.page.html?ngResource */ 55244);
 /* harmony import */ var _drivers_page_scss_ngResource__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./drivers.page.scss?ngResource */ 57345);
-/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @angular/core */ 3184);
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @angular/core */ 3184);
 /* harmony import */ var _services_auth_login_service__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../services/auth/login.service */ 52876);
 /* harmony import */ var _services_drivers_service__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../services/drivers.service */ 50774);
+/* harmony import */ var rxjs_operators__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! rxjs/operators */ 44661);
+
 
 
 
@@ -187,22 +189,33 @@ let DriversPage = class DriversPage {
         this.driversService = driversService;
         this.loginService = loginService;
         this.driversList = [];
+        this.loading = false;
     }
     ngOnInit() {
         this.getDataList();
     }
     getDataList() {
-        this.driversService.getDriverList(this.loginService.profileUser.CompanyId).subscribe(data => {
+        this.loading = true;
+        this.driversService.getDriverList(this.loginService.profileUser.CompanyId).pipe((0,rxjs_operators__WEBPACK_IMPORTED_MODULE_4__.finalize)(() => {
+            this.loading = false;
+        })).subscribe(data => {
             this.driversList = data.data;
         });
+    }
+    doRefresh(event) {
+        setTimeout(() => {
+            this.driversList = [];
+            this.getDataList();
+            event.target.complete();
+        }, 2000);
     }
 };
 DriversPage.ctorParameters = () => [
     { type: _services_drivers_service__WEBPACK_IMPORTED_MODULE_3__.DriversService },
     { type: _services_auth_login_service__WEBPACK_IMPORTED_MODULE_2__.LoginService }
 ];
-DriversPage = (0,tslib__WEBPACK_IMPORTED_MODULE_4__.__decorate)([
-    (0,_angular_core__WEBPACK_IMPORTED_MODULE_5__.Component)({
+DriversPage = (0,tslib__WEBPACK_IMPORTED_MODULE_5__.__decorate)([
+    (0,_angular_core__WEBPACK_IMPORTED_MODULE_6__.Component)({
         selector: 'app-drivers',
         template: _drivers_page_html_ngResource__WEBPACK_IMPORTED_MODULE_0__,
         styles: [_drivers_page_scss_ngResource__WEBPACK_IMPORTED_MODULE_1__]
@@ -249,7 +262,7 @@ module.exports = "<cwc-card *ngFor=\"let driver of drivers\" (click)=\"detailDri
   \************************************************************/
 /***/ ((module) => {
 
-module.exports = "<app-layout class=\"card-size\">\r\n  <cwc-grid class=\"demo-grid\" row-gap=\"2px\">\r\n    <cwc-cell colspan=\"12\" mobile-colspan=\"11\" style=\"padding-bottom: 0;\">     \r\n      <div>\r\n        <cwc-input class=\"search-text\" variant=\"regular\" rtl=\"false\" trailing-icon='magnifier-glass' placeholder='Buscar...'></cwc-input>  \r\n      </div>       \r\n    </cwc-cell> \r\n    <cwc-cell colspan=\"12\" mobile-colspan=\"1\">    \r\n      <div class=\"icon\">\r\n        <cwc-button variant=\"link\">          \r\n          <cwc-icon variant=\"link\" name='controls' size=\"20px\" aria-role=\"button\"></cwc-icon>\r\n        </cwc-button>\r\n      </div>  \r\n    </cwc-cell>    \r\n  </cwc-grid>  \r\n  <h6 class=\"text-vehicles\">Conductores ({{driversList.length}})</h6>\r\n  <div class=\"navbar\">\r\n    <app-driver-list [drivers]=\"driversList\"></app-driver-list>\r\n  </div>  \r\n  <cwc-button class=\"float\" routerLink=\"agregar\" design-version=\"v2\" size=\"large\" variant=\"ghost\" ratio=\"square\" trailing-icon=\"plus\"></cwc-button>\r\n</app-layout>\r\n";
+module.exports = "<app-layout class=\"card-size\">\r\n  <cwc-grid class=\"demo-grid\" row-gap=\"2px\">\r\n    <cwc-cell colspan=\"12\" mobile-colspan=\"11\" style=\"padding-bottom: 0;\">     \r\n      <div>\r\n        <cwc-input class=\"search-text\" variant=\"regular\" rtl=\"false\" trailing-icon='magnifier-glass' placeholder='Buscar...'></cwc-input>  \r\n      </div>       \r\n    </cwc-cell> \r\n    <cwc-cell colspan=\"12\" mobile-colspan=\"1\">    \r\n      <div class=\"icon\">\r\n        <cwc-button variant=\"link\">          \r\n          <cwc-icon variant=\"link\" name='controls' size=\"20px\" aria-role=\"button\"></cwc-icon>\r\n        </cwc-button>\r\n      </div>  \r\n    </cwc-cell>    \r\n  </cwc-grid>  \r\n  <h6 class=\"text-vehicles\">Conductores ({{driversList.length}})</h6>\r\n  <ion-content>\r\n    <ion-refresher slot=\"fixed\" (ionRefresh)=\"doRefresh($event)\">\r\n      <ion-refresher-content></ion-refresher-content>\r\n    </ion-refresher>\r\n    <div class=\"navbar\">    \r\n      <app-driver-list [drivers]=\"driversList\"></app-driver-list>\r\n    </div>  \r\n  </ion-content>\r\n  \r\n  <cwc-button class=\"float\" routerLink=\"agregar\" design-version=\"v2\" size=\"large\" variant=\"ghost\" ratio=\"square\" trailing-icon=\"plus\"></cwc-button>\r\n</app-layout>\r\n\r\n<div class=\"loading-content\" *ngIf=\"loading\">\r\n  <cwc-loader>\r\n    <span slot='loading'>Espere un momento...</span>\r\n  </cwc-loader>\r\n</div>\r\n";
 
 /***/ })
 

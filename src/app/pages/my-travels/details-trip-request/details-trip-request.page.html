@@ -9,8 +9,8 @@
     <div class="card-content">
       <div class="header-card">
         <div class="avatar-info">
-          <div class="attr-name">CONDUCTOR</div>
-          <span class="style-name">Pendiente por confirmar</span>
+          <div class="attr-user">CONDUCTOR</div>
+          <span class="attr-detail">Pendiente por confirmar</span>
         </div>
       </div>
 
@@ -47,7 +47,7 @@
         </cwc-cell>
       </cwc-grid>
 
-      <cwc-grid class="demo-grid center-cell">
+      <cwc-grid class="demo-grid center-cell" *ngIf="travel.vehicleLissenceName">
         <cwc-cell mobile-colspan="6">
           <div class="attr-user">MODELO</div>
           <span class="attr-detail">{{travel.vehicleModelName}}</span>
@@ -66,18 +66,63 @@
       </cwc-grid>
 
       <hr color="#D0D0D0" />
-      <cwc-grid class="demo-grid center-cell">
-        <cwc-cell class="flex flex__align--bullseye" style="text-align: end;">
-          <cwc-button variant="link">
-            <div style="font-size: 15px; font-weight: normal;">ASIGNAR CONDUCTOR</div>
+      <cwc-grid class="demo-grid" style="padding-top: 0.5rem;" *ngIf="!travel.vehicleLissenceName">
+        <cwc-cell mobile-colspan="7" style="text-align: end;">
+          <cwc-button variant="link" class="m-h-reg link-cwc" (cwcClick)="showModal()">
+            <div style="font-size: small;  font-weight: normal;">ASIGNAR CONDUCTOR</div>
           </cwc-button>
         </cwc-cell>
-        <cwc-cell class="flex flex__align--bullseye" style="text-align: end;">
-          <cwc-button variant="link">
-            <div style="font-size: 15px; font-weight: normal;">CANCELAR</div>
+        <cwc-cell mobile-colspan="5" style="text-align: end;">
+          <cwc-button variant="link" class="m-h-reg link-cwc">
+            <div style="font-size: small; font-weight: normal;">CANCELAR</div>
+          </cwc-button>
+        </cwc-cell>
+      </cwc-grid>
+      
+      <cwc-grid class="demo-grid" style="padding-top: 0.5rem;" *ngIf="travel.vehicleLissenceName">
+        <cwc-cell mobile-colspan="7" style="text-align: end;">
+          <cwc-button variant="link" class="m-h-reg link-cwc" (cwcClick)="showModalConfirm()">
+            <div style="font-size: small;  font-weight: normal;">CONFIRMAR CONDUCTOR</div>
+          </cwc-button>
+        </cwc-cell>
+        <cwc-cell mobile-colspan="5" style="text-align: end;">
+          <cwc-button variant="link" class="m-h-reg link-cwc">
+            <div style="font-size: small; font-weight: normal;">CANCELAR</div>
           </cwc-button>
         </cwc-cell>
       </cwc-grid>
     </div>
   </cwc-card>
 </div>
+
+<cwc-modal id='modal-assign-trip' class="modal-list" design-version="v2" style="z-index: 0;">
+  <h3 style='text-align: center;'>Asignar conductor</h3>
+      <cwc-select id="time-seleccwc-select" class="select-filter" label="" placeholder="Seleccionar" (cwcChange)="changeDriver($event)">
+          <cwc-select-option selected value="0">Seleccionar</cwc-select-option>
+          <cwc-select-option *ngFor="let driver of listDrivers" [value]="driver.id" >{{driver.firstLastName}}</cwc-select-option>
+      </cwc-select>
+      <cwc-input
+          style="width: 100%;"
+          design-version="v2"
+          label='Vehiculo'
+          [(ngModel)]="driveSelected"
+          class='input-update-user'
+          disabled="true"
+          placeholder="Seleccionar">
+      </cwc-input>
+      <cwc-button [disabled]="licenseOk" (click)="driverAssign()" variant="primary-block" design-version="v2">Aceptar</cwc-button>
+</cwc-modal>
+
+<cwc-modal id='modal-confirm' [open]="messageShowA" close-on-bd-click="false">
+  <div style='text-align: center'>
+      <cwc-icon name='accepted-ok' size='120px' color='bright-green'></cwc-icon>
+      <h3 class='modal--confirmation__message'>El conductor ha sido asignado de manera exitosa.</h3>
+  </div>
+</cwc-modal>
+
+<cwc-modal id='modal-confirm-driver' [open]="messageShow" close-on-bd-click="false" (cwcClose)="onBack()">
+  <div style='text-align: center'>
+      <cwc-icon name='accepted-ok' size='120px' color='bright-green'></cwc-icon>
+      <h3 class='modal--confirmation__message'>El viaje ha sido confirmado de manera exitosa.</h3>
+  </div>
+</cwc-modal>

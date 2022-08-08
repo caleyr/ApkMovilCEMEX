@@ -24,7 +24,7 @@ export class VehiclesService {
   }
 
   createVehicle(data: any) {
-    return this.http.doPost(`${URL}/api/vehicles`, data, {});
+    return this.http.doPostFormData(`${URL}/api/vehicles`, data, {});
   }
 
   updateVehicle(id : string, data: any) {

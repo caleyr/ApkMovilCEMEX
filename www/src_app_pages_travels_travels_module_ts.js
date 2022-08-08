@@ -124,8 +124,8 @@ let TravelsPage = class TravelsPage {
     constructor(travelService, navCtrl) {
         this.travelService = travelService;
         this.navCtrl = navCtrl;
-        this.sourceList = [];
         this.departamentList = [];
+        this.sourceList = [];
         this.dateList = [];
         this.timeList = [];
         this.buttonActivate = false;
@@ -135,7 +135,7 @@ let TravelsPage = class TravelsPage {
     }
     getListDepartament() {
         this.travelService.getTravels().subscribe(data => {
-            this.departamentList = data.data.departamentSource;
+            this.departamentList = data.data;
         });
     }
     changeDepartament(event) {
@@ -151,7 +151,7 @@ let TravelsPage = class TravelsPage {
         else {
             this.departament = event.detail.value;
             this.travelService.getTravelsSource(event.detail.value).subscribe(data => {
-                this.sourceList = data.data.source;
+                this.sourceList = data.data;
             });
         }
     }
@@ -166,7 +166,7 @@ let TravelsPage = class TravelsPage {
         else {
             this.source = event.detail.value;
             this.travelService.getTravelsDate(event.detail.value).subscribe(data => {
-                this.dateList = data.data.dateTravel;
+                this.dateList = data.data;
             });
         }
     }
@@ -179,7 +179,7 @@ let TravelsPage = class TravelsPage {
         else {
             this.dataO = event.detail.value;
             this.travelService.getTravelsForHour(event.detail.value).subscribe(data => {
-                this.timeList = data.data.timerStar;
+                this.timeList = data.data;
             });
         }
     }
@@ -208,6 +208,17 @@ let TravelsPage = class TravelsPage {
             });
         });
     }
+    doRefresh(event) {
+        setTimeout(() => {
+            this.departamentList = [];
+            this.sourceList = [];
+            this.timeList = [];
+            this.dateList = [];
+            this.buttonActivate = false;
+            this.getListDepartament();
+            event.target.complete();
+        }, 2000);
+    }
 };
 TravelsPage.ctorParameters = () => [
     { type: _services_travels_travel_service__WEBPACK_IMPORTED_MODULE_2__.TravelService },
@@ -231,7 +242,7 @@ TravelsPage = (0,tslib__WEBPACK_IMPORTED_MODULE_3__.__decorate)([
   \************************************************************/
 /***/ ((module) => {
 
-module.exports = ".content-card {\n  padding-top: 0.5rem;\n  padding-left: 1.5rem;\n  padding-right: 1.5rem;\n  padding-bottom: 1rem;\n  flex: 1 1 auto;\n  overflow: auto;\n}\n\n.content-title {\n  padding-top: 1rem;\n  font-weight: 700;\n}\n\n.content-grid-register {\n  overflow: auto;\n  justify-content: center !important;\n}\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInRyYXZlbHMucGFnZS5zY3NzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiJBQUFBO0VBQ0ksbUJBQUE7RUFDQSxvQkFBQTtFQUNBLHFCQUFBO0VBQ0Esb0JBQUE7RUFDQSxjQUFBO0VBQ0EsY0FBQTtBQUNKOztBQUVBO0VBQ0ksaUJBQUE7RUFDQSxnQkFBQTtBQUNKOztBQUVBO0VBRUksY0FBQTtFQUNBLGtDQUFBO0FBQUoiLCJmaWxlIjoidHJhdmVscy5wYWdlLnNjc3MiLCJzb3VyY2VzQ29udGVudCI6WyIuY29udGVudC1jYXJke1xyXG4gICAgcGFkZGluZy10b3A6IDAuNXJlbTtcclxuICAgIHBhZGRpbmctbGVmdDogMS41cmVtO1xyXG4gICAgcGFkZGluZy1yaWdodDogMS41cmVtOyBcclxuICAgIHBhZGRpbmctYm90dG9tOiAxcmVtO1xyXG4gICAgZmxleDogMSAxIGF1dG87XHJcbiAgICBvdmVyZmxvdzogYXV0bztcclxuIH1cclxuXHJcbi5jb250ZW50LXRpdGxle1xyXG4gICAgcGFkZGluZy10b3A6IDFyZW07XHJcbiAgICBmb250LXdlaWdodDogNzAwO1xyXG59XHJcblxyXG4uY29udGVudC1ncmlkLXJlZ2lzdGVye1xyXG4gICAgLy8gZGlzcGxheTogZmxleCAhaW1wb3J0YW50O1xyXG4gICAgb3ZlcmZsb3c6IGF1dG87XHJcbiAgICBqdXN0aWZ5LWNvbnRlbnQ6IGNlbnRlciAhaW1wb3J0YW50O1xyXG4gICAgLy8gYWxpZ24taXRlbXM6IGNlbnRlciAhaW1wb3J0YW50O1xyXG4gfSJdfQ== */";
+module.exports = ".content-card {\n  padding-top: 5rem;\n  padding-left: 2.5rem;\n  padding-right: 2.5rem;\n  padding-bottom: 1rem;\n  position: fixed;\n  top: 0;\n  bottom: 0;\n  right: 0;\n  left: 0;\n  overflow: auto;\n}\n\n.content-title {\n  padding-top: 1rem;\n  font-weight: 200;\n}\n\n.content-grid-register {\n  overflow: auto;\n  justify-content: center !important;\n}\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInRyYXZlbHMucGFnZS5zY3NzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiJBQUFBO0VBQ0ksaUJBQUE7RUFDQSxvQkFBQTtFQUNBLHFCQUFBO0VBQ0Esb0JBQUE7RUFDQSxlQUFBO0VBQ0EsTUFBQTtFQUNBLFNBQUE7RUFDQSxRQUFBO0VBQ0EsT0FBQTtFQUNBLGNBQUE7QUFDSjs7QUFFQTtFQUNJLGlCQUFBO0VBQ0EsZ0JBQUE7QUFDSjs7QUFFQTtFQUVJLGNBQUE7RUFDQSxrQ0FBQTtBQUFKIiwiZmlsZSI6InRyYXZlbHMucGFnZS5zY3NzIiwic291cmNlc0NvbnRlbnQiOlsiLmNvbnRlbnQtY2FyZHtcclxuICAgIHBhZGRpbmctdG9wOiA1cmVtO1xyXG4gICAgcGFkZGluZy1sZWZ0OiAyLjVyZW07XHJcbiAgICBwYWRkaW5nLXJpZ2h0OiAyLjVyZW07IFxyXG4gICAgcGFkZGluZy1ib3R0b206IDFyZW07XHJcbiAgICBwb3NpdGlvbjogZml4ZWQ7XHJcbiAgICB0b3A6IDA7XHJcbiAgICBib3R0b206IDA7XHJcbiAgICByaWdodDogMDtcclxuICAgIGxlZnQ6IDA7XHJcbiAgICBvdmVyZmxvdzogYXV0bztcclxufVxyXG5cclxuLmNvbnRlbnQtdGl0bGV7XHJcbiAgICBwYWRkaW5nLXRvcDogMXJlbTtcclxuICAgIGZvbnQtd2VpZ2h0OiAyMDA7XHJcbn1cclxuXHJcbi5jb250ZW50LWdyaWQtcmVnaXN0ZXJ7XHJcbiAgICAvLyBkaXNwbGF5OiBmbGV4ICFpbXBvcnRhbnQ7XHJcbiAgICBvdmVyZmxvdzogYXV0bztcclxuICAgIGp1c3RpZnktY29udGVudDogY2VudGVyICFpbXBvcnRhbnQ7XHJcbiAgICAvLyBhbGlnbi1pdGVtczogY2VudGVyICFpbXBvcnRhbnQ7XHJcbiB9Il19 */";
 
 /***/ }),
 
@@ -241,7 +252,7 @@ module.exports = ".content-card {\n  padding-top: 0.5rem;\n  padding-left: 1.5re
   \************************************************************/
 /***/ ((module) => {
 
-module.exports = "<app-layout class=\"card-size\">\n  <div slot=\"main\" class=\"content-card\">\n    <form>\n      <cwc-grid class=\"demo-grid\" design-version=\"v2\" columns=\"12\" mobile-columns=\"12\" style=\"margin-top: 1rem;\">\n        <cwc-cell colspan=\"12\" mobile-colspan=\"12\">\n          <cwc-select\n            style=\"width: 100%;\"\n            label='Departamento'\n            (cwcChange)=\"changeDepartament($event)\"\n            design-version=\"v2\">\n            <cwc-select-option value=\"0\" selected=\"\">Seleccionar</cwc-select-option>\n            <cwc-select-option [value]=\"departament\" *ngFor=\"let departament of departamentList\" >{{departament}}</cwc-select-option>\n            </cwc-select>\n          </cwc-cell>\n          <cwc-cell colspan=\"12\" mobile-colspan=\"12\">\n            <cwc-select\n              style=\"width: 100%;\"\n              label='Origen (Municipio)'\n              (cwcChange)=\"changeSource($event)\"\n              design-version=\"v2\">\n              <cwc-select-option value=\"0\" selected=\"\">Seleccionar</cwc-select-option>\n              <cwc-select-option [value]=\"source\" *ngFor=\"let source of sourceList\" >{{source}}</cwc-select-option>\n              </cwc-select>\n          </cwc-cell>\n      </cwc-grid>\n      <cwc-grid class=\"demo-grid flex flex__align--center\" design-version=\"v2\" columns=\"12\" mobile-columns=\"12\" style=\"margin-top: 1rem;\">\n        <cwc-cell class=\"flex flex__align--center\" style=\"padding-bottom: 20px;\" colspan=\"12\" mobile-colspan=\"5\">          \n          <h5 style=\"text-transform: capitalize;\" >Fecha</h5>\n        </cwc-cell>\n        <cwc-cell colspan=\"12\" mobile-colspan=\"7\">\n          <cwc-select\n            (cwcChange)=\"changeDate($event)\"\n            placeholder=\"Seleccionar\"\n            design-version=\"v2\">\n            <cwc-select-option value=\"0\" selected=\"\">Seleccionar</cwc-select-option>\n            <cwc-select-option [value]=\"dateL\" *ngFor=\"let dateL of dateList\" >{{dateL}}</cwc-select-option>\n          </cwc-select>\n        </cwc-cell>\n      </cwc-grid>\n      <cwc-grid class=\"demo-grid flex flex__align--center\" design-version=\"v2\" columns=\"12\" mobile-columns=\"12\" style=\"margin-top: 1rem;\">\n        <cwc-cell class=\"flex flex__align--center\" style=\"padding-bottom: 20px;\" colspan=\"12\" mobile-colspan=\"5\">          \n          <h5 style=\"text-transform: capitalize;\" >Rango de Hora</h5>\n        </cwc-cell>\n        <cwc-cell colspan=\"12\" mobile-colspan=\"7\">\n          <cwc-select\n            placeholder=\"Seleccionar\"\n            design-version=\"v2\"\n            (cwcChange)=\"changeHour($event)\">\n            <cwc-select-option value=\"0\" selected=\"\">Seleccionar</cwc-select-option>\n            <cwc-select-option [value]=\"timeL\" *ngFor=\"let timeL of timeList\" >{{timeL}}</cwc-select-option>\n          </cwc-select>\n        </cwc-cell>\n      </cwc-grid>\n      <div class=\"content-button\" *ngIf=\"buttonActivate === true\">\n        <cwc-button\n        (cwcClick)=\"searchTrips()\"\n        design-version=\"v1\"\n        variant=\"regular-block\">BUSCAR VIAJES DISPONIBLES</cwc-button>\n      </div>\n    </form>\n  </div>\n</app-layout>\n\n";
+module.exports = "<app-layout class=\"card-size\">\n  <ion-content fullscreen>\n    <ion-refresher slot=\"fixed\" (ionRefresh)=\"doRefresh($event)\">\n      <ion-refresher-content></ion-refresher-content>\n    </ion-refresher>\n    <div class=\"content-card\">\n      <cwc-grid class=\"demo-grid\" design-version=\"v2\" row-gap=\"5px\" columns=\"12\" mobile-columns=\"12\" style=\"margin-top: 1rem;\">\n        <cwc-cell mobile-colspan=\"12\">\n          <cwc-select\n            style=\"width: 100%;\"\n            label='Departamento'\n            (cwcChange)=\"changeDepartament($event)\"\n            design-version=\"v2\">\n            <cwc-select-option value=\"0\" selected=\"\">Seleccionar</cwc-select-option>\n            <cwc-select-option [value]=\"departament.departamentSource\" *ngFor=\"let departament of departamentList\" >{{departament.departamentSource}}</cwc-select-option>\n            </cwc-select>\n          </cwc-cell>\n          <cwc-cell mobile-colspan=\"12\">\n            <cwc-select\n              style=\"width: 100%;\"\n              label='Origen (Municipio)'\n              (cwcChange)=\"changeSource($event)\"\n              design-version=\"v2\">\n              <cwc-select-option value=\"0\" selected=\"\">Seleccionar</cwc-select-option>\n              <cwc-select-option [value]=\"source.source\" *ngFor=\"let source of sourceList\" >{{source.source}}</cwc-select-option>\n              </cwc-select>\n          </cwc-cell>\n          <cwc-cell class=\"flex flex__align--bullseye\" mobile-colspan=\"12\">\n            <div style=\"text-align: center; padding-bottom: 0.5rem; font-weight: 400;\" >Fecha</div>\n          </cwc-cell>\n          <cwc-cell mobile-colspan=\"12\">\n            <cwc-select\n              placeholder=\"Seleccionar\"\n              design-version=\"v2\"\n              style=\"width: 100%;\"\n              (cwcChange)=\"changeDate($event)\">\n              <cwc-select-option value=\"0\" selected=\"\">Seleccionar</cwc-select-option>\n              <cwc-select-option [value]=\"dateL.dateTravel\" *ngFor=\"let dateL of dateList\" >{{dateL.dateTravel}}</cwc-select-option>\n            </cwc-select>\n          </cwc-cell>\n          <cwc-cell class=\"flex flex__align--bullseye\" mobile-colspan=\"12\">          \n            <div style=\"text-align: center; padding-bottom: 1rem; font-weight: 400;\" >Rango de Hora</div>\n          </cwc-cell>\n          <cwc-cell mobile-colspan=\"6\">\n            <cwc-select\n              (cwcChange)=\"changeHour($event)\"\n              placeholder=\"Hora (Inicio)\"\n              design-version=\"v2\">\n              <cwc-select-option value=\"0\" selected=\"\">Seleccionar</cwc-select-option>\n              <cwc-select-option [value]=\"timeL.timerStar\" *ngFor=\"let timeL of timeList\" >{{timeL.timerStar}}</cwc-select-option>\n            </cwc-select>\n          </cwc-cell>\n          <cwc-cell mobile-colspan=\"6\">\n            <cwc-select\n              placeholder=\"Hora (Fin)\"\n              design-version=\"v2\">\n              <cwc-select-option value=\"0\" selected=\"\">Seleccionar</cwc-select-option>\n              <cwc-select-option value=\"12:50\">12:50</cwc-select-option>\n              <cwc-select-option value=\"13:40\">13:40</cwc-select-option>\n              <cwc-select-option value=\"15:50\">15:50</cwc-select-option>\n              <cwc-select-option value=\"17:30\">17:30</cwc-select-option>\n            </cwc-select>\n          </cwc-cell>\n          <cwc-cell mobile-colspan=\"12\">\n            <div class=\"content-button\" *ngIf=\"buttonActivate === true\">\n              <cwc-button\n              (cwcClick)=\"searchTrips()\"\n              design-version=\"v1\"\n              variant=\"regular-block\">BUSCAR VIAJES DISPONIBLES</cwc-button>\n            </div>\n          </cwc-cell>\n      </cwc-grid>    \n    </div>\n  </ion-content>  \n</app-layout>\n\n";
 
 /***/ })
 
