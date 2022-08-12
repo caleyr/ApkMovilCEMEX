@@ -1,0 +1,12 @@
+<cwc-header design-version="v2" slot="header" show-Menu-Button="false" show-cemex-logo="false">
+  <div class="header-text">
+    <ion-icon name="arrow-back-outline" style="font-size: large" (click)="onBack()"></ion-icon>
+    <div class="attr-name" style="padding-left: 1rem; font-size: large; font-weight: 900;">Rastrear viaje</div>
+  </div>
+  <span>
+    <cwc-button variant="link" leading-icon="phone" white size="medium" class="m-end-xs"></cwc-button>
+    <cwc-button variant="link" leading-icon="e-mail" white size="medium" (cwcClick)="onRootNewMessage()" class="m-end-xs"></cwc-button>
+  </span>
+</cwc-header>
+<div class="map" #mapVer>
+</div>

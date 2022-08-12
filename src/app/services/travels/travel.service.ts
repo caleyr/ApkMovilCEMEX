@@ -75,6 +75,14 @@ export class TravelService {
     );
   }
 
+  confirmDrive(id : string, data: any){
+    return this.http.doPutFormData(`${BASE_URL_API}/api/travels/ConfirmTravelByUser/${id}`, data, {}).pipe(
+      tap(() => {
+        this._refresh$.next();
+      })
+    )
+  }
+
   getFilterTravelByIdDriver(id: string){
     return this.http.doGet(`${BASE_URL_API}/api/travels/GetFilterTravelByIdDriver/${id}`, {});
   }

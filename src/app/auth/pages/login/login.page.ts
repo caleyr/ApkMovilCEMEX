@@ -45,7 +45,7 @@ export class LoginPage implements OnInit {
     if(this.form.invalid){
       return;
     }
-    this.loading = false;
+    this.loading = true;
     await this.loginService.loginWeb(this.form.value).subscribe(async resp =>{ 
       const session : string = JSON.parse(resp.data)["token"];
       this.role = JSON.parse(atob(session.split('.')[1]))["Roles"];

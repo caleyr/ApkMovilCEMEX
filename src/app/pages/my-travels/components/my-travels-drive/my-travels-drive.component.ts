@@ -52,7 +52,7 @@ export class MyTravelsDriveComponent implements OnInit {
       this.scheduledTripsList = data.data.filter(travel =>
         travel.statusTravelAvailabilityString.includes('Asignado') ||
         travel.statusTravelAvailabilityString.includes('Confirmado') ||
-        travel.statusTravelAvailabilityString.includes('En proceso') ||
+        travel.statusTravelAvailabilityString.includes('-') ||
         travel.statusTravelAvailabilityString.includes('Con novedad')
       )
 

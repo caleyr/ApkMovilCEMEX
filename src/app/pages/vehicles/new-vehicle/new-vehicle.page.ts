@@ -50,11 +50,9 @@ export class NewVehiclePage implements OnInit {
       this.alertSucces = false;
       return;
     }
-    alert('Entro');
     this.data = new FormData();
     this.addFormData(this.form.value);
     await this.vehiclesService.createVehicle(this.data).subscribe(async resp =>{
-      alert(resp);
        this.alertSucces = true;
        this.errors = [];
     }, (error) =>{

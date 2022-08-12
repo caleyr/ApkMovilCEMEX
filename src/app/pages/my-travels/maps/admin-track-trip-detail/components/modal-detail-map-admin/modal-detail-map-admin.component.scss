@@ -1,0 +1,47 @@
+/***  styles btn asing trip  ***/ 
+.content-btn-assign-trip {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 1rem;
+}
+
+
+/***  styles card info user  ***/ 
+.main-content-card {
+    padding: 2rem;
+}
+.header-card {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 0.5rem;
+}
+.avatar-info {
+    display: flex;
+    align-items: center;
+}
+span.style-name {
+    font-weight: 700;
+}
+
+.title_document{
+    background-color: #e1e1e1;
+    padding: 0.8rem;
+    border-radius: 5px;
+}
+
+.attr-user {
+    text-transform: uppercase;
+    font-weight: 700;
+    font-size: 10px;
+}
+
+.attr-document {
+    font-size: smaller;
+    font-weight: 700;
+}
+
+.attr-user-header {
+    font-weight: 700;
+    font-size: medium;
+}

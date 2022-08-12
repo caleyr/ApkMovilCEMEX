@@ -69,20 +69,6 @@ export class DetailsTripRequestPage implements OnInit {
     document.getElementById('modal-assign-trip').setAttribute('open', 'true');
   }
 
-  showModalConfirm(){
-    const dataD = new FormData();
-    dataD.append('StatusTravel', '4');
-    dataD.append('StatusTravelAvailability', '4');
-    dataD.append('id', this.travel.id);
-    this.driversService.confirmDrive(this.travel.id, dataD).subscribe(()=>{      
-      document.getElementById('modal-confirm-driver').setAttribute('open', 'true');
-    },(err)=>{
-      this.onBack();
-      console.log(err);
-    });
-  }
-
-
   changeDriver(event){
     if(event.detail.value === '0'){
       this.driveSelected = 'Seleccionar';
@@ -108,17 +94,11 @@ export class DetailsTripRequestPage implements OnInit {
     data.append('StatusTravelAvailability', '3');
     data.append('id', this.travel.id);
     this.travelService.updateTravel(this.travel.id, dataD).subscribe(()=>{        
-      this.driversService.confirmDrive(this.travel.id, data).subscribe(()=>{
-        document.getElementById('modal-assign-trip').setAttribute('open', 'false');
-        this.messageShowA = true;
-      },(err)=>{
-        document.getElementById('modal-assign-trip').setAttribute('open', 'false');
-        this.onBack();
-        console.log(err);
-      });
+      document.getElementById('modal-assign-trip').setAttribute('open', 'false');
+      this.messageShowA = true;
     },(err)=>{
       document.getElementById('modal-assign-trip').setAttribute('open', 'false');
       console.log(err);
     });
-  }
+  }                         
 }

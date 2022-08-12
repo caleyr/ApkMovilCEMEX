@@ -53,7 +53,7 @@ export class MyTravelsAdminComponent implements OnInit {
 
       this.scheduledTripsList = data.data.filter(travel =>
         travel.statusTravelAvailabilityString.includes('Confirmado') ||
-        travel.statusTravelAvailabilityString.includes('En proceso') ||
+        travel.statusTravelAvailabilityString.includes('-') ||
         travel.statusTravelAvailabilityString.includes('Con novedad')
       )
 

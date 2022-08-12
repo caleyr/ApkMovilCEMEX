@@ -7,7 +7,11 @@ const routes: Routes = [
   {
     path: '',
     component: DriverConfirmedTripDetailPage
+  },  {
+    path: 'new-update-message',
+    loadChildren: () => import('./new-update-message/new-update-message.module').then( m => m.NewUpdateMessagePageModule)
   }
+
 ];
 
 @NgModule({

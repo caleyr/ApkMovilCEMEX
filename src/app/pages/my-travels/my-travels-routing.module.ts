@@ -28,6 +28,10 @@ const routes: Routes = [
     path: 'request-details',
     loadChildren: () => import('./details-trip-request/details-trip-request.module').then(m => m.DetailsTripRequestPageModule)
   },
+  {
+    path: 'admin-track-trip-detail',
+    loadChildren: () => import('./maps/admin-track-trip-detail/admin-track-trip-detail.module').then( m => m.AdminTrackTripDetailPageModule)
+  }
 ];
 
 @NgModule({

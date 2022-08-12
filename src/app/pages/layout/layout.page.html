@@ -6,10 +6,10 @@
                 <cwc-button variant="link" leading-icon="notification" white size="medium" class="m-end-xs">Notificaciones</cwc-button>
                 <div class="display-inline-block p-all-xs border-radius--circle bg--true-red badge-notification" style="width: 1rem; height: 1rem; text-align: center; line-height: 1rem;">2</div>
             </div>
-        </cwc-overlay> -->
-    </cwc-header>
+        </cwc-overlay> -->    
+    </cwc-header>         
 
-    <cwc-sidenav slot="sidenav" variant="positive">
+    <cwc-sidenav slot="sidenav" variant="positive" width="75%">
         <!-- <cwc-entity-selector slot="legal-entity-selection" variant="positive">
             <cwc-entity-selector-item entity-icon="user" entity-name="Amanda Lopez" entity-id="Hombre Camnión" active>
                 <cwc-avatar size="small" variant="negative" name="Michael Wasserman" class="m-h-xs"></cwc-avatar>
@@ -22,7 +22,7 @@
                 style="margin-left: 0.5; margin-right: 0.5rem; display: flex; align-items: center;"
                 [routerLink]="['/app/profile']" routerLinkActive="router-link-active">
                 <cwc-avatar size="small" variant="negative" [name]="user.name" class="m-h-xs"
-                    style="width: 15%; padding: 1rem"></cwc-avatar>
+                    style="width: 10%; padding: 1rem"></cwc-avatar>
                 <p style="margin-left: 0.5rem;">{{ user.name }}</p>
             </div>
 
@@ -77,8 +77,8 @@
         </div>
     </cwc-sidenav>
 
-
-    <div slot="main" style="padding: 15px; flex: 1 1 auto">
+    <div slot="main" style="flex: 1 1 auto">
+        
         <!-- <h1 style="margin-top: 0">Page Demo</h1>
         <ion-router-outlet style="flex: 1 1 auto;"></ion-router-outlet> -->
         <ng-content></ng-content>

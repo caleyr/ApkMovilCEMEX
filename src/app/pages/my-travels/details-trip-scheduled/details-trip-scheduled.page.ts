@@ -3,6 +3,7 @@ import { TravelService } from './../../../services/travels/travel.service';
 import { Location } from '@angular/common';
 import { Travel } from './../../../interfaces/travels/travel';
 import { Component, OnInit } from '@angular/core';
+import { NavController } from '@ionic/angular';
 
 @Component({
   selector: 'app-details-trip-scheduled',
@@ -15,9 +16,14 @@ export class DetailsTripScheduledPage implements OnInit {
   rol: string;
   travel = new Travel();
 
-  constructor(private location : Location,
+  showDetail = false;
+
+  constructor(
+    private location : Location,
     private travelService: TravelService,
-    private loginService: LoginService) { }
+    private loginService: LoginService,
+    private navCtrl : NavController
+    ) { }
 
   ngOnInit() {
     this.rol = this.loginService.profileUser.Roles;
@@ -36,6 +42,10 @@ export class DetailsTripScheduledPage implements OnInit {
         this.travel = data.data;
       });
     }
+  }
+
+  onClickTrackTrip(){
+    this.navCtrl.navigateRoot('/app/my-travels/admin-track-trip-detail', { animated: false });
   }
 
 }

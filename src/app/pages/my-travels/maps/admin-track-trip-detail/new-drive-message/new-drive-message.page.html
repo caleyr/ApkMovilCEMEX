@@ -1,0 +1,33 @@
+<cwc-header design-version="v2" slot="header" show-Menu-Button="false" show-cemex-logo="false">
+  <div class="header-text">
+    <ion-icon name="arrow-back-outline" style="font-size: large" (click)="onBack()"></ion-icon>
+    <div class="attr-name" style="padding-left: 1rem; font-size: large; font-weight: 900;">Contactar conductor</div>
+  </div>
+</cwc-header>
+<div slot="main" class="content-card">
+  <div class="content-title">
+    Deja tu mensaje, en un momento el conductor se contactará con usted.
+  </div>
+  <form (submit)="createMessage()" [formGroup]="form">
+    <cwc-textarea
+      rows='5'
+      style="width: 100%;"
+      formControlName="message"
+      class="textarea" 
+      label="Escribe tu mensaje" 
+      maxlength="9" 
+      placeholder="Deja tu mensaje" 
+      char-counter="true">
+    </cwc-textarea>
+
+    <div class="content-button">
+      <cwc-button 
+        design-version="v1" 
+        [disabled]="form.invalid"
+        (click)="createMessage()" 
+        variant="regular-block">
+        <div class="button-css">ENVIAR</div>
+      </cwc-button>
+    </div>
+  </form>
+</div>

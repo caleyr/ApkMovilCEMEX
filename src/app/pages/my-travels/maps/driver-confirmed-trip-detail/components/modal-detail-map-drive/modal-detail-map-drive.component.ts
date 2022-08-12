@@ -13,6 +13,7 @@ export class ModalDetailMapDriveComponent implements OnInit {
 
   travelDetail: Travel;
   estado = 1;
+  showDetail = false;
 
   constructor(
     private googleService : GoogleService,
@@ -23,6 +24,27 @@ export class ModalDetailMapDriveComponent implements OnInit {
 
   ngOnInit() {}
 
+  getData(id) {
+    return new Promise((resolve)=>{
+      this.travelService.getTravelDetail(id).subscribe(data => {
+        this.travelDetail = data.data;
+        resolve(true);
+      });
+    });
+  }
+
+
+  onClickConfirmTrip(){
+    const data = new FormData();
+    data.append('StatusTravel', '4');
+    data.append('StatusTravelAvailability', '4');
+    data.append('Id', this.travelDetail.id);
+
+    this.travelService.confirmDrive(this.travelDetail.id, data).subscribe(()=>{
+      this.getData(this.travelDetail.id);
+    });
+  }
+
   onClickStartTravel(){
     const horaStar = new Date();
     const data = new FormData();
@@ -30,7 +52,7 @@ export class ModalDetailMapDriveComponent implements OnInit {
     data.append('StatusTravel', '5');
     data.append('TripStarTime', this.datepipe.transform(horaStar, 'h:mm'));
     this.travelService.startTravel(this.travelDetail.id, data).subscribe(()=>{
-      this.googleService.refresh$.next();
+      this.getData(this.travelDetail.id);
     });
   }
 }

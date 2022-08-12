@@ -1,29 +1,29 @@
 
-<h6 style="margin-top: 1.8rem;">Los viajes de hoy</h6>
+<h4 style="margin-top: 1.8rem;">Los viajes de hoy</h4>
 <cwc-card design-version="v2">
   <div class="card-content" design-version="v2">
     <p style="text-align: center; font-size: small;">Tu siguiente viaje <b>098877698</b> está en <b>pre-turno</b></p>
-    <h6 style="text-align: center;">Revisar mi siguiente viaje</h6>
+    <h4 style="text-align: center;">Revisar mi siguiente viaje</h4>
     <hr color="#D0D0D0"/>
-    <h6 style="text-align: center;">Revisar mis viajes</h6>
+    <h4 style="text-align: center;" (click)="onClickMyTravel()">Revisar mis viajes</h4>
   </div>
 </cwc-card>
 
-<h6 style="margin-top: 1.5rem;">Buscar viaje</h6>
+<h4 style="margin-top: 1.5rem;">Buscar viaje</h4>
 <cwc-card style="margin-top: 1rem;" design-version="v2">
   <div class="card-content">
-   <h6 style="text-align: center;">Buscar viaje</h6>
+   <h4 style="text-align: center;">Buscar viaje</h4>
    <p style="text-align: center; font-size: 15px;">Revisa entre nuestros distintos departamentos disponibles un viaje que se ajueste a tu ruta y horario.</p>
   </div>
 </cwc-card>
 
-<cwc-button  style="margin-top: 1rem;" variant="regular-block">
+<cwc-button  style="margin-top: 1rem;" variant="regular-block" (click)="onClickTravel()">
   <div class="button-css">BUSCAR VIAJE</div>
 </cwc-button>
 
 <cwc-card style="margin-top: 1rem;" design-version="v2">
   <div class="card-content">
-   <h6 style="text-align: center;">Accede a tu cuenta Clever</h6>
+   <h4 style="text-align: center;">Accede a tu cuenta Clever</h4>
    <p style="text-align: center; font-size: small;">Revisa tus datos y manten tu perfil actualizado para un mejor seguimiento</p>
    <div>
     <cwc-button class="button-css" variant="regular-block" (click)="onUrl(linkClever)">
@@ -35,7 +35,7 @@
 
 <cwc-card style="margin-top: 1rem;" design-version="v2">
   <div class="card-content">
-   <h6 style="text-align: center;">Tu viaje CEMEX</h6>
+   <h4 style="text-align: center;">Tu viaje CEMEX</h4>
    <p style="text-align: center; font-size: small;">Verifica el estado de tus viajes y actualizaciones de los mismos</p>
    <div>
     <cwc-button class="button-css" variant="regular-block" (click)="onUrl(linkTrip)">

@@ -1,7 +1,7 @@
 <cwc-header design-version="v2" slot="header" show-Menu-Button="false" show-cemex-logo="false">
   <div class="header-text">
-    <ion-icon name="arrow-back-outline" style="font-size: 25px;" (click)="onBack()"></ion-icon>
-    <div class="attr-name" style="padding-left: 1rem;">Viaje {{travel.codeTravel}}</div>
+    <ion-icon name="arrow-back-outline" style="font-size: large;" (click)="onBack()"></ion-icon>
+    <div class="attr-name" style="padding-left: 1rem; font-size: large; font-weight: 900;">Viaje {{travel.codeTravel}}</div>
   </div>
 </cwc-header>
 <div slot="main" class="content-card">
@@ -65,32 +65,16 @@
         </cwc-cell>
       </cwc-grid>
 
-      <hr color="#D0D0D0" />
-      <cwc-grid class="demo-grid" style="padding-top: 0.5rem;" *ngIf="!travel.vehicleLissenceName">
-        <cwc-cell mobile-colspan="7" style="text-align: end;">
-          <cwc-button variant="link" class="m-h-reg link-cwc" (cwcClick)="showModal()">
-            <div style="font-size: small;  font-weight: normal;">ASIGNAR CONDUCTOR</div>
-          </cwc-button>
-        </cwc-cell>
-        <cwc-cell mobile-colspan="5" style="text-align: end;">
-          <cwc-button variant="link" class="m-h-reg link-cwc">
-            <div style="font-size: small; font-weight: normal;">CANCELAR</div>
-          </cwc-button>
-        </cwc-cell>
-      </cwc-grid>
-      
-      <cwc-grid class="demo-grid" style="padding-top: 0.5rem;" *ngIf="travel.vehicleLissenceName">
-        <cwc-cell mobile-colspan="7" style="text-align: end;">
-          <cwc-button variant="link" class="m-h-reg link-cwc" (cwcClick)="showModalConfirm()">
-            <div style="font-size: small;  font-weight: normal;">CONFIRMAR CONDUCTOR</div>
-          </cwc-button>
-        </cwc-cell>
-        <cwc-cell mobile-colspan="5" style="text-align: end;">
-          <cwc-button variant="link" class="m-h-reg link-cwc">
-            <div style="font-size: small; font-weight: normal;">CANCELAR</div>
-          </cwc-button>
-        </cwc-cell>
-      </cwc-grid>
+      <div *ngIf="!travel.vehicleLissenceName">
+        <hr color="#D0D0D0" />
+        <cwc-grid class="demo-grid" style="padding-top: 0.5rem;" >        
+            <cwc-cell mobile-colspan="12" style="text-align: end;">
+              <cwc-button variant="link" class="m-h-reg link-cwc" (cwcClick)="showModal()">
+                <div style="font-size: small;  font-weight: normal;">ASIGNAR CONDUCTOR</div>
+              </cwc-button>
+            </cwc-cell>
+          </cwc-grid>
+      </div>      
     </div>
   </cwc-card>
 </div>

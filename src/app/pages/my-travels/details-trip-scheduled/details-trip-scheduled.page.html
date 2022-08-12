@@ -1,7 +1,7 @@
 <cwc-header design-version="v2" slot="header" show-Menu-Button="false" show-cemex-logo="false">
   <div class="header-text">
-    <ion-icon name="arrow-back-outline" style="font-size: 25px;" (click)="onBack()"></ion-icon>
-    <div class="attr-name" style="padding-left: 1rem;">Viaje {{travel.codeTravel}}</div>
+    <ion-icon name="arrow-back-outline" style="font-size: large;" (click)="onBack()"></ion-icon>
+    <div class="attr-name" style="padding-left: 1rem; font-size: large; font-weight: 900;">Viaje {{travel.codeTravel}}</div>
   </div>
 </cwc-header>
 <div slot="main" class="content-card">
@@ -87,24 +87,39 @@
       </cwc-grid>
 
       <div *ngIf="rol !== 'Conductor'">
-        <cwc-cell colspan="12" mobile-colspan="12" style="padding-bottom: 0.5rem;">
+        <cwc-cell colspan="12" mobile-colspan="12" style="padding-bottom: 1rem;">
           <cwc-button
+            (click)="onClickTrackTrip()"
             design-version="v1"
-            variant="regular-block">RASTREAR VIAJE</cwc-button>
+            variant="regular-block">
+          <div class="button-css">RASTREAR VIAJE</div>
+          </cwc-button>
         </cwc-cell>
 
         <hr color="#D0D0D0" />
         <cwc-grid class="demo-grid" style="padding-top: 0.5rem; padding-bottom: 1rem;">
-          <cwc-cell mobile-colspan="6" >                       
-              <div>Actualizaciones</div>
+          <cwc-cell mobile-colspan="6">                               
+            <div style="color: #3897fc; font-weight: 600;">
+                Actualizaciones
+                <span style="padding-left: 1.2rem;">
+                    <cwc-badge position="se" count="1" color="status-info">                     
+                    </cwc-badge>
+                </span>
+            </div>  
           </cwc-cell>
-          <cwc-cell mobile-colspan="6" style="text-align: end;">
-              <cwc-button variant="link">
-                  <div class="text-button">Mostrar</div>
+          <cwc-cell mobile-colspan="6" style="text-align: end;" *ngIf="showDetail" >
+            <cwc-button variant="link"(click)="showDetail = !showDetail">                            
+                <cwc-icon name="straight-arrow-down" size="15px" style="color: #D0D0D0;"></cwc-icon>
+            </cwc-button>
+          </cwc-cell>
+          <cwc-cell mobile-colspan="6" style="text-align: end;" *ngIf="!showDetail" >
+              <cwc-button variant="link" (click)="showDetail = !showDetail">                            
+                  <cwc-icon name="straight-arrow-up" size="15px" style="color: #D0D0D0;"></cwc-icon>
               </cwc-button>
           </cwc-cell>
         </cwc-grid>
-        <cwc-grid class="demo-grid">
+        <div *ngIf="showDetail">
+          <cwc-grid class="demo-grid">
             <cwc-cell mobile-colspan="12">
                 <div class="attr-user">Fecha y hora de cita</div>
                 <span>10:30 am</span>
@@ -113,7 +128,8 @@
                 <div class="attr-user">Actualización</div>
                 <span>Lluvias y deslabe en la carretera de planta Medellín, posible retraso de 1 hora.</span>
             </cwc-cell>
-        </cwc-grid>
+          </cwc-grid>
+        </div>        
       </div>
 
       <div *ngIf="rol === 'Conductor'">

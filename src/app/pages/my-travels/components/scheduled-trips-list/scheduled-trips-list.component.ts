@@ -27,24 +27,11 @@ export class ScheduledTripsListComponent implements OnInit {
   }
 
   detailTrip(id: string, travelAvailability: string) {
-    if (this.rol === 'Conductor') {
-
-      if(travelAvailability === 'Confirmado'){
+    if (this.rol !== 'Administrador Logistico Tercero') {
+      if(travelAvailability === 'Asignado' || travelAvailability === 'Confirmado' || travelAvailability === '-'){
         this.travelService.id = id;
         this.navCtrl.navigateRoot('/app/my-travels/driver-confirmed-trip-detail', { animated: false });
       }
-
-      /*
-      if (travelAvailability === 'Pre-Turno') {
-        this.travelService.id = id;
-        this.navCtrl.navigateRoot('/app/my-travels/scheduled-details', { animated: false });
-      } else if(travelAvailability === 'Confirmado'){
-        this.travelService.id = id;
-        this.navCtrl.navigateRoot('/app/my-travels/driver-confirmed-trip-detail', { animated: false });
-      } else {
-        this.travelService.id = id;
-        this.navCtrl.navigateRoot('/app/my-travels/scheduled-details-driver', { animated: false });
-      }*/
     } else {
       this.travelService.id = id;
       this.navCtrl.navigateRoot('/app/my-travels/scheduled-details', { animated: false });

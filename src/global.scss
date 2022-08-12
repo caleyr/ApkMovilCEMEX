@@ -85,6 +85,28 @@ h1, h2, h3, h4, h5, h6{
 body, span, button, p{
   font-family: 'Roboto-light' !important;
 }
+
+cwc-tabs{
+  background-color: #003876;
+  --cwc-tabs-slider-background-color: white;
+  --cwc-tab-heading-active-color: white;
+  --cwc-tab-color: #798695;
+}
+
+cwc-header{
+  --cwc-header-border-color: #003876;
+}
+
+.button-css{
+  margin: 0.3rem;
+  font-size: 15px;
+  border-radius: 5px;
+}
+
+.content-page{
+  padding: 15px;
+}
+
 .link-cwc{
   font-family: 'Roboto-medium' !important;
 }
