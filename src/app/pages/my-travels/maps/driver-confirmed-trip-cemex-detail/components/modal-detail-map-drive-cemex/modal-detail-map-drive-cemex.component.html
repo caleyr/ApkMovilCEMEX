@@ -1,0 +1,153 @@
+<cwc-grid class="demo-grid">
+  <cwc-cell mobile-colspan="12">
+          <div class="main-content-card">
+              <div class="header-card">
+                  <cwc-cell mobile-colspan="6">  
+                      <div class="attr-user-header">Viaje</div>
+                      <span style="color: #05376E; font-weight: 700;">{{travelDetail.codeTravel}}</span>
+                  </cwc-cell>
+                  <cwc-cell mobile-colspan="6" *ngIf="travelDetail.statusTravel === 3">
+                      <cwc-button variant="link" (click)="onClickConfirmTrip()">
+                          <div class="text-button" >CONFIRMAR VIAJE</div>
+                      </cwc-button>
+                  </cwc-cell>
+                  <cwc-cell mobile-colspan="6" *ngIf="travelDetail.loadEnd === 'null' && travelDetail.statusTravel === 4">
+                      <cwc-button variant="link" (click)="onClickStartTravel()">
+                          <div class="text-button" >INICIAR VIAJE</div>
+                      </cwc-button>
+                  </cwc-cell>
+                  <cwc-cell mobile-colspan="6" *ngIf="travelDetail.dowloadStar === 'null' && travelDetail.loadEnd !== 'null' && distancia <= 30">
+                      <cwc-button variant="link" (click)="onClickStartDischarge()">
+                          <div class="text-button" >FINALIZAR RECORRIDO</div>
+                      </cwc-button>
+                  </cwc-cell>
+
+                  <cwc-cell mobile-colspan="6" *ngIf="travelDetail.dowloadEnd === 'null' && travelDetail.dowloadStar !== 'null'">
+                      <cwc-button variant="link" (click)="onClickEndDischarge()">
+                          <div class="text-button" >FINALIZAR VIAJE</div>
+                      </cwc-button>
+                  </cwc-cell>
+              </div>
+
+              <cwc-cell mobile-colspan="12" style="padding-bottom: 0.8rem;">
+                  <cwc-progress-bar style='width:100%' variant='split'>
+                      <cwc-progress-bar-item progress='100'></cwc-progress-bar-item>                
+                  </cwc-progress-bar>
+              </cwc-cell>
+
+              
+
+              <div style="padding-bottom: 1rem;">
+                  <cwc-grid class="demo-grid" >
+                      <cwc-cell mobile-colspan="12">  
+                          <div class="attr-user">Origen</div>
+                          <span>{{travelDetail.source}}</span>
+                      </cwc-cell>
+                      <cwc-cell mobile-colspan="12">
+                          <div class="attr-user">Destino</div>
+                          <span>{{travelDetail.destiny}}</span>
+                      </cwc-cell>
+                      <cwc-cell mobile-colspan="8">
+                          <div class="attr-user">Fecha y hora</div>
+                          <span>{{travelDetail.dateTravel + ' ' + travelDetail.timerStar}}</span>
+                      </cwc-cell>
+                      <cwc-cell mobile-colspan="4">   
+                          <div class="attr-user">Cantidad</div>
+                          <span>{{travelDetail.amount}}</span>
+                      </cwc-cell>
+                      <cwc-cell mobile-colspan="8">
+                          <div class="attr-user">Cliente</div>
+                          <span>{{travelDetail.clientName}}</span>
+                      </cwc-cell>
+                      <cwc-cell mobile-colspan="4">   
+                          <div class="attr-user">Número de Placa</div>
+                          <span>{{travelDetail.vehicleModelName}}</span>
+                      </cwc-cell>
+                      <cwc-cell mobile-colspan="8" *ngIf="travelDetail.statusTravel === 5">   
+                          <div class="attr-user">Inicio de viaje</div>
+                          <span>{{travelDetail.codeTravel}}</span>
+                      </cwc-cell>
+                      <cwc-cell mobile-colspan="4" *ngIf="travelDetail.statusTravel === 6">   
+                          <div class="attr-user">Inicio de descarga</div>
+                          <span>{{travelDetail.codeTravel}}</span>
+                      </cwc-cell>
+                      <cwc-cell mobile-colspan="12" *ngIf="travelDetail.statusTravel === 7">   
+                          <div class="attr-user">Fin de Descarga</div>
+                          <span>{{travelDetail.codeTravel}}</span>
+                      </cwc-cell>
+                  </cwc-grid>
+              </div>
+              
+              <div *ngIf="travelDetail.statusTravel === 7">
+                  <div class="attr-document" >Documentación</div>                
+                  <hr color="#D0D0D0" />
+                  <cwc-grid class="demo-grid">
+                      <cwc-cell mobile-colspan="12" class="title_document">
+                          <span>Documentos previamente aprobados</span>
+                      </cwc-cell>
+                  </cwc-grid>
+                  <cwc-grid class="demo-grid content-archive">
+
+                      <!-- Documento agregado -->
+
+                      <cwc-cell mobile-colspan="12">
+                          <div class="flex flex__align--center">
+                            <cwc-icon name="attachment" size="28px" color="bright-blue"></cwc-icon>
+                            <div class="text-archive">Remesas_Certificado.pdf</div>
+                          </div>
+                      </cwc-cell>
+
+                      <!-- Documento para agregar -->
+
+                      <cwc-cell mobile-colspan="6" class="border">
+                        <div class="item-archives flex flex__align--center">
+                          <cwc-icon name="camera" size="28px"  color="bright-blue"></cwc-icon>
+                          <div class="text-archive">Tomar fotografía</div>
+                        </div>
+                      </cwc-cell>
+                      <cwc-cell mobile-colspan="6">
+                        <div class="item-archives flex flex__align--center">
+                          <cwc-icon name="document" size="28px" color="bright-blue"></cwc-icon>
+                          <div class="text-archive">Seleccionar archivo</div>
+                        </div>
+                      </cwc-cell>
+                    </cwc-grid>
+              </div>
+              
+              <hr color="#D0D0D0"/>
+              <cwc-grid class="demo-grid" style="padding-top: 0.5rem; padding-bottom: 1rem;">
+                  <cwc-cell mobile-colspan="6">                               
+                      <div style="color: #3897fc; font-weight: 600;">
+                          Novedades
+                          <span style="padding-left: 1.2rem;">
+                              <cwc-badge position="se" count="1" color="status-info">                     
+                              </cwc-badge>
+                          </span>
+                      </div>  
+                  </cwc-cell>
+                  <cwc-cell mobile-colspan="6" style="text-align: end;" *ngIf="showDetail" >
+                      <cwc-button variant="link"(click)="showDetail = !showDetail">                            
+                          <cwc-icon name="straight-arrow-down" size="15px" style="color: #D0D0D0;"></cwc-icon>
+                      </cwc-button>
+                  </cwc-cell>
+                  <cwc-cell mobile-colspan="6" style="text-align: end;" *ngIf="!showDetail" >
+                      <cwc-button variant="link" (click)="showDetail = !showDetail">                            
+                          <cwc-icon name="straight-arrow-up" size="15px" style="color: #D0D0D0;"></cwc-icon>
+                      </cwc-button>
+                  </cwc-cell>
+              </cwc-grid>
+              <div *ngIf="showDetail">
+                  <cwc-grid class="demo-grid">
+                      <cwc-cell mobile-colspan="12">
+                          <div class="attr-user">Fecha y hora de cita</div>
+                          <span>10:30 am</span>
+                      </cwc-cell>
+                      <cwc-cell mobile-colspan="12">
+                          <div class="attr-user">Actualización</div>
+                          <span>Lluvias y deslabe en la carretera de planta Medellín, posible retraso de 1 hora.</span>
+                      </cwc-cell>                   
+                  </cwc-grid>
+              </div>                
+          </div>
+  </cwc-cell>
+</cwc-grid>

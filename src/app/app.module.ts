@@ -12,7 +12,6 @@ import { IonicStorageModule } from '@ionic/storage-angular';
 import { HttpClientModule } from '@angular/common/http';
 import { ComponentsModule } from './components/components.module';
 import { HTTP } from '@awesome-cordova-plugins/http/ngx';
-import { NgOtpInputModule } from 'ng-otp-input';
 import { DatePipe } from '@angular/common';
 
 

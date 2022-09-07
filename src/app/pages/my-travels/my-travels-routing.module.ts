@@ -31,7 +31,11 @@ const routes: Routes = [
   {
     path: 'admin-track-trip-detail',
     loadChildren: () => import('./maps/admin-track-trip-detail/admin-track-trip-detail.module').then( m => m.AdminTrackTripDetailPageModule)
+  },  {
+    path: 'driver-confirmed-trip-cemex-detail',
+    loadChildren: () => import('./maps/driver-confirmed-trip-cemex-detail/driver-confirmed-trip-cemex-detail.module').then( m => m.DriverConfirmedTripCemexDetailPageModule)
   }
+
 ];
 
 @NgModule({

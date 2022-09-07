@@ -7,7 +7,7 @@
         <div class="border-red"></div>
       </div>
       <div class="content-title-login">
-        <h4>Iniciar Sesión</h4>
+        <h3>Iniciar Sesión</h3>
       </div>
         <cwc-input class="input-login input" 
                    [status]='statusInputEmail'
@@ -35,10 +35,14 @@
                     [disabled]="form.invalid"
                     (click)="login()" 
                     design-version="v1" 
-                    variant="primary-block">INICIAR SESIÓN</cwc-button>
+                    variant="primary-block">
+                    <div class="button-css">INICIAR SESIÓN</div>
+                    </cwc-button>
                   
         <app-error-messages [errors]="errors"></app-error-messages>  
-        <cwc-button variant="link" class="link-forgot-password" (click)="onClickPassword()" >¿Olvidó su contraseña?</cwc-button>           
+        <cwc-button variant="link" class="link-forgot-password" (click)="onClickPassword()" >
+          <div style="font-size: medium;">¿Olvidó su contraseña?</div>
+        </cwc-button>           
     </cwc-cell>
   </cwc-grid>
 <cwc-grid>
@@ -47,7 +51,7 @@
     <div class="border-gray"></div>
   </div>
   <div>
-    <h6 class="text-not-account">¿Aún no tienes cuenta? <span [routerLink]="['/register']" routerLinkActive="router-link-active" >Registrate</span></h6>
+    <h4 class="text-not-account">¿Aún no tienes cuenta? <span style="font-size: medium;" [routerLink]="['/register']" routerLinkActive="router-link-active" >Registrate</span></h4>
   </div>
 </cwc-cell>
 </cwc-grid>

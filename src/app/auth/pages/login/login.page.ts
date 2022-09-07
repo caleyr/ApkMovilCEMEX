@@ -6,6 +6,7 @@ import { Router } from '@angular/router';
 import { NavController } from '@ionic/angular';
 import { debounceTime } from 'rxjs/operators';
 import { ErrorMessagesService } from '../../../services/error-messages.service';
+import { App } from '@capacitor/app';
 
 
 @Component({
@@ -38,7 +39,7 @@ export class LoginPage implements OnInit {
     this.formBuilderInput();
    }
 
-  ngOnInit() {
+   async ngOnInit() {
   }
 
   async login(){

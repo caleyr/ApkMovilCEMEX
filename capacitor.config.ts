@@ -4,7 +4,11 @@ const config: CapacitorConfig = {
   appId: 'io.ionic.starter',
   appName: 'appcemex',
   webDir: 'www',
-  bundledWebRuntime: false
+  bundledWebRuntime: false,
+  server: {
+    hostname: "com.cemex.app",
+    androidScheme: "https"
+  }
 };
 
 export default config;

@@ -19,12 +19,13 @@ export class TravelService {
   id : string;
   code: string;
 
-  private _refresh$ = new Subject<void>();
+  private refresh = new Subject<true>();
+  changeDataRefresh = this.refresh.asObservable();
 
   constructor(private http: HttpService) { }
 
-  get refresh$(){
-    return this._refresh$;
+  changeUpdate(){
+    return this.refresh.next(true);
   }
 
   getTravels(){
@@ -62,23 +63,27 @@ export class TravelService {
   updateTravel(id, data){   
     return this.http.doPutFormData(`${BASE_URL_API}/api/travels/AssignmentsTravelDriver/${id}`, data, {}).pipe(
       tap(() => {
-        this._refresh$.next();
+        this.refresh.next();
       })
     );
   }
 
+  updatePointOrigin(id, data){
+    return this.http.doPutFormData(`${BASE_URL_API}/api/travels/UpdateLatitudLongitud/${id}`, data, {});
+  }
+
   startTravel(id, data){   
-    return this.http.doPutFormData(`${BASE_URL_API}/api/travels/StarProcessTravelByUser/${id}`, data, {}).pipe(
-      tap(() => {
-        this._refresh$.next();
-      })
-    );
+    return this.http.doPutFormData(`${BASE_URL_API}/api/travels/StarProcessTravelByUser/${id}`, data, {});
+  }
+
+  updateTimeTravel(id, data){
+    return this.http.doPutFormData(`${BASE_URL_API}/api/travels/TripRegistrationInProgress/${id}`, data, {});
   }
 
   confirmDrive(id : string, data: any){
     return this.http.doPutFormData(`${BASE_URL_API}/api/travels/ConfirmTravelByUser/${id}`, data, {}).pipe(
       tap(() => {
-        this._refresh$.next();
+        this.refresh.next();
       })
     )
   }

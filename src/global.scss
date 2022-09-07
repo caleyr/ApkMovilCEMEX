@@ -200,6 +200,7 @@ h1.text-black{
 .item-archives{
   display: flex;
   align-items: center;
+  padding-left: 1rem;
 }
 .item-archives h5{
   font-size: small;
@@ -215,7 +216,7 @@ h1.text-black{
   margin-bottom: 2rem;
 }
 .content-archive .border{
-  border-right: 1.5px solid #3FA9F5;;
+  border-right: 1.5px solid #3FA9F5;
 }
 .contend-upload-camera{
   // margin-top: 1rem;

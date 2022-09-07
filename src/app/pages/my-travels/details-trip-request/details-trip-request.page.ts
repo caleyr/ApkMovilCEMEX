@@ -38,7 +38,7 @@ export class DetailsTripRequestPage implements OnInit {
     ) { }
 
   ngOnInit() {
-    this.suscripcion = this.travelService.refresh$.subscribe(() => {
+    this.suscripcion = this.travelService.changeDataRefresh.subscribe(() => {
       this.getData();
       this.getListDrivers();
     });
@@ -88,11 +88,8 @@ export class DetailsTripRequestPage implements OnInit {
     const dataD = new FormData();
     dataD.append('Id', this.travel.id);
     dataD.append('UserId', this.driverId);
-
-    const data = new FormData();
-    data.append('StatusTravel', '3');
-    data.append('StatusTravelAvailability', '3');
-    data.append('id', this.travel.id);
+    dataD.append('StatusTravel', '3');
+    dataD.append('StatusTravelAvailability', '3');
     this.travelService.updateTravel(this.travel.id, dataD).subscribe(()=>{        
       document.getElementById('modal-assign-trip').setAttribute('open', 'false');
       this.messageShowA = true;

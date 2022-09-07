@@ -26,11 +26,15 @@ export class ScheduledTripsListComponent implements OnInit {
     this.rol = this.loginService.profileUser.Roles;
   }
 
-  detailTrip(id: string, travelAvailability: string) {
+  detailTrip(id: string, travelAvailability: string, tTravel: string) {
     if (this.rol !== 'Administrador Logistico Tercero') {
-      if(travelAvailability === 'Asignado' || travelAvailability === 'Confirmado' || travelAvailability === '-'){
+      if(travelAvailability === 'Asignado' || travelAvailability === 'Confirmado' || travelAvailability === '-'){ 
         this.travelService.id = id;
-        this.navCtrl.navigateRoot('/app/my-travels/driver-confirmed-trip-detail', { animated: false });
+        if(tTravel === 'Viaje Cemex'){
+          this.navCtrl.navigateRoot('/app/my-travels/driver-confirmed-trip-cemex-detail', { animated: false });
+        }else{
+          this.navCtrl.navigateRoot('/app/my-travels/driver-confirmed-trip-detail', { animated: false });
+        }
       }
     } else {
       this.travelService.id = id;

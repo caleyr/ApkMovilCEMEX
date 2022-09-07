@@ -11,35 +11,28 @@ import { ConveyorService } from 'src/app/services/conveyor/conveyor.service';
 })
 export class PhotoIndentityCardComponent implements OnInit {
 
-  @Input() modalPhotoIdentityCardShow: false;
+  modalPhotoIdentityCardShow: false;
 
   savePhotoFrontal: any;
   savePhotoBack: any;
 
-  public photoFrontal: PhotoCamera = {
+  public photoFrontal = {
     webviewPath: ''
   };
-  public photoBack: PhotoCamera = {
+  public photoBack = {
     webviewPath: ''
   };
+
   constructor(
     private conveyorService: ConveyorService,
     public convertPhotoCamera: ConvertPhotoCameraService,
   ) { }
 
   ngOnInit() {
-    /*this.conveyorService.removeModalIdentityCardDriver.subscribe(resp =>{
-      this.photoFrontal.webviewPath = '';
-      this.photoBack.webviewPath = '';
-    });*/
   }
 
-  addIdentityCard(){/*
-    this.conveyorService.addIdentityCardDriver.emit();
-    this.conveyorService.frontalArchiveIdentityCardDriver.emit(this.savePhotoFrontal);
-    this.conveyorService.backArchiveIdentityCardDriver.emit(this.savePhotoBack);
-    this.conveyorService.closeModalArchiveIdentityCardDriver.emit(false);
-    */
+  addIdentityCard(){
+    
   }
 
   async openCameraOne(){
@@ -48,12 +41,8 @@ export class PhotoIndentityCardComponent implements OnInit {
       source: CameraSource.Camera,
       quality: 100
     });
-    this.photoFrontal = {
-      webviewPath: capturedPhoto.webPath
-    };
-
+    this.photoFrontal.webviewPath = capturedPhoto.webPath;
     this.savePhotoFrontal = await this.convertPhotoCamera.savePicture(capturedPhoto);
-
   }
 
   async openCameraTwo(){
@@ -62,10 +51,7 @@ export class PhotoIndentityCardComponent implements OnInit {
       source: CameraSource.Camera,
       quality: 100
     });
-    this.photoBack = {
-      webviewPath: capturedPhoto.webPath
-    };
-
+    this.photoBack.webviewPath = capturedPhoto.webPath;
     this.savePhotoBack = await this.convertPhotoCamera.savePicture(capturedPhoto);
   }
 

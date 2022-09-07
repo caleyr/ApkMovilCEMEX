@@ -1,18 +1,18 @@
-import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
-import { Travel } from '../../../../../../interfaces/travels/travel';
-import { GoogleService } from '../../../../../../services/google.service';
 import { DatePipe } from '@angular/common';
-import { TravelService } from '../../../../../../services/travels/travel.service';
-import { finalize } from 'rxjs/operators';
+import { Component, OnInit } from '@angular/core';
 import { Geolocation } from '@capacitor/geolocation';
+import { finalize } from 'rxjs/operators';
+import { GoogleService } from '../../../../../../services/google.service';
+import { TravelService } from '../../../../../../services/travels/travel.service';
+import { Travel } from '../../../../../../interfaces/travels/travel';
 declare var google;
 
 @Component({
-  selector: 'app-modal-detail-map-drive',
-  templateUrl: './modal-detail-map-drive.component.html',
-  styleUrls: ['./modal-detail-map-drive.component.scss'],
+  selector: 'app-modal-detail-map-drive-cemex',
+  templateUrl: './modal-detail-map-drive-cemex.component.html',
+  styleUrls: ['./modal-detail-map-drive-cemex.component.scss'],
 })
-export class ModalDetailMapDriveComponent implements OnInit {
+export class ModalDetailMapDriveCemexComponent implements OnInit {
 
   travelDetail: Travel;
   estado = 1;
@@ -69,19 +69,6 @@ export class ModalDetailMapDriveComponent implements OnInit {
     });
   }
 
-  onClickStartCharge(){
-    this.googleService.changeLoadign(true);
-    const horaStar = new Date();
-    const data = new FormData();
-    data.append('Id', this.travelDetail.id);
-    data.append('StatusTravel', '5');
-    data.append('TripStarTime', '');
-    this.travelDetail.loadStar = this.datepipe.transform(horaStar, 'h:mm a');    
-    this.travelService.startTravel(this.travelDetail.id, data).subscribe(async ()=>{      
-      await this.changeTravelTime();
-    });
-  }
-
   async onClickStartTravel(){
     this.googleService.changeLoadign(true);
     const horaStar = new Date();
@@ -89,8 +76,10 @@ export class ModalDetailMapDriveComponent implements OnInit {
     data.append('Id', this.travelDetail.id);
     data.append('StatusTravel', '5');
     data.append('TripStarTime', this.datepipe.transform(horaStar, 'h:mm a'));
+    this.travelDetail.loadStar = this.datepipe.transform(horaStar, 'h:mm a');
     this.travelDetail.loadEnd = this.datepipe.transform(horaStar, 'h:mm a');    
-    this.travelService.startTravel(this.travelDetail.id, data).subscribe(async ()=>{
+    this.travelService.startTravel(this.travelDetail.id, data).subscribe(async ()=>{    
+      await this.getCurrentPositionDrive();
       await this.changeTravelTime();
     });
   }

@@ -69,21 +69,20 @@ export class LoginService {
   }
 
   async getDataProfile (token){
-    return new Promise((resolve ,reject)=>{
+    return new Promise(async (resolve ,reject)=>{
       var profile : Profile = new Profile();
-      profile.id = JSON.parse(window.atob(token.split('.')[1]))["UserId"];
-      profile.FirstName = JSON.parse(window.atob(token.split('.')[1]))["FirstName"];
-      profile.LastName = JSON.parse(window.atob(token.split('.')[1]))["LastName"];
-      profile.Email = JSON.parse(window.atob(token.split('.')[1]))["Email"];
-      profile.CompanyId = JSON.parse(window.atob(token.split('.')[1]))["CompanyId"];
-      profile.Document = JSON.parse(window.atob(token.split('.')[1]))["Document"];
-      profile.SapCode = JSON.parse(window.atob(token.split('.')[1]))["SapCode"];
-      profile.PhoneNumber = JSON.parse(window.atob(token.split('.')[1]))["PhoneNumber"];      
-      profile.Roles = JSON.parse(window.atob(token.split('.')[1]))["Roles"];      
+      profile.id = await JSON.parse(window.atob(token.split('.')[1]))["UserId"];
+      profile.FirstName = await JSON.parse(window.atob(token.split('.')[1]))["FirstName"];
+      profile.LastName = await JSON.parse(window.atob(token.split('.')[1]))["LastName"];
+      profile.Email = await JSON.parse(window.atob(token.split('.')[1]))["Email"];
+      profile.CompanyId = await JSON.parse(window.atob(token.split('.')[1]))["CompanyId"];
+      profile.Document = await JSON.parse(window.atob(token.split('.')[1]))["Document"];
+      profile.SapCode = await JSON.parse(window.atob(token.split('.')[1]))["SapCode"];
+      profile.PhoneNumber = await JSON.parse(window.atob(token.split('.')[1]))["PhoneNumber"];      
+      profile.Roles = await JSON.parse(window.atob(token.split('.')[1]))["Roles"];
       this.profileUser = profile;
       resolve(profile);
     });
-    
   }
 
   getDataExpiration (token){

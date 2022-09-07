@@ -20,6 +20,7 @@ import { CmxWebComponentsModule } from '@cmx-web-components/angular';
 
 @NgModule({
   imports: [
+    FormsModule,
     CommonModule,
     IonicModule,
     ComponentsModule,
@@ -36,7 +37,7 @@ import { CmxWebComponentsModule } from '@cmx-web-components/angular';
     RegisterDriverComponent,
     RegisterMantruckComponent,
     ArchivesRegisterComponent,
-    RegisterAdminLogistThirdComponent,
+    RegisterAdminLogistThirdComponent
   ]
 })
 export class RegisterPageModule {}

@@ -83,6 +83,8 @@ export class DetailSearchPage implements OnInit {
     const dataFormU = new FormData();    
     dataFormU.append('Id', this.travel.id);
     dataFormU.append('UserId', this.loginService.profileUser.id);
+    dataFormU.append('StatusTravel', '2');
+    dataFormU.append('StatusTravelAvailability', '2');
     await this.updateTravel(this.travel.id ,dataFormU);
     this.addDriver = false;
     this.alertShow = true;

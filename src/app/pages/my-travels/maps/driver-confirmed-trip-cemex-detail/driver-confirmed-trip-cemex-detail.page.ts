@@ -1,21 +1,19 @@
-import { Location } from '@angular/common';
-import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { IonRouterOutlet, ModalController } from '@ionic/angular';
-import { DetailsTripPreviousPage } from '../../details-trip-previous/details-trip-previous.page';
-import { ModalDetailMapDriveComponent } from './components/modal-detail-map-drive/modal-detail-map-drive.component';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { Travel } from '../../../../interfaces/travels/travel';
+import { ModalController } from '@ionic/angular';
 import { TravelService } from '../../../../services/travels/travel.service';
-import { Travel } from 'src/app/interfaces/travels/travel';
 import { GoogleService } from '../../../../services/google.service';
-import { Subscription } from 'rxjs';
 import { ClearWatchOptions, Geolocation } from '@capacitor/geolocation';
+import { Location } from '@angular/common';
+import { ModalDetailMapDriveCemexComponent } from './components/modal-detail-map-drive-cemex/modal-detail-map-drive-cemex.component';
 declare var google;
 
 @Component({
-  selector: 'app-driver-confirmed-trip-detail',
-  templateUrl: './driver-confirmed-trip-detail.page.html',
-  styleUrls: ['./driver-confirmed-trip-detail.page.scss'],
+  selector: 'app-driver-confirmed-trip-cemex-detail',
+  templateUrl: './driver-confirmed-trip-cemex-detail.page.html',
+  styleUrls: ['./driver-confirmed-trip-cemex-detail.page.scss'],
 })
-export class DriverConfirmedTripDetailPage implements OnInit, AfterViewInit {
+export class DriverConfirmedTripCemexDetailPage implements OnInit {
 
   id = null;
 
@@ -95,6 +93,7 @@ export class DriverConfirmedTripDetailPage implements OnInit, AfterViewInit {
       this.loading = true;
       await this.getData();
       if(this.travel.loadEnd !== 'null' && this.travel.tripStarTime === null && this.travel.dowloadStar === 'null'){
+        await this.changeRoute();
         await this.calculateRoute();
       }else if(this.travel.dowloadStar !== 'null' || this.travel.dowloadEnd !== 'null'){
         this.deleteMarker();
@@ -142,7 +141,7 @@ export class DriverConfirmedTripDetailPage implements OnInit, AfterViewInit {
 
   async calculateRoute(){
     this.watchId = Geolocation.watchPosition({
-      enableHighAccuracy: true, timeout: 3000, maximumAge: Infinity
+      enableHighAccuracy: true, timeout: 5000, maximumAge: Infinity
     },async position =>{
       const ubicacionUser = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
       this.googleService.changeDistance(ubicacionUser);
@@ -150,7 +149,7 @@ export class DriverConfirmedTripDetailPage implements OnInit, AfterViewInit {
     });
   }  
 
-  async createPonintUser(ubicacion : any){   
+  async createPonintUser(ubicacion : any){
     this.marker.setPosition(ubicacion);
     this.map.setCenter(ubicacion);
     this.map.setZoom(17);
@@ -196,7 +195,7 @@ export class DriverConfirmedTripDetailPage implements OnInit, AfterViewInit {
 
   async modalData(travelD : Travel){
     const modal = await this.modalController.create({
-      component: ModalDetailMapDriveComponent,
+      component: ModalDetailMapDriveCemexComponent,
       initialBreakpoint : 0.38,
       breakpoints : [0.1, 0.38, 0.70, 1],
       backdropDismiss : false,
@@ -207,4 +206,5 @@ export class DriverConfirmedTripDetailPage implements OnInit, AfterViewInit {
     })
     await modal.present();
   }
+
 }

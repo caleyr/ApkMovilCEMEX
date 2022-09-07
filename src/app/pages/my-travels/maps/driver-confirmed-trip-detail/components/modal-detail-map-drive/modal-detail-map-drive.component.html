@@ -12,15 +12,30 @@
                         </cwc-button>
                     </cwc-cell>
                     <cwc-cell mobile-colspan="6" *ngIf="travelDetail.statusTravel === 4">
+                        <cwc-button variant="link" (click)="onClickStartCharge()">
+                            <div class="text-button" >INICIAR CARGA</div>
+                        </cwc-button>
+                    </cwc-cell>
+                    <cwc-cell mobile-colspan="6" *ngIf="travelDetail.loadEnd === 'null' && travelDetail.statusTravel === 5">
                         <cwc-button variant="link" (click)="onClickStartTravel()">
                             <div class="text-button" >INICIAR VIAJE</div>
+                        </cwc-button>
+                    </cwc-cell>
+                    <cwc-cell mobile-colspan="6" *ngIf="travelDetail.dowloadStar === 'null' && travelDetail.loadEnd !== 'null' && distancia <= 30">
+                        <cwc-button variant="link" (click)="onClickStartDischarge()">
+                            <div class="text-button" >INICIAR DESCARGA</div>
+                        </cwc-button>
+                    </cwc-cell>
+                    <cwc-cell mobile-colspan="6" *ngIf="travelDetail.dowloadEnd === 'null' && travelDetail.dowloadStar !== 'null'">
+                        <cwc-button variant="link" (click)="onClickEndDischarge()">
+                            <div class="text-button" >FINALIZAR DESCARGA</div>
                         </cwc-button>
                     </cwc-cell>
                 </div>
 
                 <cwc-cell mobile-colspan="12" style="padding-bottom: 0.8rem;">
                     <cwc-progress-bar style='width:100%' variant='split'>
-                        <cwc-progress-bar-item progress='25'></cwc-progress-bar-item>                
+                        <cwc-progress-bar-item progress='100'></cwc-progress-bar-item>                
                     </cwc-progress-bar>
                 </cwc-cell>
 

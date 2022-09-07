@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder } from '@angular/forms';
-import { TravelService } from '../../services/travels/travel.service';
 import { NavController } from '@ionic/angular';
 import { Travel } from 'src/app/interfaces/travels/travel';
 import { TravelListUnique } from 'src/app/interfaces/travels/travel-list-unique';
+import { TravelService } from 'src/app/services/travels/travel.service';
 
 @Component({
   selector: 'app-travels',

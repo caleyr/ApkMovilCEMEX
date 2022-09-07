@@ -9,6 +9,7 @@ import { RequestService } from '../../../../../services/request.service';
 import { UserService } from 'src/app/services/user.service';
 import { VehiclesService } from 'src/app/services/vehicles.service';
 import { DatePipe } from '@angular/common';
+import * as moment from 'moment';
 declare var google;
 
 
@@ -131,11 +132,13 @@ export class RequestAdminNewComponent implements OnInit {
   }
 
   changTimeStar(event){
-    this.form.get('TimerStar').setValue(`${event.detail.hours}:${event.detail.minutes}`);
+    const start_time = moment(`${event.detail.hours}:${event.detail.minutes}`, 'HH:mm').format('hh:mm A');
+    this.form.get('TimerStar').setValue(start_time);
   }
 
   changeTimeEnd(event){
-    this.form.get('TimerEnd').setValue(`${event.detail.hours}:${event.detail.minutes}`);
+    const end_time = moment(`${event.detail.hours}:${event.detail.minutes}`, 'HH:mm').format('hh:mm A');
+    this.form.get('TimerEnd').setValue(end_time);
   }
 
   changeDateTime(event){
@@ -160,7 +163,6 @@ export class RequestAdminNewComponent implements OnInit {
   }
 
   async searchTrips(){
-    alert(JSON.stringify(this.form.value));
     if ( this.form.invalid ) {
       this.form.markAllAsTouched();
       return;

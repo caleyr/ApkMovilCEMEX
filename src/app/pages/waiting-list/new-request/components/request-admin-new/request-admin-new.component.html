@@ -24,9 +24,11 @@
         <cwc-cell class="flex flex__align--bullseye" mobile-colspan="12">          
           <div style="text-align: center; padding-bottom: 1rem; font-weight: 900;" >Rango de Hora</div>
         </cwc-cell>
-        <cwc-cell mobile-colspan="6" class="flex flex__align--center">
+        <cwc-cell mobile-colspan="12" class="flex flex__align--center">
           <cwc-input-time
+            style="width: 100%;"
             formControlName="TimerStar"
+            format="12h"
             label='Hora (Inicio)'
             [status]="getStatusField('TimerStar')"
             [statusMessage]="getMsgField('TimerStar', 'tiempo de inicio')"
@@ -34,10 +36,10 @@
             placeholder="--:--"
             design-version="v2">
           </cwc-input-time>
-        </cwc-cell>
-        <cwc-cell mobile-colspan="6" class="flex flex__align--center">
           <cwc-input-time
+            style="width: 100%;"
             formControlName="TimerEnd"
+            format="12h"
             label='Hora (Fin)'
             [status]="getStatusField('TimerEnd')"
             [statusMessage]="getMsgField('TimerEnd', 'tiempo final')"
@@ -51,7 +53,6 @@
         </cwc-cell>
         <cwc-cell colspan="12" mobile-colspan="12">
           <cwc-input-date
-            formControlName="DateTravels"
             [status]="getStatusField('DateTravels')"
             (cwcChange)="changeDateTime($event)"
             style="width: 100%;"

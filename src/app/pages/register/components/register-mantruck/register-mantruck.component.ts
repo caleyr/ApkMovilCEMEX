@@ -1,77 +1,65 @@
-import { Component, OnInit, Input, EventEmitter, Output  } from '@angular/core';
+import { Component, OnInit, Input, EventEmitter, Output, AfterViewInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { debounceTime } from 'rxjs/operators';
+import { debounceTime, finalize } from 'rxjs/operators';
 import { ConveyorService } from 'src/app/services/conveyor/conveyor.service';
 import { ErrorMessagesService } from 'src/app/services/error-messages.service';
 import { CompaniesService } from '../../../../services/companies/companies.service';
 import { AdminLogistService } from '../../../../services/adminLogist/admin-logist.service';
 import { Companies } from '../../../../interfaces/companies/companies';
+import { FileRegisterUserService } from '../../../../services/file-register/file-register-user.service';
+import { ValidateUserFieldService } from 'src/app/services/error/validate-user-field.service';
+import { Filesystem } from '@capacitor/filesystem';
+import pdfMake from "pdfmake/build/pdfmake";
+import pdfFonts from "pdfmake/build/vfs_fonts";
+pdfMake.vfs = pdfFonts.pdfMake.vfs;
 
 @Component({
   selector: 'app-register-mantruck',
   templateUrl: './register-mantruck.component.html',
   styleUrls: ['./register-mantruck.component.scss'],
 })
-export class RegisterMantruckComponent implements OnInit {
+export class RegisterMantruckComponent implements AfterViewInit {
 
-  @Input() typeConveyor: number;
   @Output()
   propagar = new EventEmitter<boolean>();
 
   form: FormGroup;
-  data : FormData;
-  listCompanies : Companies[];
+  data : FormData = new FormData();
+  dataPrueba : FormData = new FormData();
 
-  alertSucces = true;
+  listCompanies : Companies[] = [];
+
+  alertSucces = false;
   alertConfirm = false;
-  addIdentityCard = false;
-  addDocumentCompany = false;
   toastMessage = '';
 
   errors: string[] = [];
 
-  statusInputName = 'regular';
-  statusInputMessageName = '';
-
-  statusInputLastName = 'regular';
-  statusInputMessageLastName = '';
-
-  statusInputEmail = 'regular';
-  statusInputMessageEmail = '';
-
-  statusInputDocument = 'regular';
-  statusInputMessageDocument = '';
-
-  statusInputSap = 'regular';
-  statusInputMessageSap = '';
-
-  statusInputPhone = 'regular';
-  statusInputMessagePhone = '';
-
-  statusInputCompany = 'regular';
-  statusInputMessageCompany = '';
-
-  statusInputNit = 'regular';
-  statusInputMessageNit = '';
-
   openPhotoIdentityCard = false;
   openPhotoDocumentCompany = false;
+
+  nameFile : string = 'Drivinglicense';
+  nameText : string;
+
+  fileURL;
+  fileBlob;
 
   constructor(
     private formBuilder: FormBuilder,
     private companiesService : CompaniesService,
     private errorMessages: ErrorMessagesService,
-    private adminLogistService : AdminLogistService
+    private adminLogistService : AdminLogistService,
+    public msgField : ValidateUserFieldService,
+    public fileRegister : FileRegisterUserService
   ) {    
     this.formBuilderInput();
-    this.companiesService.getCompanies().subscribe(async data =>{
-      this.listCompanies = data.data;
-    });
+    Filesystem.requestPermissions();
   }
 
-  ngOnInit() {
-    this.alertSucces = false;
-    console.log('holaa');    
+  async ngAfterViewInit() {  
+    this.companiesService.getCompanies().subscribe(result=>{
+      this.listCompanies = result.data;
+    })
   }
 
   cwcChange(event){
@@ -79,24 +67,28 @@ export class RegisterMantruckComponent implements OnInit {
   }
 
   async register(){
+    this.errors = [];
+    this.alertConfirm = false;
+    this.propagar.emit(true);
     if(this.form.invalid){
+      this.propagar.emit(false);
       return;
     }
-    this.data = new FormData();
-    this.addFormData(this.form.value);
-    this.propagar.emit(true);
-    await this.adminLogistService.createAdminLogistThird(this.data).subscribe(async resp =>{
+    await this.addFormData(this.form.value);
+    await this.adminLogistService.createAdminLogistThird(this.dataPrueba).pipe(
+      finalize(()=>{
+        this.propagar.emit(false);
+      })
+    ).subscribe(async resp =>{
        this.propagar.emit(false);
        this.alertSucces = true;
-       this.addIdentityCard = false;
-       this.addDocumentCompany = false;
        this.alertConfirm = false;
        this.alertSucces = true;
        this.errors = [];
     }, (error) =>{
-      console.log(error);      
-       this.propagar.emit(false);
-       this.errors = this.errorMessages.parsearErroresAPI(error);
+      this.propagar.emit(false);
+      this.errors = this.errorMessages.parsearErroresAPI(error);
+      this.fileRegister.resetForm();
     });
   }
 
@@ -104,24 +96,6 @@ export class RegisterMantruckComponent implements OnInit {
     for ( var key in objeto ) {
       this.data.append(key, objeto[key]);
     }
-  }
-
-  removeDocumentCompany(){
-    this.form.get('documentCompany').setValue('');
-    //this.conveyorService.removeModalPhotoDocumentCompany.emit();
-    this.addDocumentCompany = false;
-    this.toastMessage = 'Se eliminó el documento de la empresa';
-    const element = document.getElementById('toast-message-driver');
-      element.classList.remove('hide');
-  }
-  removeIdentityCard(){
-    this.form.get('documentIdentityCardFrontal').setValue('');
-    this.form.get('documentIdentityCardBack').setValue('');
-    //this.conveyorService.removeModalIdentityCardDriver.emit();
-    this.addIdentityCard = false;
-    this.toastMessage = 'Se eliminó la cédula de ciudadanía';
-    const element = document.getElementById('toast-message-driver');
-      element.classList.remove('hide');
   }
 
   openAlertConfirm(){
@@ -135,93 +109,66 @@ export class RegisterMantruckComponent implements OnInit {
     this.alertConfirm = false;
   }
 
-  openModalPhotoIdentityCard(){
-    if(this.openPhotoIdentityCard = true){
-      this.openPhotoIdentityCard = false;
-    }else{
-      this.openPhotoIdentityCard = true;
+  openModalDocument(name){
+    if(name === 'Drivinglicense'){
+      this.nameFile = name;
+      this.nameText = 'licencia de conducción';
+    }else if(name === 'SecurityCard'){
+      this.nameFile = name;
+      this.nameText = 'carné de seguridad industrial y vial';
+    }else if(name === 'DocumentIdentityCard'){
+      this.nameFile = name;
+      this.nameText = 'cédula de ciudadanía';
     }
+    document.getElementById('modal-document').setAttribute('open','true');
   }
 
-  openModalPhotoDocumentCompany(){
-    this.openPhotoDocumentCompany = true;
+  cloceModalDocument(){
+    document.getElementById('modal-document').setAttribute('open','false');    
+    this.fileRegister.resetPhoto();
   }
 
-  /*=============================================
-   FORMULARIO REACTIVOS
-  =============================================*/
+  async savePdf(){
+    const pdfDefinition: any = {
+      content: [
+        {
+          image: this.fileRegister.savePhotoFrontal,
+        },
+        {
+          text: '\n\n',
+        },
+        {
+          image: this.fileRegister.savePhotoBack,
+        },
+      ]
+    }
+    const pdfDocGenerator = await pdfMake.createPdf(pdfDefinition);
+    const fileName = new Date().getTime() + `_${this.nameFile}.pdf`;
+    await pdfDocGenerator.getBlob((file) => {
+      if(this.nameFile === 'Drivinglicense'){
+        this.fileRegister.fileDrivinglicense = fileName;
+      }else if(this.nameFile === 'SecurityCard'){
+        this.fileRegister.fileSecurityCard = fileName;
+      }else if(this.nameFile === 'DocumentIdentityCard'){
+        this.fileRegister.fileDocument = fileName;
+      }
+      this.data.append(this.nameFile, file, );
+      this.cloceModalDocument();
+    });
+  }
+
   formBuilderInput(){
     this.form = this.formBuilder.group({
       FirstName: ['', [Validators.required,]],
       LastName: ['', [Validators.required,]],
-      Password: ['', [Validators.required,]],
+      Password: ['', 
+      [ Validators.required, Validators.pattern('^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*_=+-]).{10,15}$') ],
+      ],
       Email: ['', [Validators.required, Validators.email]],
       CompanyId: ['', [Validators.required,]],
       Roles: ['Hombre Camion', [Validators.required,]],
-      PhoneNumber: ['', [
-        Validators.required,
-        Validators.minLength(10),
-        Validators.maxLength(10),
-        Validators.pattern('^[0-9]*$')
-      ]]
-    });
-    this.form.valueChanges
-    .pipe(
-      debounceTime(350),
-    )
-    .subscribe(data => {
-      console.log(data);      
-      this.validateInput();
+      PhoneNumber: ['', [ Validators.pattern('^[3][0-9]*$')]],
+      Status: ['1'],
     });
   }
-
-   /*=============================================
-   FUNCIÓN PARA VALIDAR LOS CAMPOS
-  =============================================*/
-  validateInput(){
-    if(this.form.get('FirstName').errors && this.form.get('FirstName').dirty){
-      this.statusInputName = 'error';
-      this.statusInputMessageName = 'Este campo es requerido';
-     }else{
-      this.statusInputName = 'regular';
-      this.statusInputMessageName = '';
-     }
-
-     if(this.form.get('LastName').errors && this.form.get('LastName').dirty){
-      this.statusInputLastName = 'error';
-      this.statusInputMessageLastName = 'Este campo es requerido';
-     }else{
-      this.statusInputLastName = 'regular';
-      this.statusInputMessageLastName = '';
-     }
-
-     if(this.form.get('Email').errors && this.form.get('Email').dirty){
-        if(this.form.get('Email').errors.email){
-          this.statusInputEmail = 'error';
-          this.statusInputMessageEmail = 'Ingrese un correo electrónico válido';
-        }else{
-          this.statusInputEmail = 'error';
-        this.statusInputMessageEmail = 'Este campo es requerido';
-        }
-     }else{
-      this.statusInputEmail = 'regular';
-      this.statusInputMessageEmail = '';
-     }
-
-     if(this.form.get('PhoneNumber').errors && this.form.get('PhoneNumber').dirty){
-
-      if(this.form.get('PhoneNumber').errors.minlength || this.form.get('PhoneNumber').errors.maxlength){
-        this.statusInputPhone = 'error';
-        this.statusInputMessagePhone = 'Ingrese un número de celular válido';
-      }else{
-        this.statusInputPhone = 'error';
-        this.statusInputMessagePhone = 'Este campo es requerido';
-      }
-
-     }else{
-      this.statusInputPhone = 'regular';
-      this.statusInputMessagePhone = '';
-     }
-  }
-
 }

@@ -2,6 +2,7 @@ export class Travel {
     id: string;
     codeTravel: string;
     source: string;
+    typeTravel: string;
     departamentSource: string;
     directionSource: string;
     latitudeSource: number;
@@ -18,8 +19,11 @@ export class Travel {
     clientName: string;
     dowloadStar: string;
     dowloadEnd: string;
-    timerEndTravel: string;
+    timerEndTravel: string;    
     dateTravelEnd: string;
+    tripStarTime: string;    
+    loadStar: string;
+    loadEnd: string;
     statusTravel: number;
     statusTravelString: string;
     statusTravelAvailability: number;
@@ -29,7 +33,9 @@ export class Travel {
     country: string;
     userId: string;
     userName: string;
+    userNameRol: string;
     vehicleLissenceName: string;
     vehicleModelName: string;
     companyName: string;
+    observationsOfTravel: string;
 }

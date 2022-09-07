@@ -7,6 +7,8 @@ import { TravelService } from './../../../../../services/travels/travel.service'
 import { Component, OnInit } from '@angular/core';
 import { Validators, FormGroup, FormBuilder } from '@angular/forms';
 import { VehiclesService } from '../../../../../services/vehicles.service';
+import { DatePipe } from '@angular/common';
+import * as moment from 'moment';
 declare var google;
 
 @Component({
@@ -16,13 +18,14 @@ declare var google;
 })
 export class RequestDriveNewComponent implements OnInit {
 
+  linceseFalse = '00000000-0000-0000-0000-000000000000';
+
   source : string;
   departament : string;
   dataO : string;
   timeO : string;
 
   form : FormGroup;
-  geocoder = null;
   data : FormData = new FormData();
   loading: boolean = false;
 
@@ -30,13 +33,20 @@ export class RequestDriveNewComponent implements OnInit {
 
   buttonActivate : boolean = false;
   alertShow = false;
+  alertShowError = false;
+
+  autocompleteO = null;
+  autocompleteD = null;
+  typeD = ['administrative_area_level_1', 'political'];
+  typeM = ['locality', 'political'];
 
   constructor(
     private formBuilder: FormBuilder,
     private requestService : RequestService,
     private navCtrl : NavController,
     private driverS : DriversService,
-    private loginS : LoginService
+    private loginS : LoginService,
+    private datepipe: DatePipe
     ) { }
 
   ngOnInit() {
@@ -49,7 +59,9 @@ export class RequestDriveNewComponent implements OnInit {
     this.id = this.loginS.profileUser.id;
     this.driverS.getDriverById(this.id).subscribe(data=>{
       this.form.get('DriverId').setValue(this.id);
-      this.form.get('VehicleId').setValue(data.data.lisenseVehicle);  
+      if(data.data.lisenseVehicle !== this.linceseFalse){
+        this.form.get('VehicleId').setValue(data.data.lisenseVehicle);  
+      }
     });
   }
 
@@ -86,7 +98,36 @@ export class RequestDriveNewComponent implements OnInit {
   }
 
   loadGoogle(){
-    this.geocoder = new google.maps.Geocoder();
+    this.activeGooglePlaceOrigin();
+    this.activeGooglePlaceDestiny();
+  }
+
+  activeGooglePlaceOrigin() {
+    let input = document.getElementById('input-origin') as HTMLInputElement;
+    this.autocompleteO = new google.maps.places.Autocomplete(input, { types: ['geocode', 'establishment'] });
+    google.maps.event.addListener(this.autocompleteO, 'place_changed', () => {
+      let place = this.autocompleteO.getPlace();
+      this.form.get('Origen').setValue(place.formatted_address);
+      for (let index = 0; index < place.address_components.length; index++) {
+        if (place.address_components[index].types[0] === this.typeD[0]) {
+          this.form.get('DepartamentSource').setValue(place.address_components[index].long_name);
+        }
+      }
+    });
+  }
+
+  activeGooglePlaceDestiny() {
+    let input = document.getElementById('input-destiny') as HTMLInputElement;
+    this.autocompleteD = new google.maps.places.Autocomplete(input, { types: ['geocode', 'establishment'] });
+    google.maps.event.addListener(this.autocompleteD, 'place_changed', () => {
+      let place = this.autocompleteD.getPlace();
+      this.form.get('Destino').setValue(place.formatted_address);
+      for (let index = 0; index < place.address_components.length; index++) {
+        if (place.address_components[index].types[0] === this.typeD[0]) {
+          this.form.get('DepartamentDestiny').setValue(place.address_components[index].long_name);
+        }
+      }
+    });
   }
 
   goMyRequest() {
@@ -94,34 +135,20 @@ export class RequestDriveNewComponent implements OnInit {
   }
 
   changTimeStar(event){
-    this.form.get('TimerStar').setValue(`${event.detail.hours}:${event.detail.minutes}`);
+    const start_time = moment(`${event.detail.hours}:${event.detail.minutes}`, 'HH:mm').format('hh:mm A');
+    this.form.get('TimerStar').setValue(start_time);
+    
   }
 
   changeTimeEnd(event){
-    this.form.get('TimerEnd').setValue(`${event.detail.hours}:${event.detail.minutes}`);
+    const end_time = moment(`${event.detail.hours}:${event.detail.minutes}`, 'HH:mm').format('hh:mm A');
+    this.form.get('TimerEnd').setValue(end_time);
   }
 
   changeDateTime(event){
-    this.form.get('DateTravels').setValue(`${event.detail.getDate()}-${event.detail.getMonth()}-${event.detail.getMonth()}`);
-  }
-
-  async codificacion(direccionText : string, tipo : string){
-    return new Promise((resolve)=>{
-      this.geocoder.geocode({
-        address : direccionText
-        }).then((result)=>{
-          const { results } = result;
-          if(tipo === 'Origen'){
-            this.form.get('DepartamentSource').setValue(results[0].address_components[2].long_name);
-            resolve(result);
-          }else{
-            this.form.get('DepartamentDestiny').setValue(results[0].address_components[2].long_name);
-            resolve(result);
-          }
-      }).catch((e) => {
-        console.log(e);      
-      });
-    });
+    const fecha = this.datepipe.transform(event.detail, 'dd-MM-yyyy');
+    alert(fecha);    
+    this.form.get('DateTravels').setValue(fecha);  
   }
 
   async searchTrips(){
@@ -129,9 +156,7 @@ export class RequestDriveNewComponent implements OnInit {
       this.form.markAllAsTouched();
       return;
     }
-    await this.codificacion( this.getOrigin(), 'Origen');
-    await this.codificacion( this.getDestino(), 'Destino');   
-
+    
     this.addFormData(this.form.value)
     this.requestService.createRequest(this.data).subscribe(()=>{      
       this.alertShow = true;
@@ -144,13 +169,5 @@ export class RequestDriveNewComponent implements OnInit {
     for ( var key in objeto ){   
       this.data.append(key, objeto[key]);  
     }
-  }
-
-  getOrigin(){
-    return this.form.get('Origen').value;
-  }
-
-  getDestino(){
-    return this.form.get('Destino').value;
   }
 }

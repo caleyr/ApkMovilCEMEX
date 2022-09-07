@@ -11,19 +11,19 @@ export class AdminLogistService {
 
   constructor(private http: HttpService) { }
 
-  createAdminLogistThird(data : any) {
+  createAdminLogistThird(data : FormData) {
     return this.http.doPostFormData(`${URL}/api/authentication/CreateUserTPLMTruckMan`, data, {responseType: 'text'});
   }
 
-  createDriver(data : any) {
+  createDriver(data : FormData) {
     return this.http.doPostFormData(`${URL}/api/authentication/CreateUserDriver`, data, {responseType: 'text'});
   }
 
-  updateAdminLogistThird(data : any, email : string) {
+  updateAdminLogistThird(data : FormData, email : string) {
     return this.http.doPutFormData(`${URL}/api/authentication/UpdateTPLM_TruckMan/${email}`, data , {responseType: 'text'});
   }
 
-  updateDriver(data : any, email : string) {
+  updateDriver(data : FormData, email : string) {
     return this.http.doPutFormData(`${URL}/api/authentication/UpdateUserDriver/${email}`, data, {responseType: 'text'});
   }
 }
