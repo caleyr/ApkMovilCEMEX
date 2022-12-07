@@ -14,17 +14,17 @@ export class LayoutPage implements OnInit {
   notDriver = false;
   roles: string;
   user = {
-    name: '',
+    name: 'Sergio Varon',
   };
   constructor(
     private storage: Storage,
     private loginService: LoginService,
     private activeTabsService: ActiveTabsService
     ) {
-      if(loginService.profileUser.Roles !== "Conductor"){
+      /*if(loginService.profileUser.Roles !== "Conductor"){
         this.notDriver = true;
-      }         
-      this.currentUser();
+      } */        
+      //this.currentUser();
     }
 
   async ngOnInit() {
@@ -35,7 +35,7 @@ export class LayoutPage implements OnInit {
   }
 
   async currentUser(){
-    this.user.name = this.loginService.profileUser.FirstName + ' ' + this.loginService.profileUser.LastName;
+    //this.user.name = this.loginService.profileUser.FirstName + ' ' + this.loginService.profileUser.LastName;
   }
 
   async getData(){

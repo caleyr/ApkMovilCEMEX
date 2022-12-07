@@ -4,6 +4,7 @@ import { FormBuilder, FormGroup, NgForm, Validators } from '@angular/forms';
 import { debounceTime } from 'rxjs/operators';
 import { TypeConveyorService } from 'src/app/services/type-conveyor/type-conveyor.service';
 import { LoginService } from '../../services/auth/login.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-register',
@@ -25,7 +26,8 @@ export class RegisterPage implements OnInit {
 
   constructor(
     private loginService : LoginService,
-    private location : Location
+    private location : Location,
+    private router : Router
   ) { }
 
   ngOnInit() {
@@ -65,6 +67,6 @@ export class RegisterPage implements OnInit {
   }
 
   onBack(){
-    this.location.back();
+    this.router.navigate(['app/home']);
   }
 }

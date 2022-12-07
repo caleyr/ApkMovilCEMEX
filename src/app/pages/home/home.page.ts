@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { LoginService } from '../../services/auth/login.service';
+import { MsalService, MsalBroadcastService } from '@azure/msal-angular';
+import { EventMessage, EventType, AuthenticationResult } from '@azure/msal-browser';
+import { filter } from 'rxjs/operators';
 
 @Component({
   selector: 'app-home',
@@ -10,11 +12,12 @@ export class HomePage implements OnInit {
 
   rol : string;
   
-  constructor(private loginService : LoginService) {
+  constructor() {
    }
 
   ngOnInit() {
-    this.rol = this.loginService.profileUser.Roles;
+    this.rol = 'Administrador Logistico Tercero';
+    //this.initializeApp();
   }
 
 }

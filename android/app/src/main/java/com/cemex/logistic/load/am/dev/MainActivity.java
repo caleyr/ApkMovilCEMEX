@@ -1,4 +1,4 @@
-package io.ionic.starter;
+package com.cemex.logistic.load.am.dev;
 
 import com.getcapacitor.BridgeActivity;
 

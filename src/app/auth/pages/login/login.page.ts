@@ -1,12 +1,12 @@
 /* eslint-disable @typescript-eslint/dot-notation */
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder,  FormGroup, Validators, NgForm } from '@angular/forms';
-import { LoginService } from '../../../services/auth/login.service';
 import { Router } from '@angular/router';
-import { NavController } from '@ionic/angular';
-import { debounceTime } from 'rxjs/operators';
-import { ErrorMessagesService } from '../../../services/error-messages.service';
-import { App } from '@capacitor/app';
+import { MsalService, MsalBroadcastService } from '@azure/msal-angular';
+import { InAppBrowser } from '@awesome-cordova-plugins/in-app-browser/ngx';
+import { CustomNavigationClient } from '../../../utilities/CustomNavigationClient';
+import { filter } from 'rxjs/operators';
+import { EventMessage, EventType, AuthenticationResult } from '@azure/msal-browser';
+
 
 
 @Component({
@@ -16,103 +16,37 @@ import { App } from '@capacitor/app';
 })
 export class LoginPage implements OnInit {
 
-  form: FormGroup;
-  statusInputEmail = 'regular';
-  statusInputMessageEmail = '';
-
-  statusInputPassword = 'regular';
-  statusInputMessagePassword = '';
-
-  error: string = null;
-  errors: string[] = [];
-
-  message: string = null;
-  role: string;
-  isDriver: any = true;  
-  loading = false;
   constructor(
-    private formBuilder: FormBuilder,
-    private loginService: LoginService,
-    private errorMessages: ErrorMessagesService,
-    private navCtrl: NavController
+    private authService: MsalService,
+    private msalBroadcastService: MsalBroadcastService,
+    private router: Router,
+    private iab: InAppBrowser,
+    private msalService: MsalService
   ) {
-    this.formBuilderInput();
-   }
-
-   async ngOnInit() {
   }
 
-  async login(){
-    if(this.form.invalid){
-      return;
-    }
-    this.loading = true;
-    await this.loginService.loginWeb(this.form.value).subscribe(async resp =>{ 
-      const session : string = JSON.parse(resp.data)["token"];
-      this.role = JSON.parse(atob(session.split('.')[1]))["Roles"];
-        if(this.role !== 'Power User CEMEX' && this.role !== 'Administrador Logistico Cemex'){
-          this.errors = [];
-          await this.loginService.saveDataProfile(session);
-          await this.loginService.getDataProfile(session);
-          this.navCtrl.navigateRoot('/app/home', {animated:true});
-          this.loading = false;
-        }else{
-          this.loading = false;
-        }
-      },
-      (error) =>{
-        this.statusInputEmail = 'error';
-        this.statusInputPassword = 'error';
-        this.loading = false;
-      }
-    );
+  async ngOnInit() {
+    alert('Entro');
+    //this.initializeApp();
   }
 
-  onClickPassword(){
-    this.navCtrl.navigateRoot('/reset-password-email', {animated:true});
-  }
-
-  /*=============================================
-   FORMULARIOS REACTIVOS
-  =============================================*/
-  formBuilderInput(){
-    this.form = this.formBuilder.group({
-      email: ['', [
-        Validators.required,
-      ]],
-      password: ['', [
-        Validators.required,
-        // Validators.email
-      ]],
-    });
-
-    this.form.valueChanges
-    .pipe(
-      debounceTime(350),
-    )
-    .subscribe(data => {
-       this.validateInput();
-    });
-  }
-
-  /*=============================================
-   FUNCIÓN PARA VALIDAR LOS CAMPOS
-  =============================================*/
-  validateInput(){
-    if(this.form.get('email').errors && this.form.get('email').dirty){
-      this.statusInputEmail = 'error';
-      this.statusInputMessageEmail = 'Este campo es requerido';
-     }else{
-      this.statusInputEmail = 'regular';
-      this.statusInputMessageEmail = '';
-     }
-
-     if(this.form.get('password').errors && this.form.get('password').dirty){
-      this.statusInputPassword = 'error';
-      this.statusInputMessagePassword = 'Este campo es requerido';
-     }else{
-      this.statusInputPassword = 'regular';
-      this.statusInputMessagePassword = '';
-     }
+  initializeApp() {
+    alert('Entro');
+    this.msalBroadcastService.msalSubject$
+      .pipe(
+        filter((msg: EventMessage) => msg.eventType === EventType.LOGIN_SUCCESS),
+      )
+      .subscribe((result: EventMessage) => {
+        alert('--> login success 3: ' + result);
+        const payload = result.payload as AuthenticationResult;
+        this.authService.instance.setActiveAccount(payload.account);
+        this.msalService.instance.handleRedirectPromise().then((authResult: any) => {
+          if (authResult) {
+            this.router.navigate(['/change-password']);
+          } else {
+            this.msalService.instance.loginRedirect();
+          }
+        });
+      });
   }
 }

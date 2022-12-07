@@ -1,0 +1,82 @@
+{
+  "project_info": {
+    "project_number": "627562941649",
+    "project_id": "cx-load-app-dev-am",
+    "storage_bucket": "cx-load-app-dev-am.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:627562941649:android:0b8aaa305b151ae61889f0",
+        "android_client_info": {
+          "package_name": "com.cemex.logistic.load.am.dev"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "627562941649-4re1r45kuckv176n0m0kg1v5v1tqe3ma.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBxd70WOgsDwUm9sfCnHBIgW0Y3lWR0hYo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "627562941649-4re1r45kuckv176n0m0kg1v5v1tqe3ma.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "627562941649-i4ic1a4cn2nk9kriosm7hcosmib6scea.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.cemex.logistic.load.am.dev"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:627562941649:android:b14b414625a288f21889f0",
+        "android_client_info": {
+          "package_name": "com.cemex.logistic.load.am.qa"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "627562941649-4re1r45kuckv176n0m0kg1v5v1tqe3ma.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBxd70WOgsDwUm9sfCnHBIgW0Y3lWR0hYo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "627562941649-4re1r45kuckv176n0m0kg1v5v1tqe3ma.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "627562941649-i4ic1a4cn2nk9kriosm7hcosmib6scea.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.cemex.logistic.load.am.dev"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
