@@ -33,20 +33,20 @@ online = false;
                     this.online = true; 
                     browser.close();
                     const domain = event.url.split('#')[0];
-                    const url = event.url.replace(domain, 'https://com.cemex.app/app/home');
+                    const url = event.url.replace(domain, 'https://Jobsiteapp/app/home');
                     alert(url);
                     window.location.href = url;
                 }
                 if (event.url.includes('register')) {
                     this.register = true;                    
                     browser.close(); 
-                    window.location.href = 'https://com.cemex.app/register';
+                    window.location.href = 'https://Jobsiteapp/register';
                     
                 }
             });
             browser.on('exit').subscribe(event => {
                 if(!this.register && !this.online){           
-                    window.location.href = 'https://com.cemex.app';
+                    window.location.href = 'https://Jobsiteapp';
                 }
             });
         } else {

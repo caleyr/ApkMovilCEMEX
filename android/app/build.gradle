@@ -3,7 +3,7 @@ apply plugin: 'com.android.application'
 android {
     compileSdkVersion rootProject.ext.compileSdkVersion
     defaultConfig {
-        applicationId "com.cemex.logistic.load.am.dev"
+        applicationId "com.cemex.logistic.load.am"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
@@ -19,6 +19,20 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    flavorDimensions "environment"
+    productFlavors {
+        dev {
+          dimension "environment"
+          applicationIdSuffix ".dev"
+          manifestPlaceholders = [displayName:"CemexAPP-DEV"]
+        }
+        qa {
+          dimension "environment"
+          applicationIdSuffix ".qa"
+          manifestPlaceholders = [displayName:"CemexAPP-QA"]
         }
     }
 }

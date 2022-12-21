@@ -12,7 +12,11 @@ import { Storage } from '@ionic/storage-angular';
 export class AuthGuard implements CanActivate, CanLoad {
 
 
-  constructor(private router: Router, private loginService: LoginService, private storage : Storage){}
+  constructor(
+    private router: Router, 
+    private loginService: LoginService, 
+    private storage : Storage){}
+    
   canLoad(route: Route, segments: UrlSegment[]): boolean | UrlTree | Observable<boolean | UrlTree> | Promise<boolean | UrlTree> {
     return this.loginService.isLogged().then( data=>{
       const token = data;

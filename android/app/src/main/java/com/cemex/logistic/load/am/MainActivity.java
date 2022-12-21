@@ -1,4 +1,4 @@
-package com.cemex.logistic.load.am.dev;
+package com.cemex.logistic.load.am;
 
 import com.getcapacitor.BridgeActivity;
 

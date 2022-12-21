@@ -1,12 +1,12 @@
 import { CapacitorConfig } from '@capacitor/cli';
 
 const config: CapacitorConfig = {
-  appId: 'com.cemex.logistic.load.am.dev',
+  appId: 'com.cemex.logistic.load.am',
   appName: 'appcemex',
   webDir: 'www',
   bundledWebRuntime: false,
   server: {
-    hostname: "com.cemex.app",
+    hostname: "Jobsiteapp",
     androidScheme: "https"
   },
   plugins: {
@@ -15,5 +15,5 @@ const config: CapacitorConfig = {
     }
   }
 };
-
+ 
 export default config;
