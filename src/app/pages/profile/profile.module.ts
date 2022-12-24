@@ -14,6 +14,7 @@ import { DocumentDrivingLicenceComponent } from './modal-document-driving-licenc
 import { DocumentCompanyComponent } from './modal-document-company/document-company/document-company.component';
 import { DocumentSecurityCardComponent } from './modal-security-card/document-security-card/document-security-card.component';
 import { LayoutPageModule } from '../layout/layout.module';
+import { CmxWebComponentsModule } from '@cmx-web-components/angular';
 
 @NgModule({
   imports: [
@@ -22,7 +23,8 @@ import { LayoutPageModule } from '../layout/layout.module';
     IonicModule,
     ComponentsModule,
     ProfilePageRoutingModule,
-    LayoutPageModule
+    LayoutPageModule,    
+    CmxWebComponentsModule.forRoot(),
   ],
   declarations: [
     ProfilePage,

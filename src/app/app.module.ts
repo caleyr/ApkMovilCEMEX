@@ -59,16 +59,16 @@ export const msalconfig: Configuration = {
     IonicModule.forRoot(),
     IonicStorageModule.forRoot(),
     AppRoutingModule,
-    CmxWebComponentsModule.forRoot(),
-    MsalModule.forRoot( new PublicClientApplication(msalconfig), 
-    {
-      interactionType: InteractionType.Redirect
-    }, null)
+    MsalModule.forRoot(new PublicClientApplication(msalconfig),
+      {
+        interactionType: InteractionType.Redirect
+      }, null)
   ],
-  providers: [{
-    provide: RouteReuseStrategy,
-    useClass: IonicRouteStrategy
-  },
+  providers: [
+    {
+      provide: RouteReuseStrategy,
+      useClass: IonicRouteStrategy
+    },
     HTTP,
     DatePipe,
     MsalGuard,

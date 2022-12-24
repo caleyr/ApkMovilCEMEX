@@ -12,7 +12,7 @@ import { ProfileService } from '../../../../../services/profile/profile.service'
 })
 export class PhotoDocumentCompanyComponent implements OnInit {
 
-  @Input() modalPhotoDocumentCompanyShow: false;
+  @Input() modalPhotoDocumentCompanyShow: boolean = false;
   @Input() getDataUser: Profile;
 
   savePhotoFrontal: any;

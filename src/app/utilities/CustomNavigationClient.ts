@@ -4,6 +4,8 @@ import { InAppBrowser } from '@awesome-cordova-plugins/in-app-browser/ngx';
 import { Router } from '@angular/router';
 import { NavController } from "@ionic/angular";
 import { MsalService } from '@azure/msal-angular';
+import { environment } from "src/environments/environment.prod";
+const urlHost = environment.hostname;
 
 export class CustomNavigationClient extends NavigationClient {
 
@@ -33,20 +35,18 @@ online = false;
                     this.online = true; 
                     browser.close();
                     const domain = event.url.split('#')[0];
-                    const url = event.url.replace(domain, 'https://Jobsiteapp/app/home');
-                    alert(url);
+                    const url = event.url.replace(domain, `${urlHost}/app/home`);
                     window.location.href = url;
                 }
                 if (event.url.includes('register')) {
-                    this.register = true;                    
-                    browser.close(); 
-                    window.location.href = 'https://Jobsiteapp/register';
-                    
+                    this.register = true;
+                    browser.close();
+                    window.location.href = `${urlHost}/register`;                    
                 }
             });
             browser.on('exit').subscribe(event => {
                 if(!this.register && !this.online){           
-                    window.location.href = 'https://Jobsiteapp';
+                    window.location.href = urlHost;
                 }
             });
         } else {

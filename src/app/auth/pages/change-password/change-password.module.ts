@@ -9,6 +9,7 @@ import { ChangePasswordPageRoutingModule } from './change-password-routing.modul
 import { ChangePasswordPage } from './change-password.page';
 import { ComponentsModule } from '../../../components/components.module';
 import { NgOtpInputModule } from 'ng-otp-input';
+import { CmxWebComponentsModule } from '@cmx-web-components/angular';
 
 @NgModule({
   imports: [
@@ -18,7 +19,8 @@ import { NgOtpInputModule } from 'ng-otp-input';
     ChangePasswordPageRoutingModule,
     ComponentsModule,
     ReactiveFormsModule,    
-    NgOtpInputModule 
+    NgOtpInputModule,
+    CmxWebComponentsModule.forRoot()
   ],
   declarations: [ChangePasswordPage]
 })

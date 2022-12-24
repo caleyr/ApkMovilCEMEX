@@ -8,6 +8,7 @@ import { FcmService } from './services/fcm.service';
 import { MsalBroadcastService, MsalService } from '@azure/msal-angular';
 import { AuthenticationResult, EventMessage, EventType } from '@azure/msal-browser';
 import { Router } from '@angular/router';
+import { ApiService } from './services/auth/api.service';
 
 @Component({
   selector: 'app-root',
@@ -16,7 +17,6 @@ import { Router } from '@angular/router';
 })
 
 export class AppComponent implements OnInit {
-
   loginDisplay = false;
   widowsRegister = false;
   autocompleteO = null;
@@ -25,10 +25,10 @@ export class AppComponent implements OnInit {
     private authService: MsalService,
     private iab: InAppBrowser,
     private msalBroadcastService: MsalBroadcastService,
-    private fcmService : FcmService,
-    private router : Router) {
-      this.authService.instance.setNavigationClient(new CustomNavigationClient(this.iab));
-    }
+    private fcmService: FcmService,
+    private apiService : ApiService) {
+    this.authService.instance.setNavigationClient(new CustomNavigationClient(this.iab));
+  }
 
   ngOnInit() {
     const theme = window.matchMedia('(prefers-color-scheme: dark)');
@@ -38,14 +38,15 @@ export class AppComponent implements OnInit {
   }
 
   initializeApp() {
-    this.msalBroadcastService.msalSubject$
-      .pipe(
-        filter((msg: EventMessage) => msg.eventType === EventType.LOGIN_SUCCESS),
-      )
-      .subscribe((result: EventMessage) => {
-        const payload = result.payload as AuthenticationResult;
-        this.authService.instance.setActiveAccount(payload.account);
-      });
+    this.msalBroadcastService.msalSubject$.pipe(
+      filter((msg: EventMessage) => msg.eventType === EventType.LOGIN_SUCCESS),
+    ).subscribe(async (result: EventMessage) => {
+      const payload = result.payload as AuthenticationResult;
+      this.authService.instance.setActiveAccount(payload.account);
+      this.apiService.loginSaveToken(payload.idToken);
+      console.log(this.authService.instance.getAllAccounts()[0]);
+      //this.userServices.getUserEmail(this.authService.instance.getAllAccounts()[0].).subscribe()
+    });
   }
 
   logout() {

@@ -48,10 +48,10 @@
           <app-photo-document-company
           [modalPhotoDocumentCompanyShow]="openPhotoDocumentCompany"
           [getDataUser]="user"
-          (closeModalArchiveDocumentCompany)="closeModalDocumentCompany($event)"
-          (showLoading)="showLoading($event)"
-          (hidenLoading)="hidenLoading($event)"
-          (showAlertSuccess)="showAlertSuccess($event)"
+          (closeModalArchiveDocumentCompany)="closeModalDocumentCompany()"
+          (showLoading)="showLoading()"
+          (hidenLoading)="hidenLoading()"
+          (showAlertSuccess)="showAlertSuccess()"
           >
         </app-photo-document-company>
       </div>
@@ -80,10 +80,10 @@
           <app-photo-security-card
           [modalPhotoSecurityCardShow]="openPhotoSecurityCard"
           [email]="user.user.email"
-          (closeModalArchiveSecurityCard)="closeModalSecurityCard($event)"
-          (showLoading)="showLoading($event)"
-          (hidenLoading)="hidenLoading($event)"
-          (showAlertSuccess)="showAlertSuccess($event)"
+          (closeModalArchiveSecurityCard)="closeModalSecurityCard()"
+          (showLoading)="showLoading()"
+          (hidenLoading)="hidenLoading()"
+          (showAlertSuccess)="showAlertSuccess()"
           >
         </app-photo-security-card>
       </div>
@@ -112,10 +112,10 @@
           <app-photo-licence-document 
           [modalPhotoLinceShow]="openPhotoDrivingLicence"
           [email]="user.user.email"
-          (closeModalArchiveLicence)="closeModalLicence($event)"
-          (showLoading)="showLoading($event)"
-          (hidenLoading)="hidenLoading($event)"
-          (showAlertSuccess)="showAlertSuccess($event)"
+          (closeModalArchiveLicence)="closeModalLicence()"
+          (showLoading)="showLoading()"
+          (hidenLoading)="hidenLoading()"
+          (showAlertSuccess)="showAlertSuccess()"
           >
         </app-photo-licence-document>
       </div>
@@ -143,10 +143,10 @@
           </div>
           <app-photo-identity-card
           [modalPhotoIdentityCardShow]="openPhotoIdentityCard"
-          (closeModalArchiveIdentityCard)="closeModalIdentityCard($event)"
-          (showLoading)="showLoading($event)"
-          (hidenLoading)="hidenLoading($event)"
-          (showAlertSuccess)="showAlertSuccess($event)"
+          (closeModalArchiveIdentityCard)="closeModalIdentityCard()"
+          (showLoading)="showLoading()"
+          (hidenLoading)="hidenLoading()"
+          (showAlertSuccess)="showAlertSuccess()"
           >
           </app-photo-identity-card>
       </div>

@@ -13,6 +13,7 @@ import { ComponentsModule } from 'src/app/components/components.module';
 import { PhotoIdentityCardComponent } from './components/photo-identity-card/photo-identity-card.component';
 import { PhotoDocumentCompanyComponent } from './components/photo-document-company/photo-document-company.component';
 import { PhotoSecurityCardComponent } from './components/photo-security-card/photo-security-card.component';
+import { CmxWebComponentsModule } from '@cmx-web-components/angular';
 
 @NgModule({
   imports: [
@@ -21,7 +22,8 @@ import { PhotoSecurityCardComponent } from './components/photo-security-card/pho
     IonicModule,
     ReactiveFormsModule,
     ComponentsModule,
-    UpdateArchivesPageRoutingModule
+    UpdateArchivesPageRoutingModule,
+    CmxWebComponentsModule.forRoot()
   ],
   declarations: [
     UpdateArchivesPage,

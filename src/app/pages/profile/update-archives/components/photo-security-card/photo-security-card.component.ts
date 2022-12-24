@@ -12,8 +12,8 @@ import { ProfileService } from 'src/app/services/profile/profile.service';
 })
 export class PhotoSecurityCardComponent implements OnInit {
 
-  @Input() modalPhotoSecurityCardShow: false;
-  @Input() email: '';
+  @Input() modalPhotoSecurityCardShow : boolean = false;
+  @Input() email : string = '';
   savePhotoFrontal: any;
   errors = '';
   public photoFrontal: PhotoCamera = {

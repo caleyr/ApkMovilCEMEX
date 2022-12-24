@@ -14,8 +14,8 @@ import { UserDriverUpdatePhoto } from '../../../../../interfaces/profile/profile
 })
 export class PhotoLicenceDocumentComponent implements OnInit {
 
-  @Input() modalPhotoLinceShow: false;
-  @Input() email: '';
+  @Input() modalPhotoLinceShow = false;
+  @Input() email : string = '';
   savePhotoFrontal: any;
   savePhotoBack: any;
   errors = '';

@@ -14,7 +14,7 @@ import { UserUpdatePhoto } from '../../../../../interfaces/profile/profile';
 })
 export class PhotoIdentityCardComponent implements OnInit {
 
-  @Input() modalPhotoIdentityCardShow: false;
+  @Input() modalPhotoIdentityCardShow : boolean = false;
   savePhotoFrontal: any;
   savePhotoBack: any;
   errors = '';

@@ -6,7 +6,7 @@ const config: CapacitorConfig = {
   webDir: 'www',
   bundledWebRuntime: false,
   server: {
-    hostname: "Jobsiteapp",
+    hostname: "jobsiteapp",
     androidScheme: "https"
   },
   plugins: {

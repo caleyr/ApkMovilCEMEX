@@ -17,22 +17,22 @@ android {
     }
     buildTypes {
         release {
+            applicationIdSuffix ".qa"
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
-
     flavorDimensions "environment"
     productFlavors {
         dev {
-          dimension "environment"
-          applicationIdSuffix ".dev"
-          manifestPlaceholders = [displayName:"CemexAPP-DEV"]
+            dimension "environment"
+            applicationIdSuffix ".dev"
+            manifestPlaceholders = [displayName:"CemexAPP-DEV"]
         }
         qa {
-          dimension "environment"
-          applicationIdSuffix ".qa"
-          manifestPlaceholders = [displayName:"CemexAPP-QA"]
+            dimension "environment"
+            applicationIdSuffix ".qa"
+            manifestPlaceholders = [displayName:"CemexAPP-QA"]
         }
     }
 }

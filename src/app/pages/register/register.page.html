@@ -27,8 +27,7 @@
   ======================================-->
   <div *ngIf="showFormManTruck">
     <app-register-mantruck 
-    (propagar)="showLoading($event)" 
-    [typeConveyor]="selectTypeConveyor">
+    (propagar)="showLoading($event)">
   </app-register-mantruck>
   </div>
   <!--=====================================
@@ -37,7 +36,6 @@
   <div *ngIf="showFormAdminLogist">
     <app-register-admin-logist-third
     (propagar)="showLoading($event)"
-    [typeConveyor]="selectTypeConveyor"
     ></app-register-admin-logist-third>
   </div>
   <!--=====================================
@@ -45,8 +43,7 @@
   ======================================-->
   <div *ngIf="showFormDriver">
     <app-register-driver 
-    (propagar)="showLoading($event)" 
-    [typeConveyor]="selectTypeConveyor">
+    (propagar)="showLoading($event)">
     </app-register-driver>
   </div>
 </div>
