@@ -27,28 +27,31 @@ const routes: Routes = [
   },
   {
     path: 'app',
+    canActivate: [MsalGuard],
     children: [
       {
         path: 'home',
-        canActivate: [MsalGuard],
+        canLoad: [AuthGuard],
         loadChildren: () => import('./pages/home/home.module').then(m => m.HomePageModule),
       },
       {
         path: 'profile',
+        canLoad: [AuthGuard],
         loadChildren: () => import('./pages/profile/profile.module').then(m => m.ProfilePageModule),
-        canLoad: [AuthGuard]
       },
       {
         path: 'conductores',
+        canLoad: [AuthGuard],
         loadChildren: () => import('./pages/drivers/drivers.module').then(m => m.DriversPageModule),
-        canLoad: [AuthGuard]
       },
       {
         path: 'edit',
+        canLoad: [AuthGuard],
         loadChildren: () => import('./pages/profile/edit/edit.module').then(m => m.EditPageModule)
       },
       {
         path: 'update-archives',
+        canLoad: [AuthGuard],
         loadChildren: () => import('./pages/profile/update-archives/update-archives.module').then(m => m.UpdateArchivesPageModule)
       },
       {
@@ -58,8 +61,8 @@ const routes: Routes = [
       },
       {
         path: 'waiting-list',
+        canLoad: [AuthGuard],
         loadChildren: () => import('./pages/waiting-list/waiting-list.module').then(m => m.WaitingListPageModule),
-        canLoad: [AuthGuard]
       },
       {
         path: 'travels',
@@ -75,7 +78,7 @@ const routes: Routes = [
   },
   {
     path: '',
-    redirectTo: '/app/home',
+    redirectTo: '/app',
     pathMatch: 'full'
   },
 ];

@@ -1,23 +1,23 @@
 
-<h4 style="margin-top: 1.8rem;">Los viajes de hoy</h4>
-<cwc-card design-version="v2">
+<h4 *ngIf="travelId" style="margin-top: 1.8rem;">Los viajes de hoy</h4>
+<cwc-card *ngIf="travelId" design-version="v2">
   <div class="card-content" design-version="v2">
-    <p style="text-align: center; font-size: small;">Tu siguiente viaje <b>098877698</b> está en <b>pre-turno</b></p>
+    <p style="text-align: center; font-size: small;">Tu siguiente viaje <b>{{travelId}}</b> está en <b>proceso</b></p>
     <h4 style="text-align: center;">Revisar mi siguiente viaje</h4>
     <hr color="#D0D0D0"/>
     <h4 style="text-align: center;" (click)="onClickMyTravel()">Revisar mis viajes</h4>
   </div>
 </cwc-card>
 
-<h4 style="margin-top: 1.5rem;">Buscar viaje</h4>
-<cwc-card style="margin-top: 1rem;" design-version="v2">
+<h4 *ngIf="travelId == null" style="margin-top: 1.5rem;">Buscar viaje</h4>
+<cwc-card *ngIf="travelId == null" style="margin-top: 1rem;" design-version="v2">
   <div class="card-content">
    <h4 style="text-align: center;">Buscar viaje</h4>
    <p style="text-align: center; font-size: 15px;">Revisa entre nuestros distintos departamentos disponibles un viaje que se ajueste a tu ruta y horario.</p>
   </div>
 </cwc-card>
 
-<cwc-button  style="margin-top: 1rem;" variant="regular-block" (click)="onClickTravel()">
+<cwc-button *ngIf="travelId == null" style="margin-top: 1rem;" variant="regular-block" (click)="onClickTravel()">
   <div class="button-css">BUSCAR VIAJE</div>
 </cwc-button>
 

@@ -14,3 +14,31 @@
     <span slot='loading'>Espere un momento...</span>
   </cwc-loader>
 </div>
+
+<cwc-modal id='alert-modal-succes' [open]="alertShow" close-on-bd-click="false" show-close-btn="false"
+  (cwcClose)="onBack()">
+  <div style='text-align: center'>
+    <p>El viaje ha sido completado de manera exitosa</p>
+  </div>
+  <footer slot='footer'>
+    <div style='text-align: center'>
+      <cwc-button variant='link' routerLinkActive="router-link-active" (cwcClick)="onBack()">
+        <h2>Aceptar</h2>
+      </cwc-button>
+    </div>
+  </footer>
+</cwc-modal>
+
+<cwc-modal id='alert-modal-succes' [open]="alertTravel" close-on-bd-click="false" show-close-btn="false"
+  (cwcClose)="onBack()">
+  <div style='text-align: center'>
+    <p>Antes de confirmar un viaje finalize el viaje previamente confirmado</p>
+  </div>
+  <footer slot='footer'>
+    <div style='text-align: center'>
+      <cwc-button variant='link' routerLinkActive="router-link-active" (cwcClick)="onBack()">
+        <h4>Regresar</h4>
+      </cwc-button>
+    </div>
+  </footer>
+</cwc-modal>

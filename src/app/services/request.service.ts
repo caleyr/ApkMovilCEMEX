@@ -23,7 +23,7 @@ export class RequestService {
   }
 
   createRequest(data: any){
-    return this.http.doPostFormData(`${BASE_URL_API}/api/waitingList/CreateRequestTravel`, data, {}).pipe(
+    return this.http.fetch(`${BASE_URL_API}/v1/load/dsm/waitinglists`, data, 'post', true).pipe(
       tap(() => {
         this._refresh$.next();
       })
@@ -31,7 +31,7 @@ export class RequestService {
   }
 
   updateRequest(id: string, data: any){
-    return this.http.doPut(`${BASE_URL_API}/api/waitingList/${id}`, data, {}).pipe(
+    return this.http.fetch(`${BASE_URL_API}/api/waitingList/${id}`, data, 'put').pipe(
       tap(() => {
         this._refresh$.next();
       })
@@ -39,18 +39,18 @@ export class RequestService {
   }
 
   getRequestDetail(id: string){
-    return this.http.doGet(`${BASE_URL_API}/api/waitingList/RequestById/${id}`, {});
+    return this.http.fetch(`${BASE_URL_API}/api/waitingList/RequestById/${id}`, {}, 'get');
   }
 
-  getRequestByIdUser(correo: string){
-    return this.http.doGet(`${BASE_URL_API}/api/waitingList/GetRequestByIdUser/${correo}`, {});
+  getRequestByIdUser(id: any){
+    return this.http.fetch(`${BASE_URL_API}/v1/load/dsm/waitinglists/drivers/${id}`, {}, 'get');
   }
 
-  getRequestByIdCompany(idCompany: string){
-    return this.http.doGet(`${BASE_URL_API}/api/waitingList/GetListWaitingByIdCompany/${idCompany}`, {});
+  getRequestByIdCompany(idCompany: any){
+    return this.http.fetch(`${BASE_URL_API}/v1/load/dsm/waitinglists/companies/${idCompany}`, {}, 'get');
   }
 
   getRequests(){
-    return this.http.doGet(`${BASE_URL_API}/api/waitingList/`, {});
+    return this.http.fetch(`${BASE_URL_API}/api/waitingList/`, {}, 'get');
   }
 }

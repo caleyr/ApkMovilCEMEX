@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Output, AfterViewInit } from '@angular/core';
+import { Component, EventEmitter, Output, AfterViewInit, ViewChild, ElementRef } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Companies } from '../../../../interfaces/companies/companies';
 import { CompaniesService } from '../../../../services/companies/companies.service';
@@ -11,6 +11,7 @@ import pdfFonts from "pdfmake/build/vfs_fonts";
 import { HttpService } from '../../../../services/http/http.service';
 import { Filesystem, Directory } from '@capacitor/filesystem';
 import { finalize } from 'rxjs/operators';
+import { Router } from '@angular/router';
 pdfMake.vfs = pdfFonts.pdfMake.vfs;
 
 @Component({
@@ -19,6 +20,8 @@ pdfMake.vfs = pdfFonts.pdfMake.vfs;
   styleUrls: ['./register-driver.component.scss'],
 })
 export class RegisterDriverComponent implements AfterViewInit {
+
+  loadingCompany: boolean = false;
 
   @Output()
   propagar = new EventEmitter<boolean>();
@@ -44,6 +47,11 @@ export class RegisterDriverComponent implements AfterViewInit {
   fileURL;
   fileBlob;
 
+  @ViewChild('getFileDrivinglicense') inputFileDrive: ElementRef;
+  @ViewChild('getFileSecurityCard') inputFileSecurity: ElementRef;
+  @ViewChild('getFileDocument') inputFileDoc: ElementRef;
+
+
   constructor(
     private formBuilder: FormBuilder,
     private companiesService : CompaniesService,
@@ -51,32 +59,39 @@ export class RegisterDriverComponent implements AfterViewInit {
     public msgField : ValidateUserFieldService,
     public fileRegister : FileRegisterUserService,
     private errorMessages: ErrorMessagesService,
-    private httpP : HttpService
+    private httpP : HttpService,
+    private router : Router
   ) {
     this.formBuilderInput();
-    Filesystem.requestPermissions();
+    this.loadingCompany = true;
+    Filesystem.checkPermissions();
   }
 
   async ngAfterViewInit() {  
-    this.companiesService.getCompanies().subscribe(result=>{
-      this.listCompanies = result.data;
-    })
+    /*
+    const results = await this.companiesService.getCompanies().subscribe();
+    if(results && Array.isArray(results)){
+      this.listCompanies = results;
+      this.loadingCompany = false;
+    }
+    */
   }
 
   formBuilderInput(){
     this.form = this.formBuilder.group({
+      RolesId: ['1'],
       FirstName: ['', [Validators.required,]],
       LastName: ['', [Validators.required,]],
-      Password: ['', 
-      [ Validators.required, Validators.pattern('^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*_=+-]).{10,15}$') ],
-      ],
+      PhoneNumber: ['', [ Validators.pattern('^[3][0-9]*$')]],
       Email: ['', [Validators.required, Validators.email]],
       CompanyId: ['', [Validators.required,]],
-      Roles: ['Conductor', [Validators.required,]],
-      Document : ['', [ Validators.pattern('^[0-9]*$') ]],
-      SapCode : ['', [ Validators.pattern('^[0-9]*$') ]],
-      PhoneNumber: ['', [ Validators.pattern('^[3][0-9]*$')]],
-      Status: ['1']
+      Status : ['0'],
+      CodeSap : ['', [ Validators.pattern('^[0-9]*$') ]],
+      policiesPermission : [false],
+      Password: ['',       
+      [ Validators.required, Validators.pattern('^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*_=+-]).{10,15}$') ],
+      ],
+      IdDocument : ['', [ Validators.pattern('^[0-9]*$') ]]
     });
   }
 
@@ -93,19 +108,29 @@ export class RegisterDriverComponent implements AfterViewInit {
       return;
     }
     await this.addFormData(this.form.value);
-    this.adminLogistService.createDriver(this.dataPrueba).pipe(
-      finalize(()=>{
+    this.adminLogistService.createUser(this.dataPrueba).subscribe({
+      next: ( result : any ) => {
+        if (result.data.message !== 'Saved') {
+          this.propagar.emit(false);
+          this.errors = this.errorMessages.parsearErroresAPI('Error, el correo digita ya se encuentra registrado.');
+          this.form.get('Email').setValue('');
+          this.data = new FormData();
+        } else {
+          this.propagar.emit(false);
+          this.alertSucces = true;
+          this.alertConfirm = false;
+          this.alertSucces = true;
+          this.errors = [];
+        }
+      },
+      error: (err) => {
         this.propagar.emit(false);
-      })
-    ).subscribe(async result=>{
-      this.alertSucces = true;
-      this.alertConfirm = false;
-      this.alertSucces = true;
-      this.errors = [];
-    },(error)=>{
-      this.propagar.emit(false);
-      this.errors = this.errorMessages.parsearErroresAPI(error);
-      this.fileRegister.resetForm();
+        this.errors = this.errorMessages.parsearErroresAPI(err.data);
+        this.fileRegister.resetForm();
+      },
+      complete: () => {
+        this.propagar.emit(false);
+      }
     });
   }
 
@@ -127,13 +152,13 @@ export class RegisterDriverComponent implements AfterViewInit {
   }
 
   openModalDocument(name){
-    if(name === 'Drivinglicense'){
+    if(name === 'LicenciaConduccion'){
       this.nameFile = name;
       this.nameText = 'licencia de conducción';
-    }else if(name === 'SecurityCard'){
+    }else if(name === 'CarnetSeguridadIndustrial'){
       this.nameFile = name;
       this.nameText = 'carné de seguridad industrial y vial';
-    }else if(name === 'DocumentIdentityCard'){
+    }else if(name === 'CedulaDocumento'){
       this.nameFile = name;
       this.nameText = 'cédula de ciudadanía';
     }
@@ -162,11 +187,11 @@ export class RegisterDriverComponent implements AfterViewInit {
     const pdfDocGenerator = await pdfMake.createPdf(pdfDefinition);
     const fileName = new Date().getTime() + `_${this.nameFile}.pdf`;
     await pdfDocGenerator.getBlob((file) => {
-      if(this.nameFile === 'Drivinglicense'){
+      if(this.nameFile === 'LicenciaConduccion'){
         this.fileRegister.fileDrivinglicense = fileName;
-      }else if(this.nameFile === 'SecurityCard'){
+      }else if(this.nameFile === 'CarnetSeguridadIndustrial'){
         this.fileRegister.fileSecurityCard = fileName;
-      }else if(this.nameFile === 'DocumentIdentityCard'){
+      }else if(this.nameFile === 'CedulaDocumento'){
         this.fileRegister.fileDocument = fileName;
       }
       this.data.append(this.nameFile, file, );
@@ -231,5 +256,9 @@ export class RegisterDriverComponent implements AfterViewInit {
     const fileReader = new FileReader();
     const zoneOriginalInstance = (fileReader as any)["__zone_symbol__originalInstance"];
     return zoneOriginalInstance || fileReader;
+  }
+
+  onBack(){
+    this.router.navigate(['app/home']);
   }
 }

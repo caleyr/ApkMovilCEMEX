@@ -1,18 +1,19 @@
 <cwc-header design-version="v2" slot="header" show-Menu-Button="false" show-cemex-logo="false">
   <div class="header-text">
     <ion-icon name="arrow-back-outline" style="font-size: large;" (click)="onBack()"></ion-icon>
-    <div class="attr-name" style="padding-left: 1rem; font-size: large; font-weight: 900;">Viaje {{travel.codeTravel}}</div>
+    <div class="attr-name" *ngIf="travel" style="padding-left: 1rem; font-size: large; font-weight: 900;">Viaje {{travel.codeTravel}}
+    </div>
   </div>
 </cwc-header>
-<div slot="main" class="content-card">
+<div slot="main" *ngIf="travel" class="content-card">
   <cwc-card class="card-info" design-version="v1">
-    <div class="card-content">
-      <div *ngIf="rol !== 'Conductor'" class="header-card">
+    <div>
+      <div class="header-card">
         <div class="avatar-info">
           <div class="attr-user">CHOFER</div>
           <cwc-icon name="phone" size="14px" color="true-black">
           </cwc-icon>
-          <span class="number-phone" style="margin-left: 0.5rem;">{{travel.userName}}</span>
+          <span class="number-phone" style="margin-left: 0.5rem;">{{travel.UserName + ' ' + travel.UserLastName}}</span>
         </div>
         <cwc-cell class="flex flex__align--bullseye" style="text-align: end;">
           <cwc-button variant="link">
@@ -21,132 +22,131 @@
         </cwc-cell>
       </div>
 
-      <div *ngIf="rol === 'Conductor'" class="header-card">
-        <div class="avatar-info">
-          <div class="attr-name">CONDUCTOR</div>
-          <span class="style-name">{{travel.userName}}</span>
-        </div>
-        <cwc-status-indicator style="text-align: end;" size="small" class="statusI" variant='success'>
-          <div class="statusI">{{travel.statusTravelString}}</div>
-        </cwc-status-indicator>
-      </div>
-
       <hr color="#D0D0D0" />
       <cwc-grid class="demo-grid center-cell">
         <cwc-cell colspan="12" mobile-colspan="12">
           <div class="attr-user">ORIGEN</div>
-          <span class="attr-detail">{{travel.source}}</span>
+          <span class="attr-detail">{{travel.Source}}</span>
         </cwc-cell>
       </cwc-grid>
 
       <cwc-grid class="demo-grid center-cell">
         <cwc-cell colspan="12" mobile-colspan="12">
           <div class="attr-user">DESTINO</div>
-          <span class="attr-detail">{{travel.destiny}}</span>
+          <span class="attr-detail">{{travel.Destiny}}</span>
         </cwc-cell>
       </cwc-grid>
 
       <cwc-grid class="demo-grid center-cell">
         <cwc-cell colspan="12" mobile-colspan="12">
           <div class="attr-user">PRODUCTO</div>
-          <span class="attr-detail">{{travel.productName}}</span>
+          <span class="attr-detail">{{travel.ProductName}}</span>
         </cwc-cell>
       </cwc-grid>
 
       <cwc-grid class="demo-grid center-cell">
         <cwc-cell mobile-colspan="6">
           <div class="attr-user">FECHA Y HORA DE CITA</div>
-          <span class="attr-detail">{{travel.dateTravel}} {{travel.timerStar}}</span>
+          <span class="attr-detail">{{travel.DateTravel}} {{travel.TimerStar}}</span>
         </cwc-cell>
         <cwc-cell mobile-colspan="6">
           <div class="attr-user">CANTIDAD</div>
-          <span class="attr-detail">{{travel.amount}}</span>
+          <span class="attr-detail">{{travel.Amount}}</span>
         </cwc-cell>
       </cwc-grid>
 
       <cwc-grid class="demo-grid center-cell">
         <cwc-cell mobile-colspan="6">
           <div class="attr-user">MODELO</div>
-          <span class="attr-detail">{{travel.vehicleModelName}}</span>
+          <span class="attr-detail">{{travel.Model}}</span>
         </cwc-cell>
         <cwc-cell mobile-colspan="6">
           <div class="attr-user">NUMERO DE PLACA</div>
-          <span class="attr-detail">{{travel.vehicleLissenceName}}</span>
+          <span class="attr-detail">{{travel.LicenseVehiculo}}</span>
         </cwc-cell>
       </cwc-grid>
 
       <cwc-grid class="demo-grid center-cell">
         <cwc-cell mobile-colspan="6">
           <div class="attr-user">CLIENTE</div>
-          <span class="attr-detail">{{travel.companyName}}</span>
+          <span class="attr-detail">{{travel.CompanyName}}</span>
         </cwc-cell>
         <cwc-cell mobile-colspan="6">
           <div class="attr-user">INICIO DE VIAJE</div>
-          <span class="attr-detail">{{travel.timerStar}}</span>
+          <span class="attr-detail">{{travel.TimerStar}}</span>
         </cwc-cell>
       </cwc-grid>
 
-      <div *ngIf="rol !== 'Conductor'">
-        <cwc-cell colspan="12" mobile-colspan="12" style="padding-bottom: 1rem;">
-          <cwc-button
-            (click)="onClickTrackTrip()"
-            design-version="v1"
-            variant="regular-block">
-          <div class="button-css">RASTREAR VIAJE</div>
+      <cwc-grid *ngIf="travel.DowloadStar !== undefined" class="demo-grid center-cell">
+        <cwc-cell mobile-colspan="8" *ngIf="travel.DowloadStar !== undefined">
+          <div class="attr-user">INICIO DE VIAJE</div>
+          <span>{{travel.DowloadStar}}</span>
+        </cwc-cell>
+        <cwc-cell mobile-colspan="4" *ngIf="travel.DowloadEnd !== undefined">
+          <div class="attr-user">FIN DE DESCARGA</div>
+          <span>{{travel.DowloadEnd}}</span>
+        </cwc-cell>
+      </cwc-grid>
+
+      <div>
+        <cwc-cell colspan="12" mobile-colspan="12">
+          <cwc-button (click)="onClickTrackTrip()" design-version="v1" variant="regular-block">
+            <div class="button-css">RASTREAR VIAJE</div>
           </cwc-button>
         </cwc-cell>
 
         <hr color="#D0D0D0" />
-        <cwc-grid class="demo-grid" style="padding-top: 0.5rem; padding-bottom: 1rem;">
-          <cwc-cell mobile-colspan="6">                               
-            <div style="color: #3897fc; font-weight: 600;">
-                Actualizaciones
-                <span style="padding-left: 1.2rem;">
-                    <cwc-badge position="se" count="1" color="status-info">                     
-                    </cwc-badge>
-                </span>
-            </div>  
-          </cwc-cell>
-          <cwc-cell mobile-colspan="6" style="text-align: end;" *ngIf="showDetail" >
-            <cwc-button variant="link"(click)="showDetail = !showDetail">                            
-                <cwc-icon name="straight-arrow-down" size="15px" style="color: #D0D0D0;"></cwc-icon>
+        <cwc-grid class="demo-grid" style="padding-top: 0.5rem; padding-bottom: 1rem;"
+          *ngIf="travel.observationsOfTravel === undefined">
+          <cwc-cell mobile-colspan="12">
+            <cwc-button style="color: #3897fc; font-weight: 600;" (click)="addMessage()" class="btn-add-user"
+              variant='link' designVersion="v2">
+              <cwc-icon class="icon-add" name="plus" size="12px" style="color: #3897fc;"></cwc-icon>
+              Agregar actualización
             </cwc-button>
           </cwc-cell>
-          <cwc-cell mobile-colspan="6" style="text-align: end;" *ngIf="!showDetail" >
-              <cwc-button variant="link" (click)="showDetail = !showDetail">                            
-                  <cwc-icon name="straight-arrow-up" size="15px" style="color: #D0D0D0;"></cwc-icon>
-              </cwc-button>
+        </cwc-grid>
+        <cwc-grid class="demo-grid" style="padding-top: 0.5rem; padding-bottom: 1rem;"
+          *ngIf="travel.observationsOfTravel !== undefined">
+          <cwc-cell mobile-colspan="6">
+            <div style="color: #3897fc; font-weight: 600;">
+              Actualizaciones
+              <span style="padding-left: 1.2rem;">
+                <cwc-badge position="se" count="1" color="status-info">
+                </cwc-badge>
+              </span>
+            </div>
+          </cwc-cell>
+          <cwc-cell mobile-colspan="6" style="text-align: end;" *ngIf="showDetail">
+            <cwc-button variant="link" (click)="showDetail = !showDetail">
+              <cwc-icon name="straight-arrow-down" size="15px" style="color: #D0D0D0;"></cwc-icon>
+            </cwc-button>
+          </cwc-cell>
+          <cwc-cell mobile-colspan="6" style="text-align: end;" *ngIf="!showDetail">
+            <cwc-button variant="link" (click)="showDetail = !showDetail">
+              <cwc-icon name="straight-arrow-up" size="15px" style="color: #D0D0D0;"></cwc-icon>
+            </cwc-button>
           </cwc-cell>
         </cwc-grid>
         <div *ngIf="showDetail">
           <cwc-grid class="demo-grid">
             <cwc-cell mobile-colspan="12">
-                <div class="attr-user">Fecha y hora de cita</div>
-                <span>10:30 am</span>
+              <div class="attr-user">Fecha y hora de cita</div>
+              <span>10:30 am</span>
             </cwc-cell>
-            <cwc-cell mobile-colspan="12">   
-                <div class="attr-user">Actualización</div>
-                <span>Lluvias y deslabe en la carretera de planta Medellín, posible retraso de 1 hora.</span>
+            <cwc-cell mobile-colspan="12">
+              <div class="attr-user">Actualización</div>
+              <span>{{travel.observationsOfTravel}}</span>
             </cwc-cell>
           </cwc-grid>
-        </div>        
-      </div>
-
-      <div *ngIf="rol === 'Conductor'">
-        <hr color="#D0D0D0" />
-        <cwc-grid class="demo-grid center-cell">
-          <cwc-cell class="flex flex__align--bullseye" style="text-align: end;">
-            <cwc-button variant="link">
-              <div style="font-size: 15px; font-weight: normal;">CONFIRMAR VIAJE EN TU CX</div>
-            </cwc-button>
-          </cwc-cell>
-          <cwc-cell class="flex flex__align--bullseye" style="text-align: end;">
-            <cwc-button variant="link">
-              <div style="font-size: 15px; font-weight: normal;">CANCELAR</div>
-            </cwc-button>
-          </cwc-cell>
-        </cwc-grid>
+        </div>
       </div>
     </div>
   </cwc-card>
+</div>
+
+<div class="loading-content" *ngIf="loading">
+  <cwc-loader>
+    <span slot='loading'>Espere un momento...</span>
+  </cwc-loader>
 </div>

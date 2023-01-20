@@ -1,10 +1,10 @@
 <cwc-header design-version="v2" slot="header" show-Menu-Button="false" show-cemex-logo="false">
   <div class="header-text">
     <ion-icon name="arrow-back-outline" style="font-size: large;" (click)="onBack()"></ion-icon>
-    <div class="attr-name" style="padding-left: 1rem; font-size: large; font-weight: 900;">Viaje {{travel.codeTravel}}</div>
+    <div class="attr-name" *ngIf="travel" style="padding-left: 1rem; font-size: large; font-weight: 900;">Viaje {{travel.codeTravel}}</div>
   </div>
 </cwc-header>
-<div slot="main" class="content-card">
+<div slot="main" *ngIf="travel" class="content-card">
   <cwc-card class="card-info" design-version="v1">
     <div class="card-content">
       <div class="header-card">
@@ -15,57 +15,57 @@
       </div>
 
       <hr color="#D0D0D0" />
-      <cwc-grid class="demo-grid center-cell" style="padding-top: 0.5rem;">
+      <cwc-grid class="demo-grid center-cell">
         <cwc-cell colspan="12" mobile-colspan="12">
           <div class="attr-user">ORIGEN</div>
-          <span class="attr-detail">{{travel.source}}</span>
+          <span class="attr-detail">{{travel.Source}}</span>
         </cwc-cell>
       </cwc-grid>
 
       <cwc-grid class="demo-grid center-cell">
         <cwc-cell colspan="12" mobile-colspan="12">
           <div class="attr-user">DESTINO</div>
-          <span class="attr-detail">{{travel.destiny}}</span>
+          <span class="attr-detail">{{travel.Destiny}}</span>
         </cwc-cell>
       </cwc-grid>
 
       <cwc-grid class="demo-grid center-cell">
         <cwc-cell colspan="12" mobile-colspan="12">
           <div class="attr-user">PRODUCTO</div>
-          <span class="attr-detail">{{travel.productName}}</span>
+          <span class="attr-detail">{{travel.ProductName}}</span>
         </cwc-cell>
       </cwc-grid>
 
       <cwc-grid class="demo-grid center-cell">
         <cwc-cell mobile-colspan="6">
           <div class="attr-user">FECHA Y HORA DE CITA</div>
-          <span class="attr-detail">{{travel.dateTravel}} {{travel.timerStar}}</span>
+          <span class="attr-detail">{{travel.DateTravel}} {{travel.TimerStar}}</span>
         </cwc-cell>
         <cwc-cell mobile-colspan="6">
           <div class="attr-user">CANTIDAD</div>
-          <span class="attr-detail">{{travel.amount}}</span>
+          <span class="attr-detail">{{travel.Amount}}</span>
         </cwc-cell>
       </cwc-grid>
 
-      <cwc-grid class="demo-grid center-cell" *ngIf="travel.vehicleLissenceName">
+      <cwc-grid class="demo-grid center-cell" *ngIf="travel.LicenseVehiculo">
         <cwc-cell mobile-colspan="6">
           <div class="attr-user">MODELO</div>
-          <span class="attr-detail">{{travel.vehicleModelName}}</span>
+          <span class="attr-detail">{{travel.Model}}</span>
         </cwc-cell>
         <cwc-cell mobile-colspan="6">
           <div class="attr-user">NUMERO DE PLACA</div>
-          <span class="attr-detail">{{travel.vehicleLissenceName}}</span>
+          <span class="attr-detail">{{travel.LicenseVehiculo}}</span>
         </cwc-cell>
       </cwc-grid>
 
       <cwc-grid class="demo-grid center-cell">
         <cwc-cell mobile-colspan="6">
           <div class="attr-user">CLIENTE</div>
-          <span class="attr-detail">{{travel.companyName}}</span>
+          <span class="attr-detail">{{travel.CompanyName}}</span>
         </cwc-cell>
       </cwc-grid>
 
-      <div *ngIf="!travel.vehicleLissenceName">
+      <div *ngIf="travel.UserId === idUser">
         <hr color="#D0D0D0" />
         <cwc-grid class="demo-grid" style="padding-top: 0.5rem;" >        
             <cwc-cell mobile-colspan="12" style="text-align: end;">
@@ -83,7 +83,7 @@
   <h3 style='text-align: center;'>Asignar conductor</h3>
       <cwc-select id="time-seleccwc-select" class="select-filter" label="" placeholder="Seleccionar" (cwcChange)="changeDriver($event)">
           <cwc-select-option selected value="0">Seleccionar</cwc-select-option>
-          <cwc-select-option *ngFor="let driver of listDrivers" [value]="driver.id" >{{driver.firstLastName}}</cwc-select-option>
+          <cwc-select-option *ngFor="let driver of listDrivers" [value]="driver.VehicleId" >{{driver.FirstName + ' ' + driver.LastName}}, {{driver.LicenseVehiculo}}</cwc-select-option>
       </cwc-select>
       <cwc-input
           style="width: 100%;"
@@ -110,3 +110,9 @@
       <h3 class='modal--confirmation__message'>El viaje ha sido confirmado de manera exitosa.</h3>
   </div>
 </cwc-modal>
+
+<div class="loading-content" *ngIf="loading">
+  <cwc-loader>
+    <span slot='loading'>Espere un momento...</span>
+  </cwc-loader>
+</div>

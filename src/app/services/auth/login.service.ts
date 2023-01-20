@@ -44,7 +44,7 @@ export class LoginService {
   }
 
   loginWeb(data: any) {
-    return this.HTTP.doPost(`${URL}/api/authentication/login`, data, {});      
+    return this.HTTP.doPost(`${URL}/api/authentication/login`, data);      
   }
 
   getData (token){

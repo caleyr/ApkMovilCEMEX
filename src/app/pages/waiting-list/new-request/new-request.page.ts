@@ -1,6 +1,7 @@
 import { LoginService } from 'src/app/services/auth/login.service';
 import { Component, OnInit } from '@angular/core';
 import { NavController } from '@ionic/angular';
+import { ApiService } from '../../../services/auth/api.service';
 
 @Component({
   selector: 'app-new-request',
@@ -9,19 +10,25 @@ import { NavController } from '@ionic/angular';
 })
 export class NewRequestPage implements OnInit {
 
-  rol: string
+  loading = false;
+
+  rol: number;
 
   constructor(
-    private loginService: LoginService,
+    private apiService : ApiService,
     private navCtrl : NavController
     ) { }
 
   ngOnInit() {
-    this.rol = this.loginService.profileUser.Roles;
+    this.rol = this.apiService.userProfile.RolesId;
   }
 
   onBack(){
     this.navCtrl.back();
+  }
+
+  showLoading(value) {
+    this.loading = value;
   }
 
 }

@@ -1,5 +1,5 @@
 <app-layout class="card-size">
-  <cwc-card class="m-all-xs">
+  <cwc-card class="m-all-xs" *ngIf="profile">
         <div class="card-content">
           <div class="content-avatar-menu" style="margin-left: 0.2rem; margin-right: 0.1rem; display: flex; justify-content: space-between;">
             <div style="display: flex;">
@@ -35,22 +35,22 @@
               </cwc-cell>
             </cwc-grid>
 
-            <div *ngIf="profile.Roles === 'Conductor'">
+            <div *ngIf="profile.RolesId === 1">
               <cwc-grid class="demo-grid center-cell" >
                 <cwc-cell mobile-colspan="4">
                     <div class="attr-user">Código Sap</div>
-                    <span class="text-info">{{profile.SapCode}}</span>
+                    <span class="text-info">{{profile.CodeSap}}</span>
                 </cwc-cell>
                 <cwc-cell mobile-colspan="5">   
                     <div class="attr-user">Cédula o NIT</div>
-                    <span class="text-info">{{profile.Document}}</span>
+                    <span class="text-info">{{profile.IdDocument}}</span>
                 </cwc-cell>
               </cwc-grid>
             </div>
             
 
             <cwc-grid class="demo-grid center-cell" >
-              <cwc-cell colspan="12" mobile-colspan="12">   
+              <cwc-cell colspan="12" mobile-colspan="12">
                   <div class="attr-user">Empresa</div>
                   <span class="text-info">{{profile.CompanyName}}</span>
               </cwc-cell>
@@ -83,12 +83,14 @@
           </cwc-grid>
         </div>
     </cwc-card>
-    <cwc-card class="m-all-xs" style="margin-top: 1rem;">
+    <cwc-card style="margin : .5rem" design-version="v1" *ngIf="profile">
       <div class="card-content">
-       <h6 style="text-align: center;">Accede a tu cuenta Clever</h6>
-       <p style="text-align: center;">Revisa tus datos y manten tu perfil actualizado para un mejor seguimiento</p>
+       <h4 style="text-align: center;">Accede a tu cuenta Clever</h4>
+       <p style="text-align: center; font-size: small;">Revisa tus datos y manten tu perfil actualizado para un mejor seguimiento</p>
        <div>
-        <cwc-button variant="regular-block">CLEVER GLOBAL</cwc-button>
+        <cwc-button class="button-css" variant="regular-block" (click)="onUrl(linkClever)">
+          <div class="button-css">CLEVER GLOBAL</div>
+        </cwc-button>
        </div>
       </div>
     </cwc-card>

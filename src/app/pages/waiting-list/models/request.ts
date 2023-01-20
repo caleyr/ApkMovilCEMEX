@@ -1,17 +1,18 @@
 export class Request {
-    id: string;
-    codeRequest: string;
-    origen: string;
-    destino: string;
-    dateTravels: string;
-    timerStar: string;
-    timerEnd: string;
-    driverId: string;
-    driverName: string;
-    vehicleId: string;
-    vehicleName: string;
-    vehicleLisence: string;
-    statusRequest: number;
-    statusRequeststring: string;
-    travelsCode: number;
+    Origen: string;
+    DepartamentSource : string;
+    Destino: string;
+    DepartamentDestiny: string;
+    TimerStar: string;
+    TimerEnd: string;
+    DateTravels: string;
+    StatusRequest: number;
+    TravelsCode: string;
+    DriverId: string;
+    CodeRequest: string;
+    WaitingListId: string;
+    VehicleId:string;
+    UserFullName: string;
+    Model: string;
+    LicenseVehiculo: string;
 }

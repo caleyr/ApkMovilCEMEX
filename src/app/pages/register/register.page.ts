@@ -35,30 +35,24 @@ export class RegisterPage implements OnInit {
   }
 
   cwcChange(data){
-    if(data.detail.value === '1'){      
+    if(data.detail.value === '3'){      
       this.loading = true;
       this.showFormManTruck = false;
       this.showFormDriver = false;
       this.showFormAdminLogist = true;
-      setTimeout(() =>{
-        this.loading = false;
-      }, 1000);
+      this.loading = false;
     }else if(data.detail.value === '2'){      
       this.loading = true;
       this.showFormAdminLogist = false;
       this.showFormDriver = false;
       this.showFormManTruck = true;
-      setTimeout(() =>{
-        this.loading = false;
-      }, 1000);
-    }else if(data.detail.value === '3'){
+      this.loading = false;
+    }else if(data.detail.value === '1'){
       this.loading = true;
       this.showFormManTruck = false;
       this.showFormAdminLogist = false;
       this.showFormDriver = true;
-      setTimeout(() =>{
-        this.loading = false;
-      }, 1000);
+      this.loading = false;
     }
   }
 

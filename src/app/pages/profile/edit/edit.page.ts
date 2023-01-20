@@ -4,6 +4,7 @@ import { Storage } from '@ionic/storage-angular';
 import { User } from 'src/app/interfaces/user/user';
 import { ProfileService } from 'src/app/services/profile/profile.service';
 import { LoginService } from '../../../services/auth/login.service';
+import { ApiService } from '../../../services/auth/api.service';
 
 @Component({
   selector: 'app-edit',
@@ -13,19 +14,23 @@ import { LoginService } from '../../../services/auth/login.service';
 export class EditPage implements OnInit {
 
   loading = false;
-  rol = '';
+  rol : number = null;
 
   constructor(
-    private loginService : LoginService,
+    private apiService : ApiService,
     private location : Location
   ) { }
 
   async ngOnInit() {
-    this.rol = this.loginService.profileUser.Roles;    
+    this.rol = this.apiService.userProfile.RolesId;    
   }
 
   onBack(){
     this.location.back();
+  }
+
+  showLoading(value) {
+    this.loading = value;
   }
 
 }

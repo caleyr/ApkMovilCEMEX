@@ -11,7 +11,6 @@ export class AlertSuccessComponent{
   @Input() title: string;
   @Input() message: string;
   @Input() urlButton: string;
-  @Input() textButton: string;
   @Input() alertShow: boolean;
 
   constructor(

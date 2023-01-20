@@ -1,6 +1,6 @@
 <cwc-grid class="demo-grid" style="padding-top: 1rem; padding-bottom: 0.5rem">
   <cwc-cell colspan="6" mobile-colspan="9">
-    <div class="detail_list_travels">Semana 22 de Agosto, 2020</div>
+    <div class="detail_list_travels">Semana {{currentDate | date:'mediumDate'}}</div>
   </cwc-cell>
   <cwc-cell colspan="6" mobile-colspan="3">
     <div class="detail_list_travels" style="text-align: end;">{{sizeList}}/{{tripsList.length}} viajes</div>
@@ -8,45 +8,59 @@
 </cwc-grid>
 
 <cwc-grid class="demo-grid">
-  <cwc-cell (click)="detailTrip(trip.id, trip.statusTravelAvailabilityString, trip.typeTravel)"  *ngFor="let trip of tripsList" colspan="6" mobile-colspan="12">
+  <cwc-cell (click)="detailTrip(trip.TraveId, trip.StatusTravelAvailability, trip.TypeTravel)"
+    *ngFor="let trip of tripsList | listTravelFilter:searchFilter" colspan="6" mobile-colspan="12">
     <cwc-card class="card-info" design-version="v1">
       <div class="main-content-card">
-          <div class="header-card">
-              <div class="avatar-info">
-                  <span class="style-name">Viaje {{trip.codeTravel}}</span>
-              </div>                     
-              <cwc-status-indicator style="text-align: end;" size="small" class="statusI" variant='success'>
-                <div class="statusI">{{trip.statusTravelString}}</div>
-              </cwc-status-indicator>              
-              <ion-icon name="ellipsis-vertical-outline" size="15"></ion-icon>
-          </div>    
-
-          <hr color="#D0D0D0"/>
-          <cwc-grid class="demo-grid" style="padding-top: 0.5rem;">
-              <cwc-cell colspan="12" mobile-colspan="12">   
-                  <div class="attr-user">Origen</div>
-                  <span class="attr-detail">{{trip.source}}</span>
-              </cwc-cell>
-          </cwc-grid>
-
-          <cwc-grid class="demo-grid center-cell">
-              <cwc-cell colspan="12" mobile-colspan="12">
-                  <div class="attr-user">Destino</div>
-                  <span class="attr-detail">{{trip.destiny}}</span>
-              </cwc-cell>                  
-          </cwc-grid>
-
+        <div class="header-card">
           <cwc-grid class="demo-grid">
-            <cwc-cell mobile-colspan="6">
-                <div class="attr-user">Número de Placa</div>
-                <span class="attr-detail">{{trip.vehicleLissenceName}}</span>
+            <cwc-cell colspan="7" mobile-colspan="7">
+              <div class="avatar-info">
+                <span class="style-name">Viaje {{trip.codeTravel}}</span>
+              </div>
             </cwc-cell>
-            <cwc-cell mobile-colspan="6">
-              <div class="attr-user">Fecha y Hora de Cita</div>
-              <span class="attr-detail">{{trip.dateTravel}} {{trip.timerStar}}</span>
+            <cwc-cell colspan="3" mobile-colspan="4">
+              <cwc-status-indicator style="text-align: end;" size="small" class="statusI" variant='disabled'>
+                <div class="statusI">{{textResp.getStatusTravel(trip.StatusTravelAvailability)}}</div>
+              </cwc-status-indicator>
             </cwc-cell>
           </cwc-grid>
+          <ion-icon name="ellipsis-vertical-outline" size="15"></ion-icon>
+        </div>
+
+        <hr color="#D0D0D0" />
+        <cwc-grid class="demo-grid" style="padding-top: 0.5rem;">
+          <cwc-cell colspan="12" mobile-colspan="12">
+            <div class="attr-user">Origen</div>
+            <span class="attr-detail">{{trip.Source}}</span>
+          </cwc-cell>
+        </cwc-grid>
+
+        <cwc-grid class="demo-grid center-cell">
+          <cwc-cell colspan="12" mobile-colspan="12">
+            <div class="attr-user">Destino</div>
+            <span class="attr-detail">{{trip.Destiny}}</span>
+          </cwc-cell>
+        </cwc-grid>
+
+        <cwc-grid class="demo-grid">
+          <cwc-cell mobile-colspan="6">
+            <div class="attr-user">Número de Placa</div>
+            <span class="attr-detail">{{trip.LicenseVehiculo}}</span>
+          </cwc-cell>
+          <cwc-cell mobile-colspan="6">
+            <div class="attr-user">Fecha y Hora de Cita</div>
+            <span class="attr-detail">{{trip.DateTravel}} {{trip.TimerStar}}</span>
+          </cwc-cell>
+        </cwc-grid>
       </div>
     </cwc-card>
   </cwc-cell>
 </cwc-grid>
+
+<div class="column-empty" *ngIf="tripsList.length === 0">
+  <cwc-empty-result header="No se encontraron datos registrados." icon="accepted-ok" aria-live="polite"
+    class="cwc-empty-result hydrated v2" role="alert" design-version="v2" variant="regular">
+    Actualmente no se encuentran viajes solicitados en el sistema.
+  </cwc-empty-result>
+</div>

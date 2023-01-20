@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment.prod';
 import { HttpService } from '../http/http.service';
 const URL = environment.url;
+const token = environment.token;
 
 
 @Injectable({
@@ -16,11 +17,11 @@ export class CompaniesService {
   ) { }
 
   getCompanies(){
-    return this.http.doGet(`${URL}/api/companies`, {'Content-Type': 'application/json'});
+    return this.http.fetch(`${URL}/v1/load/dsm/companies`, {}, 'get');
   }
 
-  getCompany(id : string) {
-    return this.http.doGet(`${URL}/api/companies/${id}`, {'Content-Type': 'application/json'});
+  getCompany(id : any) {
+    return this.http.fetch(`${URL}/api/companies/${id}`, {}, 'get');
   }
 
 }

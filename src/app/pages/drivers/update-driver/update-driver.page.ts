@@ -8,6 +8,9 @@ import { DriversService } from '../../../services/drivers.service';
 import { Location } from '@angular/common';
 import { debounceTime } from 'rxjs/operators';
 import { DriverUpdate } from '../models/driver-update';
+import { ApiService } from '../../../services/auth/api.service';
+import { UserDetail } from '../../../models/user-detail.model';
+import { ValidateUserFieldService } from '../../../services/error/validate-user-field.service';
 
 @Component({
   selector: 'app-update-driver',
@@ -16,15 +19,14 @@ import { DriverUpdate } from '../models/driver-update';
 })
 export class UpdateDriverPage implements OnInit {
 
-  propagar = new EventEmitter<boolean>();
+  driver: UserDetail = new UserDetail();
+  company: string = '';
 
-  driver : DriverUpdate = new DriverUpdate();
 
   form: FormGroup;
-  data : FormData;
-  company : Companies = new Companies();
+  data: FormData = new FormData();
 
-  alertSucces = true;
+  alertSucces = false;
   alertConfirm = false;
   addIdentityCard = false;
   addDocumentCompany = false;
@@ -32,109 +34,90 @@ export class UpdateDriverPage implements OnInit {
 
   errors: string[] = [];
 
+  loading = false;
+
   constructor(
     private formBuilder: FormBuilder,
-    private loginService : LoginService,
-    private companiesService : CompaniesService,
+    private companiesService: CompaniesService,
     private errorMessages: ErrorMessagesService,
-    private driversService : DriversService,
-    private location : Location
-  ) {    
-    this.driver = driversService.driverUpdate;
-    this.formBuilderInput(loginService.profileUser.CompanyId);
-    this.companiesService.getCompany(loginService.profileUser.CompanyId).subscribe(async data =>{
-      this.company = data.data;
-    });
+    private driversService: DriversService,
+    private location: Location,
+    private apiService: ApiService,
+    public msgField: ValidateUserFieldService,
+  ) {
+    this.driver = driversService.driver;
+    this.company = apiService.userProfile.CompanyName;
+    this.formBuilderInput(apiService.userProfile.CompanyId);
   }
 
   ngOnInit() {
-    this.alertSucces = false;
-
   }
 
-  async createVehicle(){
-    if(this.form.invalid){
-      return;
-    }
-    this.data = new FormData();
-    this.addFormData(this.form.value);
-    this.propagar.emit(true);
-    await this.driversService.createDriver(this.data).subscribe(async resp =>{
-       this.propagar.emit(false);
-       this.alertSucces = true;
-       this.errors = [];
-    }, (error) =>{
-       this.propagar.emit(false);
-       this.errors = this.errorMessages.parsearErroresAPI(error);
+  formBuilderInput(id: number) {
+    this.form = this.formBuilder.group({
+      RolesId: [this.driver.RolesId, [Validators.required]],
+      FirstName: [this.driver.FirstName, [Validators.required]],
+      LastName: [this.driver.LastName, [Validators.required]],
+      PhoneNumber: [this.driver.PhoneNumber, [Validators.required]],
+      CodeSap: [this.driver.CodeSap, [Validators.required]],
+      IdDocument: [this.driver.IdDocument, [Validators.required]],
+      Email: [this.driver.Email, [Validators.required]],
+      CompanyId: [id, [Validators.required]],
+      Status: [this.driver.Status, [Validators.required]],
+      UserId: [this.driver.UserId],
+      policiesPermission: [this.driver.policiesPermission],
+      term: [true, [Validators.requiredTrue]]
     });
   }
 
-  async addFormData(objeto){
-    for ( var key in objeto ) {
-      if(key !== 'term'){    
+  async update() {
+    this.errors = [];
+    this.alertConfirm = false;
+    if (this.form.invalid) {
+      return;
+    }
+    this.loading = true;
+    await this.addFormData(this.form.value);
+    this.driversService.updateDriver(this.data).subscribe({
+      next: (result: any) => {
+        if (result.data.message !== 'Updated') {
+          this.errors = this.errorMessages.parsearErroresAPI(['Error, al actualizar el susuario.']);
+          this.data = new FormData();
+        } else {
+          this.alertSucces = true;
+          this.errors = [];
+        }
+      },
+      error: (err) => {
+        this.errors = this.errorMessages.parsearErroresAPI(err.data);
+      },
+      complete: () => {
+        this.loading = false;
+        this.alertConfirm = false;
+      }
+    });
+  }
+
+  async addFormData(objeto) {
+    for (var key in objeto) {
+      if (key !== 'term') {
         this.data.append(key, objeto[key]);
-      }      
+      }
     }
   }
 
-  removeDocumentCompany(){
-    this.form.get('documentCompany').setValue('');
-    //this.conveyorService.removeModalPhotoDocumentCompany.emit();
-    this.addDocumentCompany = false;
-    this.toastMessage = 'Se eliminó el documento de la empresa';
-    const element = document.getElementById('toast-message-driver');
-      element.classList.remove('hide');
-  }
-
-  removeIdentityCard(){
-    this.form.get('documentIdentityCardFrontal').setValue('');
-    this.form.get('documentIdentityCardBack').setValue('');
-    //this.conveyorService.removeModalIdentityCardDriver.emit();
-    this.addIdentityCard = false;
-    this.toastMessage = 'Se eliminó la cédula de ciudadanía';
-    const element = document.getElementById('toast-message-driver');
-      element.classList.remove('hide');
-  }
-
-  openAlertConfirm(){
-    if(this.form.invalid){
+  openAlertConfirm() {
+    if (this.form.invalid) {
       return;
     }
     this.alertConfirm = true;
   }
 
-  closeAlertConfirm(){
+  closeAlertConfirm() {
     this.alertConfirm = false;
   }
 
-  onBack(){
+  onBack() {
     this.location.back();
-  }
-
-  /*=============================================
-   FORMULARIO REACTIVOS
-  =============================================*/
-  formBuilderInput(id : string){
-    this.form = this.formBuilder.group({
-      FirstName: [this.driver.firstName, [ Validators.required ]],
-      LastName: [this.driver.lastName, [ Validators.required ]],
-      Password: ['Cemex_2022', [ Validators.required ]],    
-      Email: [this.driver.email, [ Validators.required ]],    
-      CompanyId: [id, [ Validators.required ]],
-      Roles: ['Conductor'],
-      Document: [this.driver.document, [ Validators.required ]],
-      SapCode: [this.driver.sapCode, [ Validators.required ]],
-      PhoneNumber: [this.driver.phoneNumber, [ Validators.required ]],
-      term: [true, [ Validators.requiredTrue ]]
-    });
-
-    this.form.valueChanges
-    .pipe(
-      debounceTime(350),
-    )
-    .subscribe(data => {
-      console.log(data);      
-      //this.validateInput();
-    });
   }
 }

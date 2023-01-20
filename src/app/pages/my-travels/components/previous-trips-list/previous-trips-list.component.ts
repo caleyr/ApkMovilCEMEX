@@ -10,8 +10,11 @@ import { Component, Input, OnInit } from '@angular/core';
 })
 export class PreviousTripsListComponent implements OnInit {
 
-  @Input() tripsList: Travel[];
+  @Input() tripsList: Travel[] = [];
   @Input() sizeList: number;
+  @Input() searchFilter: string;
+
+  currentDate = new Date();
 
   constructor(private travelService: TravelService,
     private navCtrl: NavController) { }

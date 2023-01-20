@@ -6,7 +6,7 @@ const config: CapacitorConfig = {
   webDir: 'www',
   bundledWebRuntime: false,
   server: {
-    hostname: "jobsiteapp",
+    hostname: "com.cemex.app",
     androidScheme: "https"
   },
   plugins: {

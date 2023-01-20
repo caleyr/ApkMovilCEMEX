@@ -1,10 +1,15 @@
-import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, Input, OnInit, Output, EventEmitter, ViewChild, ElementRef } from '@angular/core';
 import { Travel } from '../../../../../../interfaces/travels/travel';
 import { GoogleService } from '../../../../../../services/google.service';
 import { DatePipe } from '@angular/common';
 import { TravelService } from '../../../../../../services/travels/travel.service';
-import { finalize } from 'rxjs/operators';
+import { finalize, filter } from 'rxjs/operators';
 import { Geolocation } from '@capacitor/geolocation';
+import { NavController, ModalController } from '@ionic/angular';
+import { FileRegisterTravelService } from '../../../../../../services/file-register/file-register-travel.service';
+import { ApiService } from '../../../../../../services/auth/api.service';
+import { UserService } from '../../../../../../services/user.service';
+import { VehiclesService } from '../../../../../../services/vehicles.service';
 declare var google;
 
 @Component({
@@ -14,6 +19,8 @@ declare var google;
 })
 export class ModalDetailMapDriveComponent implements OnInit {
 
+  userId: number;
+
   travelDetail: Travel;
   estado = 1;
   showDetail = false;
@@ -22,12 +29,27 @@ export class ModalDetailMapDriveComponent implements OnInit {
   travelDistanceOrigin = null;
   distancia = 100;
 
+
+  @ViewChild('getConsignmentDocument') inputFileC: ElementRef;
+  @ViewChild('getManifestDocument') inputFileM: ElementRef;
+  data: FormData = new FormData();
+
+  nameFile: string = '';
+  nameText: string;
+
   constructor(
-    private googleService : GoogleService,
+    private googleService: GoogleService,
     private datepipe: DatePipe,
-    private travelService : TravelService
+    private travelService: TravelService,
+    private navCtrl: NavController,
+    private modalController: ModalController,
+    public fileTravel: FileRegisterTravelService,
+    private apiService: ApiService,
+    private userService : UserService,
+    private vehiclesService : VehiclesService
   ) {
     Geolocation.checkPermissions();
+    this.userId = apiService.userProfile.UserId;
   }
 
   ngOnInit() {
@@ -41,7 +63,7 @@ export class ModalDetailMapDriveComponent implements OnInit {
   }
 
   getData(id) {
-    return new Promise((resolve)=>{
+    return new Promise((resolve) => {
       this.travelService.getTravelDetail(id).subscribe(data => {
         this.travelDetail = data.data;
         resolve(true);
@@ -49,101 +71,204 @@ export class ModalDetailMapDriveComponent implements OnInit {
     });
   }
 
-  calcularDistance(){
+  async getId() {
+    const data = await this.travelService.getFilterTravelByIdDriver(this.userId).toPromise();
+    let list: Travel[] = data.data.filter(data => data.StatusTravelAvailability === 3);
+    if (list.length === 1) {
+      if (list[0].TraveId !== this.travelDetail.TraveId) {
+        return false;
+      } else if (list[0].TraveId === this.travelDetail.TraveId) {
+        return true;
+      }
+    } else if (list.length === 0) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  calcularDistance() {
     this.distancia = Math.ceil(google.maps.geometry.spherical.computeDistanceBetween(this.travelDistanceOrigin, this.travelDistance));
   }
 
-  onClickConfirmTrip(){
+  async onClickConfirmTrip() {
     this.googleService.changeLoadign(true);
+    if (await this.getId()) {
+      const data = new FormData();
+      data.append('TraveId', this.travelDetail.TraveId);
+      data.append('StatusTravel', '3');
+      data.append('StatusTravelAvailability', '3');
+      data.append('UserId', this.travelDetail.UserId.toString());
+      await this.changeUserUpdate('1');
+      await this.changeVehicleUpdate('1');
+      await this.changeTravelUpdate(data);      
+    } else {
+      this.googleService.changeLoadign(false);
+      this.googleService.changeBack(true);
+    }
+  }
+
+  async onClickStartCharge() {
+    this.googleService.changeLoadign(true);
+    const horaStar = new Date();
     const data = new FormData();
+    data.append('TraveId', this.travelDetail.TraveId);
+    data.append('UserId', this.travelDetail.UserId.toString());
     data.append('StatusTravel', '4');
     data.append('StatusTravelAvailability', '4');
-    data.append('Id', this.travelDetail.id);
-
-    this.travelService.confirmDrive(this.travelDetail.id, data).pipe(
-      finalize(()=>{
-        this.googleService.changeLoadign(false);
-      })
-    ).subscribe(()=>{
-      this.getData(this.travelDetail.id);
-    });
+    data.append('TripStarTime', this.datepipe.transform(horaStar, 'h:mm'));
+    data.append('LoadStar', this.datepipe.transform(horaStar, 'h:mm'));
+    this.travelDetail.LoadStar = this.datepipe.transform(horaStar, 'h:mm');
+    await this.changeTravelUpdate(data);
   }
 
-  onClickStartCharge(){
+  async onClickStartTravel() {
     this.googleService.changeLoadign(true);
     const horaStar = new Date();
     const data = new FormData();
-    data.append('Id', this.travelDetail.id);
-    data.append('StatusTravel', '5');
-    data.append('TripStarTime', '');
-    this.travelDetail.loadStar = this.datepipe.transform(horaStar, 'h:mm a');    
-    this.travelService.startTravel(this.travelDetail.id, data).subscribe(async ()=>{      
-      await this.changeTravelTime();
-    });
-  }
-
-  async onClickStartTravel(){
-    this.googleService.changeLoadign(true);
-    const horaStar = new Date();
-    const data = new FormData();
-    data.append('Id', this.travelDetail.id);
-    data.append('StatusTravel', '5');
-    data.append('TripStarTime', this.datepipe.transform(horaStar, 'h:mm a'));
-    this.travelDetail.loadEnd = this.datepipe.transform(horaStar, 'h:mm a');    
-    this.travelService.startTravel(this.travelDetail.id, data).subscribe(async ()=>{
-      await this.changeTravelTime();
-    });
-  }
-
-  async onClickStartDischarge(){
-    this.googleService.changeLoadign(true);
-    const horaStar = new Date();
-    this.travelDetail.dowloadStar = this.datepipe.transform(horaStar, 'h:mm a');
-    await this.changeTravelTime();
-  }
-
-  async onClickEndDischarge(){
-    this.googleService.changeLoadign(true);
-    const horaStar = new Date();
-    this.travelDetail.dowloadEnd = this.datepipe.transform(horaStar, 'h:mm a');
+    data.append('TraveId', this.travelDetail.TraveId);
+    data.append('UserId', this.travelDetail.UserId.toString());
+    data.append('LoadEnd', this.datepipe.transform(horaStar, 'h:mm'));
+    this.travelDetail.LoadEnd = this.datepipe.transform(horaStar, 'h:mm');
     await this.getCurrentPositionDrive();
+    await this.changeTravelUpdate(data);
   }
 
-  changeTravelTime(){
-    return new Promise((resolve)=>{
-      const data = new FormData();
-      data.append('LoadStar', this.travelDetail.loadStar);
-      data.append('LoadEnd', this.travelDetail.loadEnd);
-      data.append('DowloadStar', this.travelDetail.dowloadStar);
-      data.append('DowloadEnd', this.travelDetail.dowloadEnd);
-      this.travelService.updateTimeTravel(this.travelDetail.id, data).pipe(
-        finalize(()=>{          
-          this.googleService.changeLoadign(false);
+  async onClickStartDischarge() {
+    this.googleService.changeLoadign(true);
+    const horaStar = new Date();
+    const data = new FormData();
+    data.append('TraveId', this.travelDetail.TraveId);
+    data.append('UserId', this.travelDetail.UserId.toString());
+    data.append('DowloadStar', this.datepipe.transform(horaStar, 'h:mm'));
+    this.travelDetail.DowloadStar = this.datepipe.transform(horaStar, 'h:mm');
+    await this.changeTravelUpdate(data);
+  }
+
+  async onClickEndDischarge() {
+    this.googleService.changeLoadign(true);
+    const horaStar = new Date();
+    const data = new FormData();
+    data.append('TraveId', this.travelDetail.TraveId);
+    data.append('UserId', this.travelDetail.UserId.toString());
+    data.append('DowloadEnd', this.datepipe.transform(horaStar, 'h:mm'));
+    this.travelDetail.DowloadEnd = this.datepipe.transform(horaStar, 'h:mm');
+    await this.changeTravelUpdate(data);
+  }
+
+  async onClickEndTravel() {
+    this.googleService.changeLoadign(true);
+    const horaStar = new Date();
+    const data = new FormData();
+    data.append('TraveId', this.travelDetail.TraveId);
+    data.append('UserId', this.travelDetail.UserId.toString());
+    data.append('StatusTravel', '5');
+    data.append('StatusTravelAvailability', '5');
+    data.append('DateTravelEnd', this.datepipe.transform(horaStar, 'yyyy-MM-dd'));
+    data.append('TimerEndTravel', this.datepipe.transform(horaStar, 'h:mm'));
+    this.travelDetail.DateTravelEnd = this.datepipe.transform(horaStar, 'yyyy-MM-dd');
+    this.travelDetail.TimerEndTravel = this.datepipe.transform(horaStar, 'h:mm');
+    await this.changeUserUpdate('0');
+    await this.changeVehicleUpdate('0');
+    await this.changeTravelUpdate(data);    
+  }
+
+  changeTravelUpdate(data: any) {
+    return new Promise((resolve) => {
+      this.travelService.updateTravel(data).subscribe({
+        complete: () => {
           this.travelService.changeUpdate();
-        })
-      ).subscribe(()=>{      
-        this.getData(this.travelDetail.id);
-        resolve(true)
+        },
+        next: (data: any) => {
+          this.getData(this.travelDetail.TraveId);
+          resolve(true);
+        },
+        error: (err) => {
+          alert(JSON.stringify(err));
+          resolve(true);
+        }
       });
     })
   }
 
-  async getCurrentPositionDrive(){
-    const position = await Geolocation.getCurrentPosition();
-    if(position){
-      await this.updateOriginTravel(position);      
-      await this.changeTravelTime();
-    }    
+  changeUserUpdate(status) {
+    const data = new FormData();
+    data.append('UserId', this.travelDetail.UserId.toString());
+    data.append('StatusTravel', status);
+    return new Promise((resolve) => {
+      this.userService.updateUser(data).subscribe({
+        next: (data: any) => {
+          resolve(true);
+        },
+        error: (err) => {
+          alert(JSON.stringify(err));
+          resolve(true);
+        }
+      });
+    })
   }
 
-  updateOriginTravel(position){
-    return new Promise(async (resolve)=>{
+  changeVehicleUpdate(status) {
+    const data = new FormData();
+    data.append('VehicleId', this.travelDetail.UserId.toString());
+    data.append('StatusTravel', status);
+    return new Promise((resolve) => {
+      this.vehiclesService.updateVehicle(data).subscribe({
+        next: (data: any) => {
+          resolve(true);
+        },
+        error: (err) => {
+          alert(JSON.stringify(err));
+        }
+      });
+    })
+  }
+
+  async getCurrentPositionDrive() {
+    const position = await Geolocation.getCurrentPosition();
+    if (position) {
+      await this.updateOriginTravel(position);
+    }
+  }
+
+  updateOriginTravel(position) {
+    return new Promise(async (resolve) => {
       const data = new FormData();
+      data.append('TraveId', this.travelDetail.TraveId);
+      data.append('UserId', this.travelDetail.UserId.toString());
       data.append('LatitudeSource', position.coords.latitude);
       data.append('LongitudeSource', position.coords.longitude);
-      this.travelService.updatePointOrigin(this.travelDetail.id, data).subscribe(async result=>{
-        resolve(true);
+      this.travelService.updateTravel(data).subscribe({
+        complete: () => {
+          resolve(true);
+        },
+        error: (err) => {
+          alert(JSON.stringify(err));
+          resolve(true);
+        }
       });
     })
+  }
+
+  async addMessage() {
+    await this.modalController.dismiss();
+    this.navCtrl.navigateRoot('/app/my-travels/driver-confirmed-trip-detail/new-update-message', { animated: false });
+  }
+
+
+  openModalDocument(name) {
+    if (name === 'ConsignmentDocument') {
+      this.nameFile = name;
+      this.nameText = 'documento de consignación';
+    } else if (name === 'ManifestDocument') {
+      this.nameFile = name;
+      this.nameText = 'documento manifiesto';
+    }
+    document.getElementById('modal-document').setAttribute('open', 'true');
+  }
+
+  cloceModalDocument() {
+    document.getElementById('modal-document').setAttribute('open', 'false');
+    this.fileTravel.resetPhoto();
   }
 }

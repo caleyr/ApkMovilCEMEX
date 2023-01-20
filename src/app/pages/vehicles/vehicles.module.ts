@@ -11,9 +11,11 @@ import { ComponentsModule } from '../../components/components.module';
 import { CmxWebComponentsModule } from '@cmx-web-components/angular';
 import { LayoutPageModule } from '../layout/layout.module';
 import { VehicleListComponent } from './components/vehicle-list/vehicle-list.component';
+import { ListVechicleFilterPipe } from './pipe/list-vechicle-filter.pipe';
 
 @NgModule({
   imports: [
+    FormsModule,
     CommonModule,
     IonicModule,
     VehiclesPageRoutingModule,
@@ -24,7 +26,8 @@ import { VehicleListComponent } from './components/vehicle-list/vehicle-list.com
   ],
   declarations: [
     VehiclesPage,
-    VehicleListComponent
+    VehicleListComponent,
+    ListVechicleFilterPipe
   ]
 })
 export class VehiclesPageModule {}

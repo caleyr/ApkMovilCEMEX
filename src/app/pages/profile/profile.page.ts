@@ -9,15 +9,21 @@ import { Profile } from 'src/app/models/profile.model';
 import { ProfileService } from '../../services/profile/profile.service';
 import { LoginService } from '../../services/auth/login.service';
 import { CompaniesService } from '../../services/companies/companies.service';
+import { UserDetail } from '../../models/user-detail.model';
+import { ApiService } from '../../services/auth/api.service';
+import { UserService } from '../../services/user.service';
+import { MsalService } from '@azure/msal-angular';
 
 @Component({
   selector: 'app-profile',
   templateUrl: './profile.page.html',
   styleUrls: ['./profile.page.scss'],
 })
-export class ProfilePage implements OnInit, OnDestroy {
+export class ProfilePage implements OnInit {
 
-  profile : Profile = new Profile();
+  id : number;
+
+  profile : UserDetail;
 
   showModalArchiveDocumentCompany = false;
   showModalIndentityCard = false;
@@ -26,33 +32,38 @@ export class ProfilePage implements OnInit, OnDestroy {
   titleSubs: Subscription;
   loading = false;
 
+  linkClever = "https://cemex.sercae.com/sercae/pages/core/login.jsf";
+
+  suscripcion: Subscription;
+
   constructor(
     private router: Router,
-    private loginService : LoginService,
-    private companiesService : CompaniesService
+    private apiService : ApiService,
+    private userService : UserService,
+    private authService : MsalService
   ) {
-
-    this.titleSubs = this.getTitleRuote().subscribe(event =>{
-       if(event === '/app/profile'){
-        this.loading = true;
-        this.profile = this.loginService.profileUser;
-        this.loading = false;
-       }
-    });
-  }
-
-  ngOnDestroy(): void {
-    this.titleSubs.unsubscribe();
   }
 
   async ngOnInit() {
     this.loading = true;
-    this.profile = this.loginService.profileUser;
-    this.companiesService.getCompany(this.profile.CompanyId).subscribe(data=>{
-      this.profile.CompanyName = data.data.datacompanyName;      
-      this.loading = false;
+    this.id = this.apiService.userProfile.UserId;
+    this.suscripcion = this.userService.refresh$.subscribe(() => {
+      this.loading = true;
+      this.getDataUserProfile();
     });
-    //this.getDataUserProfile();
+    this.getDataUserProfile();
+  }
+
+  getDataUserProfile(){
+    this.userService.getUserEmailLogin(this.authService.instance.getAllAccounts()[0].idTokenClaims.extension_mail).subscribe({
+      next : (data: any) =>{
+        this.profile = data.data[0];
+        this.apiService.userProfile = data.data[0];
+      },
+      complete : () => {
+        this.loading = false;
+      }
+    });
   }
   
   getTitleRuote() {
@@ -64,51 +75,27 @@ export class ProfilePage implements OnInit, OnDestroy {
       );
   }
 
-  /*
-  async getDataUserProfile(){
-    let urlactual = '';
-    this.loading = true;
-    await this.profileService.getDataUser(this.user.email).subscribe(async resp=>{
-      const rol =  resp.roles.map(item =>  item);
-      this.user.firstName = resp.user.firstName;
-      this.user.lastName = resp.user.lastName;
-      this.user.document = resp.user.document;
-      this.user.roles = rol.toString();
-      this.user.documentIdentityCardFrontal = resp.user.documentIdentityCardFrontal;
-      this.user.documentIdentityCardBack = resp.user.documentIdentityCardBack;
-
-      this.user.driver.codeSap = resp.codeSap;
-      this.user.driver.documentDrivinglicenseFrontal = resp.documentDrivinglicenseFrontal;
-      this.user.driver.documentDrivinglicenseBack = resp.documentDrivinglicenseBack;
-      this.user.driver.documentSecurityCard = resp.documentSecurityCard;
-
-      this.user.company.companyName = resp.companyName;
-      this.user.company.documentCompany = resp.documentCompany;
-
-      this.loading = false;
-   }, error =>{
-      this.loading = false;
-   });
-      urlactual = this.user.driver.documentDrivinglicenseFrontal;
-  }*/
+  onUrl(url : string){
+    window.open(url, '_system', 'location=yes, noopener');
+  }
 
   showModalIndentity(){
-    if(this.profile.DocumentIdentityCard){
+    if(this.profile.CedulaDocumento){
       this.showModalIndentityCard = true;
     }
   }
   showModalDocumentCompany(){
-    if(this.profile.SapCode){
+    if(this.profile.CodeSap){
       this.showModalArchiveDocumentCompany = true;
     }
   }
   showModalDrivingLicence(){
-     if(this.profile.Drivinglicense){
+     if(this.profile.LicenciaConduccion){
          this.showModalLicence = true;
        }
   }
   showModalSecurityCard(){
-    if(this.profile.SecurityCard ){
+    if(this.profile.CarnetSeguridadIndustrial ){
         this.showModalSecurityCardApp = true;
       }
  }

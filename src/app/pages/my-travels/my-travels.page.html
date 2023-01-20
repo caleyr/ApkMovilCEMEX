@@ -1,3 +1,8 @@
-<app-my-travels-admin *ngIf="rol === 'Administrador Logistico Tercero'"></app-my-travels-admin>
-<app-my-travels-drive *ngIf="rol !== 'Administrador Logistico Tercero'"></app-my-travels-drive>
+<app-my-travels-admin (propagar)="showLoading($event)" *ngIf="rol === 3"></app-my-travels-admin>
+<app-my-travels-drive (propagar)="showLoading($event)" *ngIf="rol !== 3"></app-my-travels-drive>
  
+<div class="loading-content" *ngIf="loading">
+    <cwc-loader>
+      <span slot='loading'>Espere un momento...</span>
+    </cwc-loader>
+  </div>

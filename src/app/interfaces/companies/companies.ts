@@ -1,10 +1,18 @@
 export class Companies {
-    id: string;
-    codeSap: string;
-    companyName: string;
+    AspNetUsers : [];
+    Countries : any;
+    CodigoId: number;
+    CodeSap: string;
+    CompanyName: string;
     legalRepresentativeName : string;
-    legalRepresentativeDocuent : string;
+    legalRepresentativeDocument : string;
+    RutDocument : string;
+    chamberOfCommerceDocument : string;
+    CompanylegalRepresentativeDocument : string;
+    CountryId : string;
+
+    //DOCS
     rutDocument? : File;
-    chamberOfCommerceDocument? : File;
+    //chamberOfCommerceDocument? : File;
     companylegalRepresentativeDocument? : File;
 }

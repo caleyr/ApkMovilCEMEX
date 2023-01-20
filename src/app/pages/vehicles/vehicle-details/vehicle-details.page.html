@@ -1,17 +1,17 @@
 <cwc-header design-version="v2" slot="header" show-Menu-Button="false" show-cemex-logo="false">
   <div class="header-text">
-    <ion-icon name="arrow-back-outline" style="font-size: 25px;" (click)="onBack()"></ion-icon>
-    <div class="attr-name" style="padding-left: 1rem;">{{vehicle.licenseVehiculo}}</div>
+    <ion-icon name="arrow-back-outline" style="font-size: large;" (click)="onBack()"></ion-icon>
+    <div class="attr-name" style="padding-left: 1rem; font-size: large; font-weight: 900;" *ngIf="vehicle">{{vehicle.LicenseVehiculo}}</div>
   </div>
 </cwc-header>
-<div slot="main" class="content-card">
+<div slot="main" *ngIf="vehicle" class="content-card">
   <cwc-card class="m-all-xs" design-version="v2">
     <div class="card-content">
       <div class="content-avatar-menu" style="margin-right: 0.1rem; display: flex; justify-content: space-between;">
         <div style="display: flex;">
           <div>
             <div class="attr-name">Plataforma</div>
-            <span class="text-info">Placa {{vehicle.licenseVehiculo}}</span>
+            <span class="text-info">Placa {{vehicle.LicenseVehiculo}}</span>
           </div>
         </div>
         <div>
@@ -25,14 +25,14 @@
         <cwc-grid class="demo-grid center-cell" >
           <cwc-cell colspan="12" mobile-colspan="12">   
               <div class="attr-user">Empresa</div>
-              <span class="text-info">{{vehicle.companyName}}</span>
+              <span class="text-info">{{vehicle.CompanyName}}</span>
           </cwc-cell>
         </cwc-grid>
 
         <cwc-grid class="demo-grid center-cell" >
           <cwc-cell colspan="12" mobile-colspan="12">   
               <div class="attr-user">Código SOAT</div>
-              <span class="text-info">{{vehicle.soat}}</span>
+              <span class="text-info">{{vehicle.Soat}}</span>
           </cwc-cell>
         </cwc-grid>
       </div>
@@ -41,7 +41,7 @@
       <div style=" border: 0.1px solid #d1d1d1; background: #d1d1d1; margin-bottom: 0.5rem;"></div>
 
       <p class="attr-trailer">
-        {{vehicle.typeTrailer}}
+        {{vehicle.TypeTrailer}}
       </p>
 
       <div class="attr-document" >Documentación</div>
@@ -49,25 +49,25 @@
 
       <cwc-grid column-gap="5px">
         <cwc-cell mobile-colspan="6">   
-          <cwc-icon *ngIf="vehicle.soatDocument !== null" name='check-rounded-active-fill' size="12px" color='bright-green'></cwc-icon>
-          <cwc-icon *ngIf="vehicle.soatDocument === null" size="12px" color="true-red"></cwc-icon>
+          <cwc-icon *ngIf="vehicle.SoatDocument !== ''" name='check-rounded-active-fill' size="12px" color='bright-green'></cwc-icon>
+          <cwc-icon *ngIf="vehicle.SoatDocument === ''" size="12px" color="true-red"></cwc-icon>
           <span class="text-archive">Documento de SOAT</span>
         </cwc-cell>
         <cwc-cell mobile-colspan="6">   
-          <cwc-icon *ngIf="vehicle.policyDocument !== null" name='check-rounded-active-fill' size="12px" color='bright-green'></cwc-icon>
-          <cwc-icon *ngIf="vehicle.policyDocument === null" size="12px" color="true-red"></cwc-icon>
+          <cwc-icon *ngIf="vehicle.PolicyDocument !== ''" name='check-rounded-active-fill' size="12px" color='bright-green'></cwc-icon>
+          <cwc-icon *ngIf="vehicle.PolicyDocument === ''" size="12px" color="true-red"></cwc-icon>
           <span class="text-archive">Póliza</span>
         </cwc-cell>
       </cwc-grid>
       <cwc-grid column-gap="5px">
         <cwc-cell mobile-colspan="6">   
-          <cwc-icon *ngIf="vehicle.technomechanicsDocument !== null" name='check-rounded-active-fill' size="12px" color='bright-green'></cwc-icon>
-          <cwc-icon *ngIf="vehicle.technomechanicsDocument === null" size="12px" color="true-red"></cwc-icon>
+          <cwc-icon *ngIf="vehicle.TechnomechanicsDocument !== ''" name='check-rounded-active-fill' size="12px" color='bright-green'></cwc-icon>
+          <cwc-icon *ngIf="vehicle.TechnomechanicsDocument === ''" size="12px" color="true-red"></cwc-icon>
           <span class="text-archive">Certificado de revisión técnico mecánica</span>
         </cwc-cell>
         <cwc-cell mobile-colspan="6">   
-          <cwc-icon *ngIf="vehicle.cardPropertyDocument !== null" name='check-rounded-active-fill' size="12px" color='bright-green'></cwc-icon>
-          <cwc-icon *ngIf="vehicle.cardPropertyDocument === null" size="12px" color="true-red"></cwc-icon>
+          <cwc-icon *ngIf="vehicle.CardPropertyDocument !== ''" name='check-rounded-active-fill' size="12px" color='bright-green'></cwc-icon>
+          <cwc-icon *ngIf="vehicle.CardPropertyDocument === ''" size="12px" color="true-red"></cwc-icon>
           <span class="text-archive">Tarjeta de propiedad</span>
         </cwc-cell>
       </cwc-grid>
@@ -81,21 +81,21 @@
         </cwc-cell>
       </cwc-grid>
       
-      <div style="margin-top: 1rem;" *ngIf="vehicle.userId !== idTercero && vehicle.userId !== idAdmin">
+      <div style="margin-top: 1rem;" *ngIf="vehicle.UserId !== idTercero">
         <div class="attr-document" >Conductor</div>
         <div style=" border: 0.1px solid #d1d1d1; background: #d1d1d1; margin-bottom: 0.5rem;"></div>
         <div style="display: flex; justify-content: space-between;">
           <p class="attr-conductor">
             {{vehicle.userName}}
           </p>
-          <cwc-button variant="link" class="m-h-reg link-cwc" style="margin-top: 1rem; margin-bottom: 0;" routerLinkActive="router-link-active" >
+          <cwc-button *ngIf="rol === 1" variant="link" class="m-h-reg link-cwc" style="margin-top: 1rem; margin-bottom: 0;" routerLinkActive="router-link-active" >
             <div style="font-size: small;">REMOVER</div>
           </cwc-button>
         </div>
       </div>
     </div>
   </cwc-card>
-  <cwc-grid class="demo-grid" *ngIf="rol !== 'Hombre Camion' && (vehicle.userId === idTercero || vehicle.userId === idAdmin)">
+  <cwc-grid class="demo-grid" *ngIf="rol === 3 && vehicle.UserId === idTercero">
     <cwc-cell colspan="12" mobile-colspan="12">
         <div class="footer-detal-request">
             <div class="content-btns">
@@ -112,7 +112,7 @@
     class="select-filter"
     placeholder="Seleccionar"
     (cwcChange)="cwcChangeDrivers($event)">
-    <cwc-select-option *ngFor="let driver of driverList" [value]="driver.id">{{driver.firstLastName}}</cwc-select-option>
+    <cwc-select-option *ngFor="let driver of driverList" [value]="driver.UserId">{{driver.FirstName + ' ' + driver.LastName}}</cwc-select-option>
   </cwc-select>
   <div style='text-align: center;'>
     <cwc-button variant='primary-block' (click)="addDriverForVehicle()" >Aceptar</cwc-button>
@@ -125,3 +125,9 @@
       <p>El conductor ha sido asignado de manera exitosa</p>
   </div>
 </cwc-modal>
+
+<div class="loading-content" *ngIf="loading">
+  <cwc-loader>
+    <span slot='loading'>Espere un momento...</span>
+  </cwc-loader>
+</div>

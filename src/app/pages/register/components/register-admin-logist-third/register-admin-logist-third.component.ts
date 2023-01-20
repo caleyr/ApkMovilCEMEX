@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output, AfterViewInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, AfterViewInit, ViewChild, ElementRef } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { debounceTime, finalize } from 'rxjs/operators';
 import { ConveyorService } from 'src/app/services/conveyor/conveyor.service';
@@ -19,6 +19,8 @@ pdfMake.vfs = pdfFonts.pdfMake.vfs;
   styleUrls: ['./register-admin-logist-third.component.scss'],
 })
 export class RegisterAdminLogistThirdComponent implements AfterViewInit {
+
+  loadingCompany: boolean = false;
 
   @Output()
   propagar = new EventEmitter<boolean>();
@@ -44,6 +46,10 @@ export class RegisterAdminLogistThirdComponent implements AfterViewInit {
   fileURL;
   fileBlob;
 
+  @ViewChild('getFileDrivinglicense') inputFileDrive: ElementRef;
+  @ViewChild('getFileSecurityCard') inputFileSecurity: ElementRef;
+  @ViewChild('getFileDocument') inputFileDoc: ElementRef;
+
   constructor(
     private formBuilder: FormBuilder,
     private companiesService : CompaniesService,
@@ -53,27 +59,32 @@ export class RegisterAdminLogistThirdComponent implements AfterViewInit {
     public fileRegister : FileRegisterUserService,
   ) {    
     this.formBuilderInput();
-    Filesystem.requestPermissions();
+    this.loadingCompany = true;
+    Filesystem.checkPermissions();
   }
 
   async ngAfterViewInit() {  
-    this.companiesService.getCompanies().subscribe(result=>{
-      this.listCompanies = result.data;
-    })
+    const results = await this.companiesService.getCompanies();
+    if(results && Array.isArray(results)){
+      this.listCompanies = results;
+      this.loadingCompany = false;
+    }
   }
 
   formBuilderInput(){
     this.form = this.formBuilder.group({
+      RolesId: ['3'],
       FirstName: ['', [Validators.required,]],
       LastName: ['', [Validators.required,]],
-      Password: ['', 
-      [ Validators.required, Validators.pattern('^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*_=+-]).{10,15}$') ],
-      ],
+      PhoneNumber: ['', [Validators.pattern('^[3][0-9]*$')]],
       Email: ['', [Validators.required, Validators.email]],
       CompanyId: ['', [Validators.required,]],
-      Roles: ['Administrador Logistico Tercero'],
-      PhoneNumber: ['', [ Validators.pattern('^[3][0-9]*$')]],
-      Status: ['1']
+      Status: ['0'],
+      CodeSap: ['0'],
+      policiesPermission: [false],
+      Password: ['',
+        [Validators.required, Validators.pattern('^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*_=+-]).{10,15}$')],
+      ]
     });
   }
 
@@ -90,25 +101,35 @@ export class RegisterAdminLogistThirdComponent implements AfterViewInit {
       return;
     }
     this.addFormData(this.form.value);
-    await this.adminLogistService.createAdminLogistThird(this.dataPrueba).pipe(
-      finalize(()=>{
+    this.adminLogistService.createUser(this.data).subscribe({
+      next: ( result : any ) => {
+        if (result.data.message !== 'Saved') {
+          this.propagar.emit(false);
+          this.errors = this.errorMessages.parsearErroresAPI('Error, el correo digita ya se encuentra registrado.');
+          this.form.get('Email').setValue('');
+          this.data = new FormData();
+        } else {
+          this.propagar.emit(false);
+          this.alertSucces = true;
+          this.alertConfirm = false;
+          this.alertSucces = true;
+          this.errors = [];
+        }
+      },
+      error: (err) => {
         this.propagar.emit(false);
-      })
-    ).subscribe(async result =>{       
-       this.alertSucces = true;
-       this.alertConfirm = false;
-       this.alertSucces = true;
-       this.errors = [];
-    }, (error) =>{    
-       this.propagar.emit(false);
-       this.errors = this.errorMessages.parsearErroresAPI(error);
-       this.fileRegister.resetForm();
+        this.errors = this.errorMessages.parsearErroresAPI(err.data);
+        this.fileRegister.resetForm();
+      },
+      complete: () => {
+        this.propagar.emit(false);
+      }
     });
   }
 
   async addFormData(objeto){
     for ( var key in objeto ) {
-      this.dataPrueba.append(key, objeto[key]);
+      this.data.append(key, objeto[key]);
     }
   }
 

@@ -11,7 +11,7 @@
 
               <cwc-cell mobile-colspan="12" style="padding-bottom: 0.8rem; padding-top: 0.5rem;">
                   <cwc-progress-bar style='width:100%' variant='split'>
-                      <cwc-progress-bar-item progress='25'></cwc-progress-bar-item>                
+                      <cwc-progress-bar-item progress='100'></cwc-progress-bar-item>                
                   </cwc-progress-bar>
               </cwc-cell>  
 
@@ -19,19 +19,15 @@
                   <cwc-grid class="demo-grid" >
                       <cwc-cell mobile-colspan="12">  
                           <div class="attr-user">Origen</div>
-                          <span>{{travelDetail.source}}</span>
+                          <span>{{travelDetail.Source}}</span>
                       </cwc-cell>
                       <cwc-cell mobile-colspan="12">
                           <div class="attr-user">Destino</div>
-                          <span>{{travelDetail.destiny}}</span>
+                          <span>{{travelDetail.Destiny}}</span>
                       </cwc-cell>
                       <cwc-cell mobile-colspan="6">
                           <div class="attr-user">Fecha y hora</div>
-                          <span>{{travelDetail.dateTravel + ' ' + travelDetail.timerStar}}</span>
-                      </cwc-cell>
-                      <cwc-cell mobile-colspan="6">   
-                          <div class="attr-user">Tiempo estimado de viaje</div>
-                          <span>1.5 hrs</span>
+                          <span>{{travelDetail.DateTravel + ' ' + travelDetail.TimerStar}}</span>
                       </cwc-cell>
                   </cwc-grid>
               </div>               

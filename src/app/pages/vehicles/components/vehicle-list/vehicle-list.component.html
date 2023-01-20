@@ -1,19 +1,20 @@
-<cwc-card *ngFor="let vehicle of vehicles" (click)="detailVehicle(vehicle.id)" class="card-info" design-version="v1">
+<cwc-card *ngFor="let vehicle of vehicles | listVechicleFilter:searchFilter" (click)="detailVehicle(vehicle.VehicleId)" class="card-content-margin" design-version="v1">
   <div class="card-content">
-    <cwc-grid class="demo-grid" >
+    <cwc-grid class="demo-grid">
       <cwc-cell colspan="12" mobile-colspan="8">   
           <div class="attr-user">Plataforma</div>
-          <span class="text-info">{{vehicle.licenseVehiculo}}</span>
+          <span class="text-info">{{vehicle.LicenseVehiculo}}</span>
       </cwc-cell>
       <cwc-cell colspan="12" mobile-colspan="4">
         <div class="content-btn-edit">            
-          <cwc-icon name='check-rounded-active-fill' size="12px" color='bright-green'></cwc-icon>
-          <span class="text-stade">Disponible</span>
+          <cwc-status-indicator size="small" class="statusI" variant='success'>
+            <div class="statusI">{{textResp.getStatusTravelUser(vehicle.StatusTravel)}}</div>
+          </cwc-status-indicator>
         </div>   
       </cwc-cell>
     </cwc-grid>
     <cwc-grid class="demo-grid" >
-      <cwc-cell colspan="12" mobile-colspan="6">   
+      <cwc-cell colspan="12" mobile-colspan="6">
           <div class="text-company">{{companyName}}</div>
       </cwc-cell>
       <cwc-cell colspan="12" mobile-colspan="6">   

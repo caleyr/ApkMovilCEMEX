@@ -1,10 +1,16 @@
 <app-layout class="card-size">
   <div class="content-page">
-    <div *ngIf="rol !== 'Administrador Logistico Tercero'">
-      <app-home-user></app-home-user>
+    <div *ngIf="rol !== 3">
+      <app-home-user (propagar)="showLoading($event)"></app-home-user>
     </div>
-    <div *ngIf="rol === 'Administrador Logistico Tercero'">
-      <app-home-admin></app-home-admin>
+    <div *ngIf="rol === 3">
+      <app-home-admin (propagar)="showLoading($event)"></app-home-admin>
     </div>
   </div>  
 </app-layout>
+
+<div class="loading-content" *ngIf="loading">
+  <cwc-loader>
+    <span slot='loading'>Espere un momento...</span>
+  </cwc-loader>
+</div>

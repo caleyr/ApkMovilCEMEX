@@ -1,28 +1,28 @@
-<cwc-card *ngFor="let driver of drivers" (click)="detailDriver(driver.id)" class="card-info" design-version="v1">
+<cwc-card *ngFor="let driver of drivers | listDriveFilter:searchFilter" (click)="detailDriver(driver.UserId)" class="card-content-margin"
+  design-version="v1">
   <div class="card-content">
-    <cwc-grid class="demo-grid" >
-      <cwc-cell colspan="12" mobile-colspan="9">   
-          <div class="attr-user">{{driver.firstLastName}}</div>
-          <span class="text-info">{{driver.phoneNumber}}</span>
+    <cwc-grid class="demo-grid">
+      <cwc-cell colspan="12" mobile-colspan="8">
+        <div class="attr-user">{{driver.FirstName + ' ' + driver.LastName}}</div>
+        <span class="text-info">{{driver.PhoneNumber}}</span>
       </cwc-cell>
-      <cwc-cell colspan="12" mobile-colspan="3">
-        <div class="content-btn-edit">            
-          <cwc-icon name='check-rounded-active-fill' size="8px" color='bright-green'></cwc-icon>
-          <span class="text-stade">{{driver.travelStatus}}</span>
-        </div>   
+      <cwc-cell colspan="12" mobile-colspan="4">
+        <cwc-status-indicator size="small" class="statusI" variant='success'>
+          <div class="statusI">{{textResp.getStatusTravelUser(driver.StatusTravel)}}</div>
+        </cwc-status-indicator>
       </cwc-cell>
     </cwc-grid>
-    <cwc-grid class="demo-grid" >
-      <cwc-cell colspan="12" mobile-colspan="6">   
-          <div class="text-company">{{driver.company}}</div>
+    <cwc-grid class="demo-grid">
+      <cwc-cell colspan="12" mobile-colspan="6">
+        <div class="text-company">{{driver.CompanyName}}</div>
       </cwc-cell>
-      <cwc-cell colspan="12" mobile-colspan="6">   
+      <cwc-cell colspan="12" mobile-colspan="6">
         <div class="content-btn-edit">
           <br>
           <cwc-button variant="link">
             <div class="text-button">VER MÁS</div>
           </cwc-button>
-        </div> 
+        </div>
       </cwc-cell>
     </cwc-grid>
   </div>

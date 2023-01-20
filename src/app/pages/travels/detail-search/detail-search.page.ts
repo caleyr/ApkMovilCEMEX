@@ -6,6 +6,8 @@ import { LoginService } from '../../../services/auth/login.service';
 import { DriversService } from '../../../services/drivers.service';
 import { DriverList } from '../../drivers/models/drivers-list';
 import { NavController } from '@ionic/angular';
+import { Travel } from '../../../interfaces/travels/travel';
+import { ApiService } from '../../../services/auth/api.service';
 
 @Component({
   selector: 'app-detail-search',
@@ -14,95 +16,72 @@ import { NavController } from '@ionic/angular';
 })
 export class DetailSearchPage implements OnInit {
 
-  codeTravel : string;
-  
+  codeTravel: string;
+
   alertShow = false;
-  addDriver = false;
+
+  loading = false;
 
   rol = null;
-  travel : TravelSearch = new TravelSearch();
-  driverList :  DriverList[] = [];
-  driverAssign : string = null;
-  driverValidate : boolean = true;
+  travel: Travel = new Travel();
+  driverAssign: string = null;
+  driverValidate: boolean = true;
 
-  constructor(    
-    private loginService : LoginService,
-    private location : Location,
-    private travelService : TravelService,
-    private driversService : DriversService,
-    private navCtrl : NavController
-    ) { }
+  constructor(
+    private location: Location,
+    private travelService: TravelService,
+    private navCtrl: NavController,
+    private apiService: ApiService
+  ) { }
 
   ngOnInit() {
-    this.rol = this.loginService.profileUser.Roles;
-    console.log(this.rol);    
-    this.codeTravel = this.travelService.code;
-    this.getData(this.codeTravel);
+    this.rol = this.apiService.userProfile.RolesId;
+    this.travel = this.travelService.travel;
   }
 
-  getData(code){
-    this.travelService.getTravelsForCode(code).subscribe(data=>{
-      this.travel = data.data;
-    });
-    this.driversService.getDriverList(this.loginService.profileUser.CompanyId).subscribe(result =>{
-      this.driverList = result.data;
-    })
-  }
-  
-  onBack(){
+  onBack() {
     this.location.back();
   }
 
-  closeAlertConfirm(){
+  closeAlertConfirm() {
     this.driverAssign = null;
     this.driverValidate = true;
-    this.addDriver = false;
   }
 
-  closeModalOk(){
+  closeModalOk() {
     this.alertShow = false;
     this.navCtrl.navigateBack('/app/travels', { animated: false });
   }
 
-  openModal(){
-    this.addDriver = true;
-  }
-
-  cwcChangeDrivers(event){
-    this.driverAssign = event.detail.value;    
+  cwcChangeDrivers(event) {
+    this.driverAssign = event.detail.value;
     this.driverValidate = false;
   }
 
-  async onClickCreateRequest(){
-    const dataFormC = new FormData();
-    dataFormC.append('StatusRequestTravels', '1');
-    dataFormC.append('DriverId', this.loginService.profileUser.id);
-    dataFormC.append('TravelId', this.travel.id);
-    await this.createTravel(dataFormC);
-
-    const dataFormU = new FormData();    
-    dataFormU.append('Id', this.travel.id);
-    dataFormU.append('UserId', this.loginService.profileUser.id);
-    dataFormU.append('StatusTravel', '2');
-    dataFormU.append('StatusTravelAvailability', '2');
-    await this.updateTravel(this.travel.id ,dataFormU);
-    this.addDriver = false;
+  async onClickCreateRequest() {
+    this.loading = true;
+    const data = new FormData();
+    data.append('StatusTravelAvailability', '1');
+    data.append('StatusTravel', '1');
+    data.append('UserId', this.apiService.userProfile.UserId.toString());
+    data.append('TraveId', this.travel.TraveId);
+    await this.updateTravel(this.travel.TraveId, data);
+    this.loading = false;
     this.alertShow = true;
   }
 
-  createTravel(dataForm){
-    return new Promise((resolve)=>{
-      this.travelService.createTravel(dataForm).subscribe(data=>{
-        resolve(data);
-      });
-    });
-  }
-
-  updateTravel(id, dataForm){
-    return new Promise((resolve)=>{
-      this.travelService.updateTravel(id, dataForm).subscribe(data=>{
-        resolve(data);
-      });
+  updateTravel(id, dataForm) {
+    return new Promise((resolve) => {
+      this.travelService.updateTravel(dataForm).subscribe({
+        next: (data) => {
+          resolve(data);
+        },
+        error: (error) => {
+          if (error.status === 401) {
+            this.apiService.refreshToken();
+          }
+        }
+      })
     });
   }
 }

@@ -42,7 +42,7 @@ export class ProfileService{
     const headerToken = new HttpHeaders({
       'Authorization': this.token,
     });
-    return this.http.doGet(`${URL}/api/profile/get-data-user/${email}`, {});
+    return this.http.doGet(`${URL}/api/profile/get-data-user/${email}`);
   }
   /*=============================================
     ACTUALIZAR LICENCIA DE CODUCCIÓN
@@ -60,7 +60,7 @@ export class ProfileService{
     formData.append('documentDrivinglicenseFrontal', data.documentDrivinglicenseFrontal.bob, data.documentDrivinglicenseFrontal.filepath );
     formData.append('documentDrivinglicenseBack', data.documentDrivinglicenseBack.bob, data.documentDrivinglicenseBack.filepath);
 
-    return this.http.doPutFormData(`${URL}/api/profile/${user.idDriver}`, formData, {});
+    return this.http.doPutFormData(`${URL}/api/profile/${user.idDriver}`, formData);
   }
 
   /*=============================================
@@ -79,7 +79,7 @@ export class ProfileService{
     formData.append('documentIdentityCardFrontal', data.documentIdentityCardFrontal.bob, data.documentIdentityCardFrontal.filepath );
     formData.append('documentIdentityCardBack', data.documentIdentityCardBack.bob, data.documentIdentityCardBack.filepath);
 
-    return this.http.doPostFormData(`${URL}/api/profile/update-photo-identity-card/${email}`, formData, {});
+    return this.http.doPostFormData(`${URL}/api/profile/update-photo-identity-card/${email}`, formData);
   }
 
   /*=============================================
@@ -96,7 +96,7 @@ export class ProfileService{
     formData.append('documentSecurityCard', data.documentSecurityCardFrontal.bob, data.documentSecurityCardFrontal.filepath );
 
 
-    return this.http.doPutFormData(`${URL}/api/profile/update-photo-security-card/${user.idDriver}`, formData, {});
+    return this.http.doPutFormData(`${URL}/api/profile/update-photo-security-card/${user.idDriver}`, formData);
   }
 
   /*=============================================
@@ -113,6 +113,6 @@ export class ProfileService{
     formData.append('documentCompany', data.documentCompanyFrontal.bob, data.documentCompanyFrontal.filepath );
 
 
-    return this.http.doPut(`${URL}/api/profile/update-photo-document-company/${user.companyId}`, formData, {});
+    return this.http.doPut(`${URL}/api/profile/update-photo-document-company/${user.companyId}`, formData);
   }
 }

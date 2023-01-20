@@ -1,25 +1,25 @@
 <cwc-header design-version="v2" slot="header" show-Menu-Button="false" show-cemex-logo="false">
   <div class="header-text">
-    <ion-icon name="arrow-back-outline" style="font-size: 25px;" (click)="onBack()"></ion-icon>
-    <div class="attr-name" style="padding-left: 1rem;">Editar datos</div>
+    <ion-icon name="arrow-back-outline" style="font-size: large;" (click)="onBack()"></ion-icon>
+    <div class="attr-name" style="padding-left: 1rem; font-size: large; font-weight: 900;">Editar datos</div>
   </div>
 </cwc-header>
-  <div slot="main" class="content-card">
-    <div class="content-title">
-      Mis datos
-    </div>
-    <div>
-        <!--=====================================
-		    DATOS DEL ADMINISTRADOR LOGISTICO TERCERO
-         ======================================-->
-        <div *ngIf="rol === 'Administrador Logistico Tercero' || rol === 'Hombre Camion'">
-          <app-edit-admin-logis-third>
-          </app-edit-admin-logis-third>
-        </div>
-        <div *ngIf="rol === 'Conductor'">
-          <app-edit-driver>
-          </app-edit-driver>
-        </div>
-         
-    </div>
+<div slot="main" class="content-card">
+  <div class="content-title">
+    Mis datos
   </div>
+  <div *ngIf="rol === 3 || rol === 2">
+    <app-edit-admin-logis-third (propagar)="showLoading($event)">
+    </app-edit-admin-logis-third>
+  </div>
+  <div *ngIf="rol === 1">
+    <app-edit-driver (propagar)="showLoading($event)">
+    </app-edit-driver>
+  </div>
+</div>
+
+<div *ngIf="loading" class="loading-content">
+  <cwc-loader>
+    <span slot='loading'>Espere un momento...</span>
+  </cwc-loader>
+</div>

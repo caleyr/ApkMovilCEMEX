@@ -7,6 +7,9 @@ import { NavController } from '@ionic/angular';
 import { LoginService } from '../../../services/auth/login.service';
 import { DriversService } from '../../../services/drivers.service';
 import { DriverList } from '../../drivers/models/drivers-list';
+import { ApiService } from '../../../services/auth/api.service';
+import { Driver } from '../../drivers/models/driver';
+import { UserDetail } from '../../../models/user-detail.model';
 
 @Component({
   selector: 'app-vehicle-details',
@@ -15,82 +18,90 @@ import { DriverList } from '../../drivers/models/drivers-list';
   encapsulation: ViewEncapsulation.None
 })
 export class VehicleDetailsPage implements OnInit {
-  
-  id : string;
-  rol : string = null;
-  company : string;
-  vehicle : Vehicle = new Vehicle();
-  driverList :  DriverList[] = [];
-  suscripcion : Subscription;
 
-  idTercero : string;
-  idAdmin = '0h174cfb–4418–1c3e-a2bf-89f716w72cu3';
+  id: number;
+  rol: number;
+  company: string;
+  vehicle: Vehicle;
+  driverList: UserDetail[] = [];
+  suscripcion: Subscription;
+
+  idTercero: number;
 
   addDriver = false;
   alertShow = false;
-  driverAssign : string;
+  driverAssign: string;
+
+  loading = false;
 
   constructor(
-    private location : Location,
-    private vehiclesService : VehiclesService,
-    private loginService : LoginService,
-    private navCtrl : NavController,
-    private driversService : DriversService
-    ) { 
-      this.rol = this.loginService.profileUser.Roles;
-      this.idTercero = this.loginService.profileUser.id;
-    }
+    private location: Location,
+    private vehiclesService: VehiclesService,
+    private navCtrl: NavController,
+    private driversService: DriversService,
+    private apiService: ApiService
+  ) {
+    this.rol = this.apiService.userProfile.RolesId;
+    this.idTercero = this.apiService.userProfile.UserId;
+  }
 
   ngOnInit() {
-    this.suscripcion = this.vehiclesService.refresh$.subscribe(() =>{
+    this.loading = true;
+    this.suscripcion = this.vehiclesService.refresh$.subscribe(() => {
+      this.loading = true;
       this.getData();
     });
     this.getData();
   }
 
-  onBack(){
+  onBack() {
     this.location.back();
   }
 
-  closeAlertConfirm(){
+  closeAlertConfirm() {
     this.addDriver = false;
   }
 
-  closeAlertSuccess(){
+  closeAlertSuccess() {
     this.alertShow = false;
   }
 
-  cwcChangeDrivers(event){
+  cwcChangeDrivers(event) {
     this.driverAssign = event.detail.value;
   }
 
-  openModal(){
+  openModal() {
     this.addDriver = true;
   }
 
-  addDriverForVehicle(){
-    const data : FormData = new FormData();
-    data.append('LicenseVehiculo', this.vehicle.licenseVehiculo);
+  addDriverForVehicle() {
+    const data: FormData = new FormData();
+    data.append('LicenseVehiculo', this.vehicle.LicenseVehiculo);
     data.append('UserId', this.driverAssign);
-    this.vehiclesService.driverAssignmentVehicle(this.id, data).subscribe(data=>{
+    this.vehiclesService.driverAssignmentVehicle(this.id, data).subscribe(data => {
       this.alertShow = true;
     });
   }
 
-  getData(){
-    if(this.vehiclesService.id !== null){
+  getData() {
+    if (this.vehiclesService.id !== null) {
       this.id = this.vehiclesService.id;
-      this.driversService.getDriverList(this.loginService.profileUser.CompanyId).subscribe(result =>{
-        this.driverList = result.data;
-      })
-      this.vehiclesService.getVehicleById(this.id).subscribe(data=>{
-        this.vehicle = data.data;
+      this.driversService.getDriverList(this.apiService.userProfile.CompanyId).subscribe(result => {
+        this.driverList = result.data.filter( data => data.StatusTravel === 0 &&  data.VehicleId === 0 );
       });
-    }    
+      this.vehiclesService.getVehicleById(this.id).subscribe({
+        next : (data : any) =>{
+          this.vehicle = data.data;
+        },
+        complete : () => {
+          this.loading = false;
+        }
+      });
+    }
   }
 
-  updateVehicle(){
+  updateVehicle() {
     this.vehiclesService.vehicle = this.vehicle;
-    this.navCtrl.navigateRoot('/app/vehiculos/actualizar', { animated : false });
+    this.navCtrl.navigateRoot('/app/vehiculos/actualizar', { animated: false });
   }
 }

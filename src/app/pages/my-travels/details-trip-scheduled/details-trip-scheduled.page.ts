@@ -4,6 +4,7 @@ import { Location } from '@angular/common';
 import { Travel } from './../../../interfaces/travels/travel';
 import { Component, OnInit } from '@angular/core';
 import { NavController } from '@ionic/angular';
+import { ApiService } from '../../../services/auth/api.service';
 
 @Component({
   selector: 'app-details-trip-scheduled',
@@ -13,25 +14,26 @@ import { NavController } from '@ionic/angular';
 export class DetailsTripScheduledPage implements OnInit {
 
   id: string;
-  rol: string;
-  travel = new Travel();
+  rol: number;
+  travel : Travel;
 
   showDetail = false;
+  loading = false;
 
   constructor(
-    private location : Location,
+    private location: Location,
     private travelService: TravelService,
-    private loginService: LoginService,
-    private navCtrl : NavController
-    ) { }
+    private navCtrl: NavController,
+    private apiService: ApiService
+  ) { }
 
   ngOnInit() {
-    this.rol = this.loginService.profileUser.Roles;
-
+    this.loading = true;
+    this.rol = this.apiService.userProfile.RolesId;
     this.getData();
   }
 
-  onBack(){
+  onBack() {
     this.location.back();
   }
 
@@ -39,13 +41,18 @@ export class DetailsTripScheduledPage implements OnInit {
     if (this.travelService.id !== null) {
       this.id = this.travelService.id;
       this.travelService.getTravelDetail(this.id).subscribe(data => {
+        this.loading = false;
         this.travel = data.data;
       });
     }
   }
 
-  onClickTrackTrip(){
+  onClickTrackTrip() {
     this.navCtrl.navigateRoot('/app/my-travels/admin-track-trip-detail', { animated: false });
+  }
+
+  async addMessage() {
+    this.navCtrl.navigateRoot('/app/my-travels/admin-track-trip-detail/new-drive-message', { animated: false });
   }
 
 }

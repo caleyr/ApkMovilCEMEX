@@ -1,64 +1,65 @@
 <app-layout class="card-size">
-  <ion-content fullscreen>
-    <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
-      <ion-refresher-content></ion-refresher-content>
-    </ion-refresher>
-    <div class="content-card">
-      <cwc-grid class="demo-grid" design-version="v2" row-gap="5px" columns="12" mobile-columns="12"
-        style="margin-top: 1rem;">
-        <cwc-cell mobile-colspan="12">
-          <cwc-select style="width: 100%;" label='Departamento' (cwcChange)="changeDepartament($event)"
-            design-version="v2">
-            <cwc-select-option value="0" selected="">Seleccionar</cwc-select-option>
-            <cwc-select-option [value]="departament.departamentSource" *ngFor="let departament of departamentList">
-              {{departament.departamentSource}}</cwc-select-option>
-          </cwc-select>
-        </cwc-cell>
-        <cwc-cell mobile-colspan="12">
-          <cwc-select style="width: 100%;" label='Origen (Municipio)' (cwcChange)="changeSource($event)"
-            design-version="v2">
-            <cwc-select-option value="0" selected="">Seleccionar</cwc-select-option>
-            <cwc-select-option [value]="source.source" *ngFor="let source of sourceList">{{source.source}}
-            </cwc-select-option>
-          </cwc-select>
-        </cwc-cell>
-        <cwc-cell class="flex flex__align--bullseye" mobile-colspan="12">
-          <div style="text-align: center; padding-bottom: 0.5rem; font-weight: 400;">Fecha</div>
-        </cwc-cell>
-        <cwc-cell mobile-colspan="12">
-          <cwc-select placeholder="Seleccionar" design-version="v2" style="width: 100%;"
-            (cwcChange)="changeDate($event)">
-            <cwc-select-option value="0" selected="">Seleccionar</cwc-select-option>
-            <cwc-select-option [value]="dateL.dateTravel" *ngFor="let dateL of dateList">{{dateL.dateTravel}}
-            </cwc-select-option>
-          </cwc-select>
-        </cwc-cell>
-        <cwc-cell class="flex flex__align--bullseye" mobile-colspan="12">
-          <div style="text-align: center; padding-bottom: 1rem; font-weight: 400;">Rango de Hora</div>
-        </cwc-cell>
-        <cwc-cell mobile-colspan="6">
-          <cwc-select (cwcChange)="changeHour($event)" placeholder="Hora (Inicio)" design-version="v2">
-            <cwc-select-option value="0" selected="">Seleccionar</cwc-select-option>
-            <cwc-select-option [value]="timeL.timerStar" *ngFor="let timeL of timeList">{{timeL.timerStar}}
-            </cwc-select-option>
-          </cwc-select>
-        </cwc-cell>
-        <cwc-cell mobile-colspan="6">
-          <cwc-select placeholder="Hora (Fin)" design-version="v2">
-            <cwc-select-option value="0" selected="">Seleccionar</cwc-select-option>
-            <cwc-select-option value="12:50">12:50</cwc-select-option>
-            <cwc-select-option value="13:40">13:40</cwc-select-option>
-            <cwc-select-option value="15:50">15:50</cwc-select-option>
-            <cwc-select-option value="17:30">17:30</cwc-select-option>
-          </cwc-select>
-        </cwc-cell>
-        <cwc-cell mobile-colspan="12">
-          <div class="content-button" *ngIf="buttonActivate === true">
-            <cwc-button (cwcClick)="searchTrips()" design-version="v1" variant="regular-block">BUSCAR VIAJES DISPONIBLES
-            </cwc-button>
-          </div>
-        </cwc-cell>
-      </cwc-grid>
-    </div>
-  </ion-content>
+  <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+  <div class="content-card">
+    <cwc-grid class="demo-grid" design-version="v2" row-gap="5px" columns="12" mobile-columns="12"
+      style="margin-top: 1rem;">
+      <cwc-cell mobile-colspan="12">
+        <cwc-select style="width: 100%;" label='Departamento' (cwcChange)="changeDepartament($event)"
+          design-version="v2">
+          <cwc-select-option value="0" selected="">Seleccionar</cwc-select-option>
+          <cwc-select-option [value]="departament.DepartamentSource" *ngFor="let departament of departamentList">
+            {{departament.DepartamentSource}}</cwc-select-option>
+        </cwc-select>
+      </cwc-cell>
+      <cwc-cell mobile-colspan="12">
+        <cwc-select style="width: 100%;" label='Origen (Municipio)' (cwcChange)="changeSource($event)"
+          design-version="v2">
+          <cwc-select-option value="0" selected="">Seleccionar</cwc-select-option>
+          <cwc-select-option [value]="source.Source" *ngFor="let source of sourceList">{{source.Source}}
+          </cwc-select-option>
+        </cwc-select>
+      </cwc-cell>
+      <cwc-cell class="flex flex__align--bullseye" mobile-colspan="12">
+        <div style="text-align: center; padding-bottom: 0.5rem; font-weight: 400;">Fecha</div>
+      </cwc-cell>
+      <cwc-cell mobile-colspan="12">
+        <cwc-select placeholder="Seleccionar" design-version="v2" style="width: 100%;" (cwcChange)="changeDate($event)">
+          <cwc-select-option value="0" selected="">Seleccionar</cwc-select-option>
+          <cwc-select-option [value]="dateL.DateTravel" *ngFor="let dateL of dateList">{{dateL.DateTravel}}
+          </cwc-select-option>
+        </cwc-select>
+      </cwc-cell>
+      <cwc-cell class="flex flex__align--bullseye" mobile-colspan="12">
+        <div style="text-align: center; padding-bottom: 1rem; font-weight: 400;">Rango de Hora</div>
+      </cwc-cell>
+      <cwc-cell mobile-colspan="6">
+        <cwc-select (cwcChange)="changeHourStar($event)" placeholder="Hora (Inicio)" design-version="v2">
+          <cwc-select-option value="0">Seleccionar</cwc-select-option>
+          <cwc-select-option [value]="timeL.TimerStar" *ngFor="let timeL of timeList">{{timeL.TimerStar}}
+          </cwc-select-option>
+        </cwc-select>
+      </cwc-cell>
+      <cwc-cell mobile-colspan="6">
+        <cwc-select (cwcChange)="changeHourEnd($event)" placeholder="Hora (Fin)" design-version="v2">
+          <cwc-select-option value="0">Seleccionar</cwc-select-option>
+          <cwc-select-option [value]="timeL.TimerStar" *ngFor="let timeL of timeListTwo">{{timeL.TimerStar}}
+          </cwc-select-option>
+        </cwc-select>
+      </cwc-cell>
+      <cwc-cell mobile-colspan="12">
+        <div class="content-button" *ngIf="timeS !== '' && timeE !== '' ? true : false">
+          <cwc-button (cwcClick)="searchTrips()" design-version="v1" variant="regular-block">BUSCAR VIAJES DISPONIBLES
+          </cwc-button>
+        </div>
+      </cwc-cell>
+    </cwc-grid>
+  </div>
 </app-layout>
+
+<div class="loading-content" *ngIf="loading">
+  <cwc-loader>
+    <span slot='loading'>Espere un momento...</span>
+  </cwc-loader>
+</div>

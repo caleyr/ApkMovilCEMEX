@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { APP_INITIALIZER, LOCALE_ID, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouteReuseStrategy } from '@angular/router';
 
@@ -9,19 +9,32 @@ import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { CmxWebComponentsModule } from '@cmx-web-components/angular';
 import { IonicStorageModule } from '@ionic/storage-angular';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { ComponentsModule } from './components/components.module';
 import { HTTP } from '@awesome-cordova-plugins/http/ngx';
-import { DatePipe } from '@angular/common';
+import { DatePipe, registerLocaleData } from '@angular/common';
 
 //MSAL
 import { MsalGuard, MsalModule, MsalRedirectComponent } from '@azure/msal-angular';
 import { InteractionType, PublicClientApplication } from '@azure/msal-browser';
 import { Configuration } from '@azure/msal-browser';
 import { InAppBrowser } from '@awesome-cordova-plugins/in-app-browser/ngx';
+import { CustomHttpResponseService } from './services/auth/custom-http-response.service';
 
+
+import localeEs from '@angular/common/locales/es';
+import { UserService } from './services/user.service';
+
+
+export function LoadProfile ( userService : UserService ) {
+  return () => userService.getUserEmail();
+}
+
+registerLocaleData(localeEs, 'es');
 
 const isIE = window.navigator.userAgent.indexOf('MSIE ') > -1 || window.navigator.userAgent.indexOf('Trident/') > -1;
+
+
 
 
 export const b2cPolicies = {
@@ -59,6 +72,7 @@ export const msalconfig: Configuration = {
     IonicModule.forRoot(),
     IonicStorageModule.forRoot(),
     AppRoutingModule,
+    CmxWebComponentsModule.forRoot(),
     MsalModule.forRoot(new PublicClientApplication(msalconfig),
       {
         interactionType: InteractionType.Redirect
@@ -69,6 +83,20 @@ export const msalconfig: Configuration = {
       provide: RouteReuseStrategy,
       useClass: IonicRouteStrategy
     },
+    { provide: LOCALE_ID, useValue: 'es' },
+    {
+      provide : APP_INITIALIZER,
+      useFactory : LoadProfile,
+      deps: [UserService],
+      multi: true
+    },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: CustomHttpResponseService,
+      multi: true
+    },
+    CustomHttpResponseService,
+    UserService,
     HTTP,
     DatePipe,
     MsalGuard,

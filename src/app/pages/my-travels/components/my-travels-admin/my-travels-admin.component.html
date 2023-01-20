@@ -8,7 +8,7 @@
     <cwc-grid class="demo-grid" row-gap="2px">
       <cwc-cell mobile-colspan="11" style="padding-top: 0.8rem;">
         <div>
-          <cwc-input design-version="v2" class="search-text" variant="regular" rtl="false" trailing-icon='magnifier-glass' placeholder='Buscar...'></cwc-input>  
+          <cwc-input design-version="v2" class="search-text" variant="regular" rtl="false" trailing-icon='magnifier-glass' [(ngModel)]="search" placeholder='Buscar...'></cwc-input>  
         </div>       
       </cwc-cell> 
       <cwc-cell mobile-colspan="1">    
@@ -19,10 +19,15 @@
         </div>  
       </cwc-cell>    
     </cwc-grid>  
-    <div [ngSwitch]="selectedTab" class="navbar" style="padding-top: 0.8rem;">
-      <app-previous-trips-list *ngSwitchCase="'anteriores'" [tripsList]="previousTripsList" [sizeList]="sizePrevious"></app-previous-trips-list>
-      <app-scheduled-trips-list *ngSwitchCase="'programados'" [tripsList]="scheduledTripsList" [sizeList]="sizeScheduled"></app-scheduled-trips-list>
-      <app-request-travel-list *ngSwitchCase="'solicitudes'" [tripsList]="requestTripsList" [sizeList]="sizePrevious"></app-request-travel-list>
-    </div>
+    <ion-content>
+      <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+        <ion-refresher-content></ion-refresher-content>
+      </ion-refresher>
+      <div [ngSwitch]="selectedTab" class="navbar" style="padding-top: 0.8rem;">
+        <app-previous-trips-list *ngSwitchCase="'anteriores'" [tripsList]="previousTripsList" [sizeList]="sizePrevious" [searchFilter]="search"></app-previous-trips-list>
+        <app-scheduled-trips-list *ngSwitchCase="'programados'" [tripsList]="scheduledTripsList" [sizeList]="sizeScheduled" [searchFilter]="search"></app-scheduled-trips-list>
+        <app-request-travel-list *ngSwitchCase="'solicitudes'" [tripsList]="requestTripsList" [sizeList]="sizePrevious" [searchFilter]="search"></app-request-travel-list>
+      </div>
+    </ion-content>    
   </div>
 </app-layout>

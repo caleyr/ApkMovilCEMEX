@@ -3,6 +3,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { HttpService } from '../http/http.service';
 import { environment } from 'src/environments/environment.prod';
 const URL = environment.url;
+const token = environment.token;
 
 @Injectable({
   providedIn: 'root'
@@ -10,21 +11,17 @@ const URL = environment.url;
 export class AdminLogistService {
 
   constructor(private http: HttpService) { }
-
-  createAdminLogistThird(data : FormData) {
-    return this.http.doPostFormData(`${URL}/api/authentication/CreateUserTPLMTruckMan`, data, {responseType: 'text'});
-  }
-
-  createDriver(data : FormData) {
-    return this.http.doPostFormData(`${URL}/api/authentication/CreateUserDriver`, data, {responseType: 'text'});
+  
+  createUser(data : FormData) {
+    return this.http.fetch(`${URL}/v1/load/dsm/users`, data, 'post', true);
   }
 
   updateAdminLogistThird(data : FormData, email : string) {
-    return this.http.doPutFormData(`${URL}/api/authentication/UpdateTPLM_TruckMan/${email}`, data , {responseType: 'text'});
+    return this.http.doPutFormData(`${URL}/api/authentication/UpdateTPLM_TruckMan/${email}`, data);
   }
 
   updateDriver(data : FormData, email : string) {
-    return this.http.doPutFormData(`${URL}/api/authentication/UpdateUserDriver/${email}`, data, {responseType: 'text'});
+    return this.http.doPutFormData(`${URL}/api/authentication/UpdateUserDriver/${email}`, data);
   }
 }
 

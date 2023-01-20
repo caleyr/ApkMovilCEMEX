@@ -1,123 +1,82 @@
 <form [formGroup]="form">
-  <cwc-grid class="demo-grid" design-version="v2" columns="12" mobile-columns="12" style="margin-top: 2rem;">
+  <cwc-grid class="demo-grid" design-version="v2" columns="12" mobile-columns="12">
     <cwc-cell colspan="12" mobile-colspan="12">
       <div class="section">
-        <cwc-input 
-          class="input" 
-          label='Nombre (s)'
-          [status]='statusInputName'
-          [statusMessage]='statusInputMessageName'
-          design-version="v2" 
-          formControlName="FirstName"
-          ngDefaultControl
-          required
-        ></cwc-input>
+        <cwc-input class="input" label='Nombre (s)' [status]="msgField.getStatusField(form, 'FirstName')"
+          [statusMessage]="msgField.getFirstNameFieldMsg(form, 'FirstName', 'nombre(s)')" maxlength="45"
+          placeholder="Escribe tu Nombre" design-version="v2" formControlName="FirstName" required></cwc-input>
       </div>
       <div class="section">
-        <cwc-input 
-          class="input" 
-          label='Apellido (s)'
-          [status]='statusInputLastName'
-          [statusMessage]='statusInputMessageLastName'
-          formControlName="LastName"
-          design-version="v2" 
-          ngDefaultControl
-          required
-        ></cwc-input>
+        <cwc-input class="input" formControlName="LastName" label='Apellido (s)'
+          [status]="msgField.getStatusField(form, 'LastName')"
+          [statusMessage]="msgField.getLastNameFieldMsg(form, 'LastName', 'apellido(s)')" maxlength="45"
+          placeholder="Apellido paterno y materno" design-version="v2" required></cwc-input>
       </div>
       <div class="section">
-        <cwc-input class="input" 
-          label='Número de celular'
-          type="number"
-          [status]='statusInputPhone'
-          [statusMessage]='statusInputMessagePhone'
-          formControlName="PhoneNumber"
-          design-version="v2"
-          ngDefaultControl
-          required
-        ></cwc-input>
+        <cwc-input class="input" label='N° documento' formControlName="IdDocument"
+          [status]="msgField.getStatusField(form, 'IdDocument')"
+          [statusMessage]="msgField.getDocumentFieldMsg(form, 'IdDocument', 'NIT o CC')" design-version="v2"
+          minlength="6" maxlength="15" placeholder="Escribir números sin guiones ni espacios" required></cwc-input>
       </div>
       <div class="section">
-        <cwc-input class="input" 
-          label='Código SAP'
-          type="number"
-          formControlName="SapCode"
-          design-version="v2"
-          ngDefaultControl
-          required
-        ></cwc-input>
+        <cwc-input class="input" label='Código SAP' formControlName="CodeSap"
+          [status]="msgField.getStatusField(form, 'CodeSap')"
+          [statusMessage]="msgField.getSapCodeFieldMsg(form, 'CodeSap', 'codígo Sap')" maxlength="45"
+          placeholder="Agrega el código SAP" design-version="v2" required></cwc-input>
+      </div>      
+      <div class="section">
+        <cwc-input class="input" label='Número de celular' type="number" formControlName="PhoneNumber"
+          [status]="msgField.getStatusField(form, 'PhoneNumber')"
+          [statusMessage]="msgField.getPhoneNumberFieldMsg(form, 'PhoneNumber', 'número de celular')"
+          design-version="v2" placeholder="Agrega un número de telefono" required></cwc-input>
       </div>
       <div class="section">
-        <cwc-input class="input" 
-          label='Número de Cédula o NIT'
-          type="number"
-          formControlName="Document"
-          design-version="v2"
-          ngDefaultControl
-          required
-        ></cwc-input>
+        <cwc-input class="input" label='Correo electrónico' [disabled]="true" formControlName="Email"
+          [status]="msgField.getStatusField(form, 'Email')"
+          [statusMessage]="msgField.getEmailFieldMsg(form, 'Email', 'correo electrónico')" design-version="v2"
+          placeholder="Agrega tu correo electrónico" required></cwc-input>
       </div>
       <div class="section">
-        <cwc-input class="input"
-          label='Correo electrónico'
-          [status]='statusInputEmail'
-          [statusMessage]='statusInputMessageEmail'
-          formControlName="Email"
-          ngDefaultControl
-          design-version="v2" 
-          required
-        ></cwc-input>
+        <cwc-input class="input" label='Empresa' type="text" [disabled]="true" design-version="v2"
+          [placeholder]="company" required></cwc-input>
       </div>
-        <cwc-checkbox
-          (cwcChange)="cwcChangeTerm($event)"
-          checked="true"
-          mobile="true"
-          class='m-end-sm'>          
-          <div class="input-check-user">Confirmo que la siguiente información es verdadera.</div>
-        </cwc-checkbox>
     </cwc-cell>
   </cwc-grid>
+
+  <cwc-checkbox formControlName="term" mobile="true" class='m-end-sm' style="margin-bottom: 2rem;">
+    <div class="input-check">Confirmo que la siguiente información es verdadera.</div>
+  </cwc-checkbox>
+
+  <app-error-messages [errors]="errors"></app-error-messages>
+  <!--=====================================
+      BOTON PARA GUARDAR EL REGISTRO
+    ======================================-->
   <div class="content-button">
-    <cwc-button 
-    design-version="v1" 
-    [disabled]="form.invalid"
-    (click)="clickUpdate()"
-    variant="regular-block">GUARDAR CAMBIOS</cwc-button>
+    <cwc-button design-version="v1" [disabled]="form.invalid" (click)="openAlertConfirm()"
+      variant="regular-block">GUARDAR CAMBIOS</cwc-button>
   </div>
 </form>
 
-<cwc-modal id='alert-confirm' class="alert-confirm" [open] ="alertConfirm" (cwcClose)="closeAlertConfirm()">
+<cwc-modal id='alert-confirm' class="alert-confirm" [open]="alertConfirm" (cwcClose)="closeAlertConfirm()">
   <header slot='header'>
-      <h2 style='margin:0;'>Atención</h2>
+    <h2 style='margin:0;'>Atención</h2>
   </header>
   <p>¿Esta seguro que los datos registrados estan correctos?</p>
   <footer slot='footer'>
-      <div style='text-align: end'>
-        <cwc-button variant='support' (click)="closeAlertConfirm()" style="margin-right: 1rem;">Cancelar</cwc-button>
-          <cwc-button variant='primary' (click)="updateData()" >Aceptar</cwc-button>
-      </div>
+    <div style='text-align: end'>
+      <cwc-button variant='support' (click)="closeAlertConfirm()" style="margin-right: 1rem;">Cancelar</cwc-button>
+      <cwc-button variant='primary' (click)="updateData()">Aceptar</cwc-button>
+    </div>
   </footer>
 </cwc-modal>
 <!--=====================================
 		MODAL CONFIRMACIÓN RESPUESTA DE EXITO
 ======================================-->
-<app-alert-success
-[alertShow] = "alertSucces"
-title = "Existoso"
-urlButton = "/app/profile"
-textButton = "Volver al perfil"
-message = "Tus datos se actualizarón correctamente.">
+<app-alert-success [alertShow]="alertSucces" title="Existoso" urlButton="/app/profile"
+  message="Tus datos se actualizarón correctamente.">
 </app-alert-success>
 <!--=====================================
 	TOAST ALERT MENSAJE
 ======================================-->
-<cwc-snackbar id='toast-message-driver' [message]="toastMessage"
-cta-message="dismiss" auto-hide-duration='5000'></cwc-snackbar>
-
-
-<!-- Content loanding -->
-<div *ngIf="loading" class="loading-content">
-  <cwc-loader>
-      <span slot='loading'>Espere un momento...</span>
-  </cwc-loader>
-</div>
+<cwc-snackbar id='toast-message-driver' [message]="toastMessage" cta-message="dismiss"
+  auto-hide-duration='5000'></cwc-snackbar>

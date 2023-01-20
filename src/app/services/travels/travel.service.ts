@@ -6,7 +6,7 @@ import { TravelListUnique } from 'src/app/interfaces/travels/travel-list-unique'
 import { TravelSearch } from 'src/app/interfaces/travels/travel-search';
 import { HttpService } from '../http/http.service';
 import { environment } from 'src/environments/environment.prod';
-import { tap } from 'rxjs/operators';
+import { tap, catchError } from 'rxjs/operators';
 
 const BASE_URL_API = environment.url;
 
@@ -15,9 +15,9 @@ const BASE_URL_API = environment.url;
 })
 export class TravelService {
 
-  traveSearchList : TravelListUnique[];
+  traveSearchList : Travel[];
   id : string;
-  code: string;
+  travel: Travel;
 
   private refresh = new Subject<true>();
   changeDataRefresh = this.refresh.asObservable();
@@ -29,71 +29,76 @@ export class TravelService {
   }
 
   getTravels(){
-    return this.http.doGet(`${BASE_URL_API}/api/travels`, {});
+    return this.http.fetch(`${BASE_URL_API}/v1/load/dsm/travels`, {}, 'get');
   }
 
   getTravelDetail(id: string){
-    return this.http.doGet(`${BASE_URL_API}/api/travels/GetDetailTravel/${id}`, {});
+    return this.http.fetch(`${BASE_URL_API}/v1/load/dsm/travels/${id}`, {}, 'get');
   }
 
   getTravelsSource(departament : string){
-    return this.http.doGet(`${BASE_URL_API}/api/travels/GetSourceTravelByIdDepartament/${departament}`, {});
+    return this.http.fetch(`${BASE_URL_API}/v1/load/dsm/travels/departments/${departament}`, {}, 'get');
   }
 
   getTravelsDate(source : string){
-    return this.http.doGet(`${BASE_URL_API}/api/travels/GetDatesTravelByIdSource/${source}`, {});
+    return this.http.fetch(`${BASE_URL_API}/api/travels/GetDatesTravelByIdSource/${source}`, {}, 'get');
   }
 
   getTravelsForHour(date : string){
-    return this.http.doGet(`${BASE_URL_API}/api/travels/GetHoursTravelByIdDate/${date}`, {});
+    return this.http.fetch(`${BASE_URL_API}/api/travels/GetHoursTravelByIdDate/${date}`, {}, 'get');
   }
 
   getTravelsForCode(code : string){
-    return this.http.doGet(`${BASE_URL_API}/api/travels/GetDetailTravelSearch/${code}`, {});
+    return this.http.fetch(`${BASE_URL_API}/api/travels/GetDetailTravelSearch/${code}`, {}, 'get');
   }
 
   searchTravelList(departament : string, source : string, date : string, time : string){   
-    return this.http.doGet(`${BASE_URL_API}/api/travels/GetSearchTravel/${departament}/${source}/${date}/${time}`, {});
+    return this.http.fetch(`${BASE_URL_API}/api/travels/GetSearchTravel/${departament}/${source}/${date}/${time}`, {}, 'get');
   }
 
   createTravel(data){   
-    return this.http.doPostFormData(`${BASE_URL_API}/api/travelRequests/`, data, {});
+    return this.http.fetch(`${BASE_URL_API}/api/travelRequests/`, data, 'post', true);
   }
 
-  updateTravel(id, data){   
-    return this.http.doPutFormData(`${BASE_URL_API}/api/travels/AssignmentsTravelDriver/${id}`, data, {}).pipe(
+  updateTravel(data){   
+    return this.http.fetch(`${BASE_URL_API}/v1/load/dsm/travels`, data, 'put', true).pipe(
       tap(() => {
         this.refresh.next();
       })
     );
   }
 
+  updateTravelUser(data){   
+    return this.http.fetch(`${BASE_URL_API}/v1/load/dsm/travels`, data, 'put', true);
+  }
+
+
   updatePointOrigin(id, data){
-    return this.http.doPutFormData(`${BASE_URL_API}/api/travels/UpdateLatitudLongitud/${id}`, data, {});
+    return this.http.fetch(`${BASE_URL_API}/api/travels/UpdateLatitudLongitud/${id}`, data, 'put', true);
   }
 
   startTravel(id, data){   
-    return this.http.doPutFormData(`${BASE_URL_API}/api/travels/StarProcessTravelByUser/${id}`, data, {});
+    return this.http.fetch(`${BASE_URL_API}/api/travels/StarProcessTravelByUser/${id}`, data, 'put', true);
   }
 
   updateTimeTravel(id, data){
-    return this.http.doPutFormData(`${BASE_URL_API}/api/travels/TripRegistrationInProgress/${id}`, data, {});
+    return this.http.fetch(`${BASE_URL_API}/api/travels/TripRegistrationInProgress/${id}`, data, 'put', true);
   }
 
   confirmDrive(id : string, data: any){
-    return this.http.doPutFormData(`${BASE_URL_API}/api/travels/ConfirmTravelByUser/${id}`, data, {}).pipe(
+    return this.http.fetch(`${BASE_URL_API}/api/travels/ConfirmTravelByUser/${id}`, data, 'put', true).pipe(
       tap(() => {
         this.refresh.next();
       })
     )
   }
 
-  getFilterTravelByIdDriver(id: string){
-    return this.http.doGet(`${BASE_URL_API}/api/travels/GetFilterTravelByIdDriver/${id}`, {});
+  getFilterTravelByIdDriver(id: number){
+    return this.http.fetch(`${BASE_URL_API}/v1/load/dsm/travels/users/${id}`, {}, 'get' );
   }
 
-  getFilterTravelByAdmonTercero(companyId: string){
-    return this.http.doGet(`${BASE_URL_API}/api/travels/GetFilterTravelByAdmonTercero/${companyId}`, {});
+  getFilterTravelByAdmonTercero(companyId: number){
+    return this.http.fetch(`${BASE_URL_API}/v1/load/dsm/travels/companies/${companyId}`, {}, 'get');
   }
 
 }

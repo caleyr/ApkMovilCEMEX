@@ -12,7 +12,7 @@ const URL = environment.url;
 })
 export class VehiclesService {
 
-  id : string;
+  id : number;
   vehicle : Vehicle;
 
   private _refresh$ = new Subject<void>();
@@ -24,34 +24,38 @@ export class VehiclesService {
   }
 
   createVehicle(data: any) {
-    return this.http.doPostFormData(`${URL}/api/vehicles`, data, {});
+    return this.http.fetch(`${URL}/v1/load/dsm/vehicles`, data, 'post', true);
   }
 
-  updateVehicle(id : string, data: any) {
-    return this.http.doPutFormData(`${URL}/api/vehicles/${id}`, data, {}).pipe(
+  updateVehicle(data: any) {
+    return this.http.fetch(`${URL}/v1/load/dsm/vehicles`, data, 'put', true).pipe(
       tap(() => {
         this._refresh$.next();
       })
     )
   }
 
-  driverAssignmentVehicle(id : string, data: any){
-    return this.http.doPutFormData(`${URL}/api/vehicles/DriverAssignmentVehicle/${id}`, data, {}).pipe(
+  driverAssignmentVehicle(id : any, data: any){
+    return this.http.fetch(`${URL}/api/vehicles/DriverAssignmentVehicle/${id}`, data, 'put', true).pipe(
       tap(() => {
         this._refresh$.next();
       })
     )
   }
 
-  getVehicleById(id : string){
-    return this.http.doGet(`${URL}/api/vehicles/${id}`, {});
+  getVehicleById(id : any){
+    return this.http.fetch(`${URL}/v1/load/dsm/vehicles/${id}`, {}, 'get');
   }
 
-  getVehicleList(id : string){
-    return this.http.doGet(`${URL}/api/vehicles/GetVehiclesForUser/${id}`, {});
+  getVehicleList(id : any){
+    return this.http.fetch(`${URL}/v1/load/dsm/vehicles/companies/${id}`, {}, 'get');
   }
 
-  getVehiclesUserByIdCompany(id: string){
-    return this.http.doGet(`${URL}/api/vehicles/GetVehiclesForUser/${id}`, {});
+  getVehiclesStatus( status : any){
+    return this.http.fetch(`${URL}/v1/load/dsm/vehicles/statuses/${status}`, {}, 'get');
+  }
+
+  getVehiclesUserByIdCompany(id: number){
+    return this.http.fetch(`${URL}/v1/load/dsm/vehicles/companies/${id}`, {}, 'get');
   }
 }

@@ -15,6 +15,9 @@ export class GoogleService {
 
   private loading = new Subject<boolean>();
   loadingChange = this.loading.asObservable();
+  
+  private back = new Subject<boolean>();
+  backChange = this.back.asObservable();
 
   constructor() { }
 
@@ -28,6 +31,10 @@ export class GoogleService {
 
   changeLoadign(load : boolean){
     return this.loading.next(load);
+  }
+
+  changeBack(back : boolean){
+    return this.back.next(back);
   }
   
 }

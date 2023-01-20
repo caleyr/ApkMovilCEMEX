@@ -3,6 +3,8 @@ import { RequestService } from './../../../../services/request.service';
 import { Router } from '@angular/router';
 import { Request } from './../../models/request';
 import { Component, Input, OnInit } from '@angular/core';
+import { ApiService } from '../../../../services/auth/api.service';
+import { TextResponseService } from '../../../../services/text-response.service';
 
 @Component({
   selector: 'app-request-waiting-list',
@@ -11,12 +13,19 @@ import { Component, Input, OnInit } from '@angular/core';
 })
 export class RequestWaitingListComponent implements OnInit {
 
-  @Input() requests: Request[];
+  @Input() requests: Request[] = [];
 
-  constructor(private router: Router,
-    private requestService: RequestService,
-    private loginService: LoginService) { }
+  rol: number;
 
-  ngOnInit() { }
+  constructor(
+    private apiService: ApiService,
+    public textResp : TextResponseService
+  ) {
+    this.rol = apiService.userProfile.RolesId;
+  }
+
+  ngOnInit() {
+
+  }
 
 }

@@ -1,9 +1,10 @@
 import { Request } from './models/request';
 import { LoginService } from 'src/app/services/auth/login.service';
 import { RequestService } from './../../services/request.service';
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
+import { ApiService } from '../../services/auth/api.service';
 
 @Component({
   selector: 'app-waiting-list',
@@ -12,37 +13,56 @@ import { Subscription } from 'rxjs';
 })
 export class WaitingListPage implements OnInit {
 
+  loading = false;
+
+  currentDate = new Date();
+
   requestsList: Request[] = [];
 
-  suscripcion : Subscription;
+  suscripcion: Subscription;
 
   constructor(
     private requestService: RequestService,
-    private loginService: LoginService) { }
+    private apiService: ApiService,
+    private cd: ChangeDetectorRef,
+  ) { }
 
   ngOnInit() {
-    this.suscripcion = this.requestService.refresh$.subscribe(() =>{      
+    this.loading = true;
+    this.suscripcion = this.requestService.refresh$.subscribe(() => {
       this.getData();
     })
     this.getData();
   }
 
   getData() {
-    if(this.loginService.profileUser.Roles === 'Conductor'){
-      this.requestService.getRequestByIdUser(this.loginService.profileUser.Email).subscribe(data => {
-        this.requestsList = data.data;
+    if (this.apiService.userProfile.RolesId === 1) {
+      this.requestService.getRequestByIdUser(this.apiService.userProfile.UserId).subscribe({
+        next: (data: any) => {
+          this.requestsList = data.data;
+        },
+        complete: () => {
+          this.loading = false;
+        },
       })
-    }else{
-      this.requestService.getRequestByIdCompany(this.loginService.profileUser.CompanyId).subscribe(data => {
-        this.requestsList = data.data;
+    } else {
+      this.requestService.getRequestByIdUser(this.apiService.userProfile.UserId).subscribe({
+        next: (data: any) => {
+          this.requestsList = data.data;
+        },
+        complete: () => {
+          this.loading = false;
+        },
       })
-    }    
+    }
   }
 
-  doRefresh(event){
-    setTimeout(()=>{      
+  doRefresh(event) {
+    this.loading = true;
+    setTimeout(() => {
       this.requestsList = [];
       this.getData();
+      this.cd.detectChanges();
       event.target.complete();
     }, 2000);
   }

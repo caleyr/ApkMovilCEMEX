@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, EventEmitter, Output, AfterViewInit } from '@angular/core';
+import { Component, OnInit, Input, EventEmitter, Output, AfterViewInit, ElementRef, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { debounceTime, finalize } from 'rxjs/operators';
 import { ConveyorService } from 'src/app/services/conveyor/conveyor.service';
@@ -20,14 +20,15 @@ pdfMake.vfs = pdfFonts.pdfMake.vfs;
 })
 export class RegisterMantruckComponent implements AfterViewInit {
 
+  loadingCompany: boolean = false;
+
   @Output()
   propagar = new EventEmitter<boolean>();
 
   form: FormGroup;
-  data : FormData = new FormData();
-  dataPrueba : FormData = new FormData();
+  data: FormData = new FormData();
 
-  listCompanies : Companies[] = [];
+  listCompanies: Companies[] = [];
 
   alertSucces = false;
   alertConfirm = false;
@@ -38,97 +39,130 @@ export class RegisterMantruckComponent implements AfterViewInit {
   openPhotoIdentityCard = false;
   openPhotoDocumentCompany = false;
 
-  nameFile : string = 'Drivinglicense';
-  nameText : string;
+  nameFile: string = '';
+  nameText: string;
 
   fileURL;
   fileBlob;
 
+  @ViewChild('getFileDrivinglicense') inputFileDrive: ElementRef;
+  @ViewChild('getFileSecurityCard') inputFileSecurity: ElementRef;
+  @ViewChild('getFileDocument') inputFileDoc: ElementRef;
+
   constructor(
     private formBuilder: FormBuilder,
-    private companiesService : CompaniesService,
+    private companiesService: CompaniesService,
     private errorMessages: ErrorMessagesService,
-    private adminLogistService : AdminLogistService,
-    public msgField : ValidateUserFieldService,
-    public fileRegister : FileRegisterUserService
-  ) {    
+    private adminLogistService: AdminLogistService,
+    public msgField: ValidateUserFieldService,
+    public fileRegister: FileRegisterUserService
+  ) {
     this.formBuilderInput();
-    Filesystem.requestPermissions();
+    this.loadingCompany = true;
+    Filesystem.checkPermissions();
   }
 
-  async ngAfterViewInit() {  
-    this.companiesService.getCompanies().subscribe(result=>{
-      this.listCompanies = result.data;
-    })
+  async ngAfterViewInit() {
+    const results = await this.companiesService.getCompanies();
+    if(results && Array.isArray(results)){
+      this.listCompanies = results;
+      this.loadingCompany = false;
+    }
   }
 
-  cwcChange(event){
+  formBuilderInput() {
+    this.form = this.formBuilder.group({
+      RolesId: ['2'],
+      FirstName: ['', [Validators.required,]],
+      LastName: ['', [Validators.required,]],
+      PhoneNumber: ['', [Validators.pattern('^[3][0-9]*$')]],
+      Email: ['', [Validators.required, Validators.email]],
+      CompanyId: ['', [Validators.required,]],
+      Status: ['0'],
+      CodeSap: ['0'],
+      policiesPermission: [false],
+      Password: ['',
+        [Validators.required, Validators.pattern('^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*_=+-]).{10,15}$')],
+      ]
+    });
+  }
+
+  cwcChange(event) {
     this.form.get('CompanyId').setValue(`${event.detail.value}`);
   }
 
-  async register(){
+  async register() {
     this.errors = [];
     this.alertConfirm = false;
     this.propagar.emit(true);
-    if(this.form.invalid){
+    if (this.form.invalid) {
       this.propagar.emit(false);
       return;
     }
     await this.addFormData(this.form.value);
-    await this.adminLogistService.createAdminLogistThird(this.dataPrueba).pipe(
-      finalize(()=>{
+    this.adminLogistService.createUser(this.data).subscribe({
+      next: (result: any) => {
+        if (result.data.message !== 'Saved') {
+          this.propagar.emit(false);
+          this.errors = this.errorMessages.parsearErroresAPI('Error, el correo digita ya se encuentra registrado.');
+          this.form.get('Email').setValue('');
+          this.data = new FormData();
+        } else {
+          this.propagar.emit(false);
+          this.alertSucces = true;
+          this.alertConfirm = false;
+          this.alertSucces = true;
+          this.errors = [];
+        }
+      },
+      error: (err) => {
         this.propagar.emit(false);
-      })
-    ).subscribe(async resp =>{
-       this.propagar.emit(false);
-       this.alertSucces = true;
-       this.alertConfirm = false;
-       this.alertSucces = true;
-       this.errors = [];
-    }, (error) =>{
-      this.propagar.emit(false);
-      this.errors = this.errorMessages.parsearErroresAPI(error);
-      this.fileRegister.resetForm();
+        this.errors = this.errorMessages.parsearErroresAPI(err.data);
+        this.fileRegister.resetForm();
+      },
+      complete: () => {
+        this.propagar.emit(false);
+      }
     });
   }
 
-  async addFormData(objeto){
-    for ( var key in objeto ) {
+  async addFormData(objeto) {
+    for (var key in objeto) {
       this.data.append(key, objeto[key]);
     }
   }
 
-  openAlertConfirm(){
-    if(this.form.invalid){
+  openAlertConfirm() {
+    if (this.form.invalid) {
       return;
     }
     this.alertConfirm = true;
   }
 
-  closeAlertConfirm(){
+  closeAlertConfirm() {
     this.alertConfirm = false;
   }
 
-  openModalDocument(name){
-    if(name === 'Drivinglicense'){
+  openModalDocument(name) {
+    if (name === 'LicenciaConduccion') {
       this.nameFile = name;
       this.nameText = 'licencia de conducción';
-    }else if(name === 'SecurityCard'){
+    } else if (name === 'CarnetSeguridadIndustrial') {
       this.nameFile = name;
       this.nameText = 'carné de seguridad industrial y vial';
-    }else if(name === 'DocumentIdentityCard'){
+    } else if (name === 'CedulaDocumento') {
       this.nameFile = name;
       this.nameText = 'cédula de ciudadanía';
     }
-    document.getElementById('modal-document').setAttribute('open','true');
+    document.getElementById('modal-document').setAttribute('open', 'true');
   }
 
-  cloceModalDocument(){
-    document.getElementById('modal-document').setAttribute('open','false');    
+  cloceModalDocument() {
+    document.getElementById('modal-document').setAttribute('open', 'false');
     this.fileRegister.resetPhoto();
   }
 
-  async savePdf(){
+  async savePdf() {
     const pdfDefinition: any = {
       content: [
         {
@@ -145,30 +179,15 @@ export class RegisterMantruckComponent implements AfterViewInit {
     const pdfDocGenerator = await pdfMake.createPdf(pdfDefinition);
     const fileName = new Date().getTime() + `_${this.nameFile}.pdf`;
     await pdfDocGenerator.getBlob((file) => {
-      if(this.nameFile === 'Drivinglicense'){
+      if (this.nameFile === 'Drivinglicense') {
         this.fileRegister.fileDrivinglicense = fileName;
-      }else if(this.nameFile === 'SecurityCard'){
+      } else if (this.nameFile === 'SecurityCard') {
         this.fileRegister.fileSecurityCard = fileName;
-      }else if(this.nameFile === 'DocumentIdentityCard'){
+      } else if (this.nameFile === 'DocumentIdentityCard') {
         this.fileRegister.fileDocument = fileName;
       }
-      this.data.append(this.nameFile, file, );
+      this.data.append(this.nameFile, file,);
       this.cloceModalDocument();
-    });
-  }
-
-  formBuilderInput(){
-    this.form = this.formBuilder.group({
-      FirstName: ['', [Validators.required,]],
-      LastName: ['', [Validators.required,]],
-      Password: ['', 
-      [ Validators.required, Validators.pattern('^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*_=+-]).{10,15}$') ],
-      ],
-      Email: ['', [Validators.required, Validators.email]],
-      CompanyId: ['', [Validators.required,]],
-      Roles: ['Hombre Camion', [Validators.required,]],
-      PhoneNumber: ['', [ Validators.pattern('^[3][0-9]*$')]],
-      Status: ['1'],
     });
   }
 }

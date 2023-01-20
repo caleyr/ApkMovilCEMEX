@@ -9,6 +9,11 @@ import { AdminLogistService } from '../../../../services/adminLogist/admin-logis
 import { NavController } from '@ionic/angular';
 import { LoginService } from '../../../../services/auth/login.service';
 import { Profile } from 'src/app/models/profile.model';
+import { UserDetail } from '../../../../models/user-detail.model';
+import { ApiService } from '../../../../services/auth/api.service';
+import { ValidateUserFieldService } from '../../../../services/error/validate-user-field.service';
+import { UserService } from '../../../../services/user.service';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-edit-admin-logis-third',
@@ -16,18 +21,17 @@ import { Profile } from 'src/app/models/profile.model';
   styleUrls: ['./edit-admin-logis-third.component.scss'],
 })
 export class EditAdminLogisThirdComponent implements OnInit {
-  
+
+  @Output()
   propagar = new EventEmitter<boolean>();
 
   form: FormGroup;
-  data : FormData;
-  listCompanies : Companies[];
-  profile :Profile = new Profile();
-  previusMail : string; 
+  data: FormData = new FormData();
+  profile: UserDetail = new UserDetail();
+  company: string = '';
+  previusMail: string;
 
-  loading: boolean = false;
-
-  alertSucces = true;
+  alertSucces = false;
   alertConfirm = false;
   addIdentityCard = false;
   addDocumentCompany = false;
@@ -35,198 +39,92 @@ export class EditAdminLogisThirdComponent implements OnInit {
 
   errors: string[] = [];
 
-  statusInputName = 'regular';
-  statusInputMessageName = '';
-
-  statusInputLastName = 'regular';
-  statusInputMessageLastName = '';
-
-  statusInputEmail = 'regular';
-  statusInputMessageEmail = '';
-
-  statusInputDocument = 'regular';
-  statusInputMessageDocument = '';
-
-  statusInputSap = 'regular';
-  statusInputMessageSap = '';
-
-  statusInputPhone = 'regular';
-  statusInputMessagePhone = '';
-
-  statusInputCompany = 'regular';
-  statusInputMessageCompany = '';
-
-  statusInputNit = 'regular';
-  statusInputMessageNit = '';
-
-  openPhotoIdentityCard = false;
-  openPhotoDocumentCompany = false;
-
   constructor(
     private formBuilder: FormBuilder,
-    private companiesService : CompaniesService,
     private errorMessages: ErrorMessagesService,
-    private adminLogistService : AdminLogistService,
-    private navCtrl : NavController,
-    private loginServices : LoginService
+    private apiService: ApiService,
+    public msgField: ValidateUserFieldService,
+    private userService: UserService,
+    private location : Location
   ) {
-    this.profile = loginServices.profileUser;
-    this.previusMail = loginServices.profileUser.Email;
-    this.formBuilderInput();
+    this.profile = apiService.userProfile;
+    this.company = apiService.userProfile.CompanyName;
+    this.previusMail = apiService.userProfile.Email;
+    this.formBuilderInput(apiService.userProfile.CompanyId);
   }
 
   ngOnInit() {
-    this.alertSucces = false;  
   }
 
-  async updateData(){
-    if(this.form.invalid){
-      return;
-    }
-    this.data = new FormData();
-    this.addFormData(this.form.value);
-    this.propagar.emit(true);
-    await this.adminLogistService.updateAdminLogistThird(this.data, this.previusMail).subscribe(async resp =>{
-       this.propagar.emit(false);
-       this.alertSucces = true;
-       this.addIdentityCard = false;
-       this.addDocumentCompany = false;
-       this.alertConfirm = false;
-       this.alertSucces = true;
-       this.errors = [];
-    }, (error) =>{
-      console.log(error);      
-       this.propagar.emit(false);
-       this.errors = this.errorMessages.parsearErroresAPI(error);
+  formBuilderInput(id: number) {
+    this.form = this.formBuilder.group({
+      RolesId: [this.profile.RolesId, [Validators.required]],
+      FirstName: [this.profile.FirstName, [Validators.required]],
+      LastName: [this.profile.LastName, [Validators.required]],
+      PhoneNumber: [this.profile.PhoneNumber, [Validators.required]],
+      CodeSap: [this.profile.CodeSap, [Validators.required]],
+      IdDocument: [this.profile.IdDocument, [Validators.required]],
+      Email: [this.profile.Email, [Validators.required]],
+      CompanyId: [id, [Validators.required]],
+      Status: [this.profile.Status, [Validators.required]],
+      UserId: [this.profile.UserId],
+      policiesPermission: [this.profile.policiesPermission],
+      term: [true, [Validators.requiredTrue]]
     });
   }
 
-  async addFormData(objeto){
-    for ( var key in objeto ) {
-      if(key !== 'term'){
+
+  async updateData() {
+    this.errors = [];
+    this.alertConfirm = false;
+    if (this.form.invalid) {
+      return;
+    }
+    this.propagar.emit(true);
+    await this.addFormData(this.form.value);
+    this.userService.updateUser(this.data).subscribe({
+      next: (result: any) => {
+        if (result.data.message !== 'Updated') {
+          this.errors = this.errorMessages.parsearErroresAPI(['Error, al actualizar el susuario.']);
+          this.data = new FormData();
+        } else {
+          this.alertSucces = true;
+          this.errors = [];
+        }
+      },
+      error: (err) => {
+        this.errors = this.errorMessages.parsearErroresAPI(err.data);
+      },
+      complete: () => {
+        this.propagar.emit(false);
+        this.alertConfirm = false;
+      }
+    });
+  }
+
+  async addFormData(objeto) {
+    for (var key in objeto) {
+      if (key !== 'term') {
         this.data.append(key, objeto[key]);
       }
     }
   }
 
-  openAlertConfirm(){
-    if(this.form.invalid){
+  openAlertConfirm() {
+    if (this.form.invalid) {
       return;
     }
     this.alertConfirm = true;
   }
 
-  closeAlertConfirm(){
+  closeAlertConfirm() {
     this.alertConfirm = false;
   }
 
-  buttonBack() {
-    this.navCtrl.navigateRoot('/dashboard/perfil', {animated:true});
+  onBack() {
+    this.location.back();
   }
 
-
-  openModalPhotoIdentityCard(){
-    if(this.openPhotoIdentityCard = true){
-      this.openPhotoIdentityCard = false;
-    }else{
-      this.openPhotoIdentityCard = true;
-    }
-  }
-
-  openModalPhotoDocumentCompany(){
-    this.openPhotoDocumentCompany = true;
-  }
-
-  /*=============================================
-   FORMULARIO REACTIVOS
-  =============================================*/
-  formBuilderInput(){
-    this.form = this.formBuilder.group({
-      FirstName: [ this.profile.FirstName, [Validators.required,]],
-      LastName: [this.profile.LastName, [Validators.required,]],
-      Email: [this.profile.Email, [Validators.required, Validators.email]],
-      PhoneNumber: [ this.profile.PhoneNumber, [
-        Validators.required,
-        Validators.minLength(10),
-        Validators.maxLength(10),
-        Validators.pattern('^[0-9]*$')
-      ]],
-      term: [true, [ Validators.requiredTrue ]]
-    });
-    this.form.valueChanges
-    .pipe(
-      debounceTime(350),
-    )
-    .subscribe(data => {
-      console.log(data);      
-      this.validateInput();
-    });
-  }
-
-  cwcChangeTerm(event){    
-    this.form.get('term').setValue(event.detail);
-  }
-
-  clickUpdate(){ 
-    if(this.form.invalid){
-      return;
-    }
-    this.alertConfirm = true;
-  }
-
-  getStatusField( field: string ) {
-    if ( this.form.controls[field].errors && this.form.controls[field].touched ) return 'error';
-    return 'regular';
-  }
-
-   /*=============================================
-   FUNCIÓN PARA VALIDAR LOS CAMPOS
-  =============================================*/
-  validateInput(){
-    if(this.form.get('FirstName').errors && this.form.get('FirstName').dirty){
-      this.statusInputName = 'error';
-      this.statusInputMessageName = 'Este campo es requerido';
-     }else{
-      this.statusInputName = 'regular';
-      this.statusInputMessageName = '';
-     }
-
-     if(this.form.get('LastName').errors && this.form.get('LastName').dirty){
-      this.statusInputLastName = 'error';
-      this.statusInputMessageLastName = 'Este campo es requerido';
-     }else{
-      this.statusInputLastName = 'regular';
-      this.statusInputMessageLastName = '';
-     }
-
-     if(this.form.get('Email').errors && this.form.get('Email').dirty){
-        if(this.form.get('Email').errors.email){
-          this.statusInputEmail = 'error';
-          this.statusInputMessageEmail = 'Ingrese un correo electrónico válido';
-        }else{
-          this.statusInputEmail = 'error';
-        this.statusInputMessageEmail = 'Este campo es requerido';
-        }
-     }else{
-      this.statusInputEmail = 'regular';
-      this.statusInputMessageEmail = '';
-     }
-
-     if(this.form.get('PhoneNumber').errors && this.form.get('PhoneNumber').dirty){
-
-      if(this.form.get('PhoneNumber').errors.minlength || this.form.get('PhoneNumber').errors.maxlength){
-        this.statusInputPhone = 'error';
-        this.statusInputMessagePhone = 'Ingrese un número de celular válido';
-      }else{
-        this.statusInputPhone = 'error';
-        this.statusInputMessagePhone = 'Este campo es requerido';
-      }
-
-     }else{
-      this.statusInputPhone = 'regular';
-      this.statusInputMessagePhone = '';
-     }
-  }
 
 }
 

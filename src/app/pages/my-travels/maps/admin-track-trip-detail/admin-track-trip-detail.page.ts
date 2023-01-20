@@ -6,6 +6,7 @@ import { Travel } from '../../../../interfaces/travels/travel';
 import { ModalDetailMapAdminComponent } from './components/modal-detail-map-admin/modal-detail-map-admin.component';
 import { Subscription } from 'rxjs';
 import { TravelService } from '../../../../services/travels/travel.service';
+import { Filesystem } from '@capacitor/filesystem';
 declare var google;
 
 @Component({
@@ -73,7 +74,10 @@ suscripcion : Subscription;
     private modalController : ModalController,
     private travelService : TravelService,
     private navCtrl : NavController
-  ) { }
+  ) { 
+    Geolocation.checkPermissions();
+    Filesystem.checkPermissions();
+  }
 
   ngOnInit() {
   }
@@ -105,8 +109,8 @@ suscripcion : Subscription;
     var duration = 0;
     var distance = 0;
       this.directionsService.route({
-        origin: {lat : this.travel.latitudeSource, lng : this.travel.longitudeSource},
-        destination: {lat : this.travel.latitudeDestiny, lng : this.travel.longitudeDestiny},
+        origin: {lat : this.travel.LatitudeSource, lng : this.travel.LongitudeSource},
+        destination: {lat : this.travel.LatitudeDestiny, lng : this.travel.LongitudeDestiny},
         travelMode: google.maps.TravelMode.DRIVING,
       }, async ( response, status)  => {
         if (status === google.maps.DirectionsStatus.OK) {

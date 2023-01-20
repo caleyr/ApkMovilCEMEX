@@ -14,6 +14,6 @@ export class TypeConveyorService {
   ) { }
 
   public getTypeConveyor() {
-    return this.http.doGet(`${URL}/api/type-conveyor/list-type-conveyors`, {});
+    return this.http.doGet(`${URL}/api/type-conveyor/list-type-conveyors`);
   }
 }

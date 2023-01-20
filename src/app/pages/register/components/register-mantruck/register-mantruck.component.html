@@ -1,9 +1,9 @@
 <form (submit)="register()" [formGroup]="form">
-  <cwc-picker (cwcChange)="cwcChange($event)" class="w-full select-filter" label='Empresa'
+  <cwc-picker (cwcChange)="cwcChange($event)" [loading]="loadingCompany" [disabled]="loadingCompany" class="w-full select-filter" label='Empresa'
     filter-no-resultsMessage="No se encontraron resultados" filter-placeholder="Filtrar Empresas"
     placeholder="Seleccionar" design-version="v2" filter>
     <ng-container *ngFor="let companies of listCompanies">
-      <option [value]="companies.id">{{companies.companyName}}</option>
+      <option [value]="companies.CodigoId">{{companies.CompanyName}}</option>
     </ng-container>
   </cwc-picker>
   <cwc-grid class="demo-grid" design-version="v2" columns="12" mobile-columns="12" style="margin-top: 1.5rem;">
@@ -41,7 +41,7 @@
     <cwc-grid class="demo-grid content-archive" column-gap="1px">
       <input type="file" accept="image/*,.pdf" #getFileDrivinglicense style="display: none;"
         (change)="data = fileRegister.onFileDrivinglicense($event, data)" />
-      <cwc-cell (click)="openModalDocument('Drivinglicense')" class="border" mobile-colspan="6">
+      <cwc-cell (click)="openModalDocument('LicenciaConduccion')" class="border" mobile-colspan="6">
         <div class="item-archives">
           <cwc-icon name="camera" size="28px" color="bright-blue"></cwc-icon>
           <div class="text-archive">Tomar fotografía</div>
@@ -65,7 +65,7 @@
       </cwc-cell>
       <cwc-cell mobile-colspan="1" class="flex">
         <cwc-icon style="display: flex; align-items: center; padding-top: 5px; padding-right: 1rem;"
-          (click)="data = fileRegister.deleteFileDrivinglicense(data)" name="close" size="20px" color="bright-blue">
+          (click)="data = fileRegister.deleteFileDrivinglicense(data, inputFileDrive)" name="close" size="20px" color="bright-blue">
         </cwc-icon>
       </cwc-cell>
     </cwc-grid>
@@ -78,7 +78,7 @@
     <cwc-grid class="demo-grid content-archive" column-gap="1px">
       <input type="file" accept="image/*,.pdf" #getFileSecurityCard style="display: none;"
         (change)="data = fileRegister.onFileSecurityCard($event, data)" />
-      <cwc-cell (click)="openModalDocument('SecurityCard')" class="border" colspan="6" mobile-colspan="6">
+      <cwc-cell (click)="openModalDocument('CarnetSeguridadIndustrial')" class="border" colspan="6" mobile-colspan="6">
         <div class="item-archives">
           <cwc-icon name="camera" size="28px" color="bright-blue"></cwc-icon>
           <div class="text-archive">Tomar fotografía</div>
@@ -102,7 +102,7 @@
       </cwc-cell>
       <cwc-cell mobile-colspan="1" class="flex">
         <cwc-icon style="display: flex; align-items: center; padding-top: 5px; padding-right: 1rem;"
-          (click)="data = fileRegister.deleteFileSecurityCard(data)" name="close" size="20px" color="bright-blue">
+          (click)="data = fileRegister.deleteFileSecurityCard(data, inputFileSecurity)" name="close" size="20px" color="bright-blue">
         </cwc-icon>
       </cwc-cell>
     </cwc-grid>
@@ -113,7 +113,7 @@
     <cwc-grid class="demo-grid content-archive" column-gap="1px">
       <input type="file" accept="image/*,.pdf" #getFileDocument style="display: none;"
         (change)="data = fileRegister.onFileDocument($event, data)" />
-      <cwc-cell (click)="openModalDocument('DocumentIdentityCard')" class="border" colspan="6" mobile-colspan="6">
+      <cwc-cell (click)="openModalDocument('CedulaDocumento')" class="border" colspan="6" mobile-colspan="6">
         <div class="item-archives">
           <cwc-icon name="camera" size="28px" color="bright-blue"></cwc-icon>
           <div class="text-archive">Tomar fotografía</div>
@@ -137,7 +137,7 @@
       </cwc-cell>
       <cwc-cell mobile-colspan="1" class="flex">
         <cwc-icon style="display: flex; align-items: center; padding-top: 5px; padding-right: 1rem;"
-          (click)="data = fileRegister.deleteFileDocument(data)" name="close" size="20px" color="bright-blue">
+          (click)="data = fileRegister.deleteFileDocument(data, inputFileDoc)" name="close" size="20px" color="bright-blue">
         </cwc-icon>
       </cwc-cell>
     </cwc-grid>
@@ -218,7 +218,7 @@
 <!--=====================================
 		MODAL CONFIRMACIÓN RESPUESTA DE EXITO
 ======================================-->
-<app-alert-success [alertShow]="alertSucces" title="Existoso" urlButton="/login" textButton="Volver al login"
+<app-alert-success [alertShow]="alertSucces" title="Existoso" urlButton="app/home"
   message="El registro se realizó correctamente, vamos a validar sus datos y pronto daremos respuesta.">
 </app-alert-success>
 <!--=====================================

@@ -1,24 +1,140 @@
 import { Injectable } from '@angular/core';
 import { HTTP } from '@awesome-cordova-plugins/http/ngx';
-import { from, Observable } from 'rxjs';
+import { from, Observable, of, BehaviorSubject, throwError } from 'rxjs';
 import { Companies } from '../../interfaces/companies/companies';
+import { switchMap, filter, take, finalize, catchError, map } from 'rxjs/operators';
+import { Http, HttpOptions } from '@capacitor-community/http';
+import { ApiService } from '../auth/api.service';
+import { environment } from 'src/environments/environment.prod';
+import { HttpResponse, HttpRequest, HttpHandler, HttpErrorResponse } from '@angular/common/http';
+import { MsalService } from '@azure/msal-angular';
+const token = environment.token;
 
 @Injectable({
   providedIn: 'root'
 })
 export class HttpService {
 
-  constructor(private HttpC: HTTP) { }
+  tokenSubject: BehaviorSubject<string> = new BehaviorSubject<string>(null);
+  isRefreshingToken = false;
 
-  doPostFormData(url, data, header) {
-    this.HttpC.clearCookies();
-    this.HttpC.setDataSerializer('multipart');
-    return from(this.HttpC.sendRequest(url, { method: 'post', data: data, headers: header, responseType: 'text' }));
+  constructor(private HttpC: HTTP, private apiService: ApiService, private authService: MsalService) { }
+
+  getHeader() {
+    const headers = {
+      'Authorization': `Bearer ${this.apiService.currentAccessToken}`,
+      'X-IBM-Client-Id': 'notneeded',
+      'Accept-Language': 'en-US',
+      'jwt': 'temp',
+      'Ocp-Apim-Subscription-Key': '25eada0c438745e18701f00d75188597',
+      'Ocp-Apim-Trace': 'true'
+    };
+    return headers;
   }
 
-  doPostFormDataUser(url, data: FormData, header) {
+  getHeaderNo() {
+    const headers = {
+      'X-IBM-Client-Id': 'notneeded',
+      'Accept-Language': 'en-US',
+      'jwt': 'temp',
+      'Ocp-Apim-Subscription-Key': '25eada0c438745e18701f00d75188597',
+      'Ocp-Apim-Trace': 'true'
+    };
+    return headers;
+  }
+
+  doPostFormData(url, data) {
+    this.HttpC.clearCookies();
+    this.HttpC.setDataSerializer('multipart');
+    return from(this.HttpC.sendRequest(url, { method: 'post', data: data, headers: this.getHeader(), responseType: 'json' }));
+  }
+
+  doPutFormData(url, data) {
+    this.HttpC.clearCookies();
+    this.HttpC.setDataSerializer('multipart');
+    return from(this.HttpC.sendRequest(url, { method: 'put', data: data, headers: this.getHeader(), responseType: 'json' }));
+  }
+
+  doPost(url, data) {
+    this.HttpC.clearCookies();
+    this.HttpC.setDataSerializer('json');
+    return from(this.HttpC.sendRequest(url, { method: 'post', data: data, headers: this.getHeader(), responseType: 'json' }));
+  }
+
+  doPut(url, data) {
+    this.HttpC.clearCookies();
+    this.HttpC.setDataSerializer('json');
+    return from(this.HttpC.sendRequest(url, { method: 'put', data: data, headers: this.getHeader(), responseType: 'json' }));
+  }
+
+  doGet(url) {
+    return from(this.HttpC.sendRequest(url, { method: 'get', headers: this.getHeader(), responseType: 'json' })).pipe(
+      catchError(err => {
+        console.log('ERROR ' + JSON.stringify(err));
+        return throwError(err);
+      })
+    );
+  }
+
+  doGetPrueba(url) {
+    return this.HttpC.sendRequest(url, { method: 'get', headers: this.getHeader(), responseType: 'json' });
+  }
+
+
+  fetch(url, data, type, formD = false, header = true) {
+    this.HttpC.clearCookies();
+    let headers;
+    
+    if (formD) {
+      this.HttpC.setDataSerializer('multipart');
+    } else {
+      this.HttpC.setDataSerializer('json');
+    }
+
+    if (header) {
+      headers = this.getHeader();
+    } else {
+      headers = this.getHeaderNo();
+    }   
+
+    return from(this.HttpC.sendRequest(url, { method: type, data: data, headers: headers, responseType: 'json' })).pipe(
+      catchError(err => {
+        if (err) {
+          switch (err.status) {
+            case 401:
+              return this.handle401Error(url, data, type, formD, header);
+            case 500:
+              return of(undefined);
+            default:
+          }
+        }
+      })
+    );
+  }
+
+  private handle401Error(url, data, type, formD = false, header = true): Observable<any> {
+    return this.apiService.getNewAccessToken().pipe(
+      switchMap((token: any) => {
+        if (token) {
+          const accessToken = token;
+          return this.apiService.storeAccessToken(accessToken).pipe(
+            switchMap(_ => {
+              return this.fetch(url, data, type, formD, header);
+            }),
+            catchError(() => of(this.apiService.logout()))
+          );
+        } else {
+          return of(null);
+        }
+      })
+    );
+  }
+
+  //DATOS
+
+  doPostFormDataUser(url, data: FormData) {
     this.HttpC.setRequestTimeout(5.0);
-    this.HttpC.sendRequest(url, { method: 'post', data: data, serializer: 'multipart', headers: header, responseType: 'text' }).then(data => {
+    this.HttpC.sendRequest(url, { method: 'post', data: data, serializer: 'multipart', headers: this.getHeader(), responseType: 'json' }).then(data => {
       console.log(data);
     }).catch((error) => {
       alert('Error' + error);
@@ -28,30 +144,7 @@ export class HttpService {
   uploadFile(data, filename) {
     const dataF = new FormData();
     dataF.append('Drivinglicense', data, filename);
-    var url = 'https://cemexapp-api-test.azurewebsites.net/api/authentication/UpdateUserDocuments/sergiofon22@gmail.com';
-    return this.HttpC.sendRequest(url, { method: 'put', data: dataF, serializer: 'multipart', headers: {}, responseType: 'text' });
+    var url = 'https://uscldcnxapmd01.azure-api.net/v1/ltm-load/company/companies/1';
+    return this.HttpC.sendRequest(url, { method: 'put', data: dataF, serializer: 'multipart', headers: {}, responseType: 'json' });
   }
-
-  doPutFormData(url, data, header){
-    this.HttpC.clearCookies();
-    this.HttpC.setDataSerializer('multipart');
-    return from(this.HttpC.sendRequest(url, { method: 'put', data: data, headers: header, responseType: 'text' }));
-  }
-
-  doPost(url, data, header){
-    this.HttpC.clearCookies();
-    this.HttpC.setDataSerializer('json');
-    return from(this.HttpC.sendRequest(url, { method: 'post', data: data, headers: header, responseType: 'text' }));
-  }
-
-  doPut(url, data, header){
-    this.HttpC.clearCookies();
-    this.HttpC.setDataSerializer('json');
-    return from(this.HttpC.sendRequest(url, { method: 'put', data: data, headers: header, responseType: 'text' }));
-  }
-
-  doGet(url, header){
-    return from(this.HttpC.sendRequest(url, { method: 'get', headers: header, responseType: 'json' }));
-  } 
-
 }

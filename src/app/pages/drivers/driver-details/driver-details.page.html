@@ -1,23 +1,23 @@
 <cwc-header design-version="v2" slot="header" show-Menu-Button="false" show-cemex-logo="false">
   <div class="header-text">
-    <ion-icon name="arrow-back-outline" style="font-size: 25px;" (click)="onBack()"></ion-icon>
-    <div class="attr-name" style="padding-left: 1rem;">Conductores</div>
+    <ion-icon name="arrow-back-outline" style="font-size: large;" (click)="onBack()"></ion-icon>
+    <div class="attr-name" style="padding-left: 1rem; font-size: large; font-weight: 900;">Conductores</div>
   </div>
 </cwc-header>
-<div slot="main" class="content-card">
+<div slot="main" class="content-card" *ngIf="driver">
   <cwc-card class="m-all-xs" design-version="v2">
     <div class="card-content">
       <div class="content-avatar-menu" style="margin-right: 0.1rem; display: flex; justify-content: space-between;">
         <div style="display: flex;">
           <div>
-            <cwc-avatar size="small" variant="negative" name="Luis Antonio Chavez Peralta" class="m-h-xs" style="width: 6%; padding: 1.3rem"></cwc-avatar>
+            <cwc-avatar size="small" variant="negative" name="{{driver.FirstName + ' ' + driver.LastName}}" class="m-h-xs" style="width: 6%; padding: 1.3rem"></cwc-avatar>
           </div>
           <div>
-              <span class="style-name">{{driver.firstLastName}}</span>
+              <span class="style-name">{{driver.FirstName + ' ' + driver.LastName}}</span>
               <br>
               <cwc-icon name="phone" size="14px" color="true-black">
               </cwc-icon>
-              <span class="number-phone">{{driver.phoneNumber}}</span>
+              <span class="number-phone">{{driver.PhoneNumber}}</span>
           </div>
         </div>
         <div>
@@ -29,32 +29,32 @@
       <cwc-grid style="padding-top: 1rem; padding-bottom: 1rem;">
         <cwc-cell mobile-colspan="12">   
           <cwc-icon name='check-rounded-active-fill' size="12px" color='bright-green'></cwc-icon>
-          <span class="text-archive">{{driver.travelStatus}}</span>
+          <span class="text-archive">{{textResp.getStatusTravelUser(driver.StatusTravel)}}</span>
         </cwc-cell>
       </cwc-grid>
       <div>
         <cwc-grid class="demo-grid" >
           <cwc-cell colspan="12" mobile-colspan="12">   
               <div class="attr-user">Correo electrónico</div>
-              <span class="text-info">{{driver.email}}</span>
+              <span class="text-info">{{driver.Email}}</span>
           </cwc-cell>
         </cwc-grid>
 
         <cwc-grid class="demo-grid center-cell" >
           <cwc-cell mobile-colspan="6">
               <div class="attr-user">Código Sap</div>
-              <span class="text-info">{{driver.sapCode}}</span>
+              <span class="text-info">{{driver.CodeSap}}</span>
           </cwc-cell>
           <cwc-cell mobile-colspan="6">   
               <div class="attr-user">Cédula o NIT</div>
-              <span class="text-info">{{driver.document}}</span>
+              <span class="text-info">{{driver.IdDocument}}</span>
           </cwc-cell>
         </cwc-grid>
 
         <cwc-grid class="demo-grid center-cell" >
           <cwc-cell mobile-colspan="12">   
               <div class="attr-user">Empresa</div>
-              <span class="text-info">{{company}}</span>
+              <span class="text-info">{{driver.CompanyName}}</span>
           </cwc-cell>
         </cwc-grid>
       </div>
@@ -64,20 +64,20 @@
 
       <cwc-grid column-gap="5px">
         <cwc-cell mobile-colspan="6">   
-          <cwc-icon *ngIf="driver.drivinglicense !== null" name='check-rounded-active-fill' size="12px" color='bright-green'></cwc-icon>
-          <cwc-icon *ngIf="driver.drivinglicense === null" size="12px" color="true-red"></cwc-icon>
+          <cwc-icon *ngIf="driver.LicenciaConduccion !== ''" name='check-rounded-active-fill' size="12px" color='bright-green'></cwc-icon>
+          <cwc-icon *ngIf="driver.LicenciaConduccion === ''" size="12px" color="true-red"></cwc-icon>
           <span class="text-archive">Licencia de conducción</span>
         </cwc-cell>
         <cwc-cell mobile-colspan="6">   
-          <cwc-icon *ngIf="driver.documentIdentityCard !== null" name='check-rounded-active-fill' size="12px" color='bright-green'></cwc-icon>
-          <cwc-icon *ngIf="driver.documentIdentityCard === null" size="12px" color="true-red"></cwc-icon>
+          <cwc-icon *ngIf="driver.CarnetSeguridadIndustrial !== ''" name='check-rounded-active-fill' size="12px" color='bright-green'></cwc-icon>
+          <cwc-icon *ngIf="driver.CarnetSeguridadIndustrial === ''" size="12px" color="true-red"></cwc-icon>
           <span class="text-archive">Cédula de ciudadanía</span>
         </cwc-cell>
       </cwc-grid>
       <cwc-grid column-gap="5px">
         <cwc-cell mobile-colspan="6">   
-          <cwc-icon *ngIf="driver.securityCard !== null" name='check-rounded-active-fill' size="12px" color='bright-green'></cwc-icon>
-          <cwc-icon *ngIf="driver.securityCard === null" size="12px" color="true-red"></cwc-icon>
+          <cwc-icon *ngIf="driver.CedulaDocumento !== ''" name='check-rounded-active-fill' size="12px" color='bright-green'></cwc-icon>
+          <cwc-icon *ngIf="driver.CedulaDocumento === ''" size="12px" color="true-red"></cwc-icon>
           <span class="text-archive">Carné de seguridad</span>
         </cwc-cell>
       </cwc-grid>
@@ -92,4 +92,10 @@
       </cwc-grid>
     </div>
   </cwc-card>
+</div>
+
+<div class="loading-content" *ngIf="loading">
+  <cwc-loader>
+    <span slot='loading'>Espere un momento...</span>
+  </cwc-loader>
 </div>

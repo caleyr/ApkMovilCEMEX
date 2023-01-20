@@ -9,25 +9,35 @@
     Deja tu mensaje, en un momento el conductor se contactará con usted.
   </div>
   <form (submit)="createMessage()" [formGroup]="form">
-    <cwc-textarea
-      rows='5'
-      style="width: 100%;"
-      formControlName="message"
-      class="textarea" 
-      label="Escribe tu mensaje" 
-      maxlength="9" 
-      placeholder="Deja tu mensaje" 
-      char-counter="true">
+    <cwc-textarea rows='5' style="width: 100%;" formControlName="message" class="textarea" label="Escribe tu mensaje"
+      maxlength="9" placeholder="Deja tu mensaje" char-counter="true">
     </cwc-textarea>
 
     <div class="content-button">
-      <cwc-button 
-        design-version="v1" 
-        [disabled]="form.invalid"
-        (click)="createMessage()" 
-        variant="regular-block">
+      <cwc-button design-version="v1" [disabled]="form.invalid" (click)="createMessage()" variant="regular-block">
         <div class="button-css">ENVIAR</div>
       </cwc-button>
     </div>
   </form>
 </div>
+
+<div class="loading-content" *ngIf="loading">
+  <cwc-loader>
+    <span slot='loading'>Espere un momento...</span>
+  </cwc-loader>
+</div>
+
+<cwc-modal id='alert-modal-succes' [open]="alertShow" close-on-bd-click="false" show-close-btn="false"
+  (cwcClose)="onBack()">
+  <div style='text-align: center'>
+    <h2 class='modal--confirmation__message'>Su actualización ha sido agregada</h2>
+    <p>El adminstrador logístico se contactara contigo.</p>
+  </div>
+  <footer slot='footer'>
+    <div style='text-align: center'>
+      <cwc-button variant='link' routerLinkActive="router-link-active" (cwcClick)="onBack()">
+        <h4>REGRESAR</h4>
+      </cwc-button>
+    </div>
+  </footer>
+</cwc-modal>

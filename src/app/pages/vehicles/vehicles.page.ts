@@ -3,6 +3,7 @@ import { Vehicle } from './models/vehicle';
 import { VehiclesService } from '../../services/vehicles.service';
 import { LoginService } from '../../services/auth/login.service';
 import { CompaniesService } from '../../services/companies/companies.service';
+import { ApiService } from '../../services/auth/api.service';
 
 @Component({
   selector: 'app-vehicles',
@@ -13,28 +14,34 @@ export class VehiclesPage implements OnInit {
 
   vehiclesList : Vehicle[] = [];
   company : string;
+  search : string;
+  loading = false;
 
   constructor(
     private vehiclesService : VehiclesService,
-    private loginService : LoginService,
-    private companiesService : CompaniesService
-    ) { 
-      this.companiesService.getCompany(loginService.profileUser.CompanyId).subscribe(async data =>{
-        this.company = data.data.companyName;
-      }); 
+    private apiService : ApiService
+    ) {
+      this.company = apiService.userProfile.CompanyName;
     }
 
   ngOnInit() {
+    this.loading = true;
     this.getDataList();
   }
 
   getDataList(){
-    this.vehiclesService.getVehicleList(this.loginService.profileUser.CompanyId).subscribe(data=>{
-      this.vehiclesList = data.data;
+    this.vehiclesService.getVehicleList(this.apiService.userProfile.CompanyId).subscribe({
+      next: (data : any) =>{
+        this.vehiclesList = data.data;
+      },
+      complete : () => {
+        this.loading = false;
+      }
     });
   }
 
   doRefresh(event){
+    this.loading = true;
     setTimeout(()=>{      
       this.vehiclesList = [];
       this.getDataList();

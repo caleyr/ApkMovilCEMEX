@@ -4,6 +4,8 @@ import { TravelService } from './../../../../services/travels/travel.service';
 import { Travel } from './../../../../interfaces/travels/travel';
 import { Component, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { ApiService } from '../../../../services/auth/api.service';
+import { TextResponseService } from '../../../../services/text-response.service';
 
 @Component({
   selector: 'app-scheduled-trips-list',
@@ -12,23 +14,29 @@ import { Router } from '@angular/router';
 })
 export class ScheduledTripsListComponent implements OnInit {
 
-  rol: string;
+  rol: number;
+
+  currentDate = new Date();
 
   @Input() tripsList: Travel[];
   @Input() sizeList: number;
+  @Input() searchFilter: string;
 
-  constructor(private travelService: TravelService,
-    private loginService: LoginService,
+  constructor(
+    private travelService: TravelService,
+    private apiService : ApiService,
     private navCtrl: NavController,
-    private router: Router) { }
+    private router: Router,
+    public textResp : TextResponseService
+    ) { }
 
   ngOnInit() {
-    this.rol = this.loginService.profileUser.Roles;
+    this.rol = this.apiService.userProfile.RolesId;
   }
 
-  detailTrip(id: string, travelAvailability: string, tTravel: string) {
-    if (this.rol !== 'Administrador Logistico Tercero') {
-      if(travelAvailability === 'Asignado' || travelAvailability === 'Confirmado' || travelAvailability === '-'){ 
+  detailTrip(id: string, travelAvailability: number, tTravel: string) {
+    if (this.rol !== 3) {
+      if(travelAvailability === 2 || travelAvailability === 3  || travelAvailability === 4 ){ 
         this.travelService.id = id;
         if(tTravel === 'Viaje Cemex'){
           this.navCtrl.navigateRoot('/app/my-travels/driver-confirmed-trip-cemex-detail', { animated: false });

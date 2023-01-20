@@ -6,6 +6,7 @@ import { Driver } from '../pages/drivers/models/driver';
 import { DriverUpdate } from '../pages/drivers/models/driver-update';
 import { HttpService } from './http/http.service';
 import { environment } from 'src/environments/environment.prod';
+import { UserDetail } from '../models/user-detail.model';
 const URL = environment.url;
 
 @Injectable({
@@ -13,9 +14,8 @@ const URL = environment.url;
 })
 export class DriversService {
 
-  id : string;
-  driver : Driver;
-  driverUpdate : DriverUpdate;
+  id : number;
+  driver : UserDetail;
 
   private _refresh$ = new Subject<void>();
 
@@ -26,11 +26,11 @@ export class DriversService {
   }
 
   createDriver(data: any) {
-    return this.http.doPostFormData(`${URL}/api/authentication/CreateUserDriver`, data, {});
+    return this.http.fetch(`${URL}/api/authentication/CreateUserDriver`, data, 'post', true);
   }
 
-  updateDriver(id : string, data: any) {
-    return this.http.doPutFormData(`${URL}/api/drivers/${id}`, data, {}).pipe(
+  updateDriver(data: any) {
+    return this.http.fetch(`${URL}/v1/load/dsm/users`, data, 'put', true).pipe(
       tap(() => {
         this._refresh$.next();
       })
@@ -38,22 +38,22 @@ export class DriversService {
   }
 
   confirmDrive(id : string, data: any){
-    return this.http.doPutFormData(`${URL}/api/travels/ConfirmTravelByUser/${id}`, data, {}).pipe(
+    return this.http.fetch(`${URL}/api/travels/ConfirmTravelByUser/${id}`, data, 'put', true).pipe(
       tap(() => {
         this._refresh$.next();
       })
     )
   }
 
-  getDriverById(id : string){
-    return this.http.doGet(`${URL}/api/authentication/GetUserDetail/${id}`, {});
+  getDriverById(id : any){
+    return this.http.fetch(`${URL}/v1/load/dsm/users/${id}`, {} , 'get');
   }
 
-  getDriverForUpdate(id : string){
-    return this.http.doGet(`${URL}/api/authentication/GetUserInfoForUpdate/${id}`, {});
+  getDriverForUpdate(id : any){
+    return this.http.fetch(`${URL}/api/authentication/GetUserInfoForUpdate/${id}`, {} , 'get');
   }
 
-  getDriverList(id : string){
-    return this.http.doGet(`${URL}/api/authentication/GetUserByIdCompany/${id}`, {});
+  getDriverList(id : any){
+    return this.http.fetch(`${URL}/v1/load/dsm/users/companies/${id}/statuses/2`, {} , 'get');
   }
 }

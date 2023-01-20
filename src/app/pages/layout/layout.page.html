@@ -1,6 +1,6 @@
-<cwc-page design-version="v2" variant="positive">
+<cwc-page  design-version="v2" variant="positive">
 
-    <cwc-header design-version="v2" slot="header" show-cemex-logo="true" show-Menu-Button="true">
+    <cwc-header *ngIf="showPage" design-version="v2" slot="header" show-cemex-logo="true" show-Menu-Button="true">
         <!-- <cwc-overlay design-version="v2" min-width="300px" variant="popover" height="286px">
             <div slot="target" class="flex content-notification flex__align--center m-end-xs" >
                 <cwc-button variant="link" leading-icon="notification" white size="medium" class="m-end-xs">Notificaciones</cwc-button>
@@ -9,7 +9,7 @@
         </cwc-overlay> -->    
     </cwc-header>         
 
-    <cwc-sidenav slot="sidenav" variant="positive" width="75%">
+    <cwc-sidenav *ngIf="showPage" slot="sidenav" variant="positive" width="75%">
         <!-- <cwc-entity-selector slot="legal-entity-selection" variant="positive">
             <cwc-entity-selector-item entity-icon="user" entity-name="Amanda Lopez" entity-id="Hombre Camnión" active>
                 <cwc-avatar size="small" variant="negative" name="Michael Wasserman" class="m-h-xs"></cwc-avatar>
@@ -45,16 +45,11 @@
                 routerLinkActive="router-link-active"></cwc-sidenav-menu-item>
             <cwc-sidenav-menu-item label="Buscar viaje" [iconName]="'radio-static'" [routerLink]="['/app/travels']"
                 routerLinkActive="router-link-active"></cwc-sidenav-menu-item>
-            <cwc-sidenav-menu-item label="Notificaciones" [iconName]="'radio-static'"
-                [routerLink]="['/app/notifications']" routerLinkActive="router-link-active"></cwc-sidenav-menu-item>
-            <cwc-sidenav-menu-item label="Lista de espera" [iconName]="'radio-static'"
-                [routerLink]="['/app/waiting-list']" routerLinkActive="router-link-active"></cwc-sidenav-menu-item>
-            <cwc-sidenav-menu-item *ngIf="notDriver" label="Vehículos" [iconName]="'radio-static'"
-                [routerLink]="['/app/vehiculos']" routerLinkActive="router-link-active"></cwc-sidenav-menu-item>
-            <cwc-sidenav-menu-item *ngIf="notDriver" label="Conductores" [iconName]="'radio-static'"
-                [routerLink]="['/app/conductores']" routerLinkActive="router-link-active"></cwc-sidenav-menu-item>
-            <cwc-sidenav-menu-item label="Llamar a centro de servicio" [iconName]="'radio-static'"
-                [routerLink]="['/app/call-service']" routerLinkActive="router-link-active"></cwc-sidenav-menu-item>
+            <cwc-sidenav-menu-item label="Notificaciones" [iconName]="'radio-static'" routerLinkActive="router-link-active"></cwc-sidenav-menu-item>
+            <cwc-sidenav-menu-item label="Lista de espera" [iconName]="'radio-static'" [routerLink]="['/app/waiting-list']" routerLinkActive="router-link-active"></cwc-sidenav-menu-item>
+            <cwc-sidenav-menu-item *ngIf="notDriver" label="Vehículos" [iconName]="'radio-static'" [routerLink]="['/app/vehiculos']" routerLinkActive="router-link-active"></cwc-sidenav-menu-item>
+            <cwc-sidenav-menu-item *ngIf="notDriver" label="Conductores" [iconName]="'radio-static'" [routerLink]="['/app/conductores']" routerLinkActive="router-link-active"></cwc-sidenav-menu-item>
+            <cwc-sidenav-menu-item label="Llamar a centro de servicio" [iconName]="'radio-static'" routerLinkActive="router-link-active"></cwc-sidenav-menu-item>
 
         </cwc-sidenav-menu>
 
@@ -81,6 +76,13 @@
         
         <!-- <h1 style="margin-top: 0">Page Demo</h1>
         <ion-router-outlet style="flex: 1 1 auto;"></ion-router-outlet> -->
-        <ng-content></ng-content>
+        <cwc-modal (cwcClose)="logout()" close-on-bd-click="false" show-close-btn="false" id='modal-error'>
+            <div style='text-align: center'>
+                <cwc-icon-animated variant="conflict" size='120px'></cwc-icon-animated>
+                <h3 class='modal--confirmation__message'>Error de autenticación</h3>
+                {{errorMessage}}
+            </div>
+        </cwc-modal>
+        <ng-content *ngIf="showPage"></ng-content>
     </div>
 </cwc-page>

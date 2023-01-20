@@ -17,21 +17,21 @@ export class ConveyorService {
 
   public registerManTruck(createManTruck: CreateConveyorDrive){
     const formData = this.formDataDriver(createManTruck);
-    return this.http.doPostFormData(`${URL}/api/conveyor/register-mantruck`, formData, {});
+    return this.http.doPostFormData(`${URL}/api/conveyor/register-mantruck`, formData);
   }
   public registerAdminLogistThird(createLogistThird: CreateConveyorAdminLogistThird){
     const formData = this.formDataAdminLogistThird(createLogistThird);
-    return this.http.doPostFormData(`${URL}/api/conveyor/register-admin-logist-third`, formData, {});
+    return this.http.doPostFormData(`${URL}/api/conveyor/register-admin-logist-third`, formData);
   }
 
   public registerDriver(createDriver: CreateConveyorDrive){
 
      const formData =  this.formDataDriver(createDriver);
 
-     return this.http.doPostFormData(`${URL}/api/driver/register`, formData, {});
+     return this.http.doPostFormData(`${URL}/api/driver/register`, formData);
    }
   public getConveyors() {
-    return this.http.doGet(`${URL}/api/conveyor/list-conveyors`, {});
+    return this.http.doGet(`${URL}/api/conveyor/list-conveyors`);
   }
 
   public formDataAdminLogistThird(createLogistThird: CreateConveyorAdminLogistThird){

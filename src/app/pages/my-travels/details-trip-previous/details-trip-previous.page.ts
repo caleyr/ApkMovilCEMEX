@@ -3,6 +3,7 @@ import { Location } from '@angular/common';
 import { TravelService } from './../../../services/travels/travel.service';
 import { Travel } from './../../../interfaces/travels/travel';
 import { Component, OnInit } from '@angular/core';
+import { ApiService } from '../../../services/auth/api.service';
 
 @Component({
   selector: 'app-details-trip-previous',
@@ -12,20 +13,25 @@ import { Component, OnInit } from '@angular/core';
 export class DetailsTripPreviousPage implements OnInit {
 
   id: string;
-  rol: string;
-  travel = new Travel();
+  rol: number;
+  travel : Travel;
 
-  constructor(private location : Location,
+  loading = false;
+
+
+  constructor(
+    private location: Location,
     private travelService: TravelService,
-    private loginService: LoginService) { }
+    private apiService: ApiService
+  ) { }
 
   ngOnInit() {
-    this.rol = this.loginService.profileUser.Roles;
-    
+    this.loading = true;
+    this.rol = this.apiService.userProfile.RolesId;
     this.getData();
   }
 
-  onBack(){
+  onBack() {
     this.location.back();
   }
 
@@ -33,6 +39,7 @@ export class DetailsTripPreviousPage implements OnInit {
     if (this.travelService.id !== null) {
       this.id = this.travelService.id;
       this.travelService.getTravelDetail(this.id).subscribe(data => {
+        this.loading = false;
         this.travel = data.data;
       });
     }

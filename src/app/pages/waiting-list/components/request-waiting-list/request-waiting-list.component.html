@@ -4,10 +4,10 @@
       <div class="main-content-card">
         <div class="header-card">
           <div class="avatar-info">
-            <span class="style-name">Viaje {{request.codeRequest}}</span>
+            <span class="style-name">Viaje {{request.CodeRequest}}</span>
           </div>
             <cwc-status-indicator size="small" class="statusI" variant='success'>
-              <div class="statusI">{{request.statusRequeststring}}</div>
+              <div class="statusI">{{ textResp.getStatusWaitingList(request.StatusRequest)}}</div>
             </cwc-status-indicator>
         </div>
 
@@ -16,32 +16,32 @@
         <cwc-grid class="demo-grid" style="padding-top: 0.5rem;">
           <cwc-cell colspan="12" mobile-colspan="12">   
             <div class="attr-user">Origen</div>
-            <span class="attr-detail">{{request.origen}}</span>
+            <span class="attr-detail">{{request.Origen}}</span>
           </cwc-cell>
         </cwc-grid>
 
         <cwc-grid class="demo-grid center-cell">
           <cwc-cell colspan="12" mobile-colspan="12">
             <div class="attr-user">Destino</div>
-            <span class="attr-detail">{{request.destino}}</span>
+            <span class="attr-detail">{{request.Destino}}</span>
           </cwc-cell>
         </cwc-grid>
 
         <cwc-grid class="demo-grid center-cell">
           <cwc-cell mobile-colspan="6">
             <div class="attr-user">Fecha y hora</div>
-            <span class="attr-detail">{{request.dateTravels}} {{request.timerStar}}</span>
+            <span class="attr-detail">{{request.DateTravels}} {{request.TimerStar}}</span>
           </cwc-cell>
-          <cwc-cell mobile-colspan="6">
+          <cwc-cell mobile-colspan="6" *ngIf="rol !== 1">
             <div class="attr-user">Numero de Placa</div>
-            <span class="attr-detail">{{request.vehicleLisence}}</span>
+            <span class="attr-detail">{{request.LicenseVehiculo}}</span>
           </cwc-cell>
         </cwc-grid>
 
-        <cwc-grid class="demo-grid center-cell">
+        <cwc-grid class="demo-grid center-cell" *ngIf="rol !== 1">
           <cwc-cell colspan="12" mobile-colspan="12">
             <div class="attr-user">Vehículo</div>
-            <span class="attr-detail">{{request.vehicleName}}</span>
+            <span class="attr-detail">{{request.Model}}</span>
           </cwc-cell>
         </cwc-grid>
       </div>

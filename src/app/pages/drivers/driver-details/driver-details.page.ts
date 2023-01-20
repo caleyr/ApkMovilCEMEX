@@ -8,6 +8,8 @@ import { VehiclesService } from '../../../services/vehicles.service';
 import { Driver } from '../models/driver';
 import { CompaniesService } from '../../../services/companies/companies.service';
 import { LoginService } from '../../../services/auth/login.service';
+import { UserDetail } from '../../../models/user-detail.model';
+import { TextResponseService } from '../../../services/text-response.service';
 
 @Component({
   selector: 'app-driver-details',
@@ -16,39 +18,46 @@ import { LoginService } from '../../../services/auth/login.service';
 })
 export class DriverDetailsPage implements OnInit {
 
-  id : string;
-  driver : Driver = new Driver();
-  company : string;
-  suscripcion : Subscription;
+  id: number;
+  driver: UserDetail;
+  suscripcion: Subscription;
+
+  loading = false;
 
   constructor(
-    private location : Location,
-    private driversService : DriversService,
-    private navCtrl : NavController,
-    ) { }
+    private location: Location,
+    private driversService: DriversService,
+    private navCtrl: NavController,
+    public textResp : TextResponseService
+  ) { }
 
   ngOnInit() {
-    this.suscripcion = this.driversService.refresh$.subscribe(() =>{
+    this.loading = true;
+    this.suscripcion = this.driversService.refresh$.subscribe(() => {
+      this.loading = true;
       this.getData();
     });
     this.getData();
   }
 
-  onBack(){
+  onBack() {
     this.location.back();
   }
 
-  getData(){
+  getData() {
     this.id = this.driversService.id;
-    this.driversService.getDriverById(this.driversService.id).subscribe(data=>{
-      this.driver = data.data;
+    this.driversService.getDriverById(this.driversService.id).subscribe({
+      next : (data : any) =>{
+        this.driver = data.data[0];
+      },
+      complete: () => {
+        this.loading = false;
+      },
     });
   }
 
-  updateVehicle(){
-    this.driversService.getDriverForUpdate(this.id).subscribe(data=>{
-      this.driversService.driverUpdate = data.data;
-      this.navCtrl.navigateRoot('/app/conductores/actualizar', { animated : false });
-    });
+  updateVehicle() {
+    this.driversService.driver = this.driver;
+    this.navCtrl.navigateRoot('/app/conductores/actualizar', { animated: false });
   }
 }

@@ -5,31 +5,45 @@ import { JwtHelperService } from '@auth0/angular-jwt';
 import { Observable } from 'rxjs';
 import { LoginService } from '../services/auth/login.service';
 import { Storage } from '@ionic/storage-angular';
+import { MsalService } from '@azure/msal-angular';
+import { ApiService } from '../services/auth/api.service';
+import { UserService } from '../services/user.service';
+import { filter, take, switchMap } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
 })
-export class AuthGuard implements CanActivate, CanLoad {
-
+export class AuthGuard implements CanLoad {
 
   constructor(
-    private router: Router, 
-    private loginService: LoginService, 
-    private storage : Storage){}
-    
-  canLoad(route: Route, segments: UrlSegment[]): boolean | UrlTree | Observable<boolean | UrlTree> | Promise<boolean | UrlTree> {
-    return this.loginService.isLogged().then( data=>{
-      const token = data;
-      if(token){
-        return true;
-      }else{
-        this.router.navigateByUrl('/login');
-        return false;
-      }
-    });
+    private router: Router,
+    private authService: MsalService,
+    private apiService: ApiService,
+    private userService: UserService) {
   }
 
-  canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean | UrlTree | Observable<boolean | UrlTree> | Promise<boolean | UrlTree> {
-    return true;
+  canLoad(
+  ): Observable<boolean> {
+    return this.apiService.isAuthenticated.pipe(
+      filter(val => val !== null), // Filter out initial Behaviour subject value
+      take(1), // Otherwise the Observable doesn't complete!
+      switchMap(async () => {
+        if (await this.authService.instance.getActiveAccount() !== null) {
+          const url = this.router.getCurrentNavigation().extractedUrl.toString();
+          if (url.includes('/dashboard/users/user-details')) {
+            this.router.navigateByUrl('/dashboard/users');
+            return true;
+          } else if (url.includes('/dashboard/users/update')) {
+            this.router.navigateByUrl('/dashboard/users');
+          } else if (url.includes('/dashboard/companies/see-company')) {
+            this.router.navigateByUrl('/dashboard/companies');
+            return true;
+          }
+          return true;
+        } else {
+          return true;
+        }
+      })
+    );
   }
 }

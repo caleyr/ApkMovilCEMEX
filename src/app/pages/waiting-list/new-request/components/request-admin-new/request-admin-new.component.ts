@@ -3,13 +3,15 @@ import { LoginService } from './../../../../../services/auth/login.service';
 import { DriversService } from './../../../../../services/drivers.service';
 import { Vehicle } from './../../../../vehicles/models/vehicle';
 import { NavController } from '@ionic/angular';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, EventEmitter, Output } from '@angular/core';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { RequestService } from '../../../../../services/request.service';
 import { UserService } from 'src/app/services/user.service';
 import { VehiclesService } from 'src/app/services/vehicles.service';
 import { DatePipe } from '@angular/common';
 import * as moment from 'moment';
+import { ApiService } from '../../../../../services/auth/api.service';
+import { UserDetail } from '../../../../../models/user-detail.model';
 declare var google;
 
 
@@ -19,8 +21,11 @@ declare var google;
   styleUrls: ['./request-admin-new.component.scss'],
 })
 export class RequestAdminNewComponent implements OnInit {
+
+  @Output()
+  propagar = new EventEmitter<boolean>();
   
-  driverList: DriverList[];
+  driverList: Vehicle[] = [];
 
   source : string;
   departament : string;
@@ -42,13 +47,13 @@ export class RequestAdminNewComponent implements OnInit {
 
   constructor(
     private vehiclesService: VehiclesService,
-    private driversService: DriversService,
-    private loginService: LoginService,
     private formBuilder: FormBuilder,
     private requestService : RequestService,
     private navCtrl : NavController,
     private userService : UserService,
-    private datepipe: DatePipe) { }
+    private datepipe: DatePipe,
+    private apiService : ApiService
+    ) { }
 
   ngOnInit() {
     this.formBuilderInput();
@@ -56,35 +61,20 @@ export class RequestAdminNewComponent implements OnInit {
     this.getListDrivers();
   }
 
-  getStatusField( field: string ) {
-    if ( this.form.controls[field].errors && this.form.controls[field].touched ) return 'error';
-    return 'regular';
-  }
-
-  getMsgField( field: string, nameField: string ) {
-    let msgError = '';
-    
-    if ( this.form.controls[field].errors && this.form.controls[field].touched ) {
-      msgError = `El campo ${ nameField } es requerido.`;
-    }
-
-    return msgError;
-  }
-
   formBuilderInput(){
     this.form = this.formBuilder.group({
-      Origen: ['', [ Validators.required ]],
-      Destino: ['', [ Validators.required ]],
-      TimerStar: ['', [ Validators.required ]],
-      TimerEnd: ['', [ Validators.required ]],
-      DateTravels: ['', [ Validators.required ]],
-      DriverId: ['', [ Validators.required ]],
-      VehicleId: [''],
-      StatusRequest: ['1'],
-      TravelsCode: ['1'],
-      CodeRequest: ['1'],
-      DepartamentSource: ['', [ Validators.required ]],
-      DepartamentDestiny: ['', [ Validators.required ]]
+      Origen: ['', [Validators.required]],
+      DepartamentSource: [''],
+      Destino: ['', [Validators.required]],
+      DepartamentDestiny: [''],
+      TimerStar: ['', [Validators.required]],
+      TimerEnd: ['', [Validators.required]],
+      DateTravels: ['', [Validators.required]],
+      StatusRequest: ['0'],
+      TravelsCode: ['0'],
+      DriverId: ['', [Validators.required]],
+      CodeRequest: [''],
+      VehicleId: ['', [Validators.required]],
     });
   }
 
@@ -121,14 +111,29 @@ export class RequestAdminNewComponent implements OnInit {
     });
   }
 
+  getStatusField( field: string ) {
+    if ( this.form.controls[field].errors && this.form.controls[field].touched ) return 'error';
+    return 'regular';
+  }
+
+  getMsgField( field: string, nameField: string ) {
+    let msgError = '';
+    
+    if ( this.form.controls[field].errors && this.form.controls[field].touched ) {
+      msgError = `El campo ${ nameField } es requerido.`;
+    }
+
+    return msgError;
+  }
+
   goMyRequest() {
     this.navCtrl.back();
   }
 
   getListDrivers(){
-    this.driversService.getDriverList(this.loginService.profileUser.CompanyId).subscribe(data => {
+    this.vehiclesService.getVehiclesUserByIdCompany( this.apiService.userProfile.CompanyId ).subscribe(data =>{
       this.driverList = data.data;
-    });
+    })
   }
 
   changTimeStar(event){
@@ -152,27 +157,29 @@ export class RequestAdminNewComponent implements OnInit {
       this.form.get('DriverId').setValue('');
       this.form.get('VehicleId').setValue('');
     }else{
-      this.form.get('DriverId').setValue(event.detail.value);
-      this.userService.getUserDetail(event.detail.value).subscribe(data=>{
-        this.vehiclesService.getVehicleById(data.data.lisenseVehicle).subscribe(dataV=>{          
-          this.form.get('VehicleId').setValue(data.data.lisenseVehicle);
-          this.driveSelected = dataV.data.licenseVehiculo;
-        })
-      });
+      this.form.get('VehicleId').setValue(event.detail.value);
+      let driver = this.driverList.filter(data => data.VehicleId === event.detail.value)[0];
+      this.form.get('DriverId').setValue(driver.UserId);
+      this.driveSelected = driver.LicenseVehiculo;
     }
   }
-
+  
   async searchTrips(){
     if ( this.form.invalid ) {
       this.form.markAllAsTouched();
       return;
     }
+    this.propagar.emit(true);
     this.addFormData(this.form.value)
-    this.requestService.createRequest(this.data).subscribe(()=>{      
-      this.alertShow = true;
-      },(error)=>{
-        alert(JSON.stringify(error))
+    this.requestService.createRequest(this.data).subscribe({
+      next: (data: any) => {
+        this.alertShow = true;
+      }, complete: () => {
+        this.propagar.emit(false);
+      },
+      error : () =>{
         this.goMyRequest();
+      }
     });
   }
 

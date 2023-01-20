@@ -1,5 +1,5 @@
 import { Location } from '@angular/common';
-import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, OnInit, ViewChild, OnDestroy } from '@angular/core';
 import { IonRouterOutlet, ModalController } from '@ionic/angular';
 import { DetailsTripPreviousPage } from '../../details-trip-previous/details-trip-previous.page';
 import { ModalDetailMapDriveComponent } from './components/modal-detail-map-drive/modal-detail-map-drive.component';
@@ -8,6 +8,7 @@ import { Travel } from 'src/app/interfaces/travels/travel';
 import { GoogleService } from '../../../../services/google.service';
 import { Subscription } from 'rxjs';
 import { ClearWatchOptions, Geolocation } from '@capacitor/geolocation';
+import { Filesystem } from '@capacitor/filesystem';
 declare var google;
 
 @Component({
@@ -15,14 +16,14 @@ declare var google;
   templateUrl: './driver-confirmed-trip-detail.page.html',
   styleUrls: ['./driver-confirmed-trip-detail.page.scss'],
 })
-export class DriverConfirmedTripDetailPage implements OnInit, AfterViewInit {
+export class DriverConfirmedTripDetailPage implements OnInit, AfterViewInit, OnDestroy {
 
   id = null;
 
   contador = 0;
 
   @ViewChild('mapVer') divMap: ElementRef;
-  map : any;
+  map: any;
   directionsService = new google.maps.DirectionsService();
   directionsDisplay = new google.maps.DirectionsRenderer();
   marker = new google.maps.Marker();
@@ -33,97 +34,125 @@ export class DriverConfirmedTripDetailPage implements OnInit, AfterViewInit {
 
   travel = new Travel();
 
-  watch= null;
+  watch = null;
 
   loading = false;
+  alertShow = false;
+  alertTravel = false;
 
   mapOptions = {
-        center: {
-            lat: 25.686614,
-            lng: -100.316113
-            //to get the latitude and longitude use: http://www.latlong.net/
-        },
-        zoom: 12,
-        styles: [
-            {
-                "featureType": "administrative.country",
-                "elementType": "geometry.fill",
-                "stylers": [
-                    {
-                        "visibility": "on"
-                    }
-                ]
-            },
-            {
-                "featureType": "administrative.province",
-                "elementType": "geometry.fill",
-                "stylers": [
-                    {
-                        "visibility": "on"
-                    }
-                ]
-            },
-            {
-                "featureType": "administrative.province",
-                "elementType": "labels.text",
-                "stylers": [
-                    {
-                        "visibility": "on"
-                    }
-                ]
-            }
-        ],
-        scaleControl: false,
-        streetViewControl: false,
-        scrollwheel: false,
-        disableDefaultUI: true,
-        clickableIcons: false,
-    }
+    center: {
+      lat: 25.686614,
+      lng: -100.316113
+      //to get the latitude and longitude use: http://www.latlong.net/
+    },
+    zoom: 12,
+    styles: [
+      {
+        "featureType": "administrative.country",
+        "elementType": "geometry.fill",
+        "stylers": [
+          {
+            "visibility": "on"
+          }
+        ]
+      },
+      {
+        "featureType": "administrative.province",
+        "elementType": "geometry.fill",
+        "stylers": [
+          {
+            "visibility": "on"
+          }
+        ]
+      },
+      {
+        "featureType": "administrative.province",
+        "elementType": "labels.text",
+        "stylers": [
+          {
+            "visibility": "on"
+          }
+        ]
+      }
+    ],
+    scaleControl: false,
+    streetViewControl: false,
+    scrollwheel: false,
+    disableDefaultUI: true,
+    clickableIcons: false,
+  }
+
+  userPosicion = {
+    lat: 0,
+    lng: 0
+  }
+
+  found;
 
   constructor(
     private modalController: ModalController,
-    private travelService : TravelService,
-    private location : Location,
-    private googleService : GoogleService
-    ) {
-      Geolocation.checkPermissions();
+    private travelService: TravelService,
+    private location: Location,
+    private googleService: GoogleService
+  ) {
+    Geolocation.checkPermissions();
+    Filesystem.checkPermissions();
+  }
+  ngOnDestroy(): void {
+    this.found = true;
   }
 
   async ngOnInit() {
     this.loading = true;
-    this.travelService.changeDataRefresh.subscribe(async () =>{
-      this.loading = true;
+    this.found = true;
+    this.travelService.changeDataRefresh.subscribe(async () => {
+      this.found = true;
       await this.getData();
-      if(this.travel.loadEnd !== 'null' && this.travel.tripStarTime === null && this.travel.dowloadStar === 'null'){
+      if (this.travel.LoadEnd !== undefined && this.travel.TripStarTime !== undefined && this.travel.DowloadStar === undefined) {
+        this.found = false;
+        await this.changeRoute();
         await this.calculateRoute();
-      }else if(this.travel.dowloadStar !== 'null' || this.travel.dowloadEnd !== 'null'){
+        await this.saveLocation();
+        this.loading = false;
+      } else if (this.travel.DowloadStar !== undefined && this.travel.StatusTravel === 4 || this.travel.DowloadEnd !== undefined && this.travel.StatusTravel === 4) {
         this.deleteMarker();
         this.changeRoute();
         this.loading = false;
-      }else{
+      } else if (this.travel.DowloadEnd !== undefined && this.travel.StatusTravel === 5) {
+        this.loading = false;
+        this.modalController.dismiss();
+        this.alertShow = true;
+      } else {
         this.loading = false;
       }
     });
-    this.googleService.loadingChange.subscribe(data=>{
+    this.googleService.loadingChange.subscribe(data => {
       this.loading = data;
-    })
+    });
+    this.googleService.backChange.subscribe(data => {
+      this.modalController.dismiss();
+      this.alertTravel = data;
+    });
   }
 
-  async ngAfterViewInit(){
-    await this.getData(); 
+  async ngAfterViewInit() {
+    await this.getData();
     this.modalData(this.travel);
     await this.loadMap();
     this.loading = false;
   }
 
-  async loadMap() {   
+  async loadMap() {
     this.map = new google.maps.Map(this.divMap.nativeElement, this.mapOptions);
-    this.directionsDisplay.setMap(this.map);    
+    this.directionsDisplay.setMap(this.map);
     this.marker.setMap(this.map);
     await this.changeRoute();
-    if(this.travel.loadEnd !== 'null' && this.travel.tripStarTime === null && this.travel.dowloadStar === 'null'){
+    if (this.travel.LoadEnd !== undefined && this.travel.TripStarTime !== undefined && this.travel.DowloadStar === undefined) {
+      this.found = false;
       await this.calculateRoute();
-    }else if(this.travel.dowloadStar !== 'null' || this.travel.dowloadEnd !== 'null'){
+      await this.saveLocation();
+    } else if (this.travel.DowloadStar !== undefined || this.travel.DowloadEnd !== undefined) {
       this.deleteMarker();
       this.changeRoute();
       this.loading = false;
@@ -131,7 +160,7 @@ export class DriverConfirmedTripDetailPage implements OnInit, AfterViewInit {
   }
 
   getData() {
-    return new Promise((resolve)=>{
+    return new Promise((resolve) => {
       this.id = this.travelService.id;
       this.travelService.getTravelDetail(this.id).subscribe(data => {
         this.travel = data.data;
@@ -140,31 +169,62 @@ export class DriverConfirmedTripDetailPage implements OnInit, AfterViewInit {
     });
   }
 
-  async calculateRoute(){
+  async calculateRoute() {
     this.watchId = Geolocation.watchPosition({
       enableHighAccuracy: true, timeout: 3000, maximumAge: Infinity
-    },async position =>{
+    }, async position => {
       const ubicacionUser = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+      this.userPosicion = { lat: position.coords.latitude, lng: position.coords.longitude };
       this.googleService.changeDistance(ubicacionUser);
       await this.createPonintUser(ubicacionUser);
     });
-  }  
+  }
 
-  async createPonintUser(ubicacion : any){   
+  async createPonintUser(ubicacion: any) {
     this.marker.setPosition(ubicacion);
     this.map.setCenter(ubicacion);
     this.map.setZoom(17);
     this.loading = false;
   }
 
-  changeRoute(){
-    return new Promise((resolve)=>{
+  async saveLocation() {
+    const data = new FormData();
+    data.append('TraveId', this.travel.TraveId);
+    data.append('UserId', this.travel.UserId.toString());
+    console.log(this.userPosicion.lat.toString().replace('.',','));
+    console.log(this.userPosicion.lng.toString().replace('.',','));     
+    data.append('LatitudeUser', '4.824866');
+    data.append('LongitudeUser', '-74.347959');
+    return new Promise((resolve) => {
+      if (!this.found) {
+        this.travelService.updateTravelUser(data).subscribe({
+          next: (data: any) => {
+            setTimeout(() => {
+              if (!this.found) {
+                this.saveLocation();
+              }
+            }, 7000);
+            resolve(true);
+          },
+          error: (err) => {
+            alert(JSON.stringify(err)); 
+            resolve(true);
+          }
+        });
+      }else {
+        resolve(true);
+      }
+    })
+  }
+
+  changeRoute() {
+    return new Promise((resolve) => {
       var route;
       this.directionsService.route({
-        origin: {lat : this.travel.latitudeSource, lng : this.travel.longitudeSource},
-        destination: {lat : this.travel.latitudeDestiny, lng : this.travel.longitudeDestiny},
+        origin: { lat: this.travel.LatitudeSource, lng: this.travel.LongitudeSource },
+        destination: { lat: this.travel.LatitudeDestiny, lng: this.travel.LongitudeDestiny },
         travelMode: google.maps.TravelMode.DRIVING,
-      }, async ( response, status)  => {
+      }, async (response, status) => {
         if (status === google.maps.DirectionsStatus.OK) {
           this.directionsDisplay.setDirections(response);
           route = await response.routes[0];
@@ -174,35 +234,34 @@ export class DriverConfirmedTripDetailPage implements OnInit, AfterViewInit {
           alert('Could not display directions due to: ' + status);
         }
       });
-    })    
+    })
   }
 
-  async onBack(){    
-    const opt: ClearWatchOptions = {id: await this.watchId};
+  async onBack() {
+    this.found = true;
+    const opt: ClearWatchOptions = { id: await this.watchId };
     this.location.back();
     this.modalController.dismiss();
     Geolocation.clearWatch(opt);
     this.watchId.unsubscribe();
   }
 
-  async deleteMarker(){
+  async deleteMarker() {
     this.marker.setMap(null);
-    const opt: ClearWatchOptions = {id: await this.watchId};
+    const opt: ClearWatchOptions = { id: await this.watchId };
     Geolocation.clearWatch(opt);
     this.watchId.unsubscribe();
   }
 
-  
-
-  async modalData(travelD : Travel){
+  async modalData(travelD: Travel) {
     const modal = await this.modalController.create({
       component: ModalDetailMapDriveComponent,
-      initialBreakpoint : 0.38,
-      breakpoints : [0.1, 0.38, 0.70, 1],
-      backdropDismiss : false,
-      backdropBreakpoint : 0.5,
-      componentProps:{
-        travelDetail : travelD        
+      initialBreakpoint: 0.38,
+      breakpoints: [0.1, 0.38, 0.70, 1],
+      backdropDismiss: false,
+      backdropBreakpoint: 0.5,
+      componentProps: {
+        travelDetail: travelD
       }
     })
     await modal.present();

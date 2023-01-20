@@ -1,93 +1,63 @@
 <div slot="main" class="content-card">
   <form [formGroup]="form">
-    <cwc-grid class="demo-grid" design-version="v2" row-gap="5px" columns="12" mobile-columns="12" style="margin-top: 1rem;">
-        <cwc-cell colspan="12" mobile-colspan="12">
-          <cwc-input
-            [status]="getStatusField('Origen')"
-            [statusMessage]="getMsgField('Origen', 'origen')"
-            id="input-origin"
-            style="width: 100%;"
-            label='Origen (Municipio)'
-            design-version="v2">
-            </cwc-input>
-          </cwc-cell>
-        <cwc-cell colspan="12" mobile-colspan="12">
-          <cwc-input
-            [status]="getStatusField('Destino')"
-            [statusMessage]="getMsgField('Destino', 'destino')"
-            id="input-destiny"
-            style="width: 100%;"
-            label='Destino (Municipio)'
-            design-version="v2">
-            </cwc-input>
-        </cwc-cell>
-        <cwc-cell class="flex flex__align--bullseye" mobile-colspan="12">          
-          <div style="text-align: center; padding-bottom: 1rem; font-weight: 900;" >Rango de Hora</div>
-        </cwc-cell>
-        <cwc-cell mobile-colspan="12" class="flex flex__align--center">
-          <cwc-input-time
-            style="width: 100%;"
-            formControlName="TimerStar"
-            format="12h"
-            label='Hora (Inicio)'
-            [status]="getStatusField('TimerStar')"
-            [statusMessage]="getMsgField('TimerStar', 'tiempo de inicio')"
-            (cwcChange)="changTimeStar($event)"
-            placeholder="--:--"
-            design-version="v2">
-          </cwc-input-time>
-          <cwc-input-time
-            style="width: 100%;"
-            formControlName="TimerEnd"
-            format="12h"
-            label='Hora (Inicio)'
-            [status]="getStatusField('TimerEnd')"
-            [statusMessage]="getMsgField('TimerEnd', 'tiempo final')"
-            (cwcChange)="changeTimeEnd($event)"
-            placeholder="--:--"
-            design-version="v2">
-          </cwc-input-time>
-        </cwc-cell>
-        <cwc-cell class="flex flex__align--bullseye" mobile-colspan="12">          
-          <div style="text-align: center; padding-bottom: 0.5rem; font-weight: 900;" >Fecha</div>
-        </cwc-cell>
-        <cwc-cell colspan="12" mobile-colspan="12">
-          <cwc-input-date
-            [status]="getStatusField('DateTravels')"
-            (cwcChange)="changeDateTime($event)"
-            style="width: 100%;"
-            placeholder="Seleccionar fecha"
-            [statusMessage]="getMsgField('DateTravels', 'fecha')"
-            design-version="v2">
-          </cwc-input-date>
-        </cwc-cell>
-        <cwc-cell colspan="12" mobile-colspan="12">
-          <div class="content-button">
-            <cwc-button
-            (cwcClick)="searchTrips()"
-            [disabled]="form.invalid"
-            design-version="v1"
-            variant="regular-block">
+    <cwc-grid class="demo-grid" design-version="v2" row-gap="5px" columns="12" mobile-columns="12"
+      style="margin-top: 1rem;">
+      <cwc-cell colspan="12" mobile-colspan="12">
+        <cwc-input [status]="getStatusField('Origen')" [statusMessage]="getMsgField('Origen', 'origen')"
+          id="input-origin" style="width: 100%;" label='Origen (Municipio)' design-version="v2">
+        </cwc-input>
+      </cwc-cell>
+      <cwc-cell colspan="12" mobile-colspan="12">
+        <cwc-input [status]="getStatusField('Destino')" [statusMessage]="getMsgField('Destino', 'destino')"
+          id="input-destiny" style="width: 100%;" label='Destino (Municipio)' design-version="v2">
+        </cwc-input>
+      </cwc-cell>
+      <cwc-cell class="flex flex__align--bullseye" mobile-colspan="12">
+        <div style="text-align: center; padding-bottom: 1rem; font-weight: 900;">Rango de Hora</div>
+      </cwc-cell>
+      <cwc-cell mobile-colspan="12" class="flex flex__align--center">
+        <cwc-input-time style="width: 100%;" formControlName="TimerStar" format="12h" label='Hora (Inicio)'
+          [status]="getStatusField('TimerStar')" [statusMessage]="getMsgField('TimerStar', 'tiempo de inicio')"
+          (cwcChange)="changTimeStar($event)" placeholder="--:--" design-version="v2">
+        </cwc-input-time>
+        <cwc-input-time style="width: 100%;" formControlName="TimerEnd" format="12h" label='Hora (Inicio)'
+          [status]="getStatusField('TimerEnd')" [statusMessage]="getMsgField('TimerEnd', 'tiempo final')"
+          (cwcChange)="changeTimeEnd($event)" placeholder="--:--" design-version="v2">
+        </cwc-input-time>
+      </cwc-cell>
+      <cwc-cell class="flex flex__align--bullseye" mobile-colspan="12">
+        <div style="text-align: center; padding-bottom: 0.5rem; font-weight: 900;">Fecha</div>
+      </cwc-cell>
+      <cwc-cell colspan="12" mobile-colspan="12">
+        <cwc-input-date [status]="getStatusField('DateTravels')" (cwcChange)="changeDateTime($event)"
+          style="width: 100%;" placeholder="Seleccionar fecha" [statusMessage]="getMsgField('DateTravels', 'fecha')"
+          design-version="v2">
+        </cwc-input-date>
+      </cwc-cell>
+      <cwc-cell colspan="12" mobile-colspan="12">
+        <div class="content-button">
+          <cwc-button (cwcClick)="searchTrips()" [disabled]="form.invalid" design-version="v1" variant="regular-block">
             <div class="button-css">
               ENVIAR SOLICITUD
             </div>
-            </cwc-button>
-          </div>
-        </cwc-cell>        
-    </cwc-grid> 
+          </cwc-button>
+        </div>
+      </cwc-cell>
+    </cwc-grid>
   </form>
 </div>
 
-<cwc-modal id='alert-modal-succes' [open]="alertShow" close-on-bd-click="false" show-close-btn="false" (cwcClose)="goMyRequest()">
+<cwc-modal id='alert-modal-succes' [open]="alertShow" close-on-bd-click="false" show-close-btn="false"
+  (cwcClose)="goMyRequest()">
   <div style='text-align: center'>
-      <cwc-icon name='accepted-ok' size='120px' color='bright-green'></cwc-icon>
-      <h4 class='modal--confirmation__message'>La solicitud ha sido enviada correctamente.</h4>
+    <cwc-icon name='accepted-ok' size='120px' color='bright-green'></cwc-icon>
+    <h3 class='modal--confirmation__message'>La solicitud ha sido enviada correctamente.</h3>
   </div>
   <footer slot='footer'>
     <div style='text-align: center'>
-        <cwc-button variant='link' (click)="goMyRequest()" routerLinkActive="router-link-active">
-          <div style="color: #7AC943; font-size: large; padding-bottom: 1rem;" >Regresar</div>
-        </cwc-button>
+      <cwc-button variant='link' (click)="goMyRequest()" routerLinkActive="router-link-active">
+        <div style="color: #7AC943; font-size: large; padding-bottom: 1rem;">Regresar</div>
+      </cwc-button>
     </div>
   </footer>
 </cwc-modal>

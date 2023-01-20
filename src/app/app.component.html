@@ -1,4 +1,7 @@
-<ion-app>
-    <ion-router-outlet></ion-router-outlet>
+<ion-app >
+    <ion-router-outlet *ngIf="!isIframe"></ion-router-outlet>
+    <div class="wrapper"  *ngIf="isIframe">
+        <cwc-logo class="logo" brand="readymix-go" style="height:160px"></cwc-logo>
+    </div>
 </ion-app>
   

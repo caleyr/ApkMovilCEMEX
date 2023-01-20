@@ -9,8 +9,8 @@ const urlHost = environment.hostname;
 
 export class CustomNavigationClient extends NavigationClient {
 
-register = false;
-online = false;
+    register = false;
+    online = false;
 
     constructor(
         private iab: InAppBrowser,
@@ -19,7 +19,10 @@ online = false;
     }
 
     async navigateExternal(url: string, options: any) {
-        if (Capacitor.isNativePlatform()) {
+        if (url.includes('/logout?')) {
+            //window.location.href = urlHost;
+            window.open(urlHost, '_blank', 'noopener');
+        } else if (Capacitor.isNativePlatform()) {
             this.register = false;
             this.online = false;
             const browser = this.iab.create(url, '_blank', {
@@ -32,21 +35,24 @@ online = false;
             });
             browser.on('loadstart').subscribe(event => {
                 if (event.url.includes('#state')) {
-                    this.online = true; 
+                    this.online = true;
                     browser.close();
                     const domain = event.url.split('#')[0];
-                    const url = event.url.replace(domain, `${urlHost}/app/home`);
-                    window.location.href = url;
+                    const url = event.url.replace(domain, `${urlHost}/app`);
+                    window.open(url, '_blank', 'noopener');
+                    //window.location.href = url;
                 }
                 if (event.url.includes('register')) {
                     this.register = true;
                     browser.close();
-                    window.location.href = `${urlHost}/register`;                    
+                    window.open(`${urlHost}/register`, '_blank', 'noopener');
+                    //window.location.href = `${urlHost}/register`;
                 }
             });
             browser.on('exit').subscribe(event => {
-                if(!this.register && !this.online){           
-                    window.location.href = urlHost;
+                if (!this.register && !this.online) {
+                    //window.location.href = urlHost;
+                    window.open(urlHost, '_blank', 'noopener');
                 }
             });
         } else {

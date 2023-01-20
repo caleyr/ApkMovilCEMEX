@@ -3,6 +3,7 @@ import { Location } from '@angular/common';
 import { TravelListUnique } from '../../../interfaces/travels/travel-list-unique';
 import { TravelService } from '../../../services/travels/travel.service';
 import { NavController } from '@ionic/angular';
+import { Travel } from '../../../interfaces/travels/travel';
 
 @Component({
   selector: 'app-search-list',
@@ -11,7 +12,7 @@ import { NavController } from '@ionic/angular';
 })
 export class SearchListPage implements OnInit {
 
-  listSearch : TravelListUnique[] = []
+  listSearch : Travel[] = []
 
   constructor(
     private location : Location,
@@ -20,16 +21,15 @@ export class SearchListPage implements OnInit {
     ) { }
 
   ngOnInit() {
-    this.listSearch = this.travelService.traveSearchList;
+    this.listSearch = this.travelService.traveSearchList.sort((a, b) => Date.parse( '1/01/2023 ' + a.TimerStar) - Date.parse( '1/01/2023 ' + b.TimerStar));
   }
 
   onBack(){
     this.location.back();
   }
 
-  detailTravel(codeTravel){
-    this.travelService.code = codeTravel;
-    console.log(this.travelService.code);    
+  detailTravel(travel){
+    this.travelService.travel = travel; 
     this.navCtrl.navigateRoot('/app/travels/detail-search', { animated: false });
   }
 

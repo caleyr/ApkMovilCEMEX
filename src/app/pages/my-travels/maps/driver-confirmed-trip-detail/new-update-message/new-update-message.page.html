@@ -1,9 +1,43 @@
-<ion-header>
-  <ion-toolbar>
-    <ion-title>newUpdateMessage</ion-title>
-  </ion-toolbar>
-</ion-header>
+<cwc-header design-version="v2" slot="header" show-Menu-Button="false" show-cemex-logo="false">
+  <div class="header-text">
+    <ion-icon name="arrow-back-outline" style="font-size: large" (click)="onBack()"></ion-icon>
+    <div class="attr-name" style="padding-left: 1rem; font-size: large; font-weight: 900;">Agregar actualización</div>
+  </div>
+</cwc-header>
+<div slot="main" class="content-card">
+  <div class="content-title">
+    Nueva actualización
+  </div>
+  <form [formGroup]="form">
+    <cwc-textarea rows='5' style="width: 100%;" formControlName="message" class="textarea" label="Escribe tu mensaje"
+      maxlength="45" placeholder="Deja tu mensaje" char-counter="true">
+    </cwc-textarea>
 
-<ion-content>
+    <div class="content-button">
+      <cwc-button design-version="v1" [disabled]="form.invalid" (click)="createMessage()" variant="regular-block">
+        <div class="button-css">ENVIAR</div>
+      </cwc-button>
+    </div>
+  </form>
+</div>
 
-</ion-content>
+<div class="loading-content" *ngIf="loading">
+  <cwc-loader>
+    <span slot='loading'>Espere un momento...</span>
+  </cwc-loader>
+</div>
+
+<cwc-modal id='alert-modal-succes' [open]="alertShow" close-on-bd-click="false" show-close-btn="false"
+  (cwcClose)="onBack()">
+  <div style='text-align: center'>
+    <h2 class='modal--confirmation__message'>Su actualización ha sido agregada</h2>
+    <p>El adminstrador logístico se contactara contigo.</p>
+  </div>
+  <footer slot='footer'>
+    <div style='text-align: center'>
+      <cwc-button variant='link' routerLinkActive="router-link-active" (cwcClick)="onBack()">
+        <h4>REGRESAR</h4>
+      </cwc-button>
+    </div>
+  </footer>
+</cwc-modal>

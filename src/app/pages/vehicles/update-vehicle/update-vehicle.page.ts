@@ -9,6 +9,7 @@ import { Observable } from 'rxjs';
 import { Vehicle } from '../models/vehicle';
 import { Location } from '@angular/common';
 import { LoginService } from '../../../services/auth/login.service';
+import { ApiService } from '../../../services/auth/api.service';
 
 @Component({
   selector: 'app-update-vehicle',
@@ -17,14 +18,14 @@ import { LoginService } from '../../../services/auth/login.service';
 })
 export class UpdateVehiclePage implements OnInit {
 
-  propagar = new EventEmitter<boolean>();
+  loading = false;
 
   form: FormGroup;
-  data : FormData;
+  data : FormData = new FormData();
   vehicle : Vehicle = new Vehicle();
-  company : Companies = new Companies();
+  company: string;
 
-  alertSucces = true;
+  alertSucces = false;
   alertConfirm = false;
   addIdentityCard = false;
   addDocumentCompany = false;
@@ -38,33 +39,60 @@ export class UpdateVehiclePage implements OnInit {
     private errorMessages: ErrorMessagesService,
     private vehiclesService : VehiclesService,
     private location : Location,
-    private loginService : LoginService
+    private apiService : ApiService
   ) {
-  }
-
-  ngOnInit() {    
-    this.alertSucces = false;   
-    this.vehicle = this.vehiclesService.vehicle;    
-    this.companiesService.getCompany(this.loginService.profileUser.CompanyId).subscribe(async data=>{
-      this.company = data.data;
-    })
+    this.company = apiService.userProfile.CompanyName;
+    this.vehicle = this.vehiclesService.vehicle;
     this.formBuilderInput();
   }
 
-  async updateVehicle(){
-    if(this.form.invalid){
+  ngOnInit() {     
+  }
+
+  formBuilderInput(){
+    this.form = this.formBuilder.group({
+      VehicleId : [this.vehicle.VehicleId],
+      Model: [this.vehicle.Model, [ Validators.required ]],
+      LicenseVehiculo: [this.vehicle.LicenseVehiculo , [ Validators.required ]],
+      TypeTrailer: [ this.vehicle.TypeTrailer , [ Validators.required ]],    
+      CompanyId: [ this.vehicle.CompanyName , [ Validators.required ]],    
+      Soat: [ this.vehicle.Soat , [ Validators.required ]],
+      StatusVehicle: [ this.vehicle.StatusVehicle ],
+      StatusTravel: [  this.vehicle.StatusTravel ],
+      UserId: [this.vehicle.UserId],
+      Status: [this.vehicle.Status],
+      term: [true, [ Validators.requiredTrue ]]
+    });
+  }
+
+  async updateVehicle() {
+    this.errors = [];
+    this.alertConfirm = false;
+    this.loading = true;
+    if (this.form.invalid) {
+      this.loading = true;
       return;
     }
-    this.data = new FormData();
-    this.addFormData(this.form.value);
-    this.propagar.emit(true);
-    await this.vehiclesService.updateVehicle(this.vehicle.id, this.data).subscribe(async resp =>{
-       this.propagar.emit(false);
-       this.alertSucces = true;
-       this.errors = [];
-    }, (error) =>{
-       this.propagar.emit(false);
-       this.errors = this.errorMessages.parsearErroresAPI(error);
+    await this.addFormData(this.form.value);
+    this.vehiclesService.updateVehicle(this.data).subscribe({
+      next: (result: any) => {
+        if (result.data.message !== 'Updated') {
+          this.errors = this.errorMessages.parsearErroresAPI('Error, La placa del vehiculo anotada ya se encuentra registrada.');
+          this.form.get('LicenseVehiculo').setValue('');
+          this.data = new FormData();
+        } else {
+          this.alertSucces = true;
+          this.alertConfirm = false;
+          this.errors = [];
+        }
+      },
+      error: (err) => {
+        this.loading = false;
+        this.errors = this.errorMessages.parsearErroresAPI(err.data);
+      },
+      complete: () => {
+        this.loading = false;
+      }
     });
   }
 
@@ -90,31 +118,4 @@ export class UpdateVehiclePage implements OnInit {
   onBack(){
     this.location.back();
   }
-
-  /*=============================================
-   FORMULARIO REACTIVOS
-  =============================================*/
-  formBuilderInput(){
-    this.form = this.formBuilder.group({
-      Model: [this.vehicle.model, [ Validators.required ]],
-      LicenseVehiculo: [this.vehicle.licenseVehiculo , [ Validators.required ]],
-      TypeTrailer: [ this.vehicle.typeTrailer , [ Validators.required ]],    
-      CompanyId: [ this.loginService.profileUser.CompanyId , [ Validators.required ]],    
-      Soat: [ this.vehicle.soat , [ Validators.required ]],
-      StatusVehicle: [ this.vehicle.statusVehicle ],
-      StatusTravel: [  this.vehicle.statusTravel ],
-      UserId: [this.vehicle.userId],
-      term: [true, [ Validators.requiredTrue ]]
-    });
-
-    this.form.valueChanges
-    .pipe(
-      debounceTime(350),
-    )
-    .subscribe(data => {
-      console.log(data);      
-      //this.validateInput();
-    });
-  }
-
 }

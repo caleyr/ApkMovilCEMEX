@@ -23,3 +23,23 @@
     display: inline-block !important;
     // padding: 0.2rem;
 }
+
+.splash {
+    background: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+
+.logo {
+    animation-name: pulsing;
+    animation-duration: 2s;
+    animation-iteration-count: infinite;
+}
+
+@keyframes pulsing {
+    0% {transform: scale(1.0)}
+    50% {transform: scale(1.1)}
+    100% {transform: scale(1.0)}
+}

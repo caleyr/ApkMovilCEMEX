@@ -15,6 +15,7 @@ import { RequestTravelListComponent } from './components/request-travel-list/req
 import { ScheduledTripsListComponent } from './components/scheduled-trips-list/scheduled-trips-list.component';
 import { MyTravelsAdminComponent } from './components/my-travels-admin/my-travels-admin.component';
 import { MyTravelsDriveComponent } from './components/my-travels-drive/my-travels-drive.component';
+import { ListTravelFilterPipe } from './pipe/list-travel-filter.pipe';
 
 @NgModule({
   imports: [
@@ -33,7 +34,8 @@ import { MyTravelsDriveComponent } from './components/my-travels-drive/my-travel
     RequestTravelListComponent,
     ScheduledTripsListComponent,
     MyTravelsAdminComponent,
-    MyTravelsDriveComponent
+    MyTravelsDriveComponent,
+    ListTravelFilterPipe
   ]
 })
 export class MyTravelsPageModule {}

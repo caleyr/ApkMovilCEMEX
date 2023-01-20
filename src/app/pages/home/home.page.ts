@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { MsalService, MsalBroadcastService } from '@azure/msal-angular';
 import { EventMessage, EventType, AuthenticationResult } from '@azure/msal-browser';
 import { filter } from 'rxjs/operators';
+import { ApiService } from '../../services/auth/api.service';
+import { UserService } from '../../services/user.service';
 
 @Component({
   selector: 'app-home',
@@ -10,14 +12,20 @@ import { filter } from 'rxjs/operators';
 })
 export class HomePage implements OnInit {
 
-  rol : string;
+  rol : number;
+
+  loading = false;
   
-  constructor() {
+  constructor(
+    private apiService : ApiService
+  ) {
    }
 
-  ngOnInit() {
-    this.rol = 'Administrador Logistico Tercero';
-    //this.initializeApp();
+  async ngOnInit() {
+    this.rol = this.apiService.userProfile.RolesId;
   }
 
+  showLoading(value) {
+    this.loading = value;
+  }
 }

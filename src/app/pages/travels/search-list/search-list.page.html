@@ -1,7 +1,7 @@
 <cwc-header design-version="v2" slot="header" show-Menu-Button="false" show-cemex-logo="false">
   <div class="header-text">
-    <ion-icon name="arrow-back-outline" style="font-size: 25px;" (click)="onBack()"></ion-icon>
-    <div class="attr-name" style="padding-left: 1rem;">Buscar viaje</div>
+    <ion-icon name="arrow-back-outline" style="font-size: large;" (click)="onBack()"></ion-icon>
+    <div class="attr-name" style="padding-left: 1rem; font-size: large; font-weight: 900;">Buscar viaje</div>
   </div>
 </cwc-header>
 <div slot="main" class="content-card">
@@ -11,9 +11,9 @@
   <hr color="#D0D0D0"/>
   <div>
     <h4>Destino</h4>
-    <cwc-grid class="demo-grid content-list flex" (click)="detailTravel(list.codeTravel)" *ngFor="let list of listSearch">
+    <cwc-grid class="demo-grid content-list flex" (click)="detailTravel(list)" *ngFor="let list of listSearch">
       <cwc-cell class="flex flex__align--center" colspan="12" mobile-colspan="11" style="padding-bottom: 0;">       
-          <div>{{'Viaje ' + list.codeTravel + ', ' + list.timerStar}}</div>       
+          <div>{{'Viaje ' + list.codeTravel + ', ' + list.TimerStar}}</div>       
       </cwc-cell>
       <cwc-cell colspan="12" mobile-colspan="1" style="margin-top: 1px;">       
         <cwc-icon class="flex flex__align--center" name="right-single" size="18px"></cwc-icon>      

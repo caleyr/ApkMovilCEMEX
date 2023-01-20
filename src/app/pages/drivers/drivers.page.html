@@ -3,7 +3,7 @@
     <cwc-grid class="demo-grid" row-gap="2px">
       <cwc-cell colspan="12" mobile-colspan="11" style="padding-bottom: 0;">     
         <div>
-          <cwc-input class="search-text" variant="regular" rtl="false" trailing-icon='magnifier-glass' placeholder='Buscar...'></cwc-input>  
+          <cwc-input class="search-text" variant="regular" rtl="false" trailing-icon='magnifier-glass' [(ngModel)]="search" placeholder='Buscar...'></cwc-input>  
         </div>       
       </cwc-cell> 
       <cwc-cell colspan="12" mobile-colspan="1">    
@@ -13,14 +13,14 @@
           </cwc-button>
         </div>  
       </cwc-cell>    
-    </cwc-grid>  
-    <h6 class="text-vehicles">Conductores ({{driversList.length}})</h6>
+    </cwc-grid>
+    <h4 class="text-vehicles">Conductores ({{driversList.length}})</h4>
     <ion-content>
       <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
         <ion-refresher-content></ion-refresher-content>
       </ion-refresher>
       <div class="navbar">    
-        <app-driver-list [drivers]="driversList"></app-driver-list>
+        <app-driver-list [searchFilter]="search" [drivers]="driversList"></app-driver-list>
       </div>  
     </ion-content>
     

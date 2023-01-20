@@ -1,18 +1,20 @@
 export class Vehicle{
-    id : string;
-    licenseVehiculo : string;
-    model : string;
-    typeTrailer : string;
-    soat : string;
-    companyId : string;
-    companyName : string;
-    users : string;
-    userId : string;
+    VehicleId : number;
+    LicenseVehiculo : string;
+    Model : string;
+    TypeTrailer : string;
+    Soat : string;
+    StatusVehicle : number;
+    StatusTravel : number;
+    SoatDocument : string;
+    TechnomechanicsDocument : string;
+    PolicyDocument : string;
+    CardPropertyDocument : string
+    UserId : number;
+    CompanyId : number;
+    CompanyName : string;
+    FirstName : string;
+    LastName : string;
+    Status : string;
     userName : string;
-    statusVehicle : string;
-    statusTravel : number;
-    soatDocument : number;
-    technomechanicsDocument : string;
-    policyDocument : string;
-    cardPropertyDocument : string;
 }

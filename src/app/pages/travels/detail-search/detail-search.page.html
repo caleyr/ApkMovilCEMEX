@@ -19,21 +19,21 @@
             <cwc-grid class="demo-grid" style="padding-top: 0.5rem;">
                 <cwc-cell colspan="12" mobile-colspan="12">   
                     <div class="attr-user">Origen</div>
-                    <span class="attr-detail">{{travel.source}}</span>
+                    <span class="attr-detail">{{travel.Source}}</span>
                 </cwc-cell>
             </cwc-grid>
   
             <cwc-grid class="demo-grid center-cell">
                 <cwc-cell colspan="12" mobile-colspan="12">
                     <div class="attr-user">Destino</div>
-                    <span class="attr-detail">{{travel.destiny}}</span>
+                    <span class="attr-detail">{{travel.Destiny}}</span>
                 </cwc-cell>                  
             </cwc-grid>
   
             <cwc-grid class="demo-grid center-cell">
               <cwc-cell mobile-colspan="12">
                   <div class="attr-user">Fecha y hora de cita</div>
-                  <span class="attr-detail">{{travel.dateAndHourTravel}}</span>
+                  <span class="attr-detail">{{travel.DateTravel}} - {{travel.TimerStar}}</span>
               </cwc-cell>           
             </cwc-grid>
   
@@ -49,6 +49,12 @@
       </cwc-card>
     </cwc-cell>
   </cwc-grid>
+</div>
+
+<div class="loading-content" *ngIf="loading">
+  <cwc-loader>
+    <span slot='loading'>Espere un momento...</span>
+  </cwc-loader>
 </div>
 
 <cwc-modal id='alert-modal-succes' [open]="alertShow" close-on-bd-click="false" show-close-btn="false" (cwcClose)="closeModalOk()" >

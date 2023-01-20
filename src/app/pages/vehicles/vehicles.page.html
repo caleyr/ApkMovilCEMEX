@@ -3,7 +3,7 @@
     <cwc-grid class="demo-grid" row-gap="2px">
       <cwc-cell colspan="12" mobile-colspan="11" style="padding-bottom: 0;">     
         <div>
-          <cwc-input class="search-text" variant="regular" rtl="false" trailing-icon='magnifier-glass' placeholder='Buscar...'></cwc-input>  
+          <cwc-input class="search-text" variant="regular" rtl="false" trailing-icon='magnifier-glass' [(ngModel)]="search" placeholder='Buscar...'></cwc-input>  
         </div>       
       </cwc-cell> 
       <cwc-cell colspan="12" mobile-colspan="1">    
@@ -14,15 +14,27 @@
         </div>  
       </cwc-cell>    
     </cwc-grid>  
-    <h6 class="text-vehicles">Vehículos ({{vehiclesList.length}})</h6>
+    <h4 class="text-vehicles">Vehículos ({{vehiclesList.length}})</h4>
     <ion-content>
       <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
         <ion-refresher-content></ion-refresher-content>
       </ion-refresher>
       <div class="navbar">
-        <app-vehicle-list [vehicles]="vehiclesList" [companyName]="company"></app-vehicle-list>
-      </div>  
+        <app-vehicle-list [vehicles]="vehiclesList" [searchFilter]="search" [companyName]="company"></app-vehicle-list>
+      </div>
+      <div class="column-empty" *ngIf="vehiclesList.length === 0 && loading === false">
+        <cwc-empty-result header="No se encontraron datos registrados." icon="accepted-ok" aria-live="polite"
+          class="cwc-empty-result hydrated v2" role="alert" design-version="v2" variant="regular">
+          Actualmente no se encuentran vehículos aprobados en el sistema.
+        </cwc-empty-result>
+      </div>
     </ion-content>  
     <cwc-button class="float" routerLink="agregar" design-version="v2" size="large" variant="ghost" ratio="square" trailing-icon="plus"></cwc-button>
   </div>  
 </app-layout>
+
+<div class="loading-content" *ngIf="loading">
+  <cwc-loader>
+    <span slot='loading'>Espere un momento...</span>
+  </cwc-loader>
+</div>

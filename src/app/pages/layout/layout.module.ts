@@ -7,6 +7,7 @@ import { CmxWebComponentsModule } from '@cmx-web-components/angular';
 
 import { LayoutPage } from './layout.page';
 import { ComponentsModule } from '../../components/components.module';
+import { RouterModule } from '@angular/router';
 
 @NgModule({
   imports: [
@@ -15,7 +16,7 @@ import { ComponentsModule } from '../../components/components.module';
     CommonModule,
     ComponentsModule,
     LayoutPageRoutingModule,
-    CmxWebComponentsModule.forRoot(),
+    CmxWebComponentsModule.forRoot()
   ],
   declarations: [
     LayoutPage

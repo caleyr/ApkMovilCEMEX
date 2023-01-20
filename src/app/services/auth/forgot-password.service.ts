@@ -20,11 +20,11 @@ export class ForgotPasswordService {
   ) { }
 
   public forgotPassword(data: any) {
-    return this.http.doPost(`${URL}/api/authentication/SendPasswordResetCode`, data, {});
+    return this.http.doPost(`${URL}/api/authentication/SendPasswordResetCode`, data);
   }
 
   public changePassword(data: any) {
-    return this.http.doPost(`${URL}/api/authentication/ResetPassword`, data, {});
+    return this.http.doPost(`${URL}/api/authentication/ResetPassword`, data);
   }
 
   // forgotPassword(email: string){

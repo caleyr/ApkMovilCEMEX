@@ -1,22 +1,35 @@
 <app-layout class="card-size">
   <div class="content-page">
-    <cwc-grid class="demo-grid" style="padding-top: 1rem;">
+    <cwc-grid class="demo-grid">
       <cwc-cell colspan="6" mobile-colspan="9">
-        <div>Semana 22 de Agosto, 2020</div>
+        <h4 class="detail_list_travels">Semana {{currentDate | date:'mediumDate'}}</h4>
       </cwc-cell>
       <cwc-cell colspan="6" mobile-colspan="3">
-        <div style="text-align: end;">{{requestsList.length}} Viajes</div>
+        <h4 style="text-align: end;" class="detail_list_travels">{{requestsList.length}} Viajes</h4>
       </cwc-cell>
     </cwc-grid>
-    <ion-content>   
+    <ion-content>
       <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
         <ion-refresher-content></ion-refresher-content>
       </ion-refresher>
-      <div class="navbar" style="padding-top: 0.5rem;">
+      <div class="navbar" *ngIf="requestsList.length" style="padding-top: 0.5rem;">
         <app-request-waiting-list [requests]="requestsList"></app-request-waiting-list>
+        <div class="column-empty" *ngIf="requestsList.length === 0 && loading === false">
+          <cwc-empty-result header="No se encontraron datos registrados." icon="accepted-ok" aria-live="polite"
+            class="cwc-empty-result hydrated v2" role="alert" design-version="v2" variant="regular">
+            Actualmente no se encuentran viajes en espera registrados en el sistema.
+          </cwc-empty-result>
+        </div>
       </div>
     </ion-content>
-    <cwc-button class="float" routerLink="new-request" design-version="v2" size="large" variant="ghost" ratio="square" trailing-icon="plus"></cwc-button>
-  </div>  
+    
+    <cwc-button class="float" routerLink="new-request" design-version="v2" size="large" variant="ghost" ratio="square"
+      trailing-icon="plus"></cwc-button>
+  </div>
 </app-layout>
- 
+
+<div class="loading-content" *ngIf="loading">
+  <cwc-loader>
+    <span slot='loading'>Espere un momento...</span>
+  </cwc-loader>
+</div>

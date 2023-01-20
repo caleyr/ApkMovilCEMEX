@@ -20,23 +20,23 @@ export class FileRegisterUserService {
   fileSecurityCard: string;
   fileDocument: string;
 
-  dataForm : FormData;
+  dataForm: FormData;
 
-  constructor(private httpP : HttpService) {    
+  constructor(private httpP: HttpService) {
     Camera.checkPermissions()
-   }
+  }
 
-  async openCameraOne(){
+  async openCameraOne() {
     const capturedPhoto = await Camera.getPhoto({
       resultType: CameraResultType.DataUrl,
       source: CameraSource.Camera,
       quality: 100
     });
     this.photoFrontal = capturedPhoto.dataUrl;
-    this.savePhotoFrontal = capturedPhoto.dataUrl; 
+    this.savePhotoFrontal = capturedPhoto.dataUrl;
   }
 
-  async openCameraTwo(){
+  async openCameraTwo() {
     const capturedPhoto = await Camera.getPhoto({
       resultType: CameraResultType.DataUrl,
       source: CameraSource.Camera,
@@ -47,65 +47,69 @@ export class FileRegisterUserService {
   }
 
   //REMOVER PHOTO
-  removePhotoFrontal(){
+  removePhotoFrontal() {
     this.photoFrontal = undefined;
   }
-  removePhotoBack(){
+  removePhotoBack() {
     this.photoBack = undefined;
   }
-  
+
   // AGREGAR ARCHIVOS
-  onFileDrivinglicense(event, data: FormData){
+  onFileDrivinglicense(event, data: FormData) {
     const file = <File>event.target.files[0];
     this.fileDrivinglicense = file.name;
-    data.append('Drivinglicense', file, file.name);
+    data.append('LicenciaConduccion', file, file.name);
     return data;
   }
 
-  onFileSecurityCard(event, data: FormData){
+  onFileSecurityCard(event, data: FormData) {
     const file = <File>event.target.files[0];
     this.fileSecurityCard = file.name;
-    data.append('SecurityCard', file, file.name);
+    data.append('CarnetSeguridadIndustrial', file, file.name);
+
     return data;
   }
 
-  onFileDocument(event, data: FormData){
+  onFileDocument(event, data: FormData) {
     const file = <File>event.target.files[0];
     this.fileDocument = file.name;
-    data.append('DocumentIdentityCard', file, file.name);    
+    data.append('CedulaDocumento', file, file.name);
     return data;
   }
 
   // ELIMINAR ARCHIVOS
-  deleteFileDrivinglicense(data : FormData){ 
-    this.fileDrivinglicense = undefined;   
-    data.delete('Drivinglicense');
+  deleteFileDrivinglicense(data: FormData, input: any) {
+    this.fileDrivinglicense = undefined;
+    data.delete('LicenciaConduccion');
+    input.nativeElement.value = "";
     return data;
   }
 
-  deleteFileSecurityCard(data : FormData){
+  deleteFileSecurityCard(data: FormData, input: any) {
     this.fileSecurityCard = undefined;
-    data.delete('SecurityCard');
+    data.delete('CarnetSeguridadIndustrial');
+    input.nativeElement.value = "";
     return data;
   }
 
-  deleteFileDocument(data : FormData){
+  deleteFileDocument(data: FormData, input: any) {
     this.fileDocument = undefined;
-    data.delete('DocumentIdentityCard');
+    data.delete('CedulaDocumento');
+    input.nativeElement.value = "";
     return data;
   }
 
-  resetPhoto(){
+  resetPhoto() {
     this.photoFrontal = undefined;
-    this.photoBack = undefined; 
-    
+    this.photoBack = undefined;
+
     this.savePhotoFrontal = undefined;
     this.savePhotoBack = undefined;
   }
 
-  resetForm(){
+  resetForm() {
     this.photoFrontal = undefined;
-    this.photoBack = undefined;    
+    this.photoBack = undefined;
 
     this.savePhotoFrontal = undefined;
     this.savePhotoBack = undefined;

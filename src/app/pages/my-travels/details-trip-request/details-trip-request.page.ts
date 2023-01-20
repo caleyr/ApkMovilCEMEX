@@ -8,6 +8,10 @@ import { DriverList } from '../../drivers/models/drivers-list';
 import { DriversService } from '../../../services/drivers.service';
 import { Subscription } from 'rxjs';
 import { LoginService } from '../../../services/auth/login.service';
+import { ApiService } from '../../../services/auth/api.service';
+import { UserDetail } from '../../../models/user-detail.model';
+import { Vehicle } from '../../vehicles/models/vehicle';
+import { filter } from 'rxjs/operators';
 
 @Component({
   selector: 'app-details-trip-request',
@@ -17,28 +21,35 @@ import { LoginService } from '../../../services/auth/login.service';
 export class DetailsTripRequestPage implements OnInit {
 
   id: string;
-  travel = new Travel();
+  idUser: number;
+  travel: Travel;
 
-  listDrivers : DriverList[] = [];
-  driveSelected : string = 'Seleccionar';
-  driverId : string;
-  licenseOk : boolean = true;
+  loading = false;
 
-  messageShowA : boolean = false;
-  messageShow : boolean = false;
+  listDrivers: Vehicle[] = [];
+  driveSelected: string = 'Seleccionar';
+  driverId: string;
+  licenseOk: boolean = true;
+
+  messageShowA: boolean = false;
+  messageShow: boolean = false;
 
   suscripcion: Subscription;
 
-  constructor(private location : Location,
+  constructor(
+    private location: Location,
     private travelService: TravelService,
-    private userService : UserService,
-    private vehiclesService : VehiclesService,
-    private driversService : DriversService,
-    private loginService : LoginService
-    ) { }
+    private userService: UserService,
+    private vehiclesService: VehiclesService,
+    private apiService: ApiService
+  ) {
+    this.idUser = apiService.userProfile.UserId;
+  }
 
   ngOnInit() {
+    this.loading = true;
     this.suscripcion = this.travelService.changeDataRefresh.subscribe(() => {
+      this.loading = true;
       this.getData();
       this.getListDrivers();
     });
@@ -46,13 +57,14 @@ export class DetailsTripRequestPage implements OnInit {
     this.getListDrivers();
   }
 
-  onBack(){
+  onBack() {
     this.location.back();
   }
 
-  getListDrivers(){
-    this.driversService.getDriverList(this.loginService.profileUser.CompanyId).subscribe(data => {
-      this.listDrivers = data.data;
+  getListDrivers() {
+    this.vehiclesService.getVehiclesUserByIdCompany(this.apiService.userProfile.CompanyId).subscribe(data => {
+      this.listDrivers = data.data.filter(data => data.StatusTravel === 0);
+      this.loading = false;
     });
   }
 
@@ -65,37 +77,37 @@ export class DetailsTripRequestPage implements OnInit {
     }
   }
 
-  showModal(){    
+  showModal() {
     document.getElementById('modal-assign-trip').setAttribute('open', 'true');
   }
 
-  changeDriver(event){
-    if(event.detail.value === '0'){
+  changeDriver(event) {
+    if (event.detail.value === '0') {
+      this.driverId = undefined
       this.driveSelected = 'Seleccionar';
       this.licenseOk = true;
-    }else{
-      this.driverId = event.detail.value;
-      this.userService.getUserDetail(event.detail.value).subscribe(data=>{
-        this.vehiclesService.getVehicleById(data.data.lisenseVehicle).subscribe(dataV=>{
-          this.driveSelected = dataV.data.licenseVehiculo;
-          this.licenseOk = false;
-        })
-      });
+    } else {
+      const drive = this.listDrivers.filter(data => data.VehicleId === parseInt(event.detail.value))[0];
+      this.driveSelected = drive.LicenseVehiculo;
+      this.driverId = drive.UserId.toString();
+      this.licenseOk = false;
     }
   }
 
-  driverAssign(){
+  driverAssign() {
+    this.loading = true;
     const dataD = new FormData();
-    dataD.append('Id', this.travel.id);
+    dataD.append('TraveId', this.travel.TraveId);
     dataD.append('UserId', this.driverId);
-    dataD.append('StatusTravel', '3');
-    dataD.append('StatusTravelAvailability', '3');
-    this.travelService.updateTravel(this.travel.id, dataD).subscribe(()=>{        
+    dataD.append('LicenseVehiculo', this.driveSelected)
+    dataD.append('StatusTravelAvailability', '2');
+    dataD.append('StatusTravel', '2');
+    this.travelService.updateTravel(dataD).subscribe(() => {
+      this.loading = false;
       document.getElementById('modal-assign-trip').setAttribute('open', 'false');
       this.messageShowA = true;
-    },(err)=>{
+    }, (err) => {
       document.getElementById('modal-assign-trip').setAttribute('open', 'false');
-      console.log(err);
     });
-  }                         
+  }
 }

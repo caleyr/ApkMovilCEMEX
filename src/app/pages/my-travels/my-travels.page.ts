@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { LoginService } from 'src/app/services/auth/login.service';
+import { ApiService } from '../../services/auth/api.service';
 
 @Component({
   selector: 'app-my-travels',
@@ -8,14 +9,18 @@ import { LoginService } from 'src/app/services/auth/login.service';
 })
 export class MyTravelsPage implements OnInit {
 
-  rol : string = null;
+  rol : number = null;
+  loading = true;
 
   constructor(
-    private loginService : LoginService
+    private apiService : ApiService
   ) { }
 
   ngOnInit() {
-    this.rol = this.loginService.profileUser.Roles;
+    this.rol = this.apiService.userProfile.RolesId;
   }
 
+  showLoading(value) {
+    this.loading = value;
+  }
 }

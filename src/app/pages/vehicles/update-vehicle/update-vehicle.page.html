@@ -1,116 +1,83 @@
 <cwc-header design-version="v2" slot="header" show-Menu-Button="false" show-cemex-logo="false">
   <div class="header-text">
-    <ion-icon name="arrow-back-outline" style="font-size: 25px;" (click)="onBack()"></ion-icon>
-    <div class="attr-name" style="padding-left: 1rem;">Editar vehículo</div>
+    <ion-icon name="arrow-back-outline" style="font-size: large;" (click)="onBack()"></ion-icon>
+    <div class="attr-name" style="padding-left: 1rem; font-size: large; font-weight: 900;">Editar vehículo</div>
   </div>
 </cwc-header>
-<div slot="main" class="content-card">  
+<div slot="main" class="content-card">
   <div class="content-title">
     Mi vehículo
   </div>
   <form (submit)="updateVehicle()" [formGroup]="form">
     <cwc-grid class="demo-grid" design-version="v2" columns="12" mobile-columns="12">
       <cwc-cell colspan="12" mobile-colspan="12">
-        <div>
-          <cwc-input class="input" 
-            label='Medelo de vehículo'
-            placeholder="Agrega el tipo de camión"
-            design-version="v1" 
-            formControlName="Model"
-            required
-          ></cwc-input>
-        </div>
-        <div>
-          <cwc-input class="input" 
-            label='Placa'
-            formControlName="LicenseVehiculo"
-            design-version="v1"
-            placeholder="Agrega número de serie"
-            required
-          ></cwc-input>
-        </div>
-        <div>
-          <cwc-input class="input" 
-            label='Tipo de trailer'
-            formControlName="TypeTrailer"
-            placeholder="Características especiales del vehículo"
-            design-version="v1" 
-            required
-          ></cwc-input>
-        </div>
-        <div class="content-picker" *ngIf="company">
-          <cwc-picker
-            class="w-full select-filter"
-            label="Empresa"
-            filter-no-resultsMessage="No se encontraron resultados" 
-            filter-placeholder="Filtrar Empresas"
-            [placeholder]="company.companyName" 
-            mobile="false"
-            disabled="true"
-            string-values="true"
-            filter>
-          </cwc-picker>
+        <div class="section">
+          <cwc-input class="input" label='Medelo de vehículo' placeholder="Agrega el tipo de camión" design-version="v2"
+            formControlName="Model" required></cwc-input>
         </div>
         <div class="section">
-          <cwc-input class="input" 
-          label='Número de SOAT (opcional)'
-          type="text"
-          formControlName="Soat"
-          placeholder="Agregar los 20 dígitos de su número de SOAT"
-          design-version="v1" 
-          ngDefaultControl
-          required
-          ></cwc-input>
+          <cwc-input class="input" label='Placa' formControlName="LicenseVehiculo" design-version="v2"
+            placeholder="Agrega número de serie" required></cwc-input>
+        </div>
+        <div class="section">
+          <cwc-input class="input" label='Tipo de trailer' formControlName="TypeTrailer"
+            placeholder="Características especiales del vehículo" design-version="v2" required></cwc-input>
+        </div>
+        <div class="section">
+          <cwc-input class="input" label='Número de SOAT (opcional)' type="text" formControlName="Soat"
+            placeholder="Agregar los 20 dígitos de su número de SOAT" design-version="v2" ngDefaultControl
+            required></cwc-input>
+        </div>
+        <div class="section">
+          <cwc-input class="input" label='Empresa' type="text" [disabled]="true" design-version="v2"
+            [placeholder]="company" required></cwc-input>
         </div>
       </cwc-cell>
     </cwc-grid>
-    <cwc-checkbox
-      formControlName="term"
-      mobile="true"
-      class='m-end-sm'>          
+    <cwc-checkbox formControlName="term" mobile="true" class='m-end-sm' style="margin-bottom: 2rem;">
       <div class="input-check">Confirmo que la siguiente información es verdadera.</div>
     </cwc-checkbox>
 
-    <app-error-messages [errors]="errors"></app-error-messages> 
+    <app-error-messages [errors]="errors"></app-error-messages>
     <!--=====================================
       BOTON PARA GUARDAR EL REGISTRO
     ======================================-->
     <div class="content-button">
-      <cwc-button 
-        design-version="v1" 
-        [disabled]="form.invalid"
-        (click)="openAlertConfirm()" 
-        variant="regular-block">GUARDAR CAMBIOS</cwc-button>
+      <cwc-button design-version="v1" [disabled]="form.invalid" (click)="openAlertConfirm()" variant="regular-block">
+        <div class="button-css">GUARDAR CAMBIOS</div>
+      </cwc-button>
     </div>
   </form>
 </div>
 <!--=====================================
 		MODAL ALERTA CONFIRMAR DATOS GUARDAR
 ======================================-->
-<cwc-modal id='alert-confirm' class="alert-confirm" [open] ="alertConfirm" (cwcClose)="closeAlertConfirm()">
+<cwc-modal id='alert-confirm' class="alert-confirm" [open]="alertConfirm" (cwcClose)="closeAlertConfirm()">
   <header slot='header'>
-      <h2 style='margin:0;'>Atención</h2>
+    <h2 style='margin:0;'>Atención</h2>
   </header>
   <p>¿Esta seguro que los datos registrados estan correctos?</p>
   <footer slot='footer'>
-      <div style='text-align: end'>
-        <cwc-button variant='support' (click)="closeAlertConfirm()" style="margin-right: 1rem;">Cancelar</cwc-button>
-          <cwc-button variant='primary' (click)="updateVehicle()" >Aceptar</cwc-button>
-      </div>
+    <div style='text-align: end'>
+      <cwc-button variant='support' (click)="closeAlertConfirm()" style="margin-right: 1rem;">Cancelar</cwc-button>
+      <cwc-button variant='primary' (click)="updateVehicle()">Aceptar</cwc-button>
+    </div>
   </footer>
 </cwc-modal>
 <!--=====================================
 		MODAL CONFIRMACIÓN RESPUESTA DE EXITO
 ======================================-->
-<app-alert-success
-  [alertShow] = "alertSucces"
-  title = "Su información ha sido guardada"
-  urlButton = "/app/vehiculos/detalles"
-  textButton = "OK"
-  message = "El vehiculo fue actualizado correctamente.">
+<app-alert-success [alertShow]="alertSucces" title="Su información ha sido guardada" urlButton="/app/vehiculos/detalles"
+  message="El vehiculo fue actualizado correctamente.">
 </app-alert-success>
 <!--=====================================
 	TOAST ALERT MENSAJE
 ======================================-->
-<cwc-snackbar id='toast-message-driver' [message]="toastMessage"
-cta-message="dismiss" auto-hide-duration='5000'></cwc-snackbar>
+<cwc-snackbar id='toast-message-driver' [message]="toastMessage" cta-message="dismiss"
+  auto-hide-duration='5000'></cwc-snackbar>
+
+  <div class="loading-content" *ngIf="loading">
+    <cwc-loader>
+      <span slot='loading'>Espere un momento...</span>
+    </cwc-loader>
+  </div>
