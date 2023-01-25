@@ -26,10 +26,10 @@ export class RegisterAdminLogistThirdComponent implements AfterViewInit {
   propagar = new EventEmitter<boolean>();
 
   form: FormGroup;
-  data : FormData = new FormData();
-  dataPrueba : FormData = new FormData();
+  data: FormData = new FormData();
+  dataPrueba: FormData = new FormData();
 
-  listCompanies : Companies[];
+  listCompanies: Companies[];
 
   alertSucces = false;
   alertConfirm = false;
@@ -38,10 +38,10 @@ export class RegisterAdminLogistThirdComponent implements AfterViewInit {
   errors: string[] = [];
 
   openPhotoIdentityCard = false;
-  openPhotoDocumentCompany = false;   
-  
-  nameFile : string = 'Drivinglicense';
-  nameText : string;
+  openPhotoDocumentCompany = false;
+
+  nameFile: string = 'Drivinglicense';
+  nameText: string;
 
   fileURL;
   fileBlob;
@@ -52,26 +52,29 @@ export class RegisterAdminLogistThirdComponent implements AfterViewInit {
 
   constructor(
     private formBuilder: FormBuilder,
-    private companiesService : CompaniesService,
+    private companiesService: CompaniesService,
     private errorMessages: ErrorMessagesService,
-    private adminLogistService : AdminLogistService,
-    public msgField : ValidateUserFieldService,
-    public fileRegister : FileRegisterUserService,
-  ) {    
+    private adminLogistService: AdminLogistService,
+    public msgField: ValidateUserFieldService,
+    public fileRegister: FileRegisterUserService,
+  ) {
     this.formBuilderInput();
     this.loadingCompany = true;
     Filesystem.checkPermissions();
   }
 
-  async ngAfterViewInit() {  
-    const results = await this.companiesService.getCompanies();
-    if(results && Array.isArray(results)){
-      this.listCompanies = results;
-      this.loadingCompany = false;
-    }
+  async ngAfterViewInit() {
+    this.companiesService.getCompanies().subscribe({
+      next: (data: any) => {
+        this.listCompanies = data.data;
+      },
+      complete: () => {
+        this.loadingCompany = false;
+      }
+    });
   }
 
-  formBuilderInput(){
+  formBuilderInput() {
     this.form = this.formBuilder.group({
       RolesId: ['3'],
       FirstName: ['', [Validators.required,]],
@@ -88,21 +91,21 @@ export class RegisterAdminLogistThirdComponent implements AfterViewInit {
     });
   }
 
-  cwcChange(event){
+  cwcChange(event) {
     this.form.get('CompanyId').setValue(`${event.detail.value}`);
   }
 
-  async register(){
+  async register() {
     this.errors = [];
     this.alertConfirm = false;
     this.propagar.emit(true);
-    if(this.form.invalid){      
+    if (this.form.invalid) {
       this.propagar.emit(false);
       return;
     }
     this.addFormData(this.form.value);
     this.adminLogistService.createUser(this.data).subscribe({
-      next: ( result : any ) => {
+      next: (result: any) => {
         if (result.data.message !== 'Saved') {
           this.propagar.emit(false);
           this.errors = this.errorMessages.parsearErroresAPI('Error, el correo digita ya se encuentra registrado.');
@@ -127,43 +130,43 @@ export class RegisterAdminLogistThirdComponent implements AfterViewInit {
     });
   }
 
-  async addFormData(objeto){
-    for ( var key in objeto ) {
+  async addFormData(objeto) {
+    for (var key in objeto) {
       this.data.append(key, objeto[key]);
     }
   }
 
-  openAlertConfirm(){
-    if(this.form.invalid){
+  openAlertConfirm() {
+    if (this.form.invalid) {
       return;
     }
     this.alertConfirm = true;
   }
 
-  closeAlertConfirm(){
+  closeAlertConfirm() {
     this.alertConfirm = false;
   }
 
-  openModalDocument(name){
-    if(name === 'Drivinglicense'){
+  openModalDocument(name) {
+    if (name === 'Drivinglicense') {
       this.nameFile = name;
       this.nameText = 'licencia de conducción';
-    }else if(name === 'SecurityCard'){
+    } else if (name === 'SecurityCard') {
       this.nameFile = name;
       this.nameText = 'carné de seguridad industrial y vial';
-    }else if(name === 'DocumentIdentityCard'){
+    } else if (name === 'DocumentIdentityCard') {
       this.nameFile = name;
       this.nameText = 'cédula de ciudadanía';
     }
-    document.getElementById('modal-document').setAttribute('open','true');
+    document.getElementById('modal-document').setAttribute('open', 'true');
   }
-  
-  cloceModalDocument(){
-    document.getElementById('modal-document').setAttribute('open','false');    
+
+  cloceModalDocument() {
+    document.getElementById('modal-document').setAttribute('open', 'false');
     this.fileRegister.resetPhoto();
   }
 
-  async savePdf(){
+  async savePdf() {
     const pdfDefinition: any = {
       content: [
         {
@@ -180,14 +183,14 @@ export class RegisterAdminLogistThirdComponent implements AfterViewInit {
     const pdfDocGenerator = await pdfMake.createPdf(pdfDefinition);
     const fileName = new Date().getTime() + `_${this.nameFile}.pdf`;
     await pdfDocGenerator.getBlob((file) => {
-      if(this.nameFile === 'Drivinglicense'){
+      if (this.nameFile === 'Drivinglicense') {
         this.fileRegister.fileDrivinglicense = fileName;
-      }else if(this.nameFile === 'SecurityCard'){
+      } else if (this.nameFile === 'SecurityCard') {
         this.fileRegister.fileSecurityCard = fileName;
-      }else if(this.nameFile === 'DocumentIdentityCard'){
+      } else if (this.nameFile === 'DocumentIdentityCard') {
         this.fileRegister.fileDocument = fileName;
       }
-      this.data.append(this.nameFile, file, );
+      this.data.append(this.nameFile, file,);
       this.cloceModalDocument();
     });
   }

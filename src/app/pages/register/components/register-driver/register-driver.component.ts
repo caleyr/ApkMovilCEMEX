@@ -27,10 +27,10 @@ export class RegisterDriverComponent implements AfterViewInit {
   propagar = new EventEmitter<boolean>();
 
   form: FormGroup;
-  data : FormData = new FormData();
-  dataPrueba : FormData = new FormData();
-  
-  listCompanies : Companies[] = [];
+  data: FormData = new FormData();
+  dataPrueba: FormData = new FormData();
+
+  listCompanies: Companies[] = [];
 
   alertSucces = false;
   alertConfirm = false;
@@ -39,10 +39,10 @@ export class RegisterDriverComponent implements AfterViewInit {
   errors: string[] = [];
 
   openPhotoIdentityCard = false;
-  openPhotoDocumentCompany = false;   
-  
-  nameFile : string = 'Drivinglicense';
-  nameText : string;
+  openPhotoDocumentCompany = false;
+
+  nameFile: string = 'Drivinglicense';
+  nameText: string;
 
   fileURL;
   fileBlob;
@@ -54,62 +54,63 @@ export class RegisterDriverComponent implements AfterViewInit {
 
   constructor(
     private formBuilder: FormBuilder,
-    private companiesService : CompaniesService,
-    private adminLogistService : AdminLogistService,
-    public msgField : ValidateUserFieldService,
-    public fileRegister : FileRegisterUserService,
+    private companiesService: CompaniesService,
+    private adminLogistService: AdminLogistService,
+    public msgField: ValidateUserFieldService,
+    public fileRegister: FileRegisterUserService,
     private errorMessages: ErrorMessagesService,
-    private httpP : HttpService,
-    private router : Router
+    private httpP: HttpService,
+    private router: Router
   ) {
     this.formBuilderInput();
     this.loadingCompany = true;
     Filesystem.checkPermissions();
   }
 
-  async ngAfterViewInit() {  
-    /*
-    const results = await this.companiesService.getCompanies().subscribe();
-    if(results && Array.isArray(results)){
-      this.listCompanies = results;
-      this.loadingCompany = false;
-    }
-    */
+  async ngAfterViewInit() {
+    this.companiesService.getCompanies().subscribe({
+      next: (data: any) => {
+        this.listCompanies = data.data;
+      },
+      complete: () => {
+        this.loadingCompany = false;
+      }
+    });
   }
 
-  formBuilderInput(){
+  formBuilderInput() {
     this.form = this.formBuilder.group({
       RolesId: ['1'],
       FirstName: ['', [Validators.required,]],
       LastName: ['', [Validators.required,]],
-      PhoneNumber: ['', [ Validators.pattern('^[3][0-9]*$')]],
+      PhoneNumber: ['', [Validators.pattern('^[3][0-9]*$')]],
       Email: ['', [Validators.required, Validators.email]],
       CompanyId: ['', [Validators.required,]],
-      Status : ['0'],
-      CodeSap : ['', [ Validators.pattern('^[0-9]*$') ]],
-      policiesPermission : [false],
-      Password: ['',       
-      [ Validators.required, Validators.pattern('^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*_=+-]).{10,15}$') ],
+      Status: ['0'],
+      CodeSap: ['', [Validators.pattern('^[0-9]*$')]],
+      policiesPermission: [false],
+      Password: ['',
+        [Validators.required, Validators.pattern('^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*_=+-]).{10,15}$')],
       ],
-      IdDocument : ['', [ Validators.pattern('^[0-9]*$') ]]
+      IdDocument: ['', [Validators.pattern('^[0-9]*$')]]
     });
   }
 
-  cwcChange(event){
+  cwcChange(event) {
     this.form.get('CompanyId').setValue(`${event.detail.value}`);
   }
 
-  async register(){    
+  async register() {
     this.errors = [];
     this.alertConfirm = false;
     this.propagar.emit(true);
-    if(this.form.invalid){
+    if (this.form.invalid) {
       this.propagar.emit(false);
       return;
     }
     await this.addFormData(this.form.value);
     this.adminLogistService.createUser(this.dataPrueba).subscribe({
-      next: ( result : any ) => {
+      next: (result: any) => {
         if (result.data.message !== 'Saved') {
           this.propagar.emit(false);
           this.errors = this.errorMessages.parsearErroresAPI('Error, el correo digita ya se encuentra registrado.');
@@ -134,43 +135,43 @@ export class RegisterDriverComponent implements AfterViewInit {
     });
   }
 
-  async addFormData(objeto){
-    for ( var key in objeto ) {
+  async addFormData(objeto) {
+    for (var key in objeto) {
       this.dataPrueba.append(key, objeto[key]);
     }
   }
 
-  openAlertConfirm(){
-    if(this.form.invalid){
+  openAlertConfirm() {
+    if (this.form.invalid) {
       return;
     }
     this.alertConfirm = true;
   }
 
-  closeAlertConfirm(){
+  closeAlertConfirm() {
     this.alertConfirm = false;
   }
 
-  openModalDocument(name){
-    if(name === 'LicenciaConduccion'){
+  openModalDocument(name) {
+    if (name === 'LicenciaConduccion') {
       this.nameFile = name;
       this.nameText = 'licencia de conducción';
-    }else if(name === 'CarnetSeguridadIndustrial'){
+    } else if (name === 'CarnetSeguridadIndustrial') {
       this.nameFile = name;
       this.nameText = 'carné de seguridad industrial y vial';
-    }else if(name === 'CedulaDocumento'){
+    } else if (name === 'CedulaDocumento') {
       this.nameFile = name;
       this.nameText = 'cédula de ciudadanía';
     }
-    document.getElementById('modal-document').setAttribute('open','true');
+    document.getElementById('modal-document').setAttribute('open', 'true');
   }
 
-  cloceModalDocument(){
-    document.getElementById('modal-document').setAttribute('open','false');    
+  cloceModalDocument() {
+    document.getElementById('modal-document').setAttribute('open', 'false');
     this.fileRegister.resetPhoto();
   }
 
-  async savePdf(){
+  async savePdf() {
     const pdfDefinition: any = {
       content: [
         {
@@ -187,26 +188,26 @@ export class RegisterDriverComponent implements AfterViewInit {
     const pdfDocGenerator = await pdfMake.createPdf(pdfDefinition);
     const fileName = new Date().getTime() + `_${this.nameFile}.pdf`;
     await pdfDocGenerator.getBlob((file) => {
-      if(this.nameFile === 'LicenciaConduccion'){
+      if (this.nameFile === 'LicenciaConduccion') {
         this.fileRegister.fileDrivinglicense = fileName;
-      }else if(this.nameFile === 'CarnetSeguridadIndustrial'){
+      } else if (this.nameFile === 'CarnetSeguridadIndustrial') {
         this.fileRegister.fileSecurityCard = fileName;
-      }else if(this.nameFile === 'CedulaDocumento'){
+      } else if (this.nameFile === 'CedulaDocumento') {
         this.fileRegister.fileDocument = fileName;
       }
-      this.data.append(this.nameFile, file, );
+      this.data.append(this.nameFile, file,);
       this.cloceModalDocument();
     });
   }
 
-  async onFileDrivinglicense(event){
+  async onFileDrivinglicense(event) {
     const file = <File>event.target.files[0];
     this.fileURL = URL.createObjectURL(file);
     await this.blobFormFile(event.target.files[0])
-    const resultado =  await this.saveFile(file.name, this.fileBlob);
-    this.httpP.uploadFile(this.fileBlob, file.name).then(result=>{
-      alert('Paso ' + JSON.stringify(result)); 
-    }).catch((error)=>{
+    const resultado = await this.saveFile(file.name, this.fileBlob);
+    this.httpP.uploadFile(this.fileBlob, file.name).then(result => {
+      alert('Paso ' + JSON.stringify(result));
+    }).catch((error) => {
       alert('Error ' + JSON.stringify(error));
     })
     /*this.fileRegister.fileDrivinglicense = file.name;
@@ -258,7 +259,7 @@ export class RegisterDriverComponent implements AfterViewInit {
     return zoneOriginalInstance || fileReader;
   }
 
-  onBack(){
+  onBack() {
     this.router.navigate(['app/home']);
   }
 }

@@ -8,6 +8,8 @@ import { AlertConfimComponent } from './alert-confim/alert-confim.component';
 import { ToastMessageComponent } from './toast-message/toast-message.component';
 import { RouterModule } from '@angular/router';
 import { CmxWebComponentsModule } from '@cmx-web-components/angular';
+import { ModalTermComponent } from './modal-term/modal-term.component';
+import { FormsModule } from '@angular/forms';
 
 
 
@@ -18,8 +20,10 @@ import { CmxWebComponentsModule } from '@cmx-web-components/angular';
     ErrorMessagesComponent,
     MenuComponent,
     ToastMessageComponent,
+    ModalTermComponent
   ],
   imports: [
+    FormsModule,
     IonicModule,
     RouterModule,
     CommonModule,
@@ -30,7 +34,8 @@ import { CmxWebComponentsModule } from '@cmx-web-components/angular';
     AlertConfimComponent,
     ErrorMessagesComponent,
     MenuComponent,
-    ToastMessageComponent
+    ToastMessageComponent,
+    ModalTermComponent
   ]
 })
 export class ComponentsModule { }

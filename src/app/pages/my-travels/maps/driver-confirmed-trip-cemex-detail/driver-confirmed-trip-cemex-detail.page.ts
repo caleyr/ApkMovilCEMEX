@@ -187,10 +187,8 @@ export class DriverConfirmedTripCemexDetailPage implements OnInit {
     const data = new FormData();
     data.append('TraveId', this.travel.TraveId);
     data.append('UserId', this.travel.UserId.toString());
-    console.log(this.userPosicion.lat.toString().replace('.', ','));
-    console.log(this.userPosicion.lng.toString().replace('.', ','));
-    data.append('LatitudeSource', '4.824866');
-    data.append('LongitudeSource', '-74.347959');
+    data.append('LatitudeUser', this.userPosicion.lat.toString());
+    data.append('LongitudeUser', this.userPosicion.lng.toString());
     return new Promise((resolve) => {
       if (!this.found) {
         this.travelService.updateTravelUser(data).subscribe({
@@ -217,7 +215,7 @@ export class DriverConfirmedTripCemexDetailPage implements OnInit {
     return new Promise((resolve) => {
       var route;
       this.directionsService.route({
-        origin: { lat: 4.82486581802368, lng: -74.3479614257813 },
+        origin: { lat: this.travel.LatitudeSource, lng: this.travel.LongitudeSource },
         destination: { lat: this.travel.LatitudeDestiny, lng: this.travel.LongitudeDestiny },
         travelMode: google.maps.TravelMode.DRIVING,
       }, async (response, status) => {

@@ -22,6 +22,9 @@ export class LayoutPage implements OnInit {
   user = {
     name: '',
   };
+
+  term: boolean = false;
+
   constructor(
     private apiService: ApiService,
     private activeTabsService: ActiveTabsService,
@@ -44,6 +47,11 @@ export class LayoutPage implements OnInit {
         this.errorMessage = 'El usuario no esta autorizado para acceder, por favor comunicarse con un administrador.'
         document.getElementById('modal-error').setAttribute('open', 'true');
       } else {
+        if (!this.apiService.userProfile.policiesPermission) {          
+          this.showPage = false;
+          this.term = true;
+        }
+        
         if (this.apiService.userProfile.RolesId !== 1) {
           this.notDriver = true;
         }
@@ -66,6 +74,10 @@ export class LayoutPage implements OnInit {
 
   ngOnDestroy() {
     this.activeTabsService.clearSelectedTabs();
+  }
+
+  showPages(value) {
+    this.showPage = value;
   }
 
 }

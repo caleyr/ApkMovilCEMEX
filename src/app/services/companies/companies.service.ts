@@ -17,7 +17,7 @@ export class CompaniesService {
   ) { }
 
   getCompanies(){
-    return this.http.fetch(`${URL}/v1/load/dsm/companies`, {}, 'get');
+    return this.http.fetch(`${URL}/v1/load/dsm/companies`, {}, 'get', false, false);
   }
 
   getCompany(id : any) {

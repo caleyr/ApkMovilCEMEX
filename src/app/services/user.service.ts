@@ -26,7 +26,7 @@ export class UserService {
 
   get refresh$(){
     return this._refresh$;
-  }
+  }  
 
   getUserDetail(id: string) {
     return this.http.fetch(`${BASE_URL_API}/api/authentication/GetUserDetail/${id}`, {} , 'get');
@@ -52,6 +52,10 @@ export class UserService {
 
   getUserEmailLogin(email: any) {
     return this.http.fetch(`${BASE_URL_API}/v1/load/dsm/users/emails?email=${email}`, {} , 'get');
+  }
+
+  updateProfile(data: any) {
+    return this.http.fetch(`${BASE_URL_API}/v1/load/dsm/users`, data, 'put', true);
   }
 
   updateUser(data: any) {

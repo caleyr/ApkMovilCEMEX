@@ -126,6 +126,11 @@ export class HttpService {
         } else {
           return of(null);
         }
+      }),
+      catchError((err) => {
+        alert(JSON.stringify(err));
+        this.apiService.logout();
+        return throwError(err);
       })
     );
   }

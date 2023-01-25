@@ -83,6 +83,7 @@
                 {{errorMessage}}
             </div>
         </cwc-modal>
+        <app-modal-term [alertShow]="term" (propagar)="showPages($event)"></app-modal-term>
         <ng-content *ngIf="showPage"></ng-content>
     </div>
 </cwc-page>

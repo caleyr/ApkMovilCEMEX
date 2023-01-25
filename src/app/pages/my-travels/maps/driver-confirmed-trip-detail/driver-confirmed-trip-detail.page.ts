@@ -191,10 +191,8 @@ export class DriverConfirmedTripDetailPage implements OnInit, AfterViewInit, OnD
     const data = new FormData();
     data.append('TraveId', this.travel.TraveId);
     data.append('UserId', this.travel.UserId.toString());
-    console.log(this.userPosicion.lat.toString().replace('.',','));
-    console.log(this.userPosicion.lng.toString().replace('.',','));     
-    data.append('LatitudeUser', '4.824866');
-    data.append('LongitudeUser', '-74.347959');
+    data.append('LatitudeUser', this.userPosicion.lat.toString());
+    data.append('LongitudeUser', this.userPosicion.lng.toString());
     return new Promise((resolve) => {
       if (!this.found) {
         this.travelService.updateTravelUser(data).subscribe({

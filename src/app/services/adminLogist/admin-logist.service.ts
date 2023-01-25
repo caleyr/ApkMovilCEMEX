@@ -13,7 +13,7 @@ export class AdminLogistService {
   constructor(private http: HttpService) { }
   
   createUser(data : FormData) {
-    return this.http.fetch(`${URL}/v1/load/dsm/users`, data, 'post', true);
+    return this.http.fetch(`${URL}/v1/load/dsm/users`, data, 'post', true, false);
   }
 
   updateAdminLogistThird(data : FormData, email : string) {

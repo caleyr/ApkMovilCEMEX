@@ -63,11 +63,14 @@ export class RegisterMantruckComponent implements AfterViewInit {
   }
 
   async ngAfterViewInit() {
-    const results = await this.companiesService.getCompanies();
-    if(results && Array.isArray(results)){
-      this.listCompanies = results;
-      this.loadingCompany = false;
-    }
+    this.companiesService.getCompanies().subscribe({
+      next: (data: any) => {
+        this.listCompanies = data.data;
+      },
+      complete: () => {
+        this.loadingCompany = false;
+      }
+    });
   }
 
   formBuilderInput() {
