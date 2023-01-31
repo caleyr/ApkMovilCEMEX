@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Inject } from '@angular/core';
 import { filter, finalize } from 'rxjs/operators';
 import { CustomNavigationClient } from './utilities/CustomNavigationClient';
 import { InAppBrowser } from '@awesome-cordova-plugins/in-app-browser/ngx';
@@ -14,6 +14,7 @@ import { Router } from '@angular/router';
 import { ApiService } from './services/auth/api.service';
 import { UserService } from 'src/app/services/user.service';
 import { Geolocation } from '@capacitor/geolocation';
+import { DOCUMENT } from '@angular/common';
 
 @Component({
   selector: 'app-root',
@@ -35,9 +36,9 @@ export class AppComponent implements OnInit {
     private fcmService: FcmService,
     private apiService: ApiService,
     private userService: UserService,
-    private router: Router,
+    @Inject(DOCUMENT) private document: Document
   ) {
-    this.authService.instance.setNavigationClient(new CustomNavigationClient(this.iab));
+    this.authService.instance.setNavigationClient(new CustomNavigationClient(this.iab, this.document));
   }
 
   ngOnInit() {

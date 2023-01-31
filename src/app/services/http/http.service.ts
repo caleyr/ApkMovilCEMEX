@@ -20,55 +20,32 @@ export class HttpService {
 
   constructor(private HttpC: HTTP, private apiService: ApiService, private authService: MsalService) { }
 
-  getHeader() {
-    const headers = {
-      'Authorization': `Bearer ${this.apiService.currentAccessToken}`,
-      'X-IBM-Client-Id': 'notneeded',
-      'Accept-Language': 'en-US',
-      'jwt': 'temp',
-      'Ocp-Apim-Subscription-Key': '25eada0c438745e18701f00d75188597',
-      'Ocp-Apim-Trace': 'true'
-    };
-    return headers;
-  }
-
-  getHeaderNo() {
-    const headers = {
-      'X-IBM-Client-Id': 'notneeded',
-      'Accept-Language': 'en-US',
-      'jwt': 'temp',
-      'Ocp-Apim-Subscription-Key': '25eada0c438745e18701f00d75188597',
-      'Ocp-Apim-Trace': 'true'
-    };
-    return headers;
-  }
-
   doPostFormData(url, data) {
     this.HttpC.clearCookies();
     this.HttpC.setDataSerializer('multipart');
-    return from(this.HttpC.sendRequest(url, { method: 'post', data: data, headers: this.getHeader(), responseType: 'json' }));
+    return from(this.HttpC.sendRequest(url, { method: 'post', data: data, headers: {}, responseType: 'json' }));
   }
 
   doPutFormData(url, data) {
     this.HttpC.clearCookies();
     this.HttpC.setDataSerializer('multipart');
-    return from(this.HttpC.sendRequest(url, { method: 'put', data: data, headers: this.getHeader(), responseType: 'json' }));
+    return from(this.HttpC.sendRequest(url, { method: 'put', data: data, headers: {}, responseType: 'json' }));
   }
 
   doPost(url, data) {
     this.HttpC.clearCookies();
     this.HttpC.setDataSerializer('json');
-    return from(this.HttpC.sendRequest(url, { method: 'post', data: data, headers: this.getHeader(), responseType: 'json' }));
+    return from(this.HttpC.sendRequest(url, { method: 'post', data: data, headers: {}, responseType: 'json' }));
   }
 
   doPut(url, data) {
     this.HttpC.clearCookies();
     this.HttpC.setDataSerializer('json');
-    return from(this.HttpC.sendRequest(url, { method: 'put', data: data, headers: this.getHeader(), responseType: 'json' }));
+    return from(this.HttpC.sendRequest(url, { method: 'put', data: data, headers: {}, responseType: 'json' }));
   }
 
   doGet(url) {
-    return from(this.HttpC.sendRequest(url, { method: 'get', headers: this.getHeader(), responseType: 'json' })).pipe(
+    return from(this.HttpC.sendRequest(url, { method: 'get', headers: {}, responseType: 'json' })).pipe(
       catchError(err => {
         console.log('ERROR ' + JSON.stringify(err));
         return throwError(err);
@@ -77,14 +54,14 @@ export class HttpService {
   }
 
   doGetPrueba(url) {
-    return this.HttpC.sendRequest(url, { method: 'get', headers: this.getHeader(), responseType: 'json' });
+    return this.HttpC.sendRequest(url, { method: 'get', headers: {}, responseType: 'json' });
   }
 
 
-  fetch(url, data, type, formD = false, header = true) {
+  fetch(url, data, type, formD = false, header = true, file = false) {
     this.HttpC.clearCookies();
     let headers;
-    
+
     if (formD) {
       this.HttpC.setDataSerializer('multipart');
     } else {
@@ -92,24 +69,56 @@ export class HttpService {
     }
 
     if (header) {
-      headers = this.getHeader();
+      const headersTrue = {
+        'Authorization': `Bearer ${this.apiService.currentAccessToken}`,
+        'X-IBM-Client-Id': 'notneeded',
+        'Accept-Language': 'en-US',
+        'jwt': 'temp',
+        'Ocp-Apim-Subscription-Key': '25eada0c438745e18701f00d75188597',
+        'Ocp-Apim-Trace': 'true'
+      };
+      headers = headersTrue;
     } else {
-      headers = this.getHeaderNo();
-    }   
+      const headersFalse = {
+        'X-IBM-Client-Id': 'notneeded',
+        'Accept-Language': 'en-US',
+        'Ocp-Apim-Subscription-Key': '25eada0c438745e18701f00d75188597',
+        'Ocp-Apim-Trace': 'true'
+      };
+      headers = headersFalse;
+    }
 
-    return from(this.HttpC.sendRequest(url, { method: type, data: data, headers: headers, responseType: 'json' })).pipe(
-      catchError(err => {
-        if (err) {
-          switch (err.status) {
-            case 401:
-              return this.handle401Error(url, data, type, formD, header);
-            case 500:
-              return of(undefined);
-            default:
+    if (file) {
+      return from(this.HttpC.sendRequest(url, { method: type, headers: headers, responseType: 'json', name: data.name, filePath: data.file })).pipe(
+        catchError(err => {
+          if (err) {
+            switch (err.status) {
+              case 401:
+                return this.handle401Error(url, data, type, formD, header);
+              case 500:
+                return of(undefined);
+              default:
+                return of(undefined);
+            }
           }
-        }
-      })
-    );
+        })
+      );
+    } else {
+      return from(this.HttpC.sendRequest(url, { method: type, data: data, headers: headers, responseType: 'json' })).pipe(
+        catchError(err => {
+          if (err) {
+            switch (err.status) {
+              case 401:
+                return this.handle401Error(url, data, type, formD, header);
+              case 500:
+                return of(undefined);
+              default:
+                return of(undefined);
+            }
+          }
+        })
+      );
+    }
   }
 
   private handle401Error(url, data, type, formD = false, header = true): Observable<any> {
@@ -128,9 +137,9 @@ export class HttpService {
         }
       }),
       catchError((err) => {
-        alert(JSON.stringify(err));
+        console.log('Error nice ' + JSON.stringify(err));
         this.apiService.logout();
-        return throwError(err);
+        return of(null);;
       })
     );
   }
@@ -139,7 +148,7 @@ export class HttpService {
 
   doPostFormDataUser(url, data: FormData) {
     this.HttpC.setRequestTimeout(5.0);
-    this.HttpC.sendRequest(url, { method: 'post', data: data, serializer: 'multipart', headers: this.getHeader(), responseType: 'json' }).then(data => {
+    this.HttpC.sendRequest(url, { method: 'post', data: data, serializer: 'multipart', headers: {}, responseType: 'json' }).then(data => {
       console.log(data);
     }).catch((error) => {
       alert('Error' + error);

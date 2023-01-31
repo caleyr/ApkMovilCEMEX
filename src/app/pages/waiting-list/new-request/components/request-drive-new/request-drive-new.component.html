@@ -20,7 +20,7 @@
           [status]="getStatusField('TimerStar')" [statusMessage]="getMsgField('TimerStar', 'tiempo de inicio')"
           (cwcChange)="changTimeStar($event)" placeholder="--:--" design-version="v2">
         </cwc-input-time>
-        <cwc-input-time style="width: 100%;" formControlName="TimerEnd" format="12h" label='Hora (Inicio)'
+        <cwc-input-time style="width: 100%;" formControlName="TimerEnd" format="12h" label='Hora (Fin)'
           [status]="getStatusField('TimerEnd')" [statusMessage]="getMsgField('TimerEnd', 'tiempo final')"
           (cwcChange)="changeTimeEnd($event)" placeholder="--:--" design-version="v2">
         </cwc-input-time>

@@ -21,24 +21,24 @@ export class UserService {
     private http: HttpService,
     private apiService: ApiService,
     private authService: MsalService,
-    private router : Router
+    private router: Router
   ) { }
 
-  get refresh$(){
+  get refresh$() {
     return this._refresh$;
-  }  
+  }
 
   getUserDetail(id: string) {
-    return this.http.fetch(`${BASE_URL_API}/api/authentication/GetUserDetail/${id}`, {} , 'get');
+    return this.http.fetch(`${BASE_URL_API}/api/authentication/GetUserDetail/${id}`, {}, 'get');
   }
 
   async getUserEmail(): Promise<any> {
     await this.apiService.loadToken();
-    if ( this.authService.instance.getActiveAccount() !== null){
-      return this.http.fetch(`${BASE_URL_API}/v1/load/dsm/users/emails?email=${this.authService.instance.getAllAccounts()[0].idTokenClaims.extension_mail}`, {}, 'get').pipe(
+    if (this.authService.instance.getActiveAccount() !== null) {
+      return this.http.fetch(`${BASE_URL_API}/v1/load/dsm/users/emails?email=${this.authService.instance.getAllAccounts()[0].idTokenClaims.extension_mail}`, {}, 'get', false, false).pipe(
         tap(data => {
           if (data.data.length === 0) {
-            this.apiService.userProfile = null;
+            this.apiService.userProfile = undefined;
           } else {
             this.apiService.userProfile = data.data[0];
           }
@@ -46,12 +46,12 @@ export class UserService {
         })
       ).toPromise();
     } else {
-      return of(null);
-    }    
+      return of(undefined);
+    }
   }
 
   getUserEmailLogin(email: any) {
-    return this.http.fetch(`${BASE_URL_API}/v1/load/dsm/users/emails?email=${email}`, {} , 'get');
+    return this.http.fetch(`${BASE_URL_API}/v1/load/dsm/users/emails?email=${email}`, {}, 'get', false, false);
   }
 
   updateProfile(data: any) {
@@ -59,10 +59,14 @@ export class UserService {
   }
 
   updateUser(data: any) {
-    return this.http.fetch(`${BASE_URL_API}/v1/load/dsm/users`, data , 'put', true).pipe(
+    return this.http.fetch(`${BASE_URL_API}/v1/load/dsm/users`, data, 'put', true).pipe(
       tap(() => {
         this._refresh$.next();
       })
     )
+  }
+
+  updateDocument(data : any){
+    return this.http.fetch(`${BASE_URL_API}/v1/load/dsm/users/1/documents`, data, 'upload', false, false, true);
   }
 }

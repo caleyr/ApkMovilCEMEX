@@ -1,9 +1,10 @@
-import { Component, OnInit, EventEmitter, Output } from '@angular/core';
+import { Component, OnInit, EventEmitter, Output, Inject } from '@angular/core';
 import { NavController } from '@ionic/angular';
 import { Router } from '@angular/router';
 import { ActiveTabsService } from '../../../../services/active-tabs.service';
 import { ApiService } from '../../../../services/auth/api.service';
 import { DashboardService } from '../../../../services/dashboard.service';
+import { DOCUMENT } from '@angular/common';
 
 @Component({
   selector: 'app-home-admin',
@@ -44,7 +45,8 @@ export class HomeAdminComponent implements OnInit {
     private navCtrl : NavController, 
     private activeTabs: ActiveTabsService,
     private apiService : ApiService,
-    private dashboardService : DashboardService
+    private dashboardService : DashboardService,
+    @Inject(DOCUMENT) private document: Document
     ) { }
 
   async ngOnInit() {
@@ -157,7 +159,12 @@ export class HomeAdminComponent implements OnInit {
   }
 
   onUrl(url : string){
-    window.open(url, '_system', 'location=yes , noopener');
+    const link = this.document.createElement('a');
+    link.target = '_blank';
+    link.href = url;
+    link.rel = "noopener"
+    link.click();
+    link.remove();
   }
 
   onClickTravel(){

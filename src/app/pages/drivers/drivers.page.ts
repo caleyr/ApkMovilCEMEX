@@ -34,7 +34,7 @@ export class DriversPage implements OnInit {
         this.loading = false;
       })
     ).subscribe(data=>{
-      this.driversList = data.data.filter( data => data.RolesId === 1);
+      this.driversList = data.data.filter( data => data.RolesId === 1 && data.Status === 2);
     });
   }
 

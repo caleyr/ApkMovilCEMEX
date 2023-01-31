@@ -12,6 +12,8 @@ import { HttpService } from '../../../../services/http/http.service';
 import { Filesystem, Directory } from '@capacitor/filesystem';
 import { finalize } from 'rxjs/operators';
 import { Router } from '@angular/router';
+import { UserDetail } from '../../../../models/user-detail.model';
+import { UserService } from '../../../../services/user.service';
 pdfMake.vfs = pdfFonts.pdfMake.vfs;
 
 @Component({
@@ -60,7 +62,8 @@ export class RegisterDriverComponent implements AfterViewInit {
     public fileRegister: FileRegisterUserService,
     private errorMessages: ErrorMessagesService,
     private httpP: HttpService,
-    private router: Router
+    private router: Router,
+    private userService : UserService
   ) {
     this.formBuilderInput();
     this.loadingCompany = true;
@@ -109,36 +112,56 @@ export class RegisterDriverComponent implements AfterViewInit {
       return;
     }
     await this.addFormData(this.form.value);
-    this.adminLogistService.createUser(this.dataPrueba).subscribe({
-      next: (result: any) => {
-        if (result.data.message !== 'Saved') {
-          this.propagar.emit(false);
-          this.errors = this.errorMessages.parsearErroresAPI('Error, el correo digita ya se encuentra registrado.');
-          this.form.get('Email').setValue('');
-          this.data = new FormData();
-        } else {
+    if( await this.checkEmail()){
+      this.adminLogistService.createUser(this.data).subscribe({
+        next: (result: any) => {
           this.propagar.emit(false);
           this.alertSucces = true;
           this.alertConfirm = false;
           this.alertSucces = true;
-          this.errors = [];
+          this.errors = [];  
+        },
+        error: (err) => {
+          this.propagar.emit(false);
+          this.errors = this.errorMessages.parsearErroresAPI(err.data);
+          this.fileRegister.resetForm();
+        },
+        complete: () => {
+          this.propagar.emit(false);
         }
-      },
-      error: (err) => {
-        this.propagar.emit(false);
-        this.errors = this.errorMessages.parsearErroresAPI(err.data);
-        this.fileRegister.resetForm();
-      },
-      complete: () => {
-        this.propagar.emit(false);
-      }
-    });
+      });
+    }else {
+      this.propagar.emit(false);
+      this.errors = this.errorMessages.parsearErroresAPI('Error, el correo digita ya se encuentra registrado.');
+      this.form.get('Email').setValue('');
+      this.data = new FormData();
+    }
   }
 
   async addFormData(objeto) {
     for (var key in objeto) {
       this.dataPrueba.append(key, objeto[key]);
     }
+  }
+
+  checkEmail(){
+    return new Promise((resolve) => {
+      this.userService.getUserEmailLogin(this.form.controls['Email'].value).subscribe({
+        next : (data : any) => {
+          if(data.data.length === 0){
+            resolve(true);
+          }else if(data.data.length === 1){
+            resolve(false);
+          }else {
+            resolve(false);
+          }
+        },
+        error : (err) =>{
+          alert(JSON.stringify(err));
+          resolve(true);
+        }
+      })      
+    })
   }
 
   openAlertConfirm() {

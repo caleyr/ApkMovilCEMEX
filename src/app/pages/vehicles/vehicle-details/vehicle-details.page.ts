@@ -87,7 +87,7 @@ export class VehicleDetailsPage implements OnInit {
     if (this.vehiclesService.id !== null) {
       this.id = this.vehiclesService.id;
       this.driversService.getDriverList(this.apiService.userProfile.CompanyId).subscribe(result => {
-        this.driverList = result.data.filter( data => data.StatusTravel === 0 &&  data.VehicleId === 0 );
+        this.driverList = result.data.filter( data => data.StatusTravel === 0 &&  data.VehicleId === 0 && data.UserId !== this.apiService.userProfile.UserId);
       });
       this.vehiclesService.getVehicleById(this.id).subscribe({
         next : (data : any) =>{

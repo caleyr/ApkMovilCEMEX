@@ -74,6 +74,8 @@ export class TravelsPage implements OnInit {
 
   async changeDepartament(event) {
   if (event.detail.value == 0) {
+    this.loading = true;
+    this.getListDepartament();
     this.sourceList = [];
     this.timeList = [];
     this.dateList = [];
@@ -81,6 +83,9 @@ export class TravelsPage implements OnInit {
     this.departament = '';
     this.source = '';
     this.dataO = '';
+
+    this.timeList = [];
+    this.timeListTwo = []
     this.timeS = '';
     this.timeE = '';
   } else {
@@ -102,6 +107,9 @@ changeSource(event) {
     this.dateList = [];
     this.source = '';
     this.dataO = '';
+
+    this.timeList = [];
+    this.timeListTwo = []
     this.timeS = '';
     this.timeE = '';
   } else {
@@ -120,6 +128,9 @@ changeDate(event) {
     this.timeList = [];
     this.timeListTwo = [];
     this.dataO = '';
+    
+    this.timeList = [];
+    this.timeListTwo = []
     this.timeS = '';
     this.timeE = '';
   } else {

@@ -12,17 +12,19 @@ import { UserService } from '../../services/user.service';
 })
 export class HomePage implements OnInit {
 
-  rol : number;
+  rol: number;
 
   loading = false;
-  
+
   constructor(
-    private apiService : ApiService
+    private apiService: ApiService
   ) {
-   }
+  }
 
   async ngOnInit() {
-    this.rol = this.apiService.userProfile.RolesId;
+    if (this.apiService.userProfile) {
+      this.rol = this.apiService.userProfile.RolesId;
+    }
   }
 
   showLoading(value) {

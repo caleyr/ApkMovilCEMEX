@@ -12,6 +12,7 @@ import { DatePipe } from '@angular/common';
 import * as moment from 'moment';
 import { ApiService } from '../../../../../services/auth/api.service';
 import { UserDetail } from '../../../../../models/user-detail.model';
+import { filter } from 'rxjs/operators';
 declare var google;
 
 
@@ -132,7 +133,7 @@ export class RequestAdminNewComponent implements OnInit {
 
   getListDrivers(){
     this.vehiclesService.getVehiclesUserByIdCompany( this.apiService.userProfile.CompanyId ).subscribe(data =>{
-      this.driverList = data.data;
+      this.driverList = data.data.filter(data => data.StatusTravel === 0 && data.UserId !== this.apiService.userProfile.UserId);
     })
   }
 

@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unused-expressions */
-import { Component, OnChanges, OnDestroy, OnInit, SimpleChanges } from '@angular/core';
+import { Component, OnChanges, OnDestroy, OnInit, SimpleChanges, Inject } from '@angular/core';
 import { ActivationEnd, Router } from '@angular/router';
 import { Storage } from '@ionic/storage-angular';
 import { Subscription } from 'rxjs';
@@ -13,6 +13,7 @@ import { UserDetail } from '../../models/user-detail.model';
 import { ApiService } from '../../services/auth/api.service';
 import { UserService } from '../../services/user.service';
 import { MsalService } from '@azure/msal-angular';
+import { DOCUMENT } from '@angular/common';
 
 @Component({
   selector: 'app-profile',
@@ -40,7 +41,8 @@ export class ProfilePage implements OnInit {
     private router: Router,
     private apiService : ApiService,
     private userService : UserService,
-    private authService : MsalService
+    private authService : MsalService,
+    @Inject(DOCUMENT) private document: Document
   ) {
   }
 
@@ -76,7 +78,12 @@ export class ProfilePage implements OnInit {
   }
 
   onUrl(url : string){
-    window.open(url, '_system', 'location=yes, noopener');
+    const link = this.document.createElement('a');
+    link.target = '_blank';
+    link.href = url;
+    link.rel = "noopener"
+    link.click();
+    link.remove();
   }
 
   showModalIndentity(){

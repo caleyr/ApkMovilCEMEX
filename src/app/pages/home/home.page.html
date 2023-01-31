@@ -1,6 +1,6 @@
 <app-layout class="card-size">
   <div class="content-page">
-    <div *ngIf="rol !== 3">
+    <div *ngIf="rol !== 3 && rol">
       <app-home-user (propagar)="showLoading($event)"></app-home-user>
     </div>
     <div *ngIf="rol === 3">

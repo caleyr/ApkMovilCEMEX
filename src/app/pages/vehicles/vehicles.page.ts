@@ -4,6 +4,7 @@ import { VehiclesService } from '../../services/vehicles.service';
 import { LoginService } from '../../services/auth/login.service';
 import { CompaniesService } from '../../services/companies/companies.service';
 import { ApiService } from '../../services/auth/api.service';
+import { filter } from 'rxjs/operators';
 
 @Component({
   selector: 'app-vehicles',
@@ -32,7 +33,7 @@ export class VehiclesPage implements OnInit {
   getDataList(){
     this.vehiclesService.getVehicleList(this.apiService.userProfile.CompanyId).subscribe({
       next: (data : any) =>{
-        this.vehiclesList = data.data;
+        this.vehiclesList = data.data.filter(data => data.Status === 2);
       },
       complete : () => {
         this.loading = false;

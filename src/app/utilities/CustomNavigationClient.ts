@@ -5,6 +5,8 @@ import { Router } from '@angular/router';
 import { NavController } from "@ionic/angular";
 import { MsalService } from '@azure/msal-angular';
 import { environment } from "src/environments/environment.prod";
+import { Inject } from '@angular/core';
+import { DOCUMENT } from "@angular/common";
 const urlHost = environment.hostname;
 
 export class CustomNavigationClient extends NavigationClient {
@@ -12,8 +14,11 @@ export class CustomNavigationClient extends NavigationClient {
     register = false;
     online = false;
 
+
+
     constructor(
         private iab: InAppBrowser,
+        @Inject(DOCUMENT) private document: Document
     ) {
         super();
     }
@@ -21,7 +26,7 @@ export class CustomNavigationClient extends NavigationClient {
     async navigateExternal(url: string, options: any) {
         if (url.includes('/logout?')) {
             //window.location.href = urlHost;
-            window.open(urlHost, '_blank', 'noopener');
+            this.onUrl(urlHost);
         } else if (Capacitor.isNativePlatform()) {
             this.register = false;
             this.online = false;
@@ -39,20 +44,20 @@ export class CustomNavigationClient extends NavigationClient {
                     browser.close();
                     const domain = event.url.split('#')[0];
                     const url = event.url.replace(domain, `${urlHost}/app`);
-                    window.open(url, '_blank', 'noopener');
+                    this.onUrl(url);
                     //window.location.href = url;
                 }
                 if (event.url.includes('register')) {
                     this.register = true;
                     browser.close();
-                    window.open(`${urlHost}/register`, '_blank', 'noopener');
+                    this.onUrl(`${urlHost}/register`);
                     //window.location.href = `${urlHost}/register`;
                 }
             });
             browser.on('exit').subscribe(event => {
                 if (!this.register && !this.online) {
                     //window.location.href = urlHost;
-                    window.open(urlHost, '_blank', 'noopener');
+                    this.onUrl(urlHost);
                 }
             });
         } else {
@@ -63,5 +68,14 @@ export class CustomNavigationClient extends NavigationClient {
             }
         }
         return true;
+    }
+
+    onUrl(url: string) {
+        const link = this.document.createElement('a');
+        link.target = '_blank';
+        link.href = url;
+        link.rel = "noopener"
+        link.click();
+        link.remove();
     }
 }

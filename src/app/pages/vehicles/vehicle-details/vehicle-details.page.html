@@ -86,16 +86,18 @@
         <div style=" border: 0.1px solid #d1d1d1; background: #d1d1d1; margin-bottom: 0.5rem;"></div>
         <div style="display: flex; justify-content: space-between;">
           <p class="attr-conductor">
-            {{vehicle.userName}}
+            {{vehicle.FirstName + ' ' + vehicle.LastName}}
           </p>
-          <cwc-button *ngIf="rol === 1" variant="link" class="m-h-reg link-cwc" style="margin-top: 1rem; margin-bottom: 0;" routerLinkActive="router-link-active" >
+          <!--
+          <cwc-button variant="link" class="m-h-reg link-cwc" style="margin-top: 1rem; margin-bottom: 0;" routerLinkActive="router-link-active" >
             <div style="font-size: small;">REMOVER</div>
           </cwc-button>
+          -->
         </div>
       </div>
     </div>
   </cwc-card>
-  <cwc-grid class="demo-grid" *ngIf="rol === 3 && vehicle.UserId === idTercero">
+  <cwc-grid class="demo-grid" *ngIf="rol === 3 && vehicle.UserId">
     <cwc-cell colspan="12" mobile-colspan="12">
         <div class="footer-detal-request">
             <div class="content-btns">

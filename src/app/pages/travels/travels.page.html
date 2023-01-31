@@ -14,7 +14,7 @@
         </cwc-select>
       </cwc-cell>
       <cwc-cell mobile-colspan="12">
-        <cwc-select style="width: 100%;" label='Origen (Municipio)' (cwcChange)="changeSource($event)"
+        <cwc-select style="width: 100%;" placeholder="Seleccionar" label='Origen (Municipio)' (cwcChange)="changeSource($event)"
           design-version="v2">
           <cwc-select-option value="0" selected="">Seleccionar</cwc-select-option>
           <cwc-select-option [value]="source.Source" *ngFor="let source of sourceList">{{source.Source}}
@@ -37,7 +37,7 @@
       <cwc-cell mobile-colspan="6">
         <cwc-select (cwcChange)="changeHourStar($event)" placeholder="Hora (Inicio)" design-version="v2">
           <cwc-select-option value="0">Seleccionar</cwc-select-option>
-          <cwc-select-option [value]="timeL.TimerStar" *ngFor="let timeL of timeList">{{timeL.TimerStar}}
+          <cwc-select-option [value]="timeL.TimerStar" *ngFor="let timeL of (timeList.length === 0 ? timeListTwo : timeList)">{{timeL.TimerStar}}
           </cwc-select-option>
         </cwc-select>
       </cwc-cell>

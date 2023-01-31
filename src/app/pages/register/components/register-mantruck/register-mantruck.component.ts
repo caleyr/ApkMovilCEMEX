@@ -11,6 +11,8 @@ import { ValidateUserFieldService } from 'src/app/services/error/validate-user-f
 import { Filesystem } from '@capacitor/filesystem';
 import pdfMake from "pdfmake/build/pdfmake";
 import pdfFonts from "pdfmake/build/vfs_fonts";
+import { UserService } from '../../../../services/user.service';
+import { UserDetail } from '../../../../models/user-detail.model';
 pdfMake.vfs = pdfFonts.pdfMake.vfs;
 
 @Component({
@@ -26,6 +28,7 @@ export class RegisterMantruckComponent implements AfterViewInit {
   propagar = new EventEmitter<boolean>();
 
   form: FormGroup;
+  emailExist = false;
   data: FormData = new FormData();
 
   listCompanies: Companies[] = [];
@@ -42,6 +45,8 @@ export class RegisterMantruckComponent implements AfterViewInit {
   nameFile: string = '';
   nameText: string;
 
+  fileData = new FormData();
+
   fileURL;
   fileBlob;
 
@@ -54,6 +59,7 @@ export class RegisterMantruckComponent implements AfterViewInit {
     private companiesService: CompaniesService,
     private errorMessages: ErrorMessagesService,
     private adminLogistService: AdminLogistService,
+    private userService: UserService,
     public msgField: ValidateUserFieldService,
     public fileRegister: FileRegisterUserService
   ) {
@@ -103,36 +109,56 @@ export class RegisterMantruckComponent implements AfterViewInit {
       return;
     }
     await this.addFormData(this.form.value);
-    this.adminLogistService.createUser(this.data).subscribe({
-      next: (result: any) => {
-        if (result.data.message !== 'Saved') {
-          this.propagar.emit(false);
-          this.errors = this.errorMessages.parsearErroresAPI('Error, el correo digita ya se encuentra registrado.');
-          this.form.get('Email').setValue('');
-          this.data = new FormData();
-        } else {
+    if (await this.checkEmail()) {
+      this.adminLogistService.createUser(this.data).subscribe({
+        next: (result: any) => {
           this.propagar.emit(false);
           this.alertSucces = true;
           this.alertConfirm = false;
           this.alertSucces = true;
           this.errors = [];
+        },
+        error: (err) => {
+          this.propagar.emit(false);
+          this.errors = this.errorMessages.parsearErroresAPI(err.data);
+          this.fileRegister.resetForm();
+        },
+        complete: () => {
+          this.propagar.emit(false);
         }
-      },
-      error: (err) => {
-        this.propagar.emit(false);
-        this.errors = this.errorMessages.parsearErroresAPI(err.data);
-        this.fileRegister.resetForm();
-      },
-      complete: () => {
-        this.propagar.emit(false);
-      }
-    });
+      });
+    } else {
+      this.propagar.emit(false);
+      this.errors = this.errorMessages.parsearErroresAPI('Error, el correo digita ya se encuentra registrado.');
+      this.form.get('Email').setValue('');
+      this.data = new FormData();
+    }
   }
 
   async addFormData(objeto) {
     for (var key in objeto) {
       this.data.append(key, objeto[key]);
     }
+  }
+
+  checkEmail() {
+    return new Promise((resolve) => {
+      this.userService.getUserEmailLogin(this.form.controls['Email'].value).subscribe({
+        next: (data: any) => {
+          if (data.data.length === 0) {
+            resolve(true);
+          } else if (data.data.length === 1) {
+            resolve(false);
+          } else {
+            resolve(false);
+          }
+        },
+        error: (err) => {
+          alert(JSON.stringify(err));
+          resolve(true);
+        }
+      })
+    })
   }
 
   openAlertConfirm() {
@@ -179,18 +205,16 @@ export class RegisterMantruckComponent implements AfterViewInit {
         },
       ]
     }
-    const pdfDocGenerator = await pdfMake.createPdf(pdfDefinition);
-    const fileName = new Date().getTime() + `_${this.nameFile}.pdf`;
-    await pdfDocGenerator.getBlob((file) => {
-      if (this.nameFile === 'Drivinglicense') {
-        this.fileRegister.fileDrivinglicense = fileName;
-      } else if (this.nameFile === 'SecurityCard') {
-        this.fileRegister.fileSecurityCard = fileName;
-      } else if (this.nameFile === 'DocumentIdentityCard') {
-        this.fileRegister.fileDocument = fileName;
-      }
-      this.data.append(this.nameFile, file,);
-      this.cloceModalDocument();
+    var blob;
+    await pdfMake.createPdf(pdfDefinition).getDataUrl(urlFile => {
+      this.userService.updateDocument({ name : ['CarnetSeguridadIndustrial'], file : [this.fileRegister.savePhotoFrontal]}).subscribe({
+        next: (data: any) => {
+          alert(JSON.stringify(data.data));
+        },
+        error: (err) => {
+          alert(JSON.stringify(err));
+        }
+      });
     });
   }
 }

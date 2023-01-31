@@ -3,6 +3,7 @@ import { Camera, CameraResultType, CameraSource, Photo } from '@capacitor/camera
 import pdfMake from "pdfmake/build/pdfmake";
 import pdfFonts from "pdfmake/build/vfs_fonts";
 import { HttpService } from '../http/http.service';
+import { UserService } from '../user.service';
 pdfMake.vfs = pdfFonts.pdfMake.vfs;
 
 @Injectable({
@@ -22,7 +23,10 @@ export class FileRegisterUserService {
 
   dataForm: FormData;
 
-  constructor(private httpP: HttpService) {
+  constructor(
+    private httpP: HttpService,
+    private userService : UserService
+    ) {
     Camera.checkPermissions()
   }
 
@@ -66,6 +70,15 @@ export class FileRegisterUserService {
     const file = <File>event.target.files[0];
     this.fileSecurityCard = file.name;
     data.append('CarnetSeguridadIndustrial', file, file.name);
+    var path = (window.URL || window.webkitURL).createObjectURL(file);
+    this.userService.updateDocument({ name : ['CarnetSeguridadIndustrial'], file : [path]}).subscribe({
+      next: (data: any) => {
+        alert(JSON.stringify(data.data));
+      },
+      error: (err) => {
+        alert(JSON.stringify(err));
+      }
+    });
 
     return data;
   }
