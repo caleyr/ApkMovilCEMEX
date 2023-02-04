@@ -29,8 +29,10 @@ export class RegisterDriverComponent implements AfterViewInit {
   propagar = new EventEmitter<boolean>();
 
   form: FormGroup;
+  emailExist = false;
+
+  id : number;
   data: FormData = new FormData();
-  dataPrueba: FormData = new FormData();
 
   listCompanies: Companies[] = [];
 
@@ -61,10 +63,10 @@ export class RegisterDriverComponent implements AfterViewInit {
     public msgField: ValidateUserFieldService,
     public fileRegister: FileRegisterUserService,
     private errorMessages: ErrorMessagesService,
-    private httpP: HttpService,
     private router: Router,
     private userService : UserService
   ) {
+    this.fileRegister.fileData = { name: [], file: [] };
     this.formBuilderInput();
     this.loadingCompany = true;
     Filesystem.checkPermissions();
@@ -114,20 +116,22 @@ export class RegisterDriverComponent implements AfterViewInit {
     await this.addFormData(this.form.value);
     if( await this.checkEmail()){
       this.adminLogistService.createUser(this.data).subscribe({
-        next: (result: any) => {
-          this.propagar.emit(false);
-          this.alertSucces = true;
-          this.alertConfirm = false;
-          this.alertSucces = true;
-          this.errors = [];  
+        next: async () => {
+          if (this.fileRegister.fileData.name.length != 0) {
+            await this.getIdEmail();
+            await this.updateDocument();
+          } else {
+            this.propagar.emit(false);
+            this.alertSucces = true;
+            this.alertConfirm = false;
+            this.alertSucces = true;
+            this.errors = [];
+          }
         },
         error: (err) => {
           this.propagar.emit(false);
           this.errors = this.errorMessages.parsearErroresAPI(err.data);
           this.fileRegister.resetForm();
-        },
-        complete: () => {
-          this.propagar.emit(false);
         }
       });
     }else {
@@ -140,7 +144,7 @@ export class RegisterDriverComponent implements AfterViewInit {
 
   async addFormData(objeto) {
     for (var key in objeto) {
-      this.dataPrueba.append(key, objeto[key]);
+      this.data.append(key, objeto[key]);
     }
   }
 
@@ -157,10 +161,48 @@ export class RegisterDriverComponent implements AfterViewInit {
           }
         },
         error : (err) =>{
-          alert(JSON.stringify(err));
           resolve(true);
         }
       })      
+    })
+  }
+
+  getIdEmail(){
+    return new Promise((resolve) => {
+      this.userService.getUserEmailLogin(this.form.controls['Email'].value).subscribe({
+        next: (data: any) => {
+          this.id = data.data[0].UserId;
+          resolve(true);
+        },
+        error: (err) => {
+          this.propagar.emit(false);
+          this.errors = this.errorMessages.parsearErroresAPI(err.data);
+          this.fileRegister.resetForm();
+          resolve(true);
+        }
+      })
+    })
+  }
+
+  updateDocument(){
+    return new Promise((resolve) => {
+      this.userService.updateDocument(this.id , this.fileRegister.fileData).subscribe({
+        next: (data: any) => {
+          this.propagar.emit(false);
+          this.alertSucces = true;
+          this.alertConfirm = false;
+          this.alertSucces = true;
+          this.errors = [];
+        },
+        error: (err) => {
+          this.propagar.emit(false);
+          this.errors = this.errorMessages.parsearErroresAPI(err.data);
+        },
+        complete : () => { 
+          this.fileRegister.resetForm();
+          resolve(true);
+        }
+      })
     })
   }
 
@@ -194,92 +236,9 @@ export class RegisterDriverComponent implements AfterViewInit {
     this.fileRegister.resetPhoto();
   }
 
-  async savePdf() {
-    const pdfDefinition: any = {
-      content: [
-        {
-          image: this.fileRegister.savePhotoFrontal,
-        },
-        {
-          text: '\n\n',
-        },
-        {
-          image: this.fileRegister.savePhotoBack,
-        },
-      ]
-    }
-    const pdfDocGenerator = await pdfMake.createPdf(pdfDefinition);
-    const fileName = new Date().getTime() + `_${this.nameFile}.pdf`;
-    await pdfDocGenerator.getBlob((file) => {
-      if (this.nameFile === 'LicenciaConduccion') {
-        this.fileRegister.fileDrivinglicense = fileName;
-      } else if (this.nameFile === 'CarnetSeguridadIndustrial') {
-        this.fileRegister.fileSecurityCard = fileName;
-      } else if (this.nameFile === 'CedulaDocumento') {
-        this.fileRegister.fileDocument = fileName;
-      }
-      this.data.append(this.nameFile, file,);
-      this.cloceModalDocument();
-    });
-  }
-
-  async onFileDrivinglicense(event) {
-    const file = <File>event.target.files[0];
-    this.fileURL = URL.createObjectURL(file);
-    await this.blobFormFile(event.target.files[0])
-    const resultado = await this.saveFile(file.name, this.fileBlob);
-    this.httpP.uploadFile(this.fileBlob, file.name).then(result => {
-      alert('Paso ' + JSON.stringify(result));
-    }).catch((error) => {
-      alert('Error ' + JSON.stringify(error));
-    })
-    /*this.fileRegister.fileDrivinglicense = file.name;
-    this.data.append('Drivinglicense', file, file.name);*/
-  }
-
-  async saveFile(path, file) {
-    const base64Data = await this.base64FromPath(file) as string;
-    const savedFile = await Filesystem.writeFile({
-      path: path,
-      data: base64Data,
-      directory: Directory.Cache,
-    });
-    return savedFile;
-  }
-
-  async base64FromPath(blob): Promise<string> {
-    return new Promise((resolve, reject) => {
-      const reader = this.getFileReader();
-      reader.onerror = reject;
-      reader.onload = () => {
-        if (typeof reader.result === 'string') {
-          resolve(reader.result);
-        } else {
-          reject('method did not return a string');
-        }
-      };
-      reader.readAsDataURL(blob);
-    });
-  }
-
-  async blobFormFile(file): Promise<boolean> {
-    return new Promise((resolve, reject) => {
-      const reader = this.getFileReader();
-      reader.readAsArrayBuffer(file);
-      reader.onload = () => {
-        this.fileBlob = new Blob([new Uint8Array((reader.result as ArrayBuffer))]);
-        resolve(true);
-      };
-      reader.onerror = (error) => {
-        reject(false);
-      };
-    })
-  }
-
-  getFileReader(): FileReader {
-    const fileReader = new FileReader();
-    const zoneOriginalInstance = (fileReader as any)["__zone_symbol__originalInstance"];
-    return zoneOriginalInstance || fileReader;
+  async saveDocument(){
+    await this.fileRegister.savePdf(this.nameFile);
+    this.cloceModalDocument();
   }
 
   onBack() {

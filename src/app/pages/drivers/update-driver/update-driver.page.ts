@@ -85,6 +85,10 @@ export class UpdateDriverPage implements OnInit {
           this.data = new FormData();
         } else {
           this.alertSucces = true;
+          setTimeout(() => {
+            this.alertSucces = false;
+            this.onBack();
+          }, 3000);
           this.errors = [];
         }
       },

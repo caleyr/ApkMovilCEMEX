@@ -73,7 +73,7 @@
       </cwc-grid>
       <cwc-grid>
         <cwc-cell mobile-colspan="12" class="cell-button">        
-          <cwc-button variant="link" class="m-h-reg link-cwc">
+          <cwc-button variant="link"  (cwcClick)="updataDocuments()" class="m-h-reg link-cwc">
             <div style="font-size: small;">
               ACTUALIZAR DOCUMENTOS
             </div>
@@ -101,7 +101,7 @@
     <cwc-cell colspan="12" mobile-colspan="12">
         <div class="footer-detal-request">
             <div class="content-btns">
-                <cwc-button design-version="v2" (click)="openModal()" ><span class="text-btn">Asignar conductor</span></cwc-button>
+                <cwc-button design-version="v2" (cwcClick)="openModal()" ><span class="text-btn">Asignar conductor</span></cwc-button>
             </div>
         </div>
     </cwc-cell>
@@ -114,6 +114,7 @@
     class="select-filter"
     placeholder="Seleccionar"
     (cwcChange)="cwcChangeDrivers($event)">
+    <cwc-select-option *ngIf="driverList.length === 0" >No se econtraron Conductores.</cwc-select-option>
     <cwc-select-option *ngFor="let driver of driverList" [value]="driver.UserId">{{driver.FirstName + ' ' + driver.LastName}}</cwc-select-option>
   </cwc-select>
   <div style='text-align: center;'>

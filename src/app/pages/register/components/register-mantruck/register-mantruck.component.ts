@@ -8,11 +8,13 @@ import { AdminLogistService } from '../../../../services/adminLogist/admin-logis
 import { Companies } from '../../../../interfaces/companies/companies';
 import { FileRegisterUserService } from '../../../../services/file-register/file-register-user.service';
 import { ValidateUserFieldService } from 'src/app/services/error/validate-user-field.service';
-import { Filesystem } from '@capacitor/filesystem';
+import { Directory, Filesystem, FilesystemDirectory } from '@capacitor/filesystem';
 import pdfMake from "pdfmake/build/pdfmake";
 import pdfFonts from "pdfmake/build/vfs_fonts";
 import { UserService } from '../../../../services/user.service';
 import { UserDetail } from '../../../../models/user-detail.model';
+import { Router } from '@angular/router';
+
 pdfMake.vfs = pdfFonts.pdfMake.vfs;
 
 @Component({
@@ -29,6 +31,8 @@ export class RegisterMantruckComponent implements AfterViewInit {
 
   form: FormGroup;
   emailExist = false;
+
+  id: number;
   data: FormData = new FormData();
 
   listCompanies: Companies[] = [];
@@ -61,8 +65,10 @@ export class RegisterMantruckComponent implements AfterViewInit {
     private adminLogistService: AdminLogistService,
     private userService: UserService,
     public msgField: ValidateUserFieldService,
-    public fileRegister: FileRegisterUserService
+    public fileRegister: FileRegisterUserService,
+    private router: Router
   ) {
+    this.fileRegister.fileData = { name: [], file: [] };
     this.formBuilderInput();
     this.loadingCompany = true;
     Filesystem.checkPermissions();
@@ -111,20 +117,22 @@ export class RegisterMantruckComponent implements AfterViewInit {
     await this.addFormData(this.form.value);
     if (await this.checkEmail()) {
       this.adminLogistService.createUser(this.data).subscribe({
-        next: (result: any) => {
-          this.propagar.emit(false);
-          this.alertSucces = true;
-          this.alertConfirm = false;
-          this.alertSucces = true;
-          this.errors = [];
+        next: async () => {
+          if (this.fileRegister.fileData.name.length != 0) {
+            await this.getIdEmail();
+            await this.updateDocument();
+          } else {
+            this.propagar.emit(false);
+            this.alertSucces = true;
+            this.alertConfirm = false;
+            this.alertSucces = true;
+            this.errors = [];
+          }
         },
         error: (err) => {
           this.propagar.emit(false);
           this.errors = this.errorMessages.parsearErroresAPI(err.data);
           this.fileRegister.resetForm();
-        },
-        complete: () => {
-          this.propagar.emit(false);
         }
       });
     } else {
@@ -154,7 +162,45 @@ export class RegisterMantruckComponent implements AfterViewInit {
           }
         },
         error: (err) => {
-          alert(JSON.stringify(err));
+          resolve(true);
+        }
+      })
+    })
+  }
+
+  getIdEmail() {
+    return new Promise((resolve) => {
+      this.userService.getUserEmailLogin(this.form.controls['Email'].value).subscribe({
+        next: (data: any) => {
+          this.id = data.data[0].UserId;
+          resolve(true);
+        },
+        error: (err) => {
+          this.propagar.emit(false);
+          this.errors = this.errorMessages.parsearErroresAPI(err.data);
+          this.fileRegister.resetForm();
+          resolve(true);
+        }
+      })
+    })
+  }
+
+  updateDocument() {
+    return new Promise((resolve) => {
+      this.userService.updateDocument(this.id, this.fileRegister.fileData).subscribe({
+        next: (data: any) => {
+          this.propagar.emit(false);
+          this.alertSucces = true;
+          this.alertConfirm = false;
+          this.alertSucces = true;
+          this.errors = [];
+        },
+        error: (err) => {
+          this.propagar.emit(false);
+          this.errors = this.errorMessages.parsearErroresAPI(err.data);
+        },
+        complete: () => {
+          this.fileRegister.resetForm();
           resolve(true);
         }
       })
@@ -191,30 +237,12 @@ export class RegisterMantruckComponent implements AfterViewInit {
     this.fileRegister.resetPhoto();
   }
 
-  async savePdf() {
-    const pdfDefinition: any = {
-      content: [
-        {
-          image: this.fileRegister.savePhotoFrontal,
-        },
-        {
-          text: '\n\n',
-        },
-        {
-          image: this.fileRegister.savePhotoBack,
-        },
-      ]
-    }
-    var blob;
-    await pdfMake.createPdf(pdfDefinition).getDataUrl(urlFile => {
-      this.userService.updateDocument({ name : ['CarnetSeguridadIndustrial'], file : [this.fileRegister.savePhotoFrontal]}).subscribe({
-        next: (data: any) => {
-          alert(JSON.stringify(data.data));
-        },
-        error: (err) => {
-          alert(JSON.stringify(err));
-        }
-      });
-    });
+  async saveDocument() {
+    await this.fileRegister.savePdf(this.nameFile);
+    this.cloceModalDocument();
+  }
+
+  onBack() {
+    this.router.navigate(['app/home']);
   }
 }

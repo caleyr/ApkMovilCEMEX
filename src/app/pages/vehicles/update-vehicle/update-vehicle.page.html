@@ -13,19 +13,19 @@
       <cwc-cell colspan="12" mobile-colspan="12">
         <div class="section">
           <cwc-input class="input" label='Medelo de vehículo' placeholder="Agrega el tipo de camión" design-version="v2"
-            formControlName="Model" required></cwc-input>
+            formControlName="Model" maxlength="45" required></cwc-input>
         </div>
         <div class="section">
           <cwc-input class="input" label='Placa' formControlName="LicenseVehiculo" design-version="v2"
-            placeholder="Agrega número de serie" required></cwc-input>
+            placeholder="Agrega número de serie" maxlength="20" required></cwc-input>
         </div>
         <div class="section">
           <cwc-input class="input" label='Tipo de trailer' formControlName="TypeTrailer"
-            placeholder="Características especiales del vehículo" design-version="v2" required></cwc-input>
+            placeholder="Características especiales del vehículo" design-version="v2" maxlength="35" required></cwc-input>
         </div>
         <div class="section">
-          <cwc-input class="input" label='Número de SOAT (opcional)' type="text" formControlName="Soat"
-            placeholder="Agregar los 20 dígitos de su número de SOAT" design-version="v2" ngDefaultControl
+          <cwc-input class="input" label='Número de SOAT (opcional)' inputmode="numeric" type="number" formControlName="Soat"
+            placeholder="Agregar los 20 dígitos de su número de SOAT" design-version="v2" maxlength="11"
             required></cwc-input>
         </div>
         <div class="section">
@@ -67,9 +67,14 @@
 <!--=====================================
 		MODAL CONFIRMACIÓN RESPUESTA DE EXITO
 ======================================-->
-<app-alert-success [alertShow]="alertSucces" title="Su información ha sido guardada" urlButton="/app/vehiculos/detalles"
-  message="El vehiculo fue actualizado correctamente.">
-</app-alert-success>
+
+<cwc-modal id='alert-modal-succes' [open]="alertSucces" close-on-bd-click="false" show-close-btn="false">
+  <div style='text-align: center'>
+      <cwc-icon name='accepted-ok' size='120px' color='bright-green'></cwc-icon>
+      <h3 class='modal--confirmation__message'>Su información ha sido guardada exitosamente</h3>
+      <p>El vehiculo fue actualizado correctamente.</p>
+  </div>
+</cwc-modal>
 <!--=====================================
 	TOAST ALERT MENSAJE
 ======================================-->

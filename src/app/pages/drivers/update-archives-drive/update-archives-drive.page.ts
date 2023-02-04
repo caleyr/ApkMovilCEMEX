@@ -1,21 +1,16 @@
+import { Location } from '@angular/common';
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Storage } from '@ionic/storage-angular';
-import { debounceTime } from 'rxjs/operators';
-import { ProfileService } from '../../../services/profile/profile.service';
-import { Profile } from '../../../interfaces/profile/profile';
 import { FileRegisterUserService } from '../../../services/file-register/file-register-user.service';
-import { ApiService } from '../../../services/auth/api.service';
 import { UserService } from '../../../services/user.service';
 import { ErrorMessagesService } from '../../../services/error-messages.service';
-import { Location } from '@angular/common';
+import { DriversService } from '../../../services/drivers.service';
 
 @Component({
-  selector: 'app-update-archives',
-  templateUrl: './update-archives.page.html',
-  styleUrls: ['./update-archives.page.scss'],
+  selector: 'app-update-archives-drive',
+  templateUrl: './update-archives-drive.page.html',
+  styleUrls: ['./update-archives-drive.page.scss'],
 })
-export class UpdateArchivesPage implements OnInit {
+export class UpdateArchivesDrivePage implements OnInit {
 
   id: any;
 
@@ -41,15 +36,14 @@ export class UpdateArchivesPage implements OnInit {
   loading = false;
 
   constructor(
-    private apiService: ApiService,
     public fileRegister: FileRegisterUserService,
-    private userService: UserService,
     private errorMessages: ErrorMessagesService,
-    private location: Location
+    private location: Location,
+    private driversService : DriversService
   ) { }
 
   async ngOnInit() {
-    this.id = this.apiService.userProfile.UserId;
+    this.id = this.driversService.id;
     this.fileRegister.fileData = { name: [], file: [] };
   }
 
@@ -102,7 +96,7 @@ export class UpdateArchivesPage implements OnInit {
 
   updateDocument() {
     this.loading = true;
-    this.userService.updateDocumentProfile(this.id, this.fileRegister.fileData).subscribe({
+    this.driversService.updateDocument(this.id, this.fileRegister.fileData).subscribe({
       next: (data: any) => {
         this.alertSucces = true;
         this.alertConfirm = false;

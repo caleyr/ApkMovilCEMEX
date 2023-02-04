@@ -13,19 +13,20 @@
       <cwc-cell colspan="12" mobile-colspan="12">
         <div class="section">
           <cwc-input class="input" label='Medelo de vehículo' placeholder="Agrega el tipo de camión" design-version="v2"
-            formControlName="Model" required></cwc-input>
+            formControlName="Model" maxlength="45" required></cwc-input>
         </div>
         <div class="section">
           <cwc-input class="input" label='Placa' formControlName="LicenseVehiculo" design-version="v2"
-            placeholder="Agrega número de serie" required></cwc-input>
+            placeholder="Agrega número de serie" maxlength="20" required></cwc-input>
         </div>
         <div class="section">
           <cwc-input class="input" label='Tipo de trailer' formControlName="TypeTrailer"
-            placeholder="Características especiales del vehículo" design-version="v2" required></cwc-input>
+            placeholder="Características especiales del vehículo" design-version="v2" maxlength="35"
+            required></cwc-input>
         </div>
         <div class="section">
-          <cwc-input class="input" label='Número de SOAT (opcional)' type="text" formControlName="Soat"
-            placeholder="Agregar los 20 dígitos de su número de SOAT" design-version="v2" ngDefaultControl
+          <cwc-input class="input" label='Número de SOAT (opcional)' inputmode="numeric" type="number" formControlName="Soat"
+            placeholder="Agregar los 20 dígitos de su número de SOAT" design-version="v2" maxlength="11"
             required></cwc-input>
         </div>
         <div class="section">
@@ -41,7 +42,7 @@
     <div *ngIf="!fileVehicle.fileSOAT">
       <cwc-grid class="demo-grid content-archive" column-gap="1px">
         <input type="file" accept="image/*,.pdf" #getFileSoatDocument style="display: none;"
-          (change)="data = fileVehicle.onFileSOAT($event, data)" />
+          (change)="fileVehicle.onFileSOAT($event)" />
         <cwc-cell (click)="openModalDocument('SoatDocument')" class="border" mobile-colspan="6">
           <div class="item-archives">
             <cwc-icon name="camera" size="28px" color="bright-blue"></cwc-icon>
@@ -66,7 +67,7 @@
         </cwc-cell>
         <cwc-cell mobile-colspan="1" class="flex">
           <cwc-icon style="display: flex; align-items: center; padding-top: 5px; padding-right: 1rem;"
-            (click)="data = fileVehicle.deleteFileSOAT(data, inputFileSoat)" name="close" size="20px"
+            (click)="fileVehicle.deleteFileSOAT(inputFileSoat)" name="close" size="20px"
             color="bright-blue">
           </cwc-icon>
         </cwc-cell>
@@ -78,7 +79,7 @@
     <div *ngIf="!fileVehicle.fileTecnoMecanica">
       <cwc-grid class="demo-grid content-archive" column-gap="1px">
         <input type="file" accept="image/*,.pdf" #getFileTechnomechanicsDocument style="display: none;"
-          (change)="data = fileVehicle.onFileTecnoMecanica($event, data)" />
+          (change)="fileVehicle.onFileTecnoMecanica($event)" />
         <cwc-cell (click)="openModalDocument('TechnomechanicsDocument')" class="border" mobile-colspan="6">
           <div class="item-archives">
             <cwc-icon name="camera" size="28px" color="bright-blue"></cwc-icon>
@@ -103,7 +104,7 @@
         </cwc-cell>
         <cwc-cell mobile-colspan="1" class="flex">
           <cwc-icon style="display: flex; align-items: center; padding-top: 5px; padding-right: 1rem;"
-            (click)="data = fileVehicle.deleteFileTecnoMecanica(data, inputFileTechnomechanicsDocument)" name="close"
+            (click)="fileVehicle.deleteFileTecnoMecanica(inputFileTechnomechanicsDocument)" name="close"
             size="20px" color="bright-blue">
           </cwc-icon>
         </cwc-cell>
@@ -114,7 +115,7 @@
     <div *ngIf="!fileVehicle.filePoliza">
       <cwc-grid class="demo-grid content-archive" column-gap="1px">
         <input type="file" accept="image/*,.pdf" #getFilePolicyDocument style="display: none;"
-          (change)="data = fileVehicle.onFilePoliza($event, data)" />
+          (change)="fileVehicle.onFilePoliza($event)" />
         <cwc-cell (click)="openModalDocument('PolicyDocument')" class="border" mobile-colspan="6">
           <div class="item-archives">
             <cwc-icon name="camera" size="28px" color="bright-blue"></cwc-icon>
@@ -139,7 +140,7 @@
         </cwc-cell>
         <cwc-cell mobile-colspan="1" class="flex">
           <cwc-icon style="display: flex; align-items: center; padding-top: 5px; padding-right: 1rem;"
-            (click)="data = fileVehicle.deleteFilePoliza(data, inputFilePolicyDocument)" name="close" size="20px"
+            (click)="fileVehicle.deleteFilePoliza(inputFilePolicyDocument)" name="close" size="20px"
             color="bright-blue">
           </cwc-icon>
         </cwc-cell>
@@ -150,7 +151,7 @@
     <div *ngIf="!fileVehicle.fileTarjetaPropiedad">
       <cwc-grid class="demo-grid content-archive" column-gap="1px">
         <input type="file" accept="image/*,.pdf" #getFileCardPropertyDocument style="display: none;"
-          (change)="data = fileVehicle.onFileTarjetaPropiedad($event, data)" />
+          (change)="fileVehicle.onFileTarjetaPropiedad($event)" />
         <cwc-cell (click)="openModalDocument('CardPropertyDocument')" class="border" mobile-colspan="6">
           <div class="item-archives">
             <cwc-icon name="camera" size="28px" color="bright-blue"></cwc-icon>
@@ -175,7 +176,7 @@
         </cwc-cell>
         <cwc-cell mobile-colspan="1" class="flex">
           <cwc-icon style="display: flex; align-items: center; padding-top: 5px; padding-right: 1rem;"
-            (click)="data = fileVehicle.deleteFileTarjetaPropiedad(data, inputFileDoc)" name="close" size="20px"
+            (click)="fileVehicle.deleteFileTarjetaPropiedad(inputFileDoc)" name="close" size="20px"
             color="bright-blue">
           </cwc-icon>
         </cwc-cell>
@@ -238,10 +239,10 @@
   </cwc-grid>
   <footer slot='footer'>
     <div style='text-align: center'>
-      <cwc-button variant='support' design-version="v2" (click)="cloceModalDocument()" style="margin-right: 1rem;">
+      <cwc-button variant='support' design-version="v2" (cwcClick)="cloceModalDocument()" style="margin-right: 1rem;">
         Cancelar</cwc-button>
       <cwc-button design-version="v2" *ngIf="fileVehicle.photoBack && fileVehicle.photoFrontal" variant='primary'
-        (click)="savePdf()">Aceptar</cwc-button>
+        (cwcClick)="saveDocument()">Aceptar</cwc-button>
     </div>
   </footer>
 </cwc-modal>

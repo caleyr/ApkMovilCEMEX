@@ -40,6 +40,11 @@
                         <div class="text-button">FINALIZAR VIAJE</div>
                     </cwc-button>
                 </cwc-cell>
+                <cwc-cell mobile-colspan="6" *ngIf="travelDetail.StatusTravel === 5 && fileTravel.fileData.name.length === 2 ">
+                    <cwc-button variant="link" (click)="onClickDocumentTravel()">
+                        <div class="text-button">ACTUALIZAR DOCUMENTOS</div>
+                    </cwc-button>
+                </cwc-cell>
             </div>
 
             <cwc-cell mobile-colspan="12" style="padding-bottom: 0.8rem;">
@@ -62,7 +67,7 @@
                     </cwc-cell>
                     <cwc-cell mobile-colspan="8">
                         <div class="attr-user">Fecha y hora</div>
-                        <span>{{travelDetail.DateTravel + ' ' + travelDetail.TimerStar}}</span>
+                        <span>{{travelDetail.DateTravel | date : 'mediumDate'}} - {{travelDetail.TimerStar}}</span>
                     </cwc-cell>
                     <cwc-cell mobile-colspan="4">
                         <div class="attr-user">Cantidad</div>
@@ -74,7 +79,7 @@
                     </cwc-cell>
                     <cwc-cell mobile-colspan="4">
                         <div class="attr-user">Número de Placa</div>
-                        <span>{{travelDetail.Model}}</span>
+                        <span>{{travelDetail.LicenseVehiculo}}</span>
                     </cwc-cell>
                     <cwc-cell mobile-colspan="8" *ngIf="travelDetail.LoadStar !== undefined">
                         <div class="attr-user">Inicio de carga</div>
@@ -102,7 +107,7 @@
                 <div *ngIf="!fileTravel.fileConsignment">
                     <cwc-grid class="demo-grid content-archive" column-gap="1px">
                         <input type="file" accept="image/*,.pdf" #getConsignmentDocument style="display: none;"
-                            (change)="data = fileTravel.onFileConsignment($event, data)" />
+                            (change)="fileTravel.onFileConsignment($event)" />
                         <cwc-cell (click)="openModalDocument('PolicyDocument')" class="border" mobile-colspan="6">
                             <div class="item-archives">
                                 <cwc-icon name="camera" size="28px" color="bright-blue"></cwc-icon>
@@ -127,7 +132,7 @@
                         </cwc-cell>
                         <cwc-cell mobile-colspan="1" class="flex">
                             <cwc-icon style="display: flex; align-items: center; padding-top: 5px; padding-right: 1rem;"
-                                (click)="data = fileTravel.deleteFileManifest(data, inputFileC)"
+                                (click)="fileTravel.deleteFileManifest(inputFileC)"
                                 name="close" size="20px" color="bright-blue">
                             </cwc-icon>
                         </cwc-cell>
@@ -139,7 +144,7 @@
                 <div *ngIf="!fileTravel.fileManifest">
                     <cwc-grid class="demo-grid content-archive" column-gap="1px">
                         <input type="file" accept="image/*,.pdf" #getManifestDocument style="display: none;"
-                            (change)="data = fileTravel.onFileManifest($event, data)" />
+                            (change)="fileTravel.onFileManifest($event)" />
                         <cwc-cell (click)="openModalDocument('ManifestDocument')" class="border" mobile-colspan="6">
                             <div class="item-archives">
                                 <cwc-icon name="camera" size="28px" color="bright-blue"></cwc-icon>
@@ -164,7 +169,7 @@
                         </cwc-cell>
                         <cwc-cell mobile-colspan="1" class="flex">
                             <cwc-icon style="display: flex; align-items: center; padding-top: 5px; padding-right: 1rem;"
-                                (click)="data = fileTravel.deleteFileManifest(data, inputFileM)" name="close"
+                                (click)="fileTravel.deleteFileManifest(inputFileM)" name="close"
                                 size="20px" color="bright-blue">
                             </cwc-icon>
                         </cwc-cell>
@@ -223,31 +228,34 @@
 
 <cwc-modal id='modal-document' class="modal-cemex" closeOnBdClick="false" (cwcClose)="cloceModalDocument()">
     <header slot='header'>
-      <h2 style='margin:0;'>Agregar {{nameText}} (Opcional)</h2>
+        <h2 style='margin:0;'>Agregar {{nameText}} (Opcional)</h2>
     </header>
     <cwc-grid class="demo-grid" design-version="v2" columns="12" mobile-columns="12" style="margin-top: 2rem;"
-      style="margin-bottom: 2rem">
-      <cwc-cell colspan="6" mobile-colspan="12" style="cursor: pointer; margin-top: 1rem;">
-        <label for="">1. Parte frontal del documento.</label>
-        <div class="contend-upload-camera" (click)="fileTravel.openCameraOne()">
-  
-          <ion-img class="img-photo-register" *ngIf="fileTravel.photoFrontal" [src]="fileTravel.photoFrontal" style="object-fit: cover;
-            max-height: 500px !important;"></ion-img>
-  
-          <cwc-icon *ngIf="!fileTravel.photoFrontal" name="camera" color="bright-blue" size="30px"
-            style="margin-right: 1rem;"></cwc-icon>
-          <p *ngIf="!fileTravel.photoFrontal">Abrir cámara del dispositivo</p>
-  
-        </div>
-        <cwc-button (click)="fileTravel.removePhotoFrontal()" *ngIf="fileTravel.photoFrontal" variant="link"
-          class="m-h-reg remove-photo-archive">Quitar Foto</cwc-button>
-      </cwc-cell>
+        style="margin-bottom: 2rem">
+        <cwc-cell colspan="6" mobile-colspan="12" style="cursor: pointer; margin-top: 1rem;">
+            <label for="">1. Parte frontal del documento.</label>
+            <div class="contend-upload-camera" (click)="fileTravel.openCameraOne()">
+
+                <ion-img class="img-photo-register" *ngIf="fileTravel.photoFrontal" [src]="fileTravel.photoFrontal"
+                    style="object-fit: cover;
+            max-height: 65% !important;"></ion-img>
+
+                <cwc-icon *ngIf="!fileTravel.photoFrontal" name="camera" color="bright-blue" size="30px"
+                    style="margin-right: 1rem;"></cwc-icon>
+                <p *ngIf="!fileTravel.photoFrontal">Abrir cámara del dispositivo</p>
+
+            </div>
+            <cwc-button (click)="fileTravel.removePhotoFrontal()" *ngIf="fileTravel.photoFrontal" variant="link"
+                class="m-h-reg remove-photo-archive">Quitar Foto</cwc-button>
+        </cwc-cell>
     </cwc-grid>
     <footer slot='footer'>
-      <div style='text-align: center'>
-        <cwc-button variant='support' design-version="v2" (click)="cloceModalDocument()" style="margin-right: 1rem;">
-          Cancelar</cwc-button>
-        <cwc-button design-version="v2" *ngIf="fileTravel.photoFrontal" variant='primary'>Aceptar</cwc-button>
-      </div>
+        <div style='text-align: center'>
+            <cwc-button variant='support' design-version="v2" (cwcClick)="cloceModalDocument()"
+                style="margin-right: 1rem;">
+                Cancelar</cwc-button>
+            <cwc-button design-version="v2" *ngIf="fileTravel.photoFrontal"
+                variant='primary' (click)="saveDocument()">Aceptar</cwc-button>
+        </div>
     </footer>
-  </cwc-modal>
+</cwc-modal>

@@ -85,9 +85,13 @@
 <!--=====================================
 		MODAL CONFIRMACIÓN RESPUESTA DE EXITO
 ======================================-->
-<app-alert-success [alertShow]="alertSucces" title="Su información ha sido guardada exitosamente"
-  urlButton="/app/conductores/detalles" message=" ">
-</app-alert-success>
+
+<cwc-modal id='alert-modal-succes' [open]="alertSucces" close-on-bd-click="false" show-close-btn="false">
+  <div style='text-align: center'>
+      <cwc-icon name='accepted-ok' size='120px' color='bright-green'></cwc-icon>
+      <h3 class='modal--confirmation__message'>Su información ha sido guardada exitosamente</h3>
+  </div>
+</cwc-modal>
 <!--=====================================
 	TOAST ALERT MENSAJE
 ======================================-->

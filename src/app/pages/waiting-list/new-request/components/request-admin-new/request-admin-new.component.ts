@@ -133,7 +133,7 @@ export class RequestAdminNewComponent implements OnInit {
 
   getListDrivers(){
     this.vehiclesService.getVehiclesUserByIdCompany( this.apiService.userProfile.CompanyId ).subscribe(data =>{
-      this.driverList = data.data.filter(data => data.StatusTravel === 0 && data.UserId !== this.apiService.userProfile.UserId);
+      this.driverList = data.data.filter(data => data.StatusTravel === 0 && data.Status === 2 && data.UserId !== this.apiService.userProfile.UserId);
     })
   }
 
@@ -171,6 +171,7 @@ export class RequestAdminNewComponent implements OnInit {
       return;
     }
     this.propagar.emit(true);
+    this.form.get('CodeRequest').setValue(new Date().getTime().toString());
     this.addFormData(this.form.value)
     this.requestService.createRequest(this.data).subscribe({
       next: (data: any) => {

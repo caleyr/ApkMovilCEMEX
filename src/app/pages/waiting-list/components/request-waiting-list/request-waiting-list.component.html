@@ -6,7 +6,7 @@
           <div class="avatar-info">
             <span class="style-name">Viaje {{request.CodeRequest}}</span>
           </div>
-            <cwc-status-indicator size="small" class="statusI" variant='success'>
+            <cwc-status-indicator size="small" class="statusI" [variant]="request.StatusRequest === 0 ? 'warning' : 'alert'">
               <div class="statusI">{{ textResp.getStatusWaitingList(request.StatusRequest)}}</div>
             </cwc-status-indicator>
         </div>

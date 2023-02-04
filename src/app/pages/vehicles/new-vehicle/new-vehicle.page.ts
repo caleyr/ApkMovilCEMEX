@@ -23,6 +23,7 @@ export class NewVehiclePage implements OnInit {
 
   loading = false;
 
+  id: number;
   form: FormGroup;
   data: FormData = new FormData();
 
@@ -55,6 +56,7 @@ export class NewVehiclePage implements OnInit {
     private location: Location,
     public fileVehicle: FileRegisterVehicleService
   ) {
+    this.fileVehicle.fileData = { name: [], file: [] };
     Filesystem.checkPermissions();
     this.company = apiService.userProfile.CompanyName;
     this.formBuilderInput();
@@ -78,6 +80,27 @@ export class NewVehiclePage implements OnInit {
     });
   }
 
+  updateDocument() {
+    return new Promise((resolve) => {
+      this.vehiclesService.updateDocument(this.id, this.fileVehicle.fileData).subscribe({
+        next: (data: any) => {
+          this.loading = false;
+          this.alertSucces = true;
+          this.alertConfirm = false;
+          this.errors = [];
+        },
+        error: (err) => {
+          this.loading = false;
+          this.errors = this.errorMessages.parsearErroresAPI(err.data);
+        },
+        complete: () => {
+          this.fileVehicle.resetForm();
+          resolve(true);
+        }
+      })
+    })
+  }
+
   async createVehicle() {
     this.errors = [];
     this.alertConfirm = false;
@@ -87,15 +110,22 @@ export class NewVehiclePage implements OnInit {
     this.loading = true;
     await this.addFormData(this.form.value);
     this.vehiclesService.createVehicle(this.data).subscribe({
-      next: (result: any) => {
+      next: async (result: any) => {
         if (result.data.message !== 'Saved') {
           this.errors = this.errorMessages.parsearErroresAPI('Error, La placa del vehiculo anotada ya se encuentra registrada.');
           this.form.get('LicenseVehiculo').setValue('');
           this.data = new FormData();
         } else {
-          this.alertSucces = true;
-          this.alertConfirm = false;
-          this.errors = [];
+          if (this.fileVehicle.fileData.name.length != 0) {
+            //await this.updateDocument();
+            this.alertSucces = true;
+            this.alertConfirm = false;
+            this.errors = [];
+          }else {
+            this.alertSucces = true;
+            this.alertConfirm = false;
+            this.errors = [];
+          }          
         }
       },
       error: (err) => {
@@ -150,35 +180,9 @@ export class NewVehiclePage implements OnInit {
     this.fileVehicle.resetPhoto();
   }
 
-  async savePdf() {
-    const pdfDefinition: any = {
-      content: [
-        {
-          image: this.fileVehicle.savePhotoFrontal,
-        },
-        {
-          text: '\n\n',
-        },
-        {
-          image: this.fileVehicle.savePhotoBack,
-        },
-      ]
-    }
-    const pdfDocGenerator = await pdfMake.createPdf(pdfDefinition);
-    const fileName = new Date().getTime() + `_${this.nameFile}.pdf`;
-    await pdfDocGenerator.getBlob((file) => {
-      if (this.nameFile === 'SoatDocument') {
-        this.fileVehicle.fileSOAT = fileName;
-      } else if (this.nameFile === 'TechnomechanicsDocument') {
-        this.fileVehicle.fileTecnoMecanica = fileName;
-      } else if (this.nameFile === 'PolicyDocument') {
-        this.fileVehicle.filePoliza = fileName;
-      } else if (this.nameFile === 'CardPropertyDocument') {
-        this.fileVehicle.fileTarjetaPropiedad = fileName;
-      }
-      this.data.append(this.nameFile, file,);
-      this.cloceModalDocument();
-    });
+  async saveDocument() {
+    await this.fileVehicle.savePdf(this.nameFile);
+    this.cloceModalDocument();
   }
 
   onBack() {

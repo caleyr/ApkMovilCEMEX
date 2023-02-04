@@ -75,11 +75,17 @@ export class VehicleDetailsPage implements OnInit {
   }
 
   addDriverForVehicle() {
+    this.closeAlertConfirm();
+    this.loading = true;
     const data: FormData = new FormData();
+    data.append('VehicleId', this.vehicle.VehicleId.toString());
     data.append('LicenseVehiculo', this.vehicle.LicenseVehiculo);
     data.append('UserId', this.driverAssign);
-    this.vehiclesService.driverAssignmentVehicle(this.id, data).subscribe(data => {
-      this.alertShow = true;
+    this.vehiclesService.updateVehicle(data).subscribe({
+      complete : () => {
+        this.loading = false;
+        this.alertShow = true;
+      }
     });
   }
 
@@ -87,13 +93,13 @@ export class VehicleDetailsPage implements OnInit {
     if (this.vehiclesService.id !== null) {
       this.id = this.vehiclesService.id;
       this.driversService.getDriverList(this.apiService.userProfile.CompanyId).subscribe(result => {
-        this.driverList = result.data.filter( data => data.StatusTravel === 0 &&  data.VehicleId === 0 && data.UserId !== this.apiService.userProfile.UserId);
+        this.driverList = result.data.filter(data => data.RolesId !== 4 && data.RolesId !== 5 && data.RolesId !== 3 && data.StatusTravel === 0 && data.VehicleId === 0 && data.UserId !== this.apiService.userProfile.UserId);
       });
       this.vehiclesService.getVehicleById(this.id).subscribe({
-        next : (data : any) =>{
+        next: (data: any) => {
           this.vehicle = data.data;
         },
-        complete : () => {
+        complete: () => {
           this.loading = false;
         }
       });
@@ -103,5 +109,9 @@ export class VehicleDetailsPage implements OnInit {
   updateVehicle() {
     this.vehiclesService.vehicle = this.vehicle;
     this.navCtrl.navigateRoot('/app/vehiculos/actualizar', { animated: false });
+  }
+
+  updataDocuments() {
+    this.navCtrl.navigateRoot('/app/vehiculos/actualizar-documentos', { animated: false });
   }
 }

@@ -37,6 +37,14 @@ export class DriversService {
     )
   }
 
+  updateDocument(id : number , data : any){
+    return this.http.fetch(`${URL}/v1/load/dsm/users/${id}/documents`, data, 'upload', true, false, true).pipe(
+      tap(() => {
+        this._refresh$.next();
+      })
+    )
+  }
+
   confirmDrive(id : string, data: any){
     return this.http.fetch(`${URL}/api/travels/ConfirmTravelByUser/${id}`, data, 'put', true).pipe(
       tap(() => {

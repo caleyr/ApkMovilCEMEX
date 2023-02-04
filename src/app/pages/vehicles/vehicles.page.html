@@ -1,18 +1,11 @@
 <app-layout class="card-size">
   <div class="content-page">
     <cwc-grid class="demo-grid" row-gap="2px">
-      <cwc-cell colspan="12" mobile-colspan="11" style="padding-bottom: 0;">     
+      <cwc-cell colspan="12" mobile-colspan="12" style="padding-bottom: 0;">     
         <div>
           <cwc-input class="search-text" variant="regular" rtl="false" trailing-icon='magnifier-glass' [(ngModel)]="search" placeholder='Buscar...'></cwc-input>  
         </div>       
-      </cwc-cell> 
-      <cwc-cell colspan="12" mobile-colspan="1">    
-        <div class="icon">
-          <cwc-button variant="link">          
-            <cwc-icon variant="link" name='controls' size="20px" aria-role="button"></cwc-icon>
-          </cwc-button>
-        </div>  
-      </cwc-cell>    
+      </cwc-cell>
     </cwc-grid>  
     <h4 class="text-vehicles">Vehículos ({{vehiclesList.length}})</h4>
     <ion-content>

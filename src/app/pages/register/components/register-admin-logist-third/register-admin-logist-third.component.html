@@ -42,7 +42,7 @@
   <div *ngIf="!fileRegister.fileDrivinglicense">
     <cwc-grid class="demo-grid content-archive" column-gap="1px">
       <input type="file" accept="image/*,.pdf" #getFileDrivinglicense style="display: none;"
-        (change)="data = fileRegister.onFileDrivinglicense($event, data)" />
+        (change)="fileRegister.onFileDrivinglicense($event)" />
       <cwc-cell (click)="openModalDocument('Drivinglicense')" class="border" mobile-colspan="6">
         <div class="item-archives">
           <cwc-icon name="camera" size="28px" color="bright-blue"></cwc-icon>
@@ -67,7 +67,7 @@
       </cwc-cell>
       <cwc-cell mobile-colspan="1" class="flex">
         <cwc-icon style="display: flex; align-items: center; padding-top: 5px; padding-right: 1rem;"
-          (click)="data = fileRegister.deleteFileDrivinglicense(data, inputFileDrive)" name="close" size="20px" color="bright-blue">
+          (click)="fileRegister.deleteFileDrivinglicense(inputFileDrive)" name="close" size="20px" color="bright-blue">
         </cwc-icon>
       </cwc-cell>
     </cwc-grid>
@@ -79,7 +79,7 @@
   <div *ngIf="!fileRegister.fileSecurityCard">
     <cwc-grid class="demo-grid content-archive" column-gap="1px">
       <input type="file" accept="image/*,.pdf" #getFileSecurityCard style="display: none;"
-        (change)="data = fileRegister.onFileSecurityCard($event, data)" />
+        (change)="fileRegister.onFileSecurityCard($event)" />
       <cwc-cell (click)="openModalDocument('SecurityCard')" class="border" colspan="6" mobile-colspan="6">
         <div class="item-archives">
           <cwc-icon name="camera" size="28px" color="bright-blue"></cwc-icon>
@@ -104,7 +104,7 @@
       </cwc-cell>
       <cwc-cell mobile-colspan="1" class="flex">
         <cwc-icon style="display: flex; align-items: center; padding-top: 5px; padding-right: 1rem;"
-          (click)="data = fileRegister.deleteFileSecurityCard(data, inputFileSecurity)" name="close" size="20px" color="bright-blue">
+          (click)="fileRegister.deleteFileSecurityCard(inputFileSecurity)" name="close" size="20px" color="bright-blue">
         </cwc-icon>
       </cwc-cell>
     </cwc-grid>
@@ -114,7 +114,7 @@
   <div *ngIf="!fileRegister.fileDocument">
     <cwc-grid class="demo-grid content-archive" column-gap="1px">
       <input type="file" accept="image/*,.pdf" #getFileDocument style="display: none;"
-        (change)="data = fileRegister.onFileDocument($event, data)" />
+        (change)="fileRegister.onFileDocument($event)" />
       <cwc-cell (click)="openModalDocument('DocumentIdentityCard')" class="border" colspan="6" mobile-colspan="6">
         <div class="item-archives">
           <cwc-icon name="camera" size="28px" color="bright-blue"></cwc-icon>
@@ -139,7 +139,7 @@
       </cwc-cell>
       <cwc-cell mobile-colspan="1" class="flex">
         <cwc-icon style="display: flex; align-items: center; padding-top: 5px; padding-right: 1rem;"
-          (click)="data = fileRegister.deleteFileDocument(data, inputFileDoc)" name="close" size="20px" color="bright-blue">
+          (click)="fileRegister.deleteFileDocument(inputFileDoc)" name="close" size="20px" color="bright-blue">
         </cwc-icon>
       </cwc-cell>
     </cwc-grid>
@@ -198,7 +198,7 @@
       <cwc-button variant='support' design-version="v2" (click)="cloceModalDocument()" style="margin-right: 1rem;">
         Cancelar</cwc-button>
       <cwc-button design-version="v2" *ngIf="fileRegister.photoBack && fileRegister.photoFrontal" variant='primary'
-        (click)="savePdf()">Aceptar</cwc-button>
+        (click)="saveDocument()">Aceptar</cwc-button>
     </div>
   </footer>
 </cwc-modal>

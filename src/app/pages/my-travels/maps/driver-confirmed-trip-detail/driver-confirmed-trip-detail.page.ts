@@ -119,7 +119,7 @@ export class DriverConfirmedTripDetailPage implements OnInit, AfterViewInit, OnD
         this.deleteMarker();
         this.changeRoute();
         this.loading = false;
-      } else if (this.travel.DowloadEnd !== undefined && this.travel.StatusTravel === 5) {
+      } else if (this.travel.DowloadEnd !== undefined && this.travel.StatusTravel === 6) {
         this.loading = false;
         this.modalController.dismiss();
         this.alertShow = true;

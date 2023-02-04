@@ -39,7 +39,7 @@
       <cwc-grid class="demo-grid center-cell">
         <cwc-cell mobile-colspan="6">
           <div class="attr-user">FECHA Y HORA DE CITA</div>
-          <span class="attr-detail">{{travel.DateTravel}} {{travel.TimerStar}}</span>
+          <span class="attr-detail">{{travel.DateTravel | date : 'mediumDate'}} - {{travel.TimerStar}}</span>
         </cwc-cell>
         <cwc-cell mobile-colspan="6">
           <div class="attr-user">CANTIDAD</div>

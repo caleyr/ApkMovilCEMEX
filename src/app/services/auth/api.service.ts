@@ -24,7 +24,8 @@ export class ApiService {
 
   constructor(
     private authService : MsalService,
-    private navCtrl : NavController) {
+    private navCtrl : NavController,
+    ) {
   }
 
   // Load accessToken on startup

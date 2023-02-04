@@ -60,4 +60,8 @@ export class DriverDetailsPage implements OnInit {
     this.driversService.driver = this.driver;
     this.navCtrl.navigateRoot('/app/conductores/actualizar', { animated: false });
   }
+
+  updataDocuments(){
+    this.navCtrl.navigateRoot('/app/conductores/actualizar-documentos', { animated: false });
+  }
 }

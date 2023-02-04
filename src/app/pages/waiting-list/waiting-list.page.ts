@@ -5,6 +5,7 @@ import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { ApiService } from '../../services/auth/api.service';
+import { filter } from 'rxjs/operators';
 
 @Component({
   selector: 'app-waiting-list',
@@ -31,6 +32,7 @@ export class WaitingListPage implements OnInit {
     this.loading = true;
     this.suscripcion = this.requestService.refresh$.subscribe(() => {
       this.getData();
+      this.cd.detectChanges();
     })
     this.getData();
   }
@@ -39,16 +41,16 @@ export class WaitingListPage implements OnInit {
     if (this.apiService.userProfile.RolesId === 1) {
       this.requestService.getRequestByIdUser(this.apiService.userProfile.UserId).subscribe({
         next: (data: any) => {
-          this.requestsList = data.data;
+          this.requestsList = data.data.filter(data => data.StatusRequest !== 1);
         },
         complete: () => {
           this.loading = false;
         },
       })
     } else {
-      this.requestService.getRequestByIdUser(this.apiService.userProfile.UserId).subscribe({
+      this.requestService.getRequestByIdCompany(this.apiService.userProfile.CompanyId).subscribe({
         next: (data: any) => {
-          this.requestsList = data.data;
+          this.requestsList = data.data.filter(data => data.StatusRequest !== 1);
         },
         complete: () => {
           this.loading = false;

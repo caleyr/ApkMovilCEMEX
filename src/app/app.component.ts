@@ -4,7 +4,6 @@ import { CustomNavigationClient } from './utilities/CustomNavigationClient';
 import { InAppBrowser } from '@awesome-cordova-plugins/in-app-browser/ngx';
 import { FcmService } from './services/fcm.service';
 import { startWith } from 'rxjs/operators';
-import { Filesystem } from '@capacitor/filesystem';
 
 
 //MSAL
@@ -41,7 +40,7 @@ export class AppComponent implements OnInit {
     this.authService.instance.setNavigationClient(new CustomNavigationClient(this.iab, this.document));
   }
 
-  ngOnInit() {
+  async ngOnInit() {
     const theme = window.matchMedia('(prefers-color-scheme: dark)');
     document.body.classList.toggle('light');
     this.fcmService.initPush();

@@ -63,7 +63,7 @@ export class DetailsTripRequestPage implements OnInit {
 
   getListDrivers() {
     this.vehiclesService.getVehiclesUserByIdCompany(this.apiService.userProfile.CompanyId).subscribe(data => {
-      this.listDrivers = data.data.filter(data => data.StatusTravel === 0);
+      this.listDrivers = data.data.filter(data => data.StatusTravel === 0  && data.Status === 2 && data.UserId !== this.idUser);
       this.loading = false;
     });
   }

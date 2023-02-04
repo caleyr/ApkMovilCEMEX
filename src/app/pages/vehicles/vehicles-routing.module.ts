@@ -19,7 +19,12 @@ const routes: Routes = [
   {
     path: 'detalles',
     loadChildren: () => import('./vehicle-details/vehicle-details.module').then( m => m.VehicleDetailsPageModule)
+  },
+  {
+    path: 'actualizar-documentos',
+    loadChildren: () => import('./update-archives-vehicle/update-archives-vehicle.module').then( m => m.UpdateArchivesVehiclePageModule)
   }
+
 ];
 
 @NgModule({

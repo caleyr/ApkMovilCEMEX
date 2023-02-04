@@ -7,6 +7,7 @@ import { MsalService } from '@azure/msal-angular';
 import { tap } from 'rxjs/operators';
 import { of, Subject } from 'rxjs';
 import { Router } from '@angular/router';
+import { HttpClient } from '@angular/common/http';
 
 const BASE_URL_API = environment.url;
 
@@ -21,7 +22,8 @@ export class UserService {
     private http: HttpService,
     private apiService: ApiService,
     private authService: MsalService,
-    private router: Router
+    private router: Router,
+    private httpA : HttpClient
   ) { }
 
   get refresh$() {
@@ -58,6 +60,10 @@ export class UserService {
     return this.http.fetch(`${BASE_URL_API}/v1/load/dsm/users`, data, 'put', true);
   }
 
+  updateUserTravel(data: any) {
+    return this.http.fetch(`${BASE_URL_API}/v1/load/dsm/users`, data, 'put', true);
+  }
+
   updateUser(data: any) {
     return this.http.fetch(`${BASE_URL_API}/v1/load/dsm/users`, data, 'put', true).pipe(
       tap(() => {
@@ -66,7 +72,15 @@ export class UserService {
     )
   }
 
-  updateDocument(data : any){
-    return this.http.fetch(`${BASE_URL_API}/v1/load/dsm/users/1/documents`, data, 'upload', false, false, true);
+  updateDocument(id : number , data : any){
+    return this.http.fetch(`${BASE_URL_API}/v1/load/dsm/users/${id}/documents`, data, 'upload', true, false, true);
+  }
+
+  updateDocumentProfile(id : number , data : any){
+    return this.http.fetch(`${BASE_URL_API}/v1/load/dsm/users/${id}/documents`, data, 'upload', true, false, true).pipe(
+      tap(() => {
+        this._refresh$.next();
+      })
+    )
   }
 }

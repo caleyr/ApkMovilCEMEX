@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
 import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
+import { Directory, Filesystem } from '@capacitor/filesystem';
 import pdfMake from "pdfmake/build/pdfmake";
 import pdfFonts from "pdfmake/build/vfs_fonts";
-import { HttpService } from '../http/http.service';
+import { ConvertFileService } from '../convert-photo-camera/convert-file.service';
 pdfMake.vfs = pdfFonts.pdfMake.vfs;
 
 @Injectable({
@@ -23,7 +24,11 @@ export class FileRegisterVehicleService {
 
   dataForm: FormData;
 
-  constructor(private httpP: HttpService) {
+  fileData: { name: string[], file: string[] };
+
+  constructor(
+    private convertFile: ConvertFileService
+  ) {
     Camera.checkPermissions()
   }
 
@@ -56,61 +61,105 @@ export class FileRegisterVehicleService {
   }
 
   // AGREGAR ARCHIVOS
-  onFileSOAT(event, data: FormData) {
+  async onFileSOAT(event) {
     const file = <File>event.target.files[0];
+
     this.fileSOAT = file.name;
-    data.append('SoatDocument', file, file.name);
-    return data;
+    this.fileData.name.push('SoatDocument');
+
+    const fileBlob = await this.convertFile.blobFormFile(event.target.files[0]);
+    const resultado = await this.convertFile.base64FromPath(fileBlob) as string;
+
+    //Save File
+    await this.saveFile(this.fileSOAT, resultado);
   }
 
-  onFileTecnoMecanica(event, data: FormData) {
+  async onFileTecnoMecanica(event) {
     const file = <File>event.target.files[0];
+
     this.fileTecnoMecanica = file.name;
-    data.append('TechnomechanicsDocument', file, file.name);
-    return data;
+    this.fileData.name.push('TechnomechanicsDocument');
+
+    const fileBlob = await this.convertFile.blobFormFile(event.target.files[0]);
+    const resultado = await this.convertFile.base64FromPath(fileBlob) as string;
+
+    //Save File
+    await this.saveFile(this.fileTecnoMecanica, resultado);
   }
 
-  onFilePoliza(event, data: FormData) {
+  async onFilePoliza(event) {
     const file = <File>event.target.files[0];
+
     this.filePoliza = file.name;
-    data.append('PolicyDocument', file, file.name);
-    return data;
+    this.fileData.name.push('PolicyDocument');
+
+    const fileBlob = await this.convertFile.blobFormFile(event.target.files[0]);
+    const resultado = await this.convertFile.base64FromPath(fileBlob) as string;
+
+    //Save File
+    await this.saveFile(this.filePoliza, resultado);
   }
 
-  onFileTarjetaPropiedad(event, data: FormData) {
+  async onFileTarjetaPropiedad(event) {
     const file = <File>event.target.files[0];
+
     this.fileTarjetaPropiedad = file.name;
-    data.append('CardPropertyDocument', file, file.name);
-    return data;
+    this.fileData.name.push('CardPropertyDocument');
+
+    const fileBlob = await this.convertFile.blobFormFile(event.target.files[0]);
+    const resultado = await this.convertFile.base64FromPath(fileBlob) as string;
+
+    //Save File
+    await this.saveFile(this.fileTarjetaPropiedad, resultado);
   }
 
   // ELIMINAR ARCHIVOS
-  deleteFileSOAT(data: FormData, input: any) {
+  async deleteFileSOAT(input: any) {
+    const uri = await this.convertFile.getFile(this.fileSOAT);
+    this.fileData.name = this.fileData.name.filter(data => data != 'SoatDocument');
+    this.fileData.file = this.fileData.file.filter(data => data != uri);
+
+    //Clear File
+    await this.convertFile.deleteFile(this.fileSOAT);
     this.fileSOAT = undefined;
-    data.delete('SoatDocument');
+
     input.nativeElement.value = "";
-    return data;
   }
 
-  deleteFileTecnoMecanica(data: FormData, input: any) {
+  async deleteFileTecnoMecanica(input: any) {
+    const uri = await this.convertFile.getFile(this.fileTecnoMecanica);
+    this.fileData.name = this.fileData.name.filter(data => data != 'TechnomechanicsDocument');
+    this.fileData.file = this.fileData.file.filter(data => data != uri);
+
+    //Clear File
+    await this.convertFile.deleteFile(this.fileTecnoMecanica);
     this.fileTecnoMecanica = undefined;
-    data.delete('TechnomechanicsDocument');
+
     input.nativeElement.value = "";
-    return data;
   }
 
-  deleteFilePoliza(data: FormData, input: any) {
+  async deleteFilePoliza(input: any) {
+    const uri = await this.convertFile.getFile(this.filePoliza);
+    this.fileData.name = this.fileData.name.filter(data => data != 'PolicyDocument');
+    this.fileData.file = this.fileData.file.filter(data => data != uri);
+
+    //Clear File
+    await this.convertFile.deleteFile(this.filePoliza);
     this.filePoliza = undefined;
-    data.delete('PolicyDocument');
+
     input.nativeElement.value = "";
-    return data;
   }
 
-  deleteFileTarjetaPropiedad(data: FormData, input: any) {
+  async deleteFileTarjetaPropiedad(input: any) {
+    const uri = await this.convertFile.getFile(this.fileTarjetaPropiedad);
+    this.fileData.name = this.fileData.name.filter(data => data != 'CardPropertyDocument');
+    this.fileData.file = this.fileData.file.filter(data => data != uri);
+
+    //Clear File
+    await this.convertFile.deleteFile(this.fileTarjetaPropiedad);
     this.fileTarjetaPropiedad = undefined;
-    data.delete('CardPropertyDocument');
+
     input.nativeElement.value = "";
-    return data;
   }
 
   resetPhoto() {
@@ -132,6 +181,54 @@ export class FileRegisterVehicleService {
     this.fileTecnoMecanica = undefined;
     this.filePoliza = undefined;
     this.fileTarjetaPropiedad = undefined;
+
+    this.fileData = undefined;
+  }
+
+  async savePdf(namefile) {
+    const pdfDefinition: any = {
+      content: [
+        {
+          image: this.savePhotoFrontal,
+          width: 500,
+        },
+        {
+          text: '\n\n',
+        },
+        {
+          image: this.savePhotoBack,
+          width: 500,
+        },
+      ]
+    }
+    var blob;
+    const fileName = new Date().getTime() + `_${namefile}.pdf`;
+    await pdfMake.createPdf(pdfDefinition).getBase64(async base => {
+      if (namefile === 'SoatDocument') {
+        this.fileSOAT = fileName;
+      } else if (namefile === 'TechnomechanicsDocument') {
+        this.fileTecnoMecanica = fileName;
+      } else if (namefile === 'PolicyDocument') {
+        this.filePoliza = fileName;
+      } else if(namefile === 'CardPropertyDocument') {
+        this.fileTarjetaPropiedad = fileName;
+      }
+      this.fileData.name.push(namefile);
+      await this.saveFile(fileName, base);
+    });
+  }
+
+  saveFile(filename, base64) {
+    return new Promise((resolve) => {
+      Filesystem.writeFile({
+        path: filename,
+        data: base64,
+        directory: Directory.Cache
+      }).then(async (val) => {
+        this.fileData.file.push(await this.convertFile.getFile(filename));
+        resolve(true);
+      })
+    })
   }
 }
 

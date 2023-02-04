@@ -84,6 +84,9 @@ export class UpdateVehiclePage implements OnInit {
           this.alertSucces = true;
           this.alertConfirm = false;
           this.errors = [];
+          setTimeout(() => {
+            this.onBack();
+          }, 3000);
         }
       },
       error: (err) => {

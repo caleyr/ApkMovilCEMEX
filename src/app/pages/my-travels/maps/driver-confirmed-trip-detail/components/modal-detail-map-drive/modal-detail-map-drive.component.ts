@@ -50,6 +50,7 @@ export class ModalDetailMapDriveComponent implements OnInit {
   ) {
     Geolocation.checkPermissions();
     this.userId = apiService.userProfile.UserId;
+    this.fileTravel.fileData = { name: [], file: [] };
   }
 
   ngOnInit() {
@@ -73,7 +74,8 @@ export class ModalDetailMapDriveComponent implements OnInit {
 
   async getId() {
     const data = await this.travelService.getFilterTravelByIdDriver(this.userId).toPromise();
-    let list: Travel[] = data.data.filter(data => data.StatusTravelAvailability === 3);
+    let list: Travel[] = data.data.filter(data => data.StatusTravelAvailability === 3 || data.StatusTravelAvailability === 4 || data.StatusTravelAvailability === 5);
+    alert(JSON.stringify(list));
     if (list.length === 1) {
       if (list[0].TraveId !== this.travelDetail.TraveId) {
         return false;
@@ -156,6 +158,19 @@ export class ModalDetailMapDriveComponent implements OnInit {
     await this.changeTravelUpdate(data);
   }
 
+  async onClickDocumentTravel(){
+    this.googleService.changeLoadign(true);
+    await this.updateDocument();
+    const data = new FormData();
+    data.append('TraveId', this.travelDetail.TraveId);
+    data.append('UserId', this.travelDetail.UserId.toString());
+    data.append('StatusTravel', '6');
+    data.append('StatusTravelAvailability', '6');    
+    await this.changeUserUpdate('0');
+    await this.changeVehicleUpdate('0');
+    await this.changeTravelUpdate(data);
+  }
+
   async onClickEndTravel() {
     this.googleService.changeLoadign(true);
     const horaStar = new Date();
@@ -168,9 +183,7 @@ export class ModalDetailMapDriveComponent implements OnInit {
     data.append('TimerEndTravel', this.datepipe.transform(horaStar, 'h:mm'));
     this.travelDetail.DateTravelEnd = this.datepipe.transform(horaStar, 'yyyy-MM-dd');
     this.travelDetail.TimerEndTravel = this.datepipe.transform(horaStar, 'h:mm');
-    await this.changeUserUpdate('0');
-    await this.changeVehicleUpdate('0');
-    await this.changeTravelUpdate(data);    
+    await this.changeTravelUpdate(data);
   }
 
   changeTravelUpdate(data: any) {
@@ -196,7 +209,7 @@ export class ModalDetailMapDriveComponent implements OnInit {
     data.append('UserId', this.travelDetail.UserId.toString());
     data.append('StatusTravel', status);
     return new Promise((resolve) => {
-      this.userService.updateUser(data).subscribe({
+      this.userService.updateUserTravel(data).subscribe({
         next: (data: any) => {
           resolve(true);
         },
@@ -213,7 +226,7 @@ export class ModalDetailMapDriveComponent implements OnInit {
     data.append('VehicleId', this.travelDetail.UserId.toString());
     data.append('StatusTravel', status);
     return new Promise((resolve) => {
-      this.vehiclesService.updateVehicle(data).subscribe({
+      this.vehiclesService.updateVehicleTravel(data).subscribe({
         next: (data: any) => {
           resolve(true);
         },
@@ -221,6 +234,20 @@ export class ModalDetailMapDriveComponent implements OnInit {
           alert(JSON.stringify(err));
         }
       });
+    })
+  }
+
+  updateDocument() {
+    return new Promise((resolve) => {
+      this.travelService.updateDocument(this.travelDetail.TraveId, this.fileTravel.fileData).subscribe({
+        next: (data: any) => {
+          resolve(true);
+        },
+        error: (err) => {
+          alert(JSON.stringify(err));
+          resolve(true);
+        }
+      })
     })
   }
 
@@ -270,5 +297,10 @@ export class ModalDetailMapDriveComponent implements OnInit {
   cloceModalDocument() {
     document.getElementById('modal-document').setAttribute('open', 'false');
     this.fileTravel.resetPhoto();
+  }
+
+  async saveDocument() {
+    await this.fileTravel.savePdf(this.nameFile);
+    this.cloceModalDocument();
   }
 }

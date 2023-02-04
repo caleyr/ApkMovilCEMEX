@@ -153,6 +153,7 @@ export class RequestDriveNewComponent implements OnInit {
       return;
     }
     this.propagar.emit(true);
+    this.form.get('CodeRequest').setValue(new Date().getTime().toString());
     this.addFormData(this.form.value)
     this.requestService.createRequest(this.data).subscribe({
       next: (data: any) => {

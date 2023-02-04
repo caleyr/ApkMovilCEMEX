@@ -9,6 +9,7 @@
         <cwc-select style="width: 100%;" label='Departamento' (cwcChange)="changeDepartament($event)"
           design-version="v2">
           <cwc-select-option value="0" selected="">Seleccionar</cwc-select-option>
+          <cwc-select-option value="0" *ngIf="departamentList.length === 0">No se encuentran departamentos.</cwc-select-option>
           <cwc-select-option [value]="departament.DepartamentSource" *ngFor="let departament of departamentList">
             {{departament.DepartamentSource}}</cwc-select-option>
         </cwc-select>
@@ -17,6 +18,7 @@
         <cwc-select style="width: 100%;" placeholder="Seleccionar" label='Origen (Municipio)' (cwcChange)="changeSource($event)"
           design-version="v2">
           <cwc-select-option value="0" selected="">Seleccionar</cwc-select-option>
+          <cwc-select-option value="0" *ngIf="sourceList.length === 0">No se encuentran municipios.</cwc-select-option>
           <cwc-select-option [value]="source.Source" *ngFor="let source of sourceList">{{source.Source}}
           </cwc-select-option>
         </cwc-select>
@@ -27,7 +29,8 @@
       <cwc-cell mobile-colspan="12">
         <cwc-select placeholder="Seleccionar" design-version="v2" style="width: 100%;" (cwcChange)="changeDate($event)">
           <cwc-select-option value="0" selected="">Seleccionar</cwc-select-option>
-          <cwc-select-option [value]="dateL.DateTravel" *ngFor="let dateL of dateList">{{dateL.DateTravel}}
+          <cwc-select-option value="0" *ngIf="dateList.length === 0">No se encuentran fechas.</cwc-select-option>
+          <cwc-select-option [value]="dateL.DateTravel" *ngFor="let dateL of dateList">{{dateL.DateTravel | date : 'mediumDate'}}
           </cwc-select-option>
         </cwc-select>
       </cwc-cell>
@@ -37,6 +40,7 @@
       <cwc-cell mobile-colspan="6">
         <cwc-select (cwcChange)="changeHourStar($event)" placeholder="Hora (Inicio)" design-version="v2">
           <cwc-select-option value="0">Seleccionar</cwc-select-option>
+          <cwc-select-option value="0" *ngIf="timeList.length === 0 && timeListTwo.length === 0">No se encuentran horas.</cwc-select-option>
           <cwc-select-option [value]="timeL.TimerStar" *ngFor="let timeL of (timeList.length === 0 ? timeListTwo : timeList)">{{timeL.TimerStar}}
           </cwc-select-option>
         </cwc-select>
@@ -44,6 +48,7 @@
       <cwc-cell mobile-colspan="6">
         <cwc-select (cwcChange)="changeHourEnd($event)" placeholder="Hora (Fin)" design-version="v2">
           <cwc-select-option value="0">Seleccionar</cwc-select-option>
+          <cwc-select-option value="0" *ngIf="timeListTwo.length === 0">No se encuentran horas.</cwc-select-option>
           <cwc-select-option [value]="timeL.TimerStar" *ngFor="let timeL of timeListTwo">{{timeL.TimerStar}}
           </cwc-select-option>
         </cwc-select>

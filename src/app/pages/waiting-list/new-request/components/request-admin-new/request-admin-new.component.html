@@ -39,6 +39,7 @@
           [statusMessage]="getMsgField('DriverId', 'conductor')" (cwcChange)="changeDriver($event)" style="width: 100%;"
           label='Conductor' design-version="v2">
           <cwc-select-option value="0" selected="">Seleccionar</cwc-select-option>
+          <cwc-select-option value="0" *ngIf="driverList.length === 0" selected="">No se encuentran conductores disponibles</cwc-select-option>
           <cwc-select-option [value]="driver.VehicleId"
             *ngFor="let driver of driverList">{{driver.FirstName + ' ' + driver.LastName}}</cwc-select-option>
         </cwc-select>

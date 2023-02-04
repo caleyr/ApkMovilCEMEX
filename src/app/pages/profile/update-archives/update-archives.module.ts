@@ -8,11 +8,7 @@ import { IonicModule } from '@ionic/angular';
 import { UpdateArchivesPageRoutingModule } from './update-archives-routing.module';
 
 import { UpdateArchivesPage } from './update-archives.page';
-import { PhotoLicenceDocumentComponent } from './components/photo-licence-document/photo-licence-document.component';
 import { ComponentsModule } from 'src/app/components/components.module';
-import { PhotoIdentityCardComponent } from './components/photo-identity-card/photo-identity-card.component';
-import { PhotoDocumentCompanyComponent } from './components/photo-document-company/photo-document-company.component';
-import { PhotoSecurityCardComponent } from './components/photo-security-card/photo-security-card.component';
 import { CmxWebComponentsModule } from '@cmx-web-components/angular';
 
 @NgModule({
@@ -26,11 +22,7 @@ import { CmxWebComponentsModule } from '@cmx-web-components/angular';
     CmxWebComponentsModule.forRoot()
   ],
   declarations: [
-    UpdateArchivesPage,
-    PhotoLicenceDocumentComponent,
-    PhotoIdentityCardComponent,
-    PhotoDocumentCompanyComponent,
-    PhotoSecurityCardComponent
+    UpdateArchivesPage
   ]
 })
 export class UpdateArchivesPageModule {}

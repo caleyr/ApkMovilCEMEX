@@ -27,8 +27,20 @@ export class VehiclesService {
     return this.http.fetch(`${URL}/v1/load/dsm/vehicles`, data, 'post', true);
   }
 
+  updateVehicleTravel(data: any) {
+    return this.http.fetch(`${URL}/v1/load/dsm/vehicles`, data, 'put', true);
+  }
+
   updateVehicle(data: any) {
     return this.http.fetch(`${URL}/v1/load/dsm/vehicles`, data, 'put', true).pipe(
+      tap(() => {
+        this._refresh$.next();
+      })
+    )
+  }
+
+  updateDocument(id : number , data : any){
+    return this.http.fetch(`${URL}/v1/load/dsm/vehicles/${id}/documents`, data, 'upload', true, true, true).pipe(
       tap(() => {
         this._refresh$.next();
       })

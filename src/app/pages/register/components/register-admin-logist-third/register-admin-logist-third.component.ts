@@ -13,6 +13,7 @@ import pdfFonts from "pdfmake/build/vfs_fonts";
 import { Filesystem } from '@capacitor/filesystem';
 import { UserService } from '../../../../services/user.service';
 import { UserDetail } from '../../../../models/user-detail.model';
+import { Router } from '@angular/router';
 pdfMake.vfs = pdfFonts.pdfMake.vfs;
 
 @Component({
@@ -28,8 +29,10 @@ export class RegisterAdminLogistThirdComponent implements AfterViewInit {
   propagar = new EventEmitter<boolean>();
 
   form: FormGroup;
+  emailExist = false;
+
+  id: number;
   data: FormData = new FormData();
-  dataPrueba: FormData = new FormData();
 
   listCompanies: Companies[];
 
@@ -59,8 +62,10 @@ export class RegisterAdminLogistThirdComponent implements AfterViewInit {
     private adminLogistService: AdminLogistService,
     public msgField: ValidateUserFieldService,
     public fileRegister: FileRegisterUserService,
-    private userService : UserService
+    private userService: UserService,
+    private router: Router
   ) {
+    this.fileRegister.fileData = { name: [], file: [] };
     this.formBuilderInput();
     this.loadingCompany = true;
     Filesystem.checkPermissions();
@@ -107,26 +112,27 @@ export class RegisterAdminLogistThirdComponent implements AfterViewInit {
       return;
     }
     this.addFormData(this.form.value);
-    if( await this.checkEmail()){
+    if (await this.checkEmail()) {
       this.adminLogistService.createUser(this.data).subscribe({
-        next: (result: any) => {
-          alert(JSON.stringify(result.data));
-          this.propagar.emit(false);
-          this.alertSucces = true;
-          this.alertConfirm = false;
-          this.alertSucces = true;
-          this.errors = [];  
+        next: async () => {
+          if (this.fileRegister.fileData.name.length != 0) {
+            await this.getIdEmail();
+            await this.updateDocument();
+          } else {
+            this.propagar.emit(false);
+            this.alertSucces = true;
+            this.alertConfirm = false;
+            this.alertSucces = true;
+            this.errors = [];
+          }
         },
         error: (err) => {
           this.propagar.emit(false);
           this.errors = this.errorMessages.parsearErroresAPI(err.data);
           this.fileRegister.resetForm();
-        },
-        complete: () => {
-          this.propagar.emit(false);
         }
       });
-    }else {
+    } else {
       this.propagar.emit(false);
       this.errors = this.errorMessages.parsearErroresAPI('Error, el correo digita ya se encuentra registrado.');
       this.form.get('Email').setValue('');
@@ -140,23 +146,62 @@ export class RegisterAdminLogistThirdComponent implements AfterViewInit {
     }
   }
 
-  checkEmail(){
+  checkEmail() {
     return new Promise((resolve) => {
       this.userService.getUserEmailLogin(this.form.controls['Email'].value).subscribe({
-        next : (data : any) => {
-          if(data.data.length === 0){
+        next: (data: any) => {
+          if (data.data.length === 0) {
             resolve(true);
-          }else if(data.data.length === 1){
+          } else if (data.data.length === 1) {
             resolve(false);
-          }else {
+          } else {
             resolve(false);
           }
         },
-        error : (err) =>{
+        error: (err) => {
           alert(JSON.stringify(err));
           resolve(true);
         }
-      })      
+      })
+    })
+  }
+
+  getIdEmail() {
+    return new Promise((resolve) => {
+      this.userService.getUserEmailLogin(this.form.controls['Email'].value).subscribe({
+        next: (data: any) => {
+          this.id = data.data[0].UserId;
+          resolve(true);
+        },
+        error: (err) => {
+          this.propagar.emit(false);
+          this.errors = this.errorMessages.parsearErroresAPI(err.data);
+          this.fileRegister.resetForm();
+          resolve(true);
+        }
+      })
+    })
+  }
+
+  updateDocument() {
+    return new Promise((resolve) => {
+      this.userService.updateDocument(this.id, this.fileRegister.fileData).subscribe({
+        next: (data: any) => {
+          this.propagar.emit(false);
+          this.alertSucces = true;
+          this.alertConfirm = false;
+          this.alertSucces = true;
+          this.errors = [];
+        },
+        error: (err) => {
+          this.propagar.emit(false);
+          this.errors = this.errorMessages.parsearErroresAPI(err.data);
+        },
+        complete: () => {
+          this.fileRegister.resetForm();
+          resolve(true);
+        }
+      })
     })
   }
 
@@ -190,32 +235,12 @@ export class RegisterAdminLogistThirdComponent implements AfterViewInit {
     this.fileRegister.resetPhoto();
   }
 
-  async savePdf() {
-    const pdfDefinition: any = {
-      content: [
-        {
-          image: this.fileRegister.savePhotoFrontal,
-        },
-        {
-          text: '\n\n',
-        },
-        {
-          image: this.fileRegister.savePhotoBack,
-        },
-      ]
-    }
-    const pdfDocGenerator = await pdfMake.createPdf(pdfDefinition);
-    const fileName = new Date().getTime() + `_${this.nameFile}.pdf`;
-    await pdfDocGenerator.getBlob((file) => {
-      if (this.nameFile === 'Drivinglicense') {
-        this.fileRegister.fileDrivinglicense = fileName;
-      } else if (this.nameFile === 'SecurityCard') {
-        this.fileRegister.fileSecurityCard = fileName;
-      } else if (this.nameFile === 'DocumentIdentityCard') {
-        this.fileRegister.fileDocument = fileName;
-      }
-      this.data.append(this.nameFile, file,);
-      this.cloceModalDocument();
-    });
+  async saveDocument() {
+    await this.fileRegister.savePdf(this.nameFile);
+    this.cloceModalDocument();
+  }
+
+  onBack() {
+    this.router.navigate(['app/home']);
   }
 }

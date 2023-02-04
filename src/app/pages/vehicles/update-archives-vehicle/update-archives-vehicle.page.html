@@ -12,13 +12,13 @@
     <cwc-grid class="demo-grid">
       <cwc-cell colspan="6" mobile-colspan="12">
         <div class="content-check-docs">
-          <cwc-checkbox (cwcChange)="showFileDrivinglicense($event)" class="input-check-docs">Licencia de
-            conducir</cwc-checkbox>
-          <cwc-checkbox (cwcChange)="showFileSecurityCard($event)" class="input-check-docs">Carné de Seguridad Idustrial
-            y
-            Vial</cwc-checkbox>
-          <cwc-checkbox (cwcChange)="showFileDocument($event)" class="input-check-docs">Cédula de
-            Ciudadanía</cwc-checkbox>
+          <cwc-checkbox (cwcChange)="showFileSOAT($event)" class="input-check-docs">SOAT</cwc-checkbox>
+          <cwc-checkbox (cwcChange)="showFileTecnoMecanica($event)" class="input-check-docs">
+            Certificado de revisión tecno mecánica
+          </cwc-checkbox>
+          <cwc-checkbox (cwcChange)="showFilePoliza($event)" class="input-check-docs">Póliza</cwc-checkbox>
+          <cwc-checkbox (cwcChange)="showFileTarjetaPropiedad($event)" class="input-check-docs">Tarjeta de
+            propiedad</cwc-checkbox>
         </div>
 
         <div *ngIf="!validateCheckBox() || !showUpdateDoc" class="content-button">
@@ -32,37 +32,74 @@
 
     <div *ngIf="validateCheckBox() && showUpdateDoc" style="margin-top: 2rem;">
       <h4>Adjunte los documentos seleccionados</h4>
-      <div *ngIf="fileDrivinglicenseV">
-        <label for="">Licencia de conducción</label>
-        <div *ngIf="!fileRegister.fileDrivinglicense">
+      <div *ngIf="fileSOATCheck">
+        <label for=""> Documento de SOAT </label>
+        <div *ngIf="!fileVehicle.fileSOAT">
           <cwc-grid class="demo-grid content-archive" column-gap="1px">
-            <input type="file" accept="image/*,.pdf" #getFileDrivinglicense style="display: none;"
-              (change)="fileRegister.onFileDrivinglicense($event)" />
-            <cwc-cell (click)="openModalDocument('LicenciaConduccion')" class="border" mobile-colspan="6">
+            <input type="file" accept="image/*,.pdf" #getFileSoatDocument style="display: none;"
+              (change)="fileVehicle.onFileSOAT($event)" />
+            <cwc-cell (click)="openModalDocument('SoatDocument')" class="border" mobile-colspan="6">
               <div class="item-archives">
                 <cwc-icon name="camera" size="28px" color="bright-blue"></cwc-icon>
                 <div class="text-archive">Tomar fotografía</div>
               </div>
             </cwc-cell>
             <cwc-cell mobile-colspan="6" alignItems="center">
-              <div class="item-archives" (click)="getFileDrivinglicense.click()">
+              <div class="item-archives" (click)="getFileSoatDocument.click()">
                 <cwc-icon name="document" size="28px" color="bright-blue"></cwc-icon>
                 <div class="text-archive">Seleccionar archivo</div>
               </div>
             </cwc-cell>
           </cwc-grid>
         </div>
-        <div *ngIf="fileRegister.fileDrivinglicense">
+        <div *ngIf="fileVehicle.fileSOAT">
           <cwc-grid class="demo-grid content-archive flex">
             <cwc-cell mobile-colspan="11">
               <div class="item-archives">
                 <cwc-icon name="attachment" size="28px" color="bright-blue"></cwc-icon>
-                <div class="text-archive">{{fileRegister.fileDrivinglicense}}</div>
+                <div class="text-archive">{{fileVehicle.fileSOAT}}</div>
               </div>
             </cwc-cell>
             <cwc-cell mobile-colspan="1" class="flex">
               <cwc-icon style="display: flex; align-items: center; padding-top: 5px; padding-right: 1rem;"
-                (click)="fileRegister.deleteFileDrivinglicense(inputFileDrive)" name="close" size="20px"
+                (click)="fileVehicle.deleteFileSOAT(inputFileSoat)" name="close" size="20px" color="bright-blue">
+              </cwc-icon>
+            </cwc-cell>
+          </cwc-grid>
+        </div>
+      </div>
+
+      <div *ngIf="fileTecnoMecanicaCheck">
+        <label for=""> Certificado de revisión tecno mecánica </label>
+        <div *ngIf="!fileVehicle.fileTecnoMecanica">
+          <cwc-grid class="demo-grid content-archive" column-gap="1px">
+            <input type="file" accept="image/*,.pdf" #getFileTechnomechanicsDocument style="display: none;"
+              (change)="fileVehicle.onFileTecnoMecanica($event)" />
+            <cwc-cell (click)="openModalDocument('TechnomechanicsDocument')" class="border" mobile-colspan="6">
+              <div class="item-archives">
+                <cwc-icon name="camera" size="28px" color="bright-blue"></cwc-icon>
+                <div class="text-archive">Tomar fotografía</div>
+              </div>
+            </cwc-cell>
+            <cwc-cell mobile-colspan="6" alignItems="center">
+              <div class="item-archives" (click)="getFileTechnomechanicsDocument.click()">
+                <cwc-icon name="document" size="28px" color="bright-blue"></cwc-icon>
+                <div class="text-archive">Seleccionar archivo</div>
+              </div>
+            </cwc-cell>
+          </cwc-grid>
+        </div>
+        <div *ngIf="fileVehicle.fileTecnoMecanica">
+          <cwc-grid class="demo-grid content-archive flex">
+            <cwc-cell mobile-colspan="11">
+              <div class="item-archives">
+                <cwc-icon name="attachment" size="28px" color="bright-blue"></cwc-icon>
+                <div class="text-archive">{{fileVehicle.fileTecnoMecanica}}</div>
+              </div>
+            </cwc-cell>
+            <cwc-cell mobile-colspan="1" class="flex">
+              <cwc-icon style="display: flex; align-items: center; padding-top: 5px; padding-right: 1rem;"
+                (click)="fileVehicle.deleteFileTecnoMecanica(inputFileTechnomechanicsDocument)" name="close" size="20px"
                 color="bright-blue">
               </cwc-icon>
             </cwc-cell>
@@ -70,38 +107,37 @@
         </div>
       </div>
 
-      <div *ngIf="fileSecurityCardV">
-        <label for="">Carné de seguridad industrial y vial</label>
-        <div *ngIf="!fileRegister.fileSecurityCard">
+      <div *ngIf="filePolizaCheck">
+        <label for=""> Póliza </label>
+        <div *ngIf="!fileVehicle.filePoliza">
           <cwc-grid class="demo-grid content-archive" column-gap="1px">
-            <input type="file" accept="image/*,.pdf" #getFileSecurityCard style="display: none;"
-              (change)="fileRegister.onFileSecurityCard($event)" />
-            <cwc-cell (click)="openModalDocument('CarnetSeguridadIndustrial')" class="border" colspan="6"
-              mobile-colspan="6">
+            <input type="file" accept="image/*,.pdf" #getFilePolicyDocument style="display: none;"
+              (change)="fileVehicle.onFilePoliza($event)" />
+            <cwc-cell (click)="openModalDocument('PolicyDocument')" class="border" mobile-colspan="6">
               <div class="item-archives">
                 <cwc-icon name="camera" size="28px" color="bright-blue"></cwc-icon>
                 <div class="text-archive">Tomar fotografía</div>
               </div>
             </cwc-cell>
-            <cwc-cell colspan="6" mobile-colspan="6">
-              <div class="item-archives" (click)="getFileSecurityCard.click()">
+            <cwc-cell mobile-colspan="6" alignItems="center">
+              <div class="item-archives" (click)="getFilePolicyDocument.click()">
                 <cwc-icon name="document" size="28px" color="bright-blue"></cwc-icon>
                 <div class="text-archive">Seleccionar archivo</div>
               </div>
             </cwc-cell>
           </cwc-grid>
         </div>
-        <div *ngIf="fileRegister.fileSecurityCard">
+        <div *ngIf="fileVehicle.filePoliza">
           <cwc-grid class="demo-grid content-archive flex">
             <cwc-cell mobile-colspan="11">
               <div class="item-archives">
                 <cwc-icon name="attachment" size="28px" color="bright-blue"></cwc-icon>
-                <div class="text-archive">{{fileRegister.fileSecurityCard}}</div>
+                <div class="text-archive">{{fileVehicle.filePoliza}}</div>
               </div>
             </cwc-cell>
             <cwc-cell mobile-colspan="1" class="flex">
               <cwc-icon style="display: flex; align-items: center; padding-top: 5px; padding-right: 1rem;"
-                (click)="fileRegister.deleteFileSecurityCard(inputFileSecurity)" name="close" size="20px"
+                (click)="fileVehicle.deleteFilePoliza(inputFilePolicyDocument)" name="close" size="20px"
                 color="bright-blue">
               </cwc-icon>
             </cwc-cell>
@@ -109,37 +145,38 @@
         </div>
       </div>
 
-      <div *ngIf="fileDocumentV">
-        <label for="">Cédula de ciudadanía</label>
-        <div *ngIf="!fileRegister.fileDocument">
+      <div *ngIf="fileTarjetaPropiedadCheck">
+        <label for=""> Tarjeta de propiedad </label>
+        <div *ngIf="!fileVehicle.fileTarjetaPropiedad">
           <cwc-grid class="demo-grid content-archive" column-gap="1px">
-            <input type="file" accept="image/*,.pdf" #getFileDocument style="display: none;"
-              (change)="fileRegister.onFileDocument($event)" />
-            <cwc-cell (click)="openModalDocument('CedulaDocumento')" class="border" colspan="6" mobile-colspan="6">
+            <input type="file" accept="image/*,.pdf" #getFileCardPropertyDocument style="display: none;"
+              (change)="fileVehicle.onFileTarjetaPropiedad($event)" />
+            <cwc-cell (click)="openModalDocument('CardPropertyDocument')" class="border" mobile-colspan="6">
               <div class="item-archives">
                 <cwc-icon name="camera" size="28px" color="bright-blue"></cwc-icon>
                 <div class="text-archive">Tomar fotografía</div>
               </div>
             </cwc-cell>
-            <cwc-cell colspan="6" mobile-colspan="6">
-              <div class="item-archives" (click)="getFileDocument.click()">
+            <cwc-cell mobile-colspan="6" alignItems="center">
+              <div class="item-archives" (click)="getFileCardPropertyDocument.click()">
                 <cwc-icon name="document" size="28px" color="bright-blue"></cwc-icon>
                 <div class="text-archive">Seleccionar archivo</div>
               </div>
             </cwc-cell>
           </cwc-grid>
         </div>
-        <div *ngIf="fileRegister.fileDocument">
+        <div *ngIf="fileVehicle.fileTarjetaPropiedad">
           <cwc-grid class="demo-grid content-archive flex">
             <cwc-cell mobile-colspan="11">
               <div class="item-archives">
                 <cwc-icon name="attachment" size="28px" color="bright-blue"></cwc-icon>
-                <div class="text-archive">{{fileRegister.fileDocument}}</div>
+                <div class="text-archive">{{fileVehicle.fileTarjetaPropiedad}}</div>
               </div>
             </cwc-cell>
             <cwc-cell mobile-colspan="1" class="flex">
               <cwc-icon style="display: flex; align-items: center; padding-top: 5px; padding-right: 1rem;"
-                (click)="fileRegister.deleteFileDocument(inputFileDoc)" name="close" size="20px" color="bright-blue">
+                (click)="fileVehicle.deleteFileTarjetaPropiedad(inputFileDoc)" name="close" size="20px"
+                color="bright-blue">
               </cwc-icon>
             </cwc-cell>
           </cwc-grid>
@@ -147,8 +184,7 @@
       </div>
 
       <div class="content-button">
-        <cwc-button (cwcClick)="updateDocument()" variant="regular-block"
-          design-version="v1">
+        <cwc-button (cwcClick)="updateDocument()" variant="regular-block" design-version="v1">
           <div class="button-css">AGREGAR DOCUMENTOS</div>
         </cwc-button>
       </div>
@@ -158,7 +194,7 @@
 <!--=====================================
 		ALERTA SUBIO CORRECTAMENTE
 ======================================-->
-<app-alert-success [alertShow]="alertSucces" title="Existoso" urlButton="/app/profile"
+<app-alert-success [alertShow]="alertSucces" title="Existoso" urlButton="/app/vehiculos/detalles"
   message="El archivo se actualizó correctamente">
 </app-alert-success>
 
@@ -180,32 +216,32 @@
     style="margin-bottom: 2rem">
     <cwc-cell colspan="6" mobile-colspan="12" style="cursor: pointer; margin-top: 1rem;">
       <label for="">1. Parte frontal del documento.</label>
-      <div class="contend-upload-camera" (click)="fileRegister.openCameraOne()">
+      <div class="contend-upload-camera" (click)="fileVehicle.openCameraOne()">
 
-        <ion-img class="img-photo-register" *ngIf="fileRegister.photoFrontal" [src]="fileRegister.photoFrontal" style="object-fit: cover;
+        <ion-img class="img-photo-register" *ngIf="fileVehicle.photoFrontal" [src]="fileVehicle.photoFrontal" style="object-fit: cover;
           max-height: 175px !important;"></ion-img>
 
-        <cwc-icon *ngIf="!fileRegister.photoFrontal" name="camera" color="bright-blue" size="30px"
+        <cwc-icon *ngIf="!fileVehicle.photoFrontal" name="camera" color="bright-blue" size="30px"
           style="margin-right: 1rem;"></cwc-icon>
-        <p *ngIf="!fileRegister.photoFrontal">Abrir cámara del dispositivo</p>
+        <p *ngIf="!fileVehicle.photoFrontal">Abrir cámara del dispositivo</p>
 
       </div>
-      <cwc-button (cwcClick)="fileRegister.removePhotoFrontal()" *ngIf="fileRegister.photoFrontal" variant="link"
+      <cwc-button (click)="fileVehicle.removePhotoFrontal()" *ngIf="fileVehicle.photoFrontal" variant="link"
         class="m-h-reg remove-photo-archive">Quitar Foto</cwc-button>
     </cwc-cell>
     <cwc-cell colspan="6" mobile-colspan="12" style="cursor: pointer; margin-top: 1rem;">
       <label for="">2. Parte trasera del documento.</label>
-      <div class="contend-upload-camera" (click)="fileRegister.openCameraTwo()">
+      <div class="contend-upload-camera" (click)="fileVehicle.openCameraTwo()">
 
-        <ion-img class="img-photo-register" *ngIf="fileRegister.photoBack" [src]="fileRegister.photoBack" style="object-fit: cover;
+        <ion-img class="img-photo-register" *ngIf="fileVehicle.photoBack" [src]="fileVehicle.photoBack" style="object-fit: cover;
         max-height: 175px !important;"></ion-img>
 
-        <cwc-icon *ngIf="!fileRegister.photoBack" name="camera" color="bright-blue" size="30px"
+        <cwc-icon *ngIf="!fileVehicle.photoBack" name="camera" color="bright-blue" size="30px"
           style="margin-right: 1rem;"></cwc-icon>
-        <p *ngIf="!fileRegister.photoBack">Abrir cámara del dispositivo</p>
+        <p *ngIf="!fileVehicle.photoBack">Abrir cámara del dispositivo</p>
 
       </div>
-      <cwc-button (cwClick)="fileRegister.removePhotoBack()" *ngIf="fileRegister.photoBack" variant="link"
+      <cwc-button (click)="fileVehicle.removePhotoBack()" *ngIf="fileVehicle.photoBack" variant="link"
         class="m-h-reg remove-photo-archive">Quitar Foto</cwc-button>
     </cwc-cell>
   </cwc-grid>
@@ -213,7 +249,7 @@
     <div style='text-align: center'>
       <cwc-button variant='support' design-version="v2" (cwcClick)="cloceModalDocument()" style="margin-right: 1rem;">
         Cancelar</cwc-button>
-      <cwc-button design-version="v2" *ngIf="fileRegister.photoBack && fileRegister.photoFrontal" variant='primary'
+      <cwc-button design-version="v2" *ngIf="fileVehicle.photoBack && fileVehicle.photoFrontal" variant='primary'
         (cwcClick)="saveDocument()">Aceptar</cwc-button>
     </div>
   </footer>
