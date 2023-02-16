@@ -6,52 +6,52 @@
     <cwc-grid class="demo-grid" design-version="v2" row-gap="5px" columns="12" mobile-columns="12"
       style="margin-top: 1rem;">
       <cwc-cell mobile-colspan="12">
-        <cwc-select style="width: 100%;" label='Departamento' (cwcChange)="changeDepartament($event)"
+        <cwc-picker style="width: 100%;" label='Departamento' (cwcChange)="changeDepartament($event)"
           design-version="v2">
-          <cwc-select-option value="0" selected="">Seleccionar</cwc-select-option>
-          <cwc-select-option value="0" *ngIf="departamentList.length === 0">No se encuentran departamentos.</cwc-select-option>
-          <cwc-select-option [value]="departament.DepartamentSource" *ngFor="let departament of departamentList">
-            {{departament.DepartamentSource}}</cwc-select-option>
-        </cwc-select>
+          <cwc-picker-option value="0" selected="">Seleccionar</cwc-picker-option>
+          <cwc-picker-option value="0" *ngIf="departamentList.length === 0">No se encuentran departamentos.</cwc-picker-option>
+          <cwc-picker-option [value]="departament.DepartamentSource" *ngFor="let departament of departamentList">
+            {{departament.DepartamentSource}}</cwc-picker-option>
+        </cwc-picker>
       </cwc-cell>
       <cwc-cell mobile-colspan="12">
-        <cwc-select style="width: 100%;" placeholder="Seleccionar" label='Origen (Municipio)' (cwcChange)="changeSource($event)"
+        <cwc-picker style="width: 100%;" placeholder="Seleccionar" label='Origen (Municipio)' (cwcChange)="changeSource($event)"
           design-version="v2">
-          <cwc-select-option value="0" selected="">Seleccionar</cwc-select-option>
-          <cwc-select-option value="0" *ngIf="sourceList.length === 0">No se encuentran municipios.</cwc-select-option>
-          <cwc-select-option [value]="source.Source" *ngFor="let source of sourceList">{{source.Source}}
-          </cwc-select-option>
-        </cwc-select>
+          <cwc-picker-option value="0" selected="">Seleccionar</cwc-picker-option>
+          <cwc-picker-option value="0" *ngIf="sourceList.length === 0">No se encuentran municipios.</cwc-picker-option>
+          <cwc-picker-option [value]="source.Source" *ngFor="let source of sourceList">{{source.Source}}
+          </cwc-picker-option>
+        </cwc-picker>
       </cwc-cell>
       <cwc-cell class="flex flex__align--bullseye" mobile-colspan="12">
         <div style="text-align: center; padding-bottom: 0.5rem; font-weight: 400;">Fecha</div>
       </cwc-cell>
       <cwc-cell mobile-colspan="12">
-        <cwc-select placeholder="Seleccionar" design-version="v2" style="width: 100%;" (cwcChange)="changeDate($event)">
-          <cwc-select-option value="0" selected="">Seleccionar</cwc-select-option>
-          <cwc-select-option value="0" *ngIf="dateList.length === 0">No se encuentran fechas.</cwc-select-option>
-          <cwc-select-option [value]="dateL.DateTravel" *ngFor="let dateL of dateList">{{dateL.DateTravel | date : 'mediumDate'}}
-          </cwc-select-option>
-        </cwc-select>
+        <cwc-picker placeholder="Seleccionar" design-version="v2" style="width: 100%;" (cwcChange)="changeDate($event)">
+          <cwc-picker-option value="0" selected="">Seleccionar</cwc-picker-option>
+          <cwc-picker-option value="0" *ngIf="dateList.length === 0">No se encuentran fechas.</cwc-picker-option>
+          <cwc-picker-option [value]="dateL.DateTravel" *ngFor="let dateL of dateList">{{dateL.DateTravel | date : 'mediumDate'}}
+          </cwc-picker-option>
+        </cwc-picker>
       </cwc-cell>
       <cwc-cell class="flex flex__align--bullseye" mobile-colspan="12">
         <div style="text-align: center; padding-bottom: 1rem; font-weight: 400;">Rango de Hora</div>
       </cwc-cell>
       <cwc-cell mobile-colspan="6">
-        <cwc-select (cwcChange)="changeHourStar($event)" placeholder="Hora (Inicio)" design-version="v2">
-          <cwc-select-option value="0">Seleccionar</cwc-select-option>
-          <cwc-select-option value="0" *ngIf="timeList.length === 0 && timeListTwo.length === 0">No se encuentran horas.</cwc-select-option>
-          <cwc-select-option [value]="timeL.TimerStar" *ngFor="let timeL of (timeList.length === 0 ? timeListTwo : timeList)">{{timeL.TimerStar}}
-          </cwc-select-option>
-        </cwc-select>
+        <cwc-picker (cwcChange)="changeHourStar($event)" placeholder="Hora (Inicio)" design-version="v2">
+          <cwc-picker-option value="0">Seleccionar</cwc-picker-option>
+          <cwc-picker-option value="0" *ngIf="timeList.length === 0 && timeListTwo.length === 0">No se encuentran horas.</cwc-picker-option>
+          <cwc-picker-option [value]="timeL.TimerStar" *ngFor="let timeL of (timeList.length === 0 ? timeListTwo : timeList)">{{timeL.TimerStar}}
+          </cwc-picker-option>
+        </cwc-picker>
       </cwc-cell>
       <cwc-cell mobile-colspan="6">
-        <cwc-select (cwcChange)="changeHourEnd($event)" placeholder="Hora (Fin)" design-version="v2">
-          <cwc-select-option value="0">Seleccionar</cwc-select-option>
-          <cwc-select-option value="0" *ngIf="timeListTwo.length === 0">No se encuentran horas.</cwc-select-option>
-          <cwc-select-option [value]="timeL.TimerStar" *ngFor="let timeL of timeListTwo">{{timeL.TimerStar}}
-          </cwc-select-option>
-        </cwc-select>
+        <cwc-picker (cwcChange)="changeHourEnd($event)" placeholder="Hora (Fin)" design-version="v2">
+          <cwc-picker-option value="0">Seleccionar</cwc-picker-option>
+          <cwc-picker-option value="0" *ngIf="timeListTwo.length === 0">No se encuentran horas.</cwc-picker-option>
+          <cwc-picker-option [value]="timeL.TimerStar" *ngFor="let timeL of timeListTwo">{{timeL.TimerStar}}
+          </cwc-picker-option>
+        </cwc-picker>
       </cwc-cell>
       <cwc-cell mobile-colspan="12">
         <div class="content-button" *ngIf="timeS !== '' && timeE !== '' ? true : false">

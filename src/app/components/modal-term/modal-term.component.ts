@@ -34,12 +34,16 @@ export class ModalTermComponent implements OnInit {
     this.dataFormS = new FormData();
     this.dataFormS.append('UserId', this.apiService.userProfile.UserId.toString());
     this.dataFormS.append('policiesPermission', 'true');
-    this.userService.updateProfile(this.dataFormS).subscribe(data => {
-      document.getElementById('alert-confirm').setAttribute('open', 'false');
-      this.propagar.emit(true);
-    }, (err) => {
-      alert(err);
-      this.logout();
+    this.userService.updateProfile(this.dataFormS).subscribe({
+      next : (data) => {
+        this.apiService.userProfile.policiesPermission = 'true';
+        document.getElementById('alert-confirm').setAttribute('open', 'false');
+        this.propagar.emit(true);
+      },
+      error : (err) => {
+        alert(err);
+        this.logout();
+      }
     });
   }
 

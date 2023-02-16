@@ -61,3 +61,18 @@
     </div>
   </footer>
 </cwc-modal>
+
+<cwc-modal id='alert-modal' [open]="alertShowAlert" close-on-bd-click="false" show-close-btn="false"
+  (cwcClose)="goMyRequest()">
+  <div style='text-align: center'>
+    <h2 class='modal--confirmation__message'>Error vehículo no encontrado</h2>
+    <p>El conductor no tiene asignado un vehículo, comunicate con el administrador para que te asignen un vehículo.</p>
+  </div>
+  <footer slot='footer'>
+    <div style='text-align: center'>
+      <cwc-button variant='link' routerLinkActive="router-link-active" (cwcClick)="goMyRequest()">
+        <h4>REGRESAR</h4>
+      </cwc-button>
+    </div>
+  </footer>
+</cwc-modal>

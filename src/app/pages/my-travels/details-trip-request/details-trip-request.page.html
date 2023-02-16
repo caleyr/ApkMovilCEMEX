@@ -81,10 +81,10 @@
 
 <cwc-modal id='modal-assign-trip' class="modal-list" design-version="v2" style="z-index: 0;">
   <h3 style='text-align: center;'>Asignar conductor</h3>
-      <cwc-select id="time-seleccwc-select" class="select-filter" label="" placeholder="Seleccionar" (cwcChange)="changeDriver($event)">
-          <cwc-select-option selected value="0">Seleccionar</cwc-select-option>
-          <cwc-select-option *ngFor="let driver of listDrivers" [value]="driver.VehicleId" >{{driver.FirstName + ' ' + driver.LastName}}, {{driver.LicenseVehiculo}}</cwc-select-option>
-      </cwc-select>
+      <cwc-picker id="time-seleccwc-picker" class="select-filter" label="" placeholder="Seleccionar" (cwcChange)="changeDriver($event)">
+          <cwc-picker-option selected value="0">Seleccionar</cwc-picker-option>
+          <cwc-picker-option *ngFor="let driver of listDrivers" [value]="driver.VehicleId" >{{driver.FirstName + ' ' + driver.LastName}}, {{driver.LicenseVehiculo}}</cwc-picker-option>
+      </cwc-picker>
       <cwc-input
           style="width: 100%;"
           design-version="v2"

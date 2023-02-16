@@ -67,7 +67,7 @@ export class VehicleDetailsPage implements OnInit {
   }
 
   cwcChangeDrivers(event) {
-    this.driverAssign = event.detail.value;
+    this.driverAssign = event.detail;
   }
 
   openModal() {

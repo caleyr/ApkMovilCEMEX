@@ -36,7 +36,7 @@ export class ScheduledTripsListComponent implements OnInit {
 
   detailTrip(id: string, travelAvailability: number, tTravel: string) {
     if (this.rol !== 3) {
-      if(travelAvailability === 2 || travelAvailability === 3  || travelAvailability === 4 ){ 
+      if(travelAvailability === 2 || travelAvailability === 3  || travelAvailability === 4 || travelAvailability === 5 ){ 
         this.travelService.id = id;
         if(tTravel === 'Viaje Cemex'){
           this.navCtrl.navigateRoot('/app/my-travels/driver-confirmed-trip-cemex-detail', { animated: false });

@@ -3,7 +3,7 @@
     filter-no-resultsMessage="No se encontraron resultados" filter-placeholder="Filtrar Empresas"
     placeholder="Seleccionar" design-version="v2" filter>
     <ng-container *ngFor="let companies of listCompanies">
-      <option [value]="companies.CodigoId">{{companies.CompanyName}}</option>
+      <cwc-picker-option [value]="companies.CodigoId">{{companies.CompanyName}}</cwc-picker-option>
     </ng-container>
   </cwc-picker>
   <cwc-grid class="demo-grid" design-version="v2" columns="12" mobile-columns="12" style="margin-top: 1.5rem;">

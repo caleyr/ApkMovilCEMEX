@@ -7,6 +7,7 @@ import { ClearWatchOptions, Geolocation } from '@capacitor/geolocation';
 import { Location } from '@angular/common';
 import { ModalDetailMapDriveCemexComponent } from './components/modal-detail-map-drive-cemex/modal-detail-map-drive-cemex.component';
 import { Filesystem } from '@capacitor/filesystem';
+import { FileRegisterTravelService } from '../../../../services/file-register/file-register-travel.service';
 declare var google;
 
 @Component({
@@ -93,13 +94,15 @@ export class DriverConfirmedTripCemexDetailPage implements OnInit {
     private modalController: ModalController,
     private travelService: TravelService,
     private location: Location,
-    private googleService: GoogleService
+    private googleService: GoogleService,
+    public fileTravel: FileRegisterTravelService
   ) {
     Geolocation.checkPermissions();
     Filesystem.checkPermissions();
   }
 
   async ngOnInit() {
+    this.fileTravel.fileData = { name: [], file: [] };
     this.loading = true;
     this.found = true;
     this.travelService.changeDataRefresh.subscribe(async () => {
@@ -201,7 +204,6 @@ export class DriverConfirmedTripCemexDetailPage implements OnInit {
             resolve(true);
           },
           error: (err) => {
-            alert(JSON.stringify(err));
             resolve(true);
           }
         });
@@ -225,7 +227,7 @@ export class DriverConfirmedTripCemexDetailPage implements OnInit {
           this.googleService.changeDistanceO(route.legs[0].end_location);
           resolve(true);
         } else {
-          alert('Could not display directions due to: ' + status);
+          //alert('Could not display directions due to: ' + status);
         }
       });
     })

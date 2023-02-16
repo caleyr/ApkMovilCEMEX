@@ -3,7 +3,7 @@
     filter-no-resultsMessage="No se encontraron resultados" filter-placeholder="Filtrar Empresas"
     placeholder="Seleccionar" design-version="v2" filter>
     <ng-container *ngFor="let companies of listCompanies">
-      <option [value]="companies.CodigoId">{{companies.CompanyName}}</option>
+      <cwc-picker-option [value]="companies.CodigoId">{{companies.CompanyName}}</cwc-picker-option>
     </ng-container>
   </cwc-picker>
   <cwc-grid class="demo-grid" design-version="v2" columns="12" mobile-columns="12" style="margin-top: 1.5rem;">
@@ -43,7 +43,7 @@
     <cwc-grid class="demo-grid content-archive" column-gap="1px">
       <input type="file" accept="image/*,.pdf" #getFileDrivinglicense style="display: none;"
         (change)="fileRegister.onFileDrivinglicense($event)" />
-      <cwc-cell (click)="openModalDocument('Drivinglicense')" class="border" mobile-colspan="6">
+      <cwc-cell (click)="openModalDocument('LicenciaConduccion')" class="border" mobile-colspan="6">
         <div class="item-archives">
           <cwc-icon name="camera" size="28px" color="bright-blue"></cwc-icon>
           <div class="text-archive">Tomar fotografía</div>
@@ -67,7 +67,8 @@
       </cwc-cell>
       <cwc-cell mobile-colspan="1" class="flex">
         <cwc-icon style="display: flex; align-items: center; padding-top: 5px; padding-right: 1rem;"
-          (click)="fileRegister.deleteFileDrivinglicense(inputFileDrive)" name="close" size="20px" color="bright-blue">
+          (click)="fileRegister.deleteFileDrivinglicense(inputFileDrive)" name="close" size="20px"
+          color="bright-blue">
         </cwc-icon>
       </cwc-cell>
     </cwc-grid>
@@ -80,7 +81,7 @@
     <cwc-grid class="demo-grid content-archive" column-gap="1px">
       <input type="file" accept="image/*,.pdf" #getFileSecurityCard style="display: none;"
         (change)="fileRegister.onFileSecurityCard($event)" />
-      <cwc-cell (click)="openModalDocument('SecurityCard')" class="border" colspan="6" mobile-colspan="6">
+      <cwc-cell (click)="openModalDocument('CarnetSeguridadIndustrial')" class="border" colspan="6" mobile-colspan="6">
         <div class="item-archives">
           <cwc-icon name="camera" size="28px" color="bright-blue"></cwc-icon>
           <div class="text-archive">Tomar fotografía</div>
@@ -104,7 +105,8 @@
       </cwc-cell>
       <cwc-cell mobile-colspan="1" class="flex">
         <cwc-icon style="display: flex; align-items: center; padding-top: 5px; padding-right: 1rem;"
-          (click)="fileRegister.deleteFileSecurityCard(inputFileSecurity)" name="close" size="20px" color="bright-blue">
+          (click)="fileRegister.deleteFileSecurityCard(inputFileSecurity)" name="close" size="20px"
+          color="bright-blue">
         </cwc-icon>
       </cwc-cell>
     </cwc-grid>
@@ -115,7 +117,7 @@
     <cwc-grid class="demo-grid content-archive" column-gap="1px">
       <input type="file" accept="image/*,.pdf" #getFileDocument style="display: none;"
         (change)="fileRegister.onFileDocument($event)" />
-      <cwc-cell (click)="openModalDocument('DocumentIdentityCard')" class="border" colspan="6" mobile-colspan="6">
+      <cwc-cell (click)="openModalDocument('CedulaDocumento')" class="border" colspan="6" mobile-colspan="6">
         <div class="item-archives">
           <cwc-icon name="camera" size="28px" color="bright-blue"></cwc-icon>
           <div class="text-archive">Tomar fotografía</div>
@@ -139,7 +141,8 @@
       </cwc-cell>
       <cwc-cell mobile-colspan="1" class="flex">
         <cwc-icon style="display: flex; align-items: center; padding-top: 5px; padding-right: 1rem;"
-          (click)="fileRegister.deleteFileDocument(inputFileDoc)" name="close" size="20px" color="bright-blue">
+          (click)="fileRegister.deleteFileDocument(inputFileDoc)" name="close" size="20px"
+          color="bright-blue">
         </cwc-icon>
       </cwc-cell>
     </cwc-grid>

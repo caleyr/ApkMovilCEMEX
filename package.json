@@ -38,7 +38,7 @@
     "@capacitor/preferences": "^4.0.2",
     "@capacitor/push-notifications": "^4.1.2",
     "@capacitor/status-bar": "4.0.1",
-    "@cmx-web-components/angular": "^0.9.12",
+    "@cmx-web-components/angular": "0.9.14",
     "@ionic-native/core": "^5.36.0",
     "@ionic-native/file": "^5.36.0",
     "@ionic-native/http": "^4.20.0",

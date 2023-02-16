@@ -57,7 +57,11 @@ export class UserService {
   }
 
   updateProfile(data: any) {
-    return this.http.fetch(`${BASE_URL_API}/v1/load/dsm/users`, data, 'put', true);
+    return this.http.fetch(`${BASE_URL_API}/v1/load/dsm/users`, data, 'put', true).pipe(
+      tap(() => {
+        this._refresh$.next();
+      })
+    );
   }
 
   updateUserTravel(data: any) {

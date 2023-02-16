@@ -34,12 +34,18 @@ export class LayoutPage implements OnInit {
   async ngOnInit() {
     if (this.apiService.userProfile === null) {
       this.showPage = false;
-      this.errorMessage = 'Error 500 al realizar la peticion al servidor.';
+      this.errorMessage = 'El usuario no exite comuniquese con un administrador.';
       document.getElementById('modal-error').setAttribute('open', 'true');
+      setTimeout(() => {
+        this.logout();
+      }, 3000);
     } else if (this.apiService.userProfile === undefined) {
       this.showPage = false;
       this.errorMessage = 'El usuario no exite comuniquese con un administrador.';
       document.getElementById('modal-error').setAttribute('open', 'true');
+      setTimeout(() => {
+        this.logout();
+      }, 3000);
     } else {
       this.role = this.apiService.userProfile.RolesId;
       if (this.role === 4 || this.role === 5) {

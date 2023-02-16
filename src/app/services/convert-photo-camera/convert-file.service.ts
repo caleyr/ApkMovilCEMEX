@@ -62,6 +62,8 @@ export class ConvertFileService {
         directory: Directory.Cache
       }).then(() => {
         resolve(true);
+      }).catch(()=>{
+        resolve(true);
       })
     });
   }

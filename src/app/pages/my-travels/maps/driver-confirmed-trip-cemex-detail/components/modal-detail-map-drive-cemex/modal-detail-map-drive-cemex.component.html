@@ -18,23 +18,16 @@
                     </cwc-button>
                 </cwc-cell>
                 <cwc-cell mobile-colspan="6"
-                    *ngIf="travelDetail.DowloadStar === undefined && travelDetail.LoadEnd !== undefined && distancia <= 30">
+                    *ngIf="travelDetail.DowloadStar === undefined && travelDetail.LoadEnd !== undefined">
                     <cwc-button variant="link" (click)="onClickStartDischarge()">
                         <div class="text-button">FINALIZAR RECORRIDO</div>
                     </cwc-button>
                 </cwc-cell>
 
                 <cwc-cell mobile-colspan="6"
-                    *ngIf="travelDetail.DowloadEnd !== undefined && travelDetail.StatusTravelAvailability === 4">
+                    *ngIf="travelDetail.DowloadEnd !== undefined && travelDetail.StatusTravelAvailability === 5 && fileTravel.fileData.name.length === 2">
                     <cwc-button variant="link" (click)="onClickEndTravel()">
                         <div class="text-button">FINALIZAR VIAJE</div>
-                    </cwc-button>
-                </cwc-cell>
-
-                <cwc-cell mobile-colspan="6"
-                    *ngIf="travelDetail.StatusTravel === 5 && fileTravel.fileData.name.length === 2 ">
-                    <cwc-button variant="link" (click)="onClickDocumentTravel()">
-                        <div class="text-button">ACTUALIZAR DOCUMENTOS</div>
                     </cwc-button>
                 </cwc-cell>
             </div>
@@ -92,7 +85,7 @@
                 </cwc-grid>
             </div>
 
-            <div *ngIf="travelDetail.DowloadEnd !== undefined">
+            <div *ngIf="travelDetail.DowloadEnd !== undefined && travelDetail.StatusTravel === 5">
                 <div class="attr-document">Documentación</div>
                 <hr color="#D0D0D0" />
                 <label for=""> Consignación </label>

@@ -50,7 +50,6 @@ export class ModalDetailMapDriveComponent implements OnInit {
   ) {
     Geolocation.checkPermissions();
     this.userId = apiService.userProfile.UserId;
-    this.fileTravel.fileData = { name: [], file: [] };
   }
 
   ngOnInit() {
@@ -75,7 +74,6 @@ export class ModalDetailMapDriveComponent implements OnInit {
   async getId() {
     const data = await this.travelService.getFilterTravelByIdDriver(this.userId).toPromise();
     let list: Travel[] = data.data.filter(data => data.StatusTravelAvailability === 3 || data.StatusTravelAvailability === 4 || data.StatusTravelAvailability === 5);
-    alert(JSON.stringify(list));
     if (list.length === 1) {
       if (list[0].TraveId !== this.travelDetail.TraveId) {
         return false;
@@ -154,11 +152,17 @@ export class ModalDetailMapDriveComponent implements OnInit {
     data.append('TraveId', this.travelDetail.TraveId);
     data.append('UserId', this.travelDetail.UserId.toString());
     data.append('DowloadEnd', this.datepipe.transform(horaStar, 'h:mm'));
+    data.append('StatusTravel', '5');
+    data.append('StatusTravelAvailability', '5');
+    data.append('DateTravelEnd', this.datepipe.transform(horaStar, 'yyyy-MM-dd'));
+    data.append('TimerEndTravel', this.datepipe.transform(horaStar, 'h:mm'));
     this.travelDetail.DowloadEnd = this.datepipe.transform(horaStar, 'h:mm');
+    this.travelDetail.DateTravelEnd = this.datepipe.transform(horaStar, 'yyyy-MM-dd');
+    this.travelDetail.TimerEndTravel = this.datepipe.transform(horaStar, 'h:mm');
     await this.changeTravelUpdate(data);
   }
 
-  async onClickDocumentTravel(){
+  async onClickEndTravel() {
     this.googleService.changeLoadign(true);
     await this.updateDocument();
     const data = new FormData();
@@ -168,21 +172,6 @@ export class ModalDetailMapDriveComponent implements OnInit {
     data.append('StatusTravelAvailability', '6');    
     await this.changeUserUpdate('0');
     await this.changeVehicleUpdate('0');
-    await this.changeTravelUpdate(data);
-  }
-
-  async onClickEndTravel() {
-    this.googleService.changeLoadign(true);
-    const horaStar = new Date();
-    const data = new FormData();
-    data.append('TraveId', this.travelDetail.TraveId);
-    data.append('UserId', this.travelDetail.UserId.toString());
-    data.append('StatusTravel', '5');
-    data.append('StatusTravelAvailability', '5');
-    data.append('DateTravelEnd', this.datepipe.transform(horaStar, 'yyyy-MM-dd'));
-    data.append('TimerEndTravel', this.datepipe.transform(horaStar, 'h:mm'));
-    this.travelDetail.DateTravelEnd = this.datepipe.transform(horaStar, 'yyyy-MM-dd');
-    this.travelDetail.TimerEndTravel = this.datepipe.transform(horaStar, 'h:mm');
     await this.changeTravelUpdate(data);
   }
 
@@ -197,7 +186,6 @@ export class ModalDetailMapDriveComponent implements OnInit {
           resolve(true);
         },
         error: (err) => {
-          alert(JSON.stringify(err));
           resolve(true);
         }
       });
@@ -214,7 +202,6 @@ export class ModalDetailMapDriveComponent implements OnInit {
           resolve(true);
         },
         error: (err) => {
-          alert(JSON.stringify(err));
           resolve(true);
         }
       });
@@ -223,7 +210,7 @@ export class ModalDetailMapDriveComponent implements OnInit {
 
   changeVehicleUpdate(status) {
     const data = new FormData();
-    data.append('VehicleId', this.travelDetail.UserId.toString());
+    data.append('VehicleId', this.travelDetail.VehicleId.toString());
     data.append('StatusTravel', status);
     return new Promise((resolve) => {
       this.vehiclesService.updateVehicleTravel(data).subscribe({
@@ -231,7 +218,7 @@ export class ModalDetailMapDriveComponent implements OnInit {
           resolve(true);
         },
         error: (err) => {
-          alert(JSON.stringify(err));
+          resolve(true);
         }
       });
     })
@@ -244,7 +231,6 @@ export class ModalDetailMapDriveComponent implements OnInit {
           resolve(true);
         },
         error: (err) => {
-          alert(JSON.stringify(err));
           resolve(true);
         }
       })
@@ -270,7 +256,6 @@ export class ModalDetailMapDriveComponent implements OnInit {
           resolve(true);
         },
         error: (err) => {
-          alert(JSON.stringify(err));
           resolve(true);
         }
       });

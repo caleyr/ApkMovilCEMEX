@@ -36,6 +36,7 @@ export class RequestDriveNewComponent implements OnInit {
   buttonActivate: boolean = false;
   alertShow = false;
   alertShowError = false;
+  alertShowAlert = false;
 
   autocompleteO = null;
   autocompleteD = null;
@@ -155,16 +156,21 @@ export class RequestDriveNewComponent implements OnInit {
     this.propagar.emit(true);
     this.form.get('CodeRequest').setValue(new Date().getTime().toString());
     this.addFormData(this.form.value)
-    this.requestService.createRequest(this.data).subscribe({
-      next: (data: any) => {
-        this.alertShow = true;
-      }, complete: () => {
-        this.propagar.emit(false);
-      },
-      error : () =>{
-        this.goMyRequest();
-      }
-    });
+    if( this.apiService.userProfile.VehicleId !== 0){
+      this.requestService.createRequest(this.data).subscribe({
+        next: (data: any) => {
+          this.alertShow = true;
+        }, complete: () => {
+          this.propagar.emit(false);
+        },
+        error : () =>{
+          this.goMyRequest();
+        }
+      });
+    }else {
+      this.propagar.emit(false);
+      this.alertShowAlert = true;      
+    }    
   }
 
   async addFormData(objeto) {

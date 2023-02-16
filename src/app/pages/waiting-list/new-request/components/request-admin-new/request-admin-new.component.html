@@ -35,14 +35,14 @@
         </cwc-input-date>
       </cwc-cell>
       <cwc-cell colspan="12" mobile-colspan="12">
-        <cwc-select formControlName="DriverId" [status]="getStatusField('DriverId')"
+        <cwc-picker formControlName="DriverId" [status]="getStatusField('DriverId')"
           [statusMessage]="getMsgField('DriverId', 'conductor')" (cwcChange)="changeDriver($event)" style="width: 100%;"
           label='Conductor' design-version="v2">
-          <cwc-select-option value="0" selected="">Seleccionar</cwc-select-option>
-          <cwc-select-option value="0" *ngIf="driverList.length === 0" selected="">No se encuentran conductores disponibles</cwc-select-option>
-          <cwc-select-option [value]="driver.VehicleId"
-            *ngFor="let driver of driverList">{{driver.FirstName + ' ' + driver.LastName}}</cwc-select-option>
-        </cwc-select>
+          <cwc-picker-option value="0" selected="">Seleccionar</cwc-picker-option>
+          <cwc-picker-option value="0" *ngIf="driverList.length === 0" selected="">No se encuentran conductores disponibles</cwc-picker-option>
+          <cwc-picker-option [value]="driver.VehicleId"
+            *ngFor="let driver of driverList">{{driver.FirstName + ' ' + driver.LastName}}</cwc-picker-option>
+        </cwc-picker>
       </cwc-cell>
       <cwc-cell colspan="12" mobile-colspan="12">
         <cwc-input style="width: 100%;" design-version="v1" label='Vehiculo' [value]="driveSelected"

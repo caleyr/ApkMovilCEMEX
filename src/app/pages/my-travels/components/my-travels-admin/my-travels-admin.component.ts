@@ -54,7 +54,6 @@ export class MyTravelsAdminComponent implements OnInit {
     this.travelService.getFilterTravelByAdmonTercero(this.companyId).subscribe({
       next: (data: any) => {
         this.previousTripsList = data.data.filter(travel =>
-          travel.StatusTravelAvailability === 5 ||
           travel.StatusTravelAvailability === 6
         )
 
@@ -62,7 +61,8 @@ export class MyTravelsAdminComponent implements OnInit {
 
         this.scheduledTripsList = data.data.filter(travel =>
           travel.StatusTravelAvailability === 3 ||
-          travel.observationsOfTravel !== undefined
+          travel.StatusTravelAvailability === 4 ||
+          travel.StatusTravelAvailability === 5
         )
 
         this.sizeScheduled = this.scheduledTripsList.length;

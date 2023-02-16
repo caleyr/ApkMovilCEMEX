@@ -31,7 +31,7 @@ export class RegisterDriverComponent implements AfterViewInit {
   form: FormGroup;
   emailExist = false;
 
-  id : number;
+  id: number;
   data: FormData = new FormData();
 
   listCompanies: Companies[] = [];
@@ -64,9 +64,8 @@ export class RegisterDriverComponent implements AfterViewInit {
     public fileRegister: FileRegisterUserService,
     private errorMessages: ErrorMessagesService,
     private router: Router,
-    private userService : UserService
+    private userService: UserService
   ) {
-    this.fileRegister.fileData = { name: [], file: [] };
     this.formBuilderInput();
     this.loadingCompany = true;
     Filesystem.checkPermissions();
@@ -99,10 +98,11 @@ export class RegisterDriverComponent implements AfterViewInit {
       ],
       IdDocument: ['', [Validators.pattern('^[0-9]*$')]]
     });
+    this.fileRegister.fileData = { name: [], file: [] };
   }
 
   cwcChange(event) {
-    this.form.get('CompanyId').setValue(`${event.detail.value}`);
+    this.form.get('CompanyId').setValue(`${event.detail}`);
   }
 
   async register() {
@@ -114,7 +114,7 @@ export class RegisterDriverComponent implements AfterViewInit {
       return;
     }
     await this.addFormData(this.form.value);
-    if( await this.checkEmail()){
+    if (await this.checkEmail()) {
       this.adminLogistService.createUser(this.data).subscribe({
         next: async () => {
           if (this.fileRegister.fileData.name.length != 0) {
@@ -134,7 +134,7 @@ export class RegisterDriverComponent implements AfterViewInit {
           this.fileRegister.resetForm();
         }
       });
-    }else {
+    } else {
       this.propagar.emit(false);
       this.errors = this.errorMessages.parsearErroresAPI('Error, el correo digita ya se encuentra registrado.');
       this.form.get('Email').setValue('');
@@ -148,26 +148,26 @@ export class RegisterDriverComponent implements AfterViewInit {
     }
   }
 
-  checkEmail(){
+  checkEmail() {
     return new Promise((resolve) => {
       this.userService.getUserEmailLogin(this.form.controls['Email'].value).subscribe({
-        next : (data : any) => {
-          if(data.data.length === 0){
+        next: (data: any) => {
+          if (data.data.length === 0) {
             resolve(true);
-          }else if(data.data.length === 1){
+          } else if (data.data.length === 1) {
             resolve(false);
-          }else {
+          } else {
             resolve(false);
           }
         },
-        error : (err) =>{
+        error: (err) => {
           resolve(true);
         }
-      })      
+      })
     })
   }
 
-  getIdEmail(){
+  getIdEmail() {
     return new Promise((resolve) => {
       this.userService.getUserEmailLogin(this.form.controls['Email'].value).subscribe({
         next: (data: any) => {
@@ -184,10 +184,12 @@ export class RegisterDriverComponent implements AfterViewInit {
     })
   }
 
-  updateDocument(){
+  updateDocument() {
+    alert(this.fileRegister.fileData);
     return new Promise((resolve) => {
-      this.userService.updateDocument(this.id , this.fileRegister.fileData).subscribe({
+      this.userService.updateDocument(this.id, this.fileRegister.fileData).subscribe({
         next: (data: any) => {
+          alert(data.data);
           this.propagar.emit(false);
           this.alertSucces = true;
           this.alertConfirm = false;
@@ -195,10 +197,11 @@ export class RegisterDriverComponent implements AfterViewInit {
           this.errors = [];
         },
         error: (err) => {
+          alert(err);
           this.propagar.emit(false);
           this.errors = this.errorMessages.parsearErroresAPI(err.data);
         },
-        complete : () => { 
+        complete: () => {
           this.fileRegister.resetForm();
           resolve(true);
         }
@@ -236,7 +239,7 @@ export class RegisterDriverComponent implements AfterViewInit {
     this.fileRegister.resetPhoto();
   }
 
-  async saveDocument(){
+  async saveDocument() {
     await this.fileRegister.savePdf(this.nameFile);
     this.cloceModalDocument();
   }

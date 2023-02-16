@@ -51,7 +51,6 @@ export class MyTravelsDriveComponent implements OnInit {
     this.travelService.getFilterTravelByIdDriver(this.userId).subscribe({
       next: (data: any) => {
         this.previousTripsList = data.data.filter(travel =>
-          travel.StatusTravelAvailability === 5 ||
           travel.StatusTravelAvailability === 6
         )
 
@@ -60,7 +59,8 @@ export class MyTravelsDriveComponent implements OnInit {
         this.scheduledTripsList = data.data.filter(travel =>
           travel.StatusTravelAvailability === 2 ||
           travel.StatusTravelAvailability === 3 ||
-          travel.StatusTravelAvailability === 4
+          travel.StatusTravelAvailability === 4 ||
+          travel.StatusTravelAvailability === 5
         )
 
         this.sizeScheduled = this.scheduledTripsList.length;

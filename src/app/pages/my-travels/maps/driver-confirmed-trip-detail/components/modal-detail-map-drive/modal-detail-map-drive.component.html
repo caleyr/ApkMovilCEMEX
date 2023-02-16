@@ -24,7 +24,7 @@
                     </cwc-button>
                 </cwc-cell>
                 <cwc-cell mobile-colspan="6"
-                    *ngIf="travelDetail.DowloadStar === undefined && travelDetail.LoadEnd !== undefined && distancia <= 30">
+                    *ngIf="travelDetail.DowloadStar === undefined && travelDetail.LoadEnd !== undefined">
                     <cwc-button variant="link" (click)="onClickStartDischarge()">
                         <div class="text-button">INICIAR DESCARGA</div>
                     </cwc-button>
@@ -35,14 +35,9 @@
                         <div class="text-button">FINALIZAR DESCARGA</div>
                     </cwc-button>
                 </cwc-cell>
-                <cwc-cell mobile-colspan="6" *ngIf="travelDetail.DowloadEnd !== undefined && travelDetail.StatusTravelAvailability === 4">
+                <cwc-cell mobile-colspan="6" *ngIf="travelDetail.DowloadEnd !== undefined && travelDetail.StatusTravelAvailability === 5 && fileTravel.fileData.name.length === 2">
                     <cwc-button variant="link" (click)="onClickEndTravel()">
                         <div class="text-button">FINALIZAR VIAJE</div>
-                    </cwc-button>
-                </cwc-cell>
-                <cwc-cell mobile-colspan="6" *ngIf="travelDetail.StatusTravel === 5 && fileTravel.fileData.name.length === 2 ">
-                    <cwc-button variant="link" (click)="onClickDocumentTravel()">
-                        <div class="text-button">ACTUALIZAR DOCUMENTOS</div>
                     </cwc-button>
                 </cwc-cell>
             </div>
@@ -100,7 +95,7 @@
                 </cwc-grid>
             </div>
 
-            <div *ngIf="travelDetail.DowloadEnd !== undefined">
+            <div *ngIf="travelDetail.DowloadEnd !== undefined && travelDetail.StatusTravel === 5">
                 <div class="attr-document">Documentación</div>
                 <hr color="#D0D0D0" />
                 <label for=""> Consignación </label>
@@ -108,7 +103,7 @@
                     <cwc-grid class="demo-grid content-archive" column-gap="1px">
                         <input type="file" accept="image/*,.pdf" #getConsignmentDocument style="display: none;"
                             (change)="fileTravel.onFileConsignment($event)" />
-                        <cwc-cell (click)="openModalDocument('PolicyDocument')" class="border" mobile-colspan="6">
+                        <cwc-cell (click)="openModalDocument('ConsignmentDocument')" class="border" mobile-colspan="6">
                             <div class="item-archives">
                                 <cwc-icon name="camera" size="28px" color="bright-blue"></cwc-icon>
                                 <div class="text-archive">Tomar fotografía</div>
@@ -132,7 +127,7 @@
                         </cwc-cell>
                         <cwc-cell mobile-colspan="1" class="flex">
                             <cwc-icon style="display: flex; align-items: center; padding-top: 5px; padding-right: 1rem;"
-                                (click)="fileTravel.deleteFileManifest(inputFileC)"
+                                (click)="fileTravel.deleteFileConsignment(inputFileC)"
                                 name="close" size="20px" color="bright-blue">
                             </cwc-icon>
                         </cwc-cell>
@@ -233,12 +228,11 @@
     <cwc-grid class="demo-grid" design-version="v2" columns="12" mobile-columns="12" style="margin-top: 2rem;"
         style="margin-bottom: 2rem">
         <cwc-cell colspan="6" mobile-colspan="12" style="cursor: pointer; margin-top: 1rem;">
-            <label for="">1. Parte frontal del documento.</label>
-            <div class="contend-upload-camera" (click)="fileTravel.openCameraOne()">
+            <div class="contend-upload-camera-travel" (click)="fileTravel.openCameraOne()">
 
                 <ion-img class="img-photo-register" *ngIf="fileTravel.photoFrontal" [src]="fileTravel.photoFrontal"
                     style="object-fit: cover;
-            max-height: 65% !important;"></ion-img>
+            max-height: 350px !important;"></ion-img>
 
                 <cwc-icon *ngIf="!fileTravel.photoFrontal" name="camera" color="bright-blue" size="30px"
                     style="margin-right: 1rem;"></cwc-icon>

@@ -73,7 +73,7 @@ export class TravelsPage implements OnInit {
 }
 
   async changeDepartament(event) {
-  if (event.detail.value == 0) {
+  if (event.detail == 0) {
     this.loading = true;
     this.getListDepartament();
     this.sourceList = [];
@@ -89,7 +89,7 @@ export class TravelsPage implements OnInit {
     this.timeS = '';
     this.timeE = '';
   } else {
-    this.departament = event.detail.value;
+    this.departament = event.detail;
     let hash = {};
     let listD = this.list.filter(data => data.DepartamentSource === this.departament);
     this.list = listD;
@@ -102,7 +102,7 @@ export class TravelsPage implements OnInit {
 }
 
 changeSource(event) {
-  if (event.detail.value == 0) {
+  if (event.detail == 0) {
     this.timeList = [];
     this.dateList = [];
     this.source = '';
@@ -113,7 +113,7 @@ changeSource(event) {
     this.timeS = '';
     this.timeE = '';
   } else {
-    this.source = event.detail.value;
+    this.source = event.detail;
     let hash = {};
     this.dateList = this.list.filter(function (current) {
       var exists = !hash[current.DateTravel];
@@ -124,7 +124,7 @@ changeSource(event) {
 }
 
 changeDate(event) {
-  if (event.detail.value == 0) {
+  if (event.detail == 0) {
     this.timeList = [];
     this.timeListTwo = [];
     this.dataO = '';
@@ -134,7 +134,7 @@ changeDate(event) {
     this.timeS = '';
     this.timeE = '';
   } else {
-    this.dataO = event.detail.value;
+    this.dataO = event.detail;
     let hash = {};
     let listOne = this.list.filter(function (current) {
       var exists = !hash[current.TimerStar];
@@ -148,18 +148,18 @@ changeDate(event) {
 }
 
 changeHourStar(event) {
-  if (event.detail.value == 0) {
+  if (event.detail == 0) {
     this.timeS = '';
   } else {
-    this.timeS = event.detail.value;
+    this.timeS = event.detail;
   }
 }
 
 changeHourEnd(event) {
-  if (event.detail.value == 0) {
+  if (event.detail == 0) {
     this.timeE = '';
   } else {
-    this.timeE = event.detail.value;
+    this.timeE = event.detail;
   }
 }
 

@@ -153,13 +153,13 @@ export class RequestAdminNewComponent implements OnInit {
   }
 
   changeDriver(event){
-    if(event.detail.value === '0'){
+    if(event.detail === '0'){
       this.driveSelected = 'Seleccionar';
       this.form.get('DriverId').setValue('');
       this.form.get('VehicleId').setValue('');
     }else{
-      this.form.get('VehicleId').setValue(event.detail.value);
-      let driver = this.driverList.filter(data => data.VehicleId === event.detail.value)[0];
+      this.form.get('VehicleId').setValue(event.detail);
+      let driver = this.driverList.filter(data => data.VehicleId === event.detail)[0];
       this.form.get('DriverId').setValue(driver.UserId);
       this.driveSelected = driver.LicenseVehiculo;
     }

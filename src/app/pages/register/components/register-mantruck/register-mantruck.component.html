@@ -3,7 +3,7 @@
     filter-no-resultsMessage="No se encontraron resultados" filter-placeholder="Filtrar Empresas"
     placeholder="Seleccionar" design-version="v2" filter>
     <ng-container *ngFor="let companies of listCompanies">
-      <option [value]="companies.CodigoId">{{companies.CompanyName}}</option>
+      <cwc-picker-option [value]="companies.CodigoId">{{companies.CompanyName}}</cwc-picker-option>
     </ng-container>
   </cwc-picker>
   <cwc-grid class="demo-grid" design-version="v2" columns="12" mobile-columns="12" style="margin-top: 1.5rem;">
@@ -24,7 +24,7 @@
           placeholder="Agrega tu correo electrónico" design-version="v2" required></cwc-input>
       </div>
       <div class="section">
-        <cwc-input class="input" label='Número de celular' type="number"
+        <cwc-input class="input" label='Número de celular' type="number" maxlength="10"
           [status]="msgField.getStatusField(form, 'PhoneNumber')"
           [statusMessage]="msgField.getPhoneNumberFieldMsg(form, 'PhoneNumber', 'número de celular')"
           placeholder="Agrega un número de telefono" formControlName="PhoneNumber" design-version="v2" required></cwc-input>

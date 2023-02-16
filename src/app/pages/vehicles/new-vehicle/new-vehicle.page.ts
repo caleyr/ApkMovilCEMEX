@@ -70,19 +70,19 @@ export class NewVehiclePage implements OnInit {
       Model: ['', [Validators.required]],
       LicenseVehiculo: ['', [Validators.required]],
       TypeTrailer: ['', [Validators.required]],
-      CompanyId: [this.apiService.userProfile.CompanyId, [Validators.required]],
+      CompanyId: [this.apiService.userProfile.CompanyId],
       Soat: ['', [Validators.required]],
       StatusVehicle: ['0'],
       StatusTravel: ['1'],
-      UserId: [ this.apiService.userProfile.UserId ],
+      UserId: [null],
       Status: ['0'],
       term: [false, [Validators.requiredTrue]]
     });
   }
 
-  updateDocument() {
+  updateDocument(id) {
     return new Promise((resolve) => {
-      this.vehiclesService.updateDocument(this.id, this.fileVehicle.fileData).subscribe({
+      this.vehiclesService.updateDocument(id, this.fileVehicle.fileData).subscribe({
         next: (data: any) => {
           this.loading = false;
           this.alertSucces = true;
@@ -117,15 +117,12 @@ export class NewVehiclePage implements OnInit {
           this.data = new FormData();
         } else {
           if (this.fileVehicle.fileData.name.length != 0) {
-            //await this.updateDocument();
-            this.alertSucces = true;
-            this.alertConfirm = false;
-            this.errors = [];
+            await this.updateDocument(result.data.count);
           }else {
             this.alertSucces = true;
             this.alertConfirm = false;
             this.errors = [];
-          }          
+          }
         }
       },
       error: (err) => {

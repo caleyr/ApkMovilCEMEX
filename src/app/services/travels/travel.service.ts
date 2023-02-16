@@ -69,7 +69,7 @@ export class TravelService {
   }
 
   updateDocument(id : any , data : any){
-    return this.http.fetch(`${BASE_URL_API}/v1/load/dsm/travels/${id}/documents`, data, 'upload', true, false, true);
+    return this.http.fetch(`${BASE_URL_API}/v1/load/dsm/travels/${id}/documents`, data, 'upload', true, true, true);
   }
 
   updateTravelUser(data){   

@@ -81,7 +81,7 @@
         </cwc-cell>
       </cwc-grid>
       
-      <div style="margin-top: 1rem;" *ngIf="vehicle.UserId !== idTercero">
+      <div style="margin-top: 1rem;" *ngIf="vehicle.UserId !== idTercero && vehicle.UserId !== null">
         <div class="attr-document" >Conductor</div>
         <div style=" border: 0.1px solid #d1d1d1; background: #d1d1d1; margin-bottom: 0.5rem;"></div>
         <div style="display: flex; justify-content: space-between;">
@@ -110,13 +110,13 @@
 
 <cwc-modal id='add-driver' class="modal-list" design-version="v2" style="z-index: 0;" [open]="addDriver" (cwcClose)="closeAlertConfirm()">  
   <h6 style='text-align: center;'>Asignar conductor</h6>
-  <cwc-select
+  <cwc-picker
     class="select-filter"
     placeholder="Seleccionar"
     (cwcChange)="cwcChangeDrivers($event)">
-    <cwc-select-option *ngIf="driverList.length === 0" >No se econtraron Conductores.</cwc-select-option>
-    <cwc-select-option *ngFor="let driver of driverList" [value]="driver.UserId">{{driver.FirstName + ' ' + driver.LastName}}</cwc-select-option>
-  </cwc-select>
+    <cwc-picker-option *ngIf="driverList.length === 0" >No se econtraron Conductores.</cwc-picker-option>
+    <cwc-picker-option *ngFor="let driver of driverList" [value]="driver.UserId">{{driver.FirstName + ' ' + driver.LastName}}</cwc-picker-option>
+  </cwc-picker>
   <div style='text-align: center;'>
     <cwc-button variant='primary-block' (click)="addDriverForVehicle()" >Aceptar</cwc-button>
   </div>

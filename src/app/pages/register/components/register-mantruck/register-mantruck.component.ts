@@ -68,7 +68,6 @@ export class RegisterMantruckComponent implements AfterViewInit {
     public fileRegister: FileRegisterUserService,
     private router: Router
   ) {
-    this.fileRegister.fileData = { name: [], file: [] };
     this.formBuilderInput();
     this.loadingCompany = true;
     Filesystem.checkPermissions();
@@ -100,10 +99,11 @@ export class RegisterMantruckComponent implements AfterViewInit {
         [Validators.required, Validators.pattern('^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*_=+-]).{10,15}$')],
       ]
     });
+    this.fileRegister.fileData = { name: [], file: [] };
   }
 
   cwcChange(event) {
-    this.form.get('CompanyId').setValue(`${event.detail.value}`);
+    this.form.get('CompanyId').setValue(`${event.detail}`);
   }
 
   async register() {
@@ -186,9 +186,11 @@ export class RegisterMantruckComponent implements AfterViewInit {
   }
 
   updateDocument() {
+    alert(this.fileRegister.fileData);
     return new Promise((resolve) => {
       this.userService.updateDocument(this.id, this.fileRegister.fileData).subscribe({
         next: (data: any) => {
+          alert(data.data);
           this.propagar.emit(false);
           this.alertSucces = true;
           this.alertConfirm = false;
@@ -196,6 +198,7 @@ export class RegisterMantruckComponent implements AfterViewInit {
           this.errors = [];
         },
         error: (err) => {
+          alert(err);
           this.propagar.emit(false);
           this.errors = this.errorMessages.parsearErroresAPI(err.data);
         },

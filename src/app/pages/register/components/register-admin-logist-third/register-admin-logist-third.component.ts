@@ -65,7 +65,6 @@ export class RegisterAdminLogistThirdComponent implements AfterViewInit {
     private userService: UserService,
     private router: Router
   ) {
-    this.fileRegister.fileData = { name: [], file: [] };
     this.formBuilderInput();
     this.loadingCompany = true;
     Filesystem.checkPermissions();
@@ -97,10 +96,11 @@ export class RegisterAdminLogistThirdComponent implements AfterViewInit {
         [Validators.required, Validators.pattern('^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*_=+-]).{10,15}$')],
       ]
     });
+    this.fileRegister.fileData = { name: [], file: [] };
   }
 
   cwcChange(event) {
-    this.form.get('CompanyId').setValue(`${event.detail.value}`);
+    this.form.get('CompanyId').setValue(`${event.detail}`);
   }
 
   async register() {
@@ -159,7 +159,6 @@ export class RegisterAdminLogistThirdComponent implements AfterViewInit {
           }
         },
         error: (err) => {
-          alert(JSON.stringify(err));
           resolve(true);
         }
       })
@@ -184,9 +183,11 @@ export class RegisterAdminLogistThirdComponent implements AfterViewInit {
   }
 
   updateDocument() {
+    alert(this.fileRegister.fileData);
     return new Promise((resolve) => {
       this.userService.updateDocument(this.id, this.fileRegister.fileData).subscribe({
         next: (data: any) => {
+          alert(data.data);
           this.propagar.emit(false);
           this.alertSucces = true;
           this.alertConfirm = false;
@@ -194,6 +195,7 @@ export class RegisterAdminLogistThirdComponent implements AfterViewInit {
           this.errors = [];
         },
         error: (err) => {
+          alert(err);
           this.propagar.emit(false);
           this.errors = this.errorMessages.parsearErroresAPI(err.data);
         },
@@ -217,13 +219,13 @@ export class RegisterAdminLogistThirdComponent implements AfterViewInit {
   }
 
   openModalDocument(name) {
-    if (name === 'Drivinglicense') {
+    if (name === 'LicenciaConduccion') {
       this.nameFile = name;
       this.nameText = 'licencia de conducción';
-    } else if (name === 'SecurityCard') {
+    } else if (name === 'CarnetSeguridadIndustrial') {
       this.nameFile = name;
       this.nameText = 'carné de seguridad industrial y vial';
-    } else if (name === 'DocumentIdentityCard') {
+    } else if (name === 'CedulaDocumento') {
       this.nameFile = name;
       this.nameText = 'cédula de ciudadanía';
     }

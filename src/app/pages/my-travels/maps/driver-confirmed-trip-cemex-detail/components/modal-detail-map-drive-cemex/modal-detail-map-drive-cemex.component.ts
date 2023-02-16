@@ -49,7 +49,6 @@ export class ModalDetailMapDriveCemexComponent implements OnInit {
   ) {
     Geolocation.checkPermissions();
     this.userId = apiService.userProfile.UserId;
-    this.fileTravel.fileData = { name: [], file: [] };
   }
 
   ngOnInit() {
@@ -132,21 +131,14 @@ export class ModalDetailMapDriveCemexComponent implements OnInit {
     data.append('UserId', this.travelDetail.UserId.toString());
     data.append('DowloadStar', this.datepipe.transform(horaStar, 'h:mm'));
     data.append('DowloadEnd', this.datepipe.transform(horaStar, 'h:mm'));
+    data.append('StatusTravel', '5');
+    data.append('StatusTravelAvailability', '5');
+    data.append('DateTravelEnd', this.datepipe.transform(horaStar, 'yyyy-MM-dd'));
+    data.append('TimerEndTravel', this.datepipe.transform(horaStar, 'h:mm'));
     this.travelDetail.DowloadStar = this.datepipe.transform(horaStar, 'h:mm');
-    this.travelDetail.DowloadEnd = this.datepipe.transform(horaStar, 'h:mm');
-    await this.changeTravelUpdate(data);
-  }
-
-  async onClickDocumentTravel(){
-    this.googleService.changeLoadign(true);
-    await this.updateDocument();
-    const data = new FormData();
-    data.append('TraveId', this.travelDetail.TraveId);
-    data.append('UserId', this.travelDetail.UserId.toString());
-    data.append('StatusTravel', '6');
-    data.append('StatusTravelAvailability', '6');    
-    await this.changeUserUpdate('0');
-    await this.changeVehicleUpdate('0');
+    this.travelDetail.DowloadEnd = this.datepipe.transform(horaStar, 'h:mm');    
+    this.travelDetail.DateTravelEnd = this.datepipe.transform(horaStar, 'yyyy-MM-dd');
+    this.travelDetail.TimerEndTravel = this.datepipe.transform(horaStar, 'h:mm');
     await this.changeTravelUpdate(data);
   }
 
@@ -156,12 +148,8 @@ export class ModalDetailMapDriveCemexComponent implements OnInit {
     const data = new FormData();
     data.append('TraveId', this.travelDetail.TraveId);
     data.append('UserId', this.travelDetail.UserId.toString());
-    data.append('StatusTravel', '5');
-    data.append('StatusTravelAvailability', '5');
-    data.append('DateTravelEnd', this.datepipe.transform(horaStar, 'yyyy-MM-dd'));
-    data.append('TimerEndTravel', this.datepipe.transform(horaStar, 'h:mm'));
-    this.travelDetail.DateTravelEnd = this.datepipe.transform(horaStar, 'yyyy-MM-dd');
-    this.travelDetail.TimerEndTravel = this.datepipe.transform(horaStar, 'h:mm');
+    data.append('StatusTravel', '6');
+    data.append('StatusTravelAvailability', '6'); 
     await this.changeUserUpdate('0');
     await this.changeVehicleUpdate('0');
     await this.changeTravelUpdate(data);
@@ -178,7 +166,6 @@ export class ModalDetailMapDriveCemexComponent implements OnInit {
           resolve(true);
         },
         error: (err) => {
-          alert(JSON.stringify(err));
           resolve(true);
         }
       });
@@ -195,7 +182,6 @@ export class ModalDetailMapDriveCemexComponent implements OnInit {
           resolve(true);
         },
         error: (err) => {
-          alert(JSON.stringify(err));
           resolve(true);
         }
       });
@@ -204,7 +190,7 @@ export class ModalDetailMapDriveCemexComponent implements OnInit {
 
   changeVehicleUpdate(status) {
     const data = new FormData();
-    data.append('VehicleId', this.travelDetail.UserId.toString());
+    data.append('VehicleId', this.travelDetail.VehicleId.toString());
     data.append('StatusTravel', status);
     return new Promise((resolve) => {
       this.vehiclesService.updateVehicleTravel(data).subscribe({
@@ -212,7 +198,6 @@ export class ModalDetailMapDriveCemexComponent implements OnInit {
           resolve(true);
         },
         error: (err) => {
-          alert(JSON.stringify(err));
           resolve(true);
         }
       });
@@ -226,7 +211,6 @@ export class ModalDetailMapDriveCemexComponent implements OnInit {
           resolve(true);
         },
         error: (err) => {
-          alert(JSON.stringify(err));
           resolve(true);
         }
       })
@@ -252,7 +236,6 @@ export class ModalDetailMapDriveCemexComponent implements OnInit {
           resolve(true);
         },
         error: (err) => {
-          alert(JSON.stringify(err));
           resolve(true);
         }
       });

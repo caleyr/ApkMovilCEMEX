@@ -82,12 +82,12 @@ export class DetailsTripRequestPage implements OnInit {
   }
 
   changeDriver(event) {
-    if (event.detail.value === '0') {
+    if (event.detail === '0') {
       this.driverId = undefined
       this.driveSelected = 'Seleccionar';
       this.licenseOk = true;
     } else {
-      const drive = this.listDrivers.filter(data => data.VehicleId === parseInt(event.detail.value))[0];
+      const drive = this.listDrivers.filter(data => data.VehicleId === parseInt(event.detail))[0];
       this.driveSelected = drive.LicenseVehiculo;
       this.driverId = drive.UserId.toString();
       this.licenseOk = false;
