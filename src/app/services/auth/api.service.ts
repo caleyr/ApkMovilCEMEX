@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { MsalService } from '@azure/msal-angular';
 import { BehaviorSubject, from, of, throwError } from 'rxjs';
 import { switchMap, catchError } from 'rxjs/operators';
-import { environment } from '../../../environments/environment.prod';
+import { environment } from '../../../environments/environment';
 import { UserDetail } from '../../models/user-detail.model';
 import { Preferences } from '@capacitor/preferences';
 import { NavController } from '@ionic/angular';

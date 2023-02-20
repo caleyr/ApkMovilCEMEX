@@ -1,10 +1,9 @@
 import { Injectable } from '@angular/core';
 import { Companies } from '../../interfaces/companies/companies';
 import { Observable } from 'rxjs';
-import { environment } from 'src/environments/environment.prod';
+import { environment } from 'src/environments/environment';
 import { HttpService } from '../http/http.service';
 const URL = environment.url;
-const token = environment.token;
 
 
 @Injectable({

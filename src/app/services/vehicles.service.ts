@@ -3,7 +3,7 @@ import { Subject } from 'rxjs';
 import { Vehicle } from '../pages/vehicles/models/vehicle';
 import { HttpClient } from '@angular/common/http';
 import { tap } from 'rxjs/operators';
-import { environment } from 'src/environments/environment.prod';
+import { environment } from 'src/environments/environment';
 import { HttpService } from './http/http.service';
 const URL = environment.url;
 

@@ -1,5 +1,5 @@
 .navbar {
-    margin-top: 9.5rem;
+    margin-top: 10rem;
     margin-left: 1rem;
     margin-right: 1rem;
     position: fixed;
@@ -10,29 +10,28 @@
     overflow: auto;
 }
 
-.icon{
+.icon {
     display: flex;
     justify-content: center;
     align-items: center;
     padding-top: 18px;
 }
 
-.search-text{
-   width: 100%;
-   height: 10px;
-   padding-bottom: 0;
+.search-text {
+    width: 100%;
 }
 
-.text-vehicles{
-    font-size: small;
-    font-weight: 700;
+.text-vehicles {
+    font-weight: 900;
+    font-size: 15px;
+    color: #002A59;
 }
 
-.float{
-	position:fixed;
-	bottom:15px;
-	right:15px;
-	text-align: center;
+.float {
+    position: fixed;
+    bottom: 15px;
+    right: 15px;
+    text-align: center;
     background-color: #05376E;
     border-radius: 30px;
 }

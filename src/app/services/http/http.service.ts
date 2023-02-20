@@ -5,13 +5,9 @@ import { Companies } from '../../interfaces/companies/companies';
 import { switchMap, filter, take, finalize, catchError, map } from 'rxjs/operators';
 import { Http, HttpOptions } from '@capacitor-community/http';
 import { ApiService } from '../auth/api.service';
-import { environment } from 'src/environments/environment.prod';
+import { environment } from 'src/environments/environment';
 import { HttpResponse, HttpRequest, HttpHandler, HttpErrorResponse } from '@angular/common/http';
 import { MsalService } from '@azure/msal-angular';
-
-
-
-const token = environment.token;
 
 @Injectable({
   providedIn: 'root'

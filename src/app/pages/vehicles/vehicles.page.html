@@ -1,13 +1,7 @@
 <app-layout class="card-size">
   <div class="content-page">
-    <cwc-grid class="demo-grid" row-gap="2px">
-      <cwc-cell colspan="12" mobile-colspan="12" style="padding-bottom: 0;">     
-        <div>
-          <cwc-input class="search-text" variant="regular" rtl="false" trailing-icon='magnifier-glass' [(ngModel)]="search" placeholder='Buscar...'></cwc-input>  
-        </div>       
-      </cwc-cell>
-    </cwc-grid>  
-    <h4 class="text-vehicles">Vehículos ({{vehiclesList.length}})</h4>
+    <cwc-input class="search-text" variant="regular" rtl="false" trailing-icon='magnifier-glass' [(ngModel)]="search" placeholder='Buscar...'></cwc-input> 
+    <div class="text-vehicles">Vehículos ({{vehiclesList.length}})</div>
     <ion-content>
       <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
         <ion-refresher-content></ion-refresher-content>

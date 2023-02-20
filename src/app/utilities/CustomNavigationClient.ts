@@ -4,7 +4,7 @@ import { InAppBrowser } from '@awesome-cordova-plugins/in-app-browser/ngx';
 import { Router } from '@angular/router';
 import { NavController } from "@ionic/angular";
 import { MsalService } from '@azure/msal-angular';
-import { environment } from "src/environments/environment.prod";
+import { environment } from "src/environments/environment";
 import { Inject } from '@angular/core';
 import { DOCUMENT } from "@angular/common";
 const urlHost = environment.hostname;

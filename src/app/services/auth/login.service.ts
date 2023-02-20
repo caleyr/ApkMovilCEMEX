@@ -6,7 +6,7 @@ import { NavController, Platform } from '@ionic/angular';
 import { Location } from '@angular/common';
 import { HttpService } from '../http/http.service';
 import { Profile } from '../../models/profile.model';
-import { environment } from 'src/environments/environment.prod';
+import { environment } from 'src/environments/environment';
 
 const URL = environment.url;
 const headersHttp = new HttpHeaders({

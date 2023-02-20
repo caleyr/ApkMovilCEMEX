@@ -5,7 +5,7 @@ import { Injectable } from '@angular/core';
 import { TravelListUnique } from 'src/app/interfaces/travels/travel-list-unique';
 import { TravelSearch } from 'src/app/interfaces/travels/travel-search';
 import { HttpService } from '../http/http.service';
-import { environment } from 'src/environments/environment.prod';
+import { environment } from 'src/environments/environment';
 import { tap, catchError } from 'rxjs/operators';
 
 const BASE_URL_API = environment.url;

@@ -3,7 +3,7 @@ import { Subject } from 'rxjs';
 import { Injectable } from '@angular/core';
 import { tap } from 'rxjs/operators';
 import { HttpService } from './http/http.service';
-import { environment } from 'src/environments/environment.prod';
+import { environment } from 'src/environments/environment';
 
 const BASE_URL_API = environment.url;
 

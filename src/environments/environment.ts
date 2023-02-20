@@ -4,9 +4,8 @@
 
 export const environment = {
   production: false,
-  //url: 'https://back-end-cemex20220327145506.azurewebsites.net'
-  url: 'https://localhost:7074'
-  //  url: 'https://192.168.0.2:5001'
+  url: 'https://localhost:7074',
+  hostname: 'https://com.cemex.app',
 };
 
 /*

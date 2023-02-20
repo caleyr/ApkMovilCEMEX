@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable, Output, EventEmitter } from '@angular/core';
 import { ConveyorListDTO, CreateConveyorDrive, TypeConveyorListDTO } from 'src/app/interfaces/conveyor/conveyor';
-import { environment } from 'src/environments/environment.prod';
+import { environment } from 'src/environments/environment';
 import { CreateConveyorManTruck, CreateConveyorAdminLogistThird } from '../../interfaces/conveyor/conveyor';
 import { HttpService } from '../http/http.service';
 

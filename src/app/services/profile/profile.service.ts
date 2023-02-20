@@ -2,7 +2,7 @@ import { EventEmitter, Injectable, Output, OnInit } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Storage } from '@ionic/storage-angular';
 import { Profile, User, UserDriverUpdatePhoto } from 'src/app/interfaces/profile/profile';
-import { environment } from 'src/environments/environment.prod';
+import { environment } from 'src/environments/environment';
 import { HttpService } from '../http/http.service';
 
 const URL = environment.url;

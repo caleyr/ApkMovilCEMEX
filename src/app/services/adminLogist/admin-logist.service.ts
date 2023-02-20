@@ -1,9 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { HttpService } from '../http/http.service';
-import { environment } from 'src/environments/environment.prod';
+import { environment } from 'src/environments/environment';
 const URL = environment.url;
-const token = environment.token;
 
 @Injectable({
   providedIn: 'root'

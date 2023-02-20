@@ -5,7 +5,7 @@ import { DriverList } from '../pages/drivers/models/drivers-list';
 import { Driver } from '../pages/drivers/models/driver';
 import { DriverUpdate } from '../pages/drivers/models/driver-update';
 import { HttpService } from './http/http.service';
-import { environment } from 'src/environments/environment.prod';
+import { environment } from 'src/environments/environment';
 import { UserDetail } from '../models/user-detail.model';
 const URL = environment.url;
 

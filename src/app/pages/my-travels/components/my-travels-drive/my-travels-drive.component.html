@@ -4,13 +4,7 @@
     <cwc-tab [active]="selectedTab == 'programados'" name='programados' (click)="changeTab('programados')">PROGRAMADOS</cwc-tab>
   </cwc-tabs>
   <div class="content-page">
-    <cwc-grid class="demo-grid" row-gap="2px">
-      <cwc-cell mobile-colspan="12" style="padding-top: 0.8rem;">     
-        <div>
-          <cwc-input design-version="v2" class="search-text" variant="regular" rtl="false" trailing-icon='magnifier-glass' [(ngModel)]="search" placeholder='Buscar...'></cwc-input>  
-        </div>       
-      </cwc-cell>
-    </cwc-grid>  
+    <cwc-input class="search-text" variant="regular" rtl="false" trailing-icon='magnifier-glass' [(ngModel)]="search" placeholder='Buscar...'></cwc-input>
     <ion-content>
       <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
         <ion-refresher-content></ion-refresher-content>
