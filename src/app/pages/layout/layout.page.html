@@ -49,7 +49,7 @@
             <cwc-sidenav-menu-item label="Lista de espera" [iconName]="'radio-static'" [routerLink]="['/app/waiting-list']" routerLinkActive="router-link-active"></cwc-sidenav-menu-item>
             <cwc-sidenav-menu-item *ngIf="notDriver" label="Vehículos" [iconName]="'radio-static'" [routerLink]="['/app/vehiculos']" routerLinkActive="router-link-active"></cwc-sidenav-menu-item>
             <cwc-sidenav-menu-item *ngIf="notDriver" label="Conductores" [iconName]="'radio-static'" [routerLink]="['/app/conductores']" routerLinkActive="router-link-active"></cwc-sidenav-menu-item>
-            <cwc-sidenav-menu-item label="Llamar a centro de servicio" [iconName]="'radio-static'" routerLinkActive="router-link-active"></cwc-sidenav-menu-item>
+            <cwc-sidenav-menu-item label="Llamar a centro de servicio" [iconName]="'radio-static'" (click)="openAlertConfirm()" ></cwc-sidenav-menu-item>
 
         </cwc-sidenav-menu>
 
@@ -83,6 +83,18 @@
                 {{errorMessage}}
             </div>
         </cwc-modal>
+        <cwc-modal id='alert-confirm' class="alert-confirm" [open]="alertConfirm" (cwcClose)="closeAlertConfirm()">
+            <header slot='header'>
+              <h2 style='margin:0;'>Atención</h2>
+            </header>
+            <p>¿Esta seguro que de llamar al centro de servicio</p>
+            <footer slot='footer'>
+              <div style='text-align: end'>
+                <cwc-button variant='support' (cwcClick)="closeAlertConfirm()" style="margin-right: 1rem;">Cancelar</cwc-button>
+                <cwc-button variant='primary' (cwcClick)="callServices()">Aceptar</cwc-button>
+              </div>
+            </footer>
+          </cwc-modal>
         <app-modal-term [alertShow]="term" (propagar)="showPages($event)"></app-modal-term>
         <ng-content *ngIf="showPage"></ng-content>
     </div>

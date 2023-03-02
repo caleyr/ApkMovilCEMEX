@@ -6,6 +6,8 @@ import { LoginService } from 'src/app/services/auth/login.service';
 import { ApiService } from '../../services/auth/api.service';
 import { UserService } from '../../services/user.service';
 
+import { CallNumber } from '@ionic-native/call-number/ngx';
+
 @Component({
   selector: 'app-layout',
   templateUrl: './layout.page.html',
@@ -17,6 +19,7 @@ export class LayoutPage implements OnInit {
   showPage: boolean = true;
 
   errorMessage: string;
+  alertConfirm = false;
 
   notDriver = false;
   user = {
@@ -28,6 +31,7 @@ export class LayoutPage implements OnInit {
   constructor(
     private apiService: ApiService,
     private activeTabsService: ActiveTabsService,
+    private callNumber: CallNumber
   ) {
   }
 
@@ -53,11 +57,11 @@ export class LayoutPage implements OnInit {
         this.errorMessage = 'El usuario no esta autorizado para acceder, por favor comunicarse con un administrador.'
         document.getElementById('modal-error').setAttribute('open', 'true');
       } else {
-        if (!this.apiService.userProfile.policiesPermission) {          
+        if (!this.apiService.userProfile.policiesPermission) {
           this.showPage = false;
           this.term = true;
         }
-        
+
         if (this.apiService.userProfile.RolesId !== 1) {
           this.notDriver = true;
         }
@@ -84,6 +88,19 @@ export class LayoutPage implements OnInit {
 
   showPages(value) {
     this.showPage = value;
+  }
+
+  openAlertConfirm() {
+    this.alertConfirm = true;
+  }
+
+  closeAlertConfirm() {
+    this.alertConfirm = false;
+  }
+
+  callServices() {
+    this.closeAlertConfirm();
+    this.callNumber.callNumber("#236", true);
   }
 
 }

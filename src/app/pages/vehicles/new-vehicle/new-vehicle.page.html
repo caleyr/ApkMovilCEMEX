@@ -12,7 +12,7 @@
     <cwc-grid class="demo-grid" design-version="v2" columns="12" mobile-columns="12">
       <cwc-cell colspan="12" mobile-colspan="12">
         <div class="section">
-          <cwc-input class="input" label='Medelo de vehículo' placeholder="Agrega el tipo de camión" design-version="v2"
+          <cwc-input class="input" label='Modelo de vehículo' placeholder="Agrega el tipo de camión" design-version="v2"
             formControlName="Model" maxlength="45" required></cwc-input>
         </div>
         <div class="section">
@@ -25,9 +25,9 @@
             required></cwc-input>
         </div>
         <div class="section">
-          <cwc-input class="input" label='Número de SOAT (opcional)' inputmode="numeric" type="number" formControlName="Soat"
-            placeholder="Agregar los 20 dígitos de su número de SOAT" design-version="v2" length="11"
-            required></cwc-input>
+          <cwc-input class="input" label='Número de SOAT (opcional)' inputmode="numeric" type="number"
+            formControlName="Soat" placeholder="Agregar los 20 dígitos de su número de SOAT" design-version="v2"
+            length="11"></cwc-input>
         </div>
         <div class="section">
           <cwc-input class="input" label='Empresa' type="text" [disabled]="true" design-version="v2"
@@ -67,8 +67,7 @@
         </cwc-cell>
         <cwc-cell mobile-colspan="1" class="flex">
           <cwc-icon style="display: flex; align-items: center; padding-top: 5px; padding-right: 1rem;"
-            (click)="fileVehicle.deleteFileSOAT(inputFileSoat)" name="close" size="20px"
-            color="bright-blue">
+            (click)="fileVehicle.deleteFileSOAT(inputFileSoat)" name="close" size="20px" color="bright-blue">
           </cwc-icon>
         </cwc-cell>
       </cwc-grid>
@@ -104,8 +103,8 @@
         </cwc-cell>
         <cwc-cell mobile-colspan="1" class="flex">
           <cwc-icon style="display: flex; align-items: center; padding-top: 5px; padding-right: 1rem;"
-            (click)="fileVehicle.deleteFileTecnoMecanica(inputFileTechnomechanicsDocument)" name="close"
-            size="20px" color="bright-blue">
+            (click)="fileVehicle.deleteFileTecnoMecanica(inputFileTechnomechanicsDocument)" name="close" size="20px"
+            color="bright-blue">
           </cwc-icon>
         </cwc-cell>
       </cwc-grid>
@@ -176,8 +175,7 @@
         </cwc-cell>
         <cwc-cell mobile-colspan="1" class="flex">
           <cwc-icon style="display: flex; align-items: center; padding-top: 5px; padding-right: 1rem;"
-            (click)="fileVehicle.deleteFileTarjetaPropiedad(inputFileDoc)" name="close" size="20px"
-            color="bright-blue">
+            (click)="fileVehicle.deleteFileTarjetaPropiedad(inputFileDoc)" name="close" size="20px" color="bright-blue">
           </cwc-icon>
         </cwc-cell>
       </cwc-grid>

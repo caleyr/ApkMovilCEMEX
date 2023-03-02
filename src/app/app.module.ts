@@ -25,6 +25,9 @@ import { CustomHttpResponseService } from './services/auth/custom-http-response.
 import localeEs from '@angular/common/locales/es';
 import { UserService } from './services/user.service';
 
+//CALL SERVICES
+import { CallNumber } from '@ionic-native/call-number/ngx';
+
 
 export function LoadProfile ( userService : UserService ) {
   return () => userService.getUserEmail();
@@ -100,6 +103,7 @@ export const msalconfig: Configuration = {
     HTTP,
     DatePipe,
     MsalGuard,
+    CallNumber,
     InAppBrowser
   ],
   bootstrap: [AppComponent, MsalRedirectComponent],

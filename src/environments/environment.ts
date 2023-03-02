@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  url: 'https://localhost:7074',
+  url: 'https://uscldcnxapmd01.azure-api.net',
   hostname: 'https://com.cemex.app',
 };
 

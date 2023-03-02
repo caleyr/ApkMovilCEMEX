@@ -1,9 +1,11 @@
 <app-layout class="card-size">
-  <cwc-tabs variant="heading" style="width: 100%;">
-    <cwc-tab [active]="selectedTab == 'anteriores'" name='anteriores' (click)="changeTab('anteriores')">ANTERIORES</cwc-tab>
-    <cwc-tab [active]="selectedTab == 'programados'" name='programados' (click)="changeTab('programados')">PROGRAMADOS</cwc-tab>
-    <cwc-tab [active]="selectedTab == 'solicitudes'" name='solicitudes' (click)="changeTab('solicitudes')">SOLICITUDES</cwc-tab>
-  </cwc-tabs>
+  <div style="width: 100%;">
+    <cwc-tabs variant="heading" >
+      <cwc-tab [active]="selectedTab == 'anteriores'" name='anteriores' (click)="changeTab('anteriores')">ANTERIORES</cwc-tab>
+      <cwc-tab [active]="selectedTab == 'programados'" name='programados' (click)="changeTab('programados')">PROGRAMADOS</cwc-tab>
+      <cwc-tab [active]="selectedTab == 'solicitudes'" name='solicitudes' (click)="changeTab('solicitudes')">SOLICITUDES</cwc-tab>
+    </cwc-tabs> 
+  </div>
   <div class="content-page">
     <cwc-input class="search-text" variant="regular" rtl="false" trailing-icon='magnifier-glass' [(ngModel)]="search" placeholder='Buscar...'></cwc-input>
     <ion-content>

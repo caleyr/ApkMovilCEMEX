@@ -138,13 +138,14 @@ export class RequestAdminNewComponent implements OnInit {
   }
 
   changTimeStar(event){
-    const start_time = moment(`${event.detail.hours}:${event.detail.minutes}`, 'HH:mm').format('hh:mm A');
-    this.form.get('TimerStar').setValue(start_time);
+    alert(event.detail);
+    //const start_time = moment(`${event.detail.hours}:${event.detail.minutes}`, 'HH:mm').format('hh:mm A');
+    //this.form.get('TimerStar').setValue(start_time);
   }
 
   changeTimeEnd(event){
     const end_time = moment(`${event.detail.hours}:${event.detail.minutes}`, 'HH:mm').format('hh:mm A');
-    this.form.get('TimerEnd').setValue(end_time);
+    //this.form.get('TimerEnd').setValue(end_time);
   }
 
   changeDateTime(event){

@@ -71,10 +71,10 @@ export class NewVehiclePage implements OnInit {
       LicenseVehiculo: ['', [Validators.required]],
       TypeTrailer: ['', [Validators.required]],
       CompanyId: [this.apiService.userProfile.CompanyId],
-      Soat: ['', [Validators.required]],
+      Soat: [''],
       StatusVehicle: ['0'],
       StatusTravel: ['1'],
-      UserId: [null],
+      UserId: [ this.apiService.userProfile.UserId ],
       Status: ['0'],
       term: [false, [Validators.requiredTrue]]
     });
@@ -108,12 +108,13 @@ export class NewVehiclePage implements OnInit {
       return;
     }
     this.loading = true;
+    alert(JSON.stringify(this.form.value));
     await this.addFormData(this.form.value);
     this.vehiclesService.createVehicle(this.data).subscribe({
       next: async (result: any) => {
         if (result.data.message !== 'Saved') {
           this.errors = this.errorMessages.parsearErroresAPI('Error, La placa del vehiculo anotada ya se encuentra registrada.');
-          this.form.get('LicenseVehiculo').setValue('');
+          //this.form.get('LicenseVehiculo').setValue('');
           this.data = new FormData();
         } else {
           if (this.fileVehicle.fileData.name.length != 0) {
