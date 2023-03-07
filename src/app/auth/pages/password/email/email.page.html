@@ -17,14 +17,14 @@
                   ></cwc-input>
             <cwc-button class="btn-login" 
                   [disabled]="form.invalid"
-                  (click)="sendEmail()" 
+                  (cwcClick)="sendEmail()" 
                   design-version="v1" 
                   disabled="false" 
                   variant="primary-block">RECUPERAR CONTRASEÑA</cwc-button>
                   <app-error-messages [errors]="errors"></app-error-messages> 
                   <p class="text-message-email">Envíaremos a su correo electrónico con un codígo para que recupere su contraseña</p>
                   <div class="button">
-                    <cwc-button variant="link" (click)="onBack()" leading-icon="arrow-left-straight">Iniciar Sesión</cwc-button>
+                    <cwc-button variant="link" (cwcClick)="onBack()" leading-icon="arrow-left-straight">Iniciar Sesión</cwc-button>
                 </div>
         </div>
     </cwc-cell>

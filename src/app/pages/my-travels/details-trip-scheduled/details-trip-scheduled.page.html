@@ -90,7 +90,7 @@
 
       <div>
         <cwc-cell colspan="12" mobile-colspan="12">
-          <cwc-button (click)="onClickTrackTrip()" design-version="v1" variant="regular-block">
+          <cwc-button (cwcClick)="onClickTrackTrip()" design-version="v1" variant="regular-block">
             <div class="button-css">RASTREAR VIAJE</div>
           </cwc-button>
         </cwc-cell>
@@ -99,7 +99,7 @@
         <cwc-grid class="demo-grid" style="padding-top: 0.5rem; padding-bottom: 1rem;"
           *ngIf="travel.observationsOfTravel === undefined">
           <cwc-cell mobile-colspan="12">
-            <cwc-button style="color: #3897fc; font-weight: 600;" (click)="addMessage()" class="btn-add-user"
+            <cwc-button style="color: #3897fc; font-weight: 600;" (cwcClick)="addMessage()" class="btn-add-user"
               variant='link' designVersion="v2">
               <cwc-icon class="icon-add" name="plus" size="12px" style="color: #3897fc;"></cwc-icon>
               Agregar actualización
@@ -118,12 +118,12 @@
             </div>
           </cwc-cell>
           <cwc-cell mobile-colspan="6" style="text-align: end;" *ngIf="showDetail">
-            <cwc-button variant="link" (click)="showDetail = !showDetail">
+            <cwc-button variant="link" (cwcClick)="showDetail = !showDetail">
               <cwc-icon name="straight-arrow-down" size="15px" style="color: #D0D0D0;"></cwc-icon>
             </cwc-button>
           </cwc-cell>
           <cwc-cell mobile-colspan="6" style="text-align: end;" *ngIf="!showDetail">
-            <cwc-button variant="link" (click)="showDetail = !showDetail">
+            <cwc-button variant="link" (cwcClick)="showDetail = !showDetail">
               <cwc-icon name="straight-arrow-up" size="15px" style="color: #D0D0D0;"></cwc-icon>
             </cwc-button>
           </cwc-cell>

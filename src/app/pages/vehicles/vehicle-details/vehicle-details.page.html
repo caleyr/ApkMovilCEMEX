@@ -15,7 +15,7 @@
           </div>
         </div>
         <div>
-          <cwc-button (click)="updateVehicle()"  variant="link" class="m-h-reg link-cwc" routerLinkActive="router-link-active" >
+          <cwc-button (cwcClick)="updateVehicle()"  variant="link" class="m-h-reg link-cwc" routerLinkActive="router-link-active" >
             <div style="font-size: small;">EDITAR</div>
           </cwc-button>
         </div>
@@ -81,7 +81,7 @@
         </cwc-cell>
       </cwc-grid>
       
-      <div style="margin-top: 1rem;" *ngIf="vehicle.UserId !== idTercero && vehicle.UserId !== null">
+      <div style="margin-top: 1rem;" *ngIf="vehicle.StatusVehicle === 1">
         <div class="attr-document" >Conductor</div>
         <div style=" border: 0.1px solid #d1d1d1; background: #d1d1d1; margin-bottom: 0.5rem;"></div>
         <div style="display: flex; justify-content: space-between;">
@@ -118,7 +118,7 @@
     <cwc-picker-option *ngFor="let driver of driverList" [value]="driver.UserId">{{driver.FirstName + ' ' + driver.LastName}}</cwc-picker-option>
   </cwc-picker>
   <div style='text-align: center;'>
-    <cwc-button variant='primary-block' (click)="addDriverForVehicle()" >Aceptar</cwc-button>
+    <cwc-button variant='primary-block' (cwcClick)="addDriverForVehicle()" >Aceptar</cwc-button>
   </div>
 </cwc-modal>
 

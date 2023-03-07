@@ -167,7 +167,7 @@
     BOTON PARA GUARDAR EL REGISTRO 
   ======================================-->
   <div class="content-button">
-    <cwc-button design-version="v1" [disabled]="form.invalid" (click)="openAlertConfirm()" variant="regular-block">
+    <cwc-button design-version="v1" [disabled]="form.invalid" (cwcClick)="openAlertConfirm()" variant="regular-block">
       <div class="button-css">COMPLETAR REGISTRO</div>
     </cwc-button>
   </div>
@@ -191,7 +191,7 @@
         <p *ngIf="!fileRegister.photoFrontal">Abrir cámara del dispositivo</p>
 
       </div>
-      <cwc-button (click)="fileRegister.removePhotoFrontal()" *ngIf="fileRegister.photoFrontal" variant="link"
+      <cwc-button (cwcClick)="fileRegister.removePhotoFrontal()" *ngIf="fileRegister.photoFrontal" variant="link"
         class="m-h-reg remove-photo-archive">Quitar Foto</cwc-button>
     </cwc-cell>
     <cwc-cell colspan="6" mobile-colspan="12" style="cursor: pointer; margin-top: 1rem;">
@@ -206,7 +206,7 @@
         <p *ngIf="!fileRegister.photoBack">Abrir cámara del dispositivo</p>
 
       </div>
-      <cwc-button (click)="fileRegister.removePhotoBack()" *ngIf="fileRegister.photoBack" variant="link"
+      <cwc-button (cwcClick)="fileRegister.removePhotoBack()" *ngIf="fileRegister.photoBack" variant="link"
         class="m-h-reg remove-photo-archive">Quitar Foto</cwc-button>
     </cwc-cell>
   </cwc-grid>
@@ -231,8 +231,8 @@
   <p>¿Esta seguro que los datos registrados estan correctos?</p>
   <footer slot='footer'>
     <div style='text-align: end'>
-      <cwc-button variant='support' (click)="closeAlertConfirm()" style="margin-right: 1rem;">Cancelar</cwc-button>
-      <cwc-button variant='primary' (click)="register()">Aceptar</cwc-button>
+      <cwc-button variant='support' (cwcClick)="closeAlertConfirm()" style="margin-right: 1rem;">Cancelar</cwc-button>
+      <cwc-button variant='primary' (cwcClick)="register()">Aceptar</cwc-button>
     </div>
   </footer>
 </cwc-modal>

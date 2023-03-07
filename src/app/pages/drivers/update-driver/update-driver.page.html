@@ -62,7 +62,7 @@
       BOTON PARA GUARDAR EL REGISTRO
     ======================================-->
     <div class="content-button">
-      <cwc-button design-version="v1" [disabled]="form.invalid" (click)="openAlertConfirm()"
+      <cwc-button design-version="v1" [disabled]="form.invalid" (cwcClick)="openAlertConfirm()"
         variant="regular-block">GUARDAR CAMBIOS</cwc-button>
     </div>
   </form>
@@ -77,8 +77,8 @@
   <p>¿Esta seguro que los datos registrados estan correctos?</p>
   <footer slot='footer'>
     <div style='text-align: end'>
-      <cwc-button variant='support' (click)="closeAlertConfirm()" style="margin-right: 1rem;">Cancelar</cwc-button>
-      <cwc-button variant='primary' (click)="update()">Aceptar</cwc-button>
+      <cwc-button variant='support' (cwcClick)="closeAlertConfirm()" style="margin-right: 1rem;">Cancelar</cwc-button>
+      <cwc-button variant='primary' (cwcClick)="update()">Aceptar</cwc-button>
     </div>
   </footer>
 </cwc-modal>

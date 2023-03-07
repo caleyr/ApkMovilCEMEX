@@ -7,26 +7,26 @@
                     <span style="color: #05376E; font-weight: 700;">{{travelDetail.codeTravel}}</span>
                 </cwc-cell>
                 <cwc-cell mobile-colspan="6" *ngIf="travelDetail.StatusTravel === 2">
-                    <cwc-button variant="link" (click)="onClickConfirmTrip()">
+                    <cwc-button variant="link" (cwcClick)="onClickConfirmTrip()">
                         <div class="text-button">CONFIRMAR VIAJE</div>
                     </cwc-button>
                 </cwc-cell>
                 <cwc-cell mobile-colspan="6"
                     *ngIf=" travelDetail.LoadStar === undefined && travelDetail.StatusTravel === 3">
-                    <cwc-button variant="link" (click)="onClickStartTravel()">
+                    <cwc-button variant="link" (cwcClick)="onClickStartTravel()">
                         <div class="text-button">INICIAR VIAJE</div>
                     </cwc-button>
                 </cwc-cell>
                 <cwc-cell mobile-colspan="6"
                     *ngIf="travelDetail.DowloadStar === undefined && travelDetail.LoadEnd !== undefined">
-                    <cwc-button variant="link" (click)="onClickStartDischarge()">
+                    <cwc-button variant="link" (cwcClick)="onClickStartDischarge()">
                         <div class="text-button">FINALIZAR RECORRIDO</div>
                     </cwc-button>
                 </cwc-cell>
 
                 <cwc-cell mobile-colspan="6"
                     *ngIf="travelDetail.DowloadEnd !== undefined && travelDetail.StatusTravelAvailability === 5 && fileTravel.fileData.name.length === 2">
-                    <cwc-button variant="link" (click)="onClickEndTravel()">
+                    <cwc-button variant="link" (cwcClick)="onClickEndTravel()">
                         <div class="text-button">FINALIZAR VIAJE</div>
                     </cwc-button>
                 </cwc-cell>
@@ -166,7 +166,7 @@
             <cwc-grid class="demo-grid" style="padding-top: 0.5rem; padding-bottom: 1rem;"
                 *ngIf="travelDetail.observationsOfTravel === undefined">
                 <cwc-cell mobile-colspan="12">
-                    <cwc-button style="color: #3897fc; font-weight: 600;" (click)="addMessage()" class="btn-add-user"
+                    <cwc-button style="color: #3897fc; font-weight: 600;" (cwcClick)="addMessage()" class="btn-add-user"
                         variant='link' designVersion="v2">
                         <cwc-icon class="icon-add" name="plus" size="12px" style="color: #3897fc;"></cwc-icon>
                         Agregar actualización
@@ -185,12 +185,12 @@
                     </div>
                 </cwc-cell>
                 <cwc-cell mobile-colspan="6" style="text-align: end;" *ngIf="showDetail">
-                    <cwc-button variant="link" (click)="showDetail = !showDetail">
+                    <cwc-button variant="link" (cwcClick)="showDetail = !showDetail">
                         <cwc-icon name="straight-arrow-down" size="15px" style="color: #D0D0D0;"></cwc-icon>
                     </cwc-button>
                 </cwc-cell>
                 <cwc-cell mobile-colspan="6" style="text-align: end;" *ngIf="!showDetail">
-                    <cwc-button variant="link" (click)="showDetail = !showDetail">
+                    <cwc-button variant="link" (cwcClick)="showDetail = !showDetail">
                         <cwc-icon name="straight-arrow-up" size="15px" style="color: #D0D0D0;"></cwc-icon>
                     </cwc-button>
                 </cwc-cell>
@@ -230,7 +230,7 @@
                 <p *ngIf="!fileTravel.photoFrontal">Abrir cámara del dispositivo</p>
 
             </div>
-            <cwc-button (click)="fileTravel.removePhotoFrontal()" *ngIf="fileTravel.photoFrontal" variant="link"
+            <cwc-button (cwcClick)="fileTravel.removePhotoFrontal()" *ngIf="fileTravel.photoFrontal" variant="link"
                 class="m-h-reg remove-photo-archive">Quitar Foto</cwc-button>
         </cwc-cell>
     </cwc-grid>
@@ -240,7 +240,7 @@
                 style="margin-right: 1rem;">
                 Cancelar</cwc-button>
             <cwc-button design-version="v2" *ngIf="fileTravel.photoFrontal"
-                variant='primary' (click)="saveDocument()">Aceptar</cwc-button>
+                variant='primary' (cwcClick)="saveDocument()">Aceptar</cwc-button>
         </div>
     </footer>
 </cwc-modal>

@@ -190,7 +190,7 @@
       BOTON PARA GUARDAR EL REGISTRO
     ======================================-->
     <div class="content-button">
-      <cwc-button design-version="v1" [disabled]="form.invalid" (click)="openAlertConfirm()" variant="regular-block">
+      <cwc-button design-version="v1" [disabled]="form.invalid" (cwcClick)="openAlertConfirm()" variant="regular-block">
         <div class="button-css">AGREGAR VEHÍCULO</div>
       </cwc-button>
     </div>
@@ -216,7 +216,7 @@
         <p *ngIf="!fileVehicle.photoFrontal">Abrir cámara del dispositivo</p>
 
       </div>
-      <cwc-button (click)="fileVehicle.removePhotoFrontal()" *ngIf="fileVehicle.photoFrontal" variant="link"
+      <cwc-button (cwcClick)="fileVehicle.removePhotoFrontal()" *ngIf="fileVehicle.photoFrontal" variant="link"
         class="m-h-reg remove-photo-archive">Quitar Foto</cwc-button>
     </cwc-cell>
     <cwc-cell colspan="6" mobile-colspan="12" style="cursor: pointer; margin-top: 1rem;">
@@ -231,7 +231,7 @@
         <p *ngIf="!fileVehicle.photoBack">Abrir cámara del dispositivo</p>
 
       </div>
-      <cwc-button (click)="fileVehicle.removePhotoBack()" *ngIf="fileVehicle.photoBack" variant="link"
+      <cwc-button (cwcClick)="fileVehicle.removePhotoBack()" *ngIf="fileVehicle.photoBack" variant="link"
         class="m-h-reg remove-photo-archive">Quitar Foto</cwc-button>
     </cwc-cell>
   </cwc-grid>

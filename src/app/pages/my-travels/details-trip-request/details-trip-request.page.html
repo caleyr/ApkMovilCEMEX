@@ -94,7 +94,7 @@
           disabled="true"
           placeholder="Seleccionar">
       </cwc-input>
-      <cwc-button [disabled]="licenseOk" (click)="driverAssign()" variant="primary-block" design-version="v2">Aceptar</cwc-button>
+      <cwc-button [disabled]="licenseOk" (cwcClick)="driverAssign()" variant="primary-block" design-version="v2">Aceptar</cwc-button>
 </cwc-modal>
 
 <cwc-modal id='modal-confirm' [open]="messageShowA" close-on-bd-click="false">

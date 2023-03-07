@@ -13,11 +13,11 @@
 <cwc-card *ngIf="travelId == null" style="margin-top: 1rem;" design-version="v2">
   <div class="card-content">
    <h4 style="text-align: center;">Buscar viaje</h4>
-   <p style="text-align: center; font-size: 15px;">Revisa entre nuestros distintos departamentos disponibles un viaje que se ajueste a tu ruta y horario.</p>
+   <p style="text-align: center; font-size: 15px;">Revisa entre nuestros distintos departamentos disponibles un viaje que se ajuste a tu ruta y horario.</p>
   </div>
 </cwc-card>
 
-<cwc-button *ngIf="travelId == null" style="margin-top: 1rem;" variant="regular-block" (click)="onClickTravel()">
+<cwc-button *ngIf="travelId == null" style="margin-top: 1rem;" variant="regular-block" (cwcClick)="onClickTravel()">
   <div class="button-css">BUSCAR VIAJE</div>
 </cwc-button>
 
@@ -26,7 +26,7 @@
    <h4 style="text-align: center;">Accede a tu cuenta Clever</h4>
    <p style="text-align: center; font-size: small;">Revisa tus datos y manten tu perfil actualizado para un mejor seguimiento</p>
    <div>
-    <cwc-button class="button-css" variant="regular-block" (click)="onUrl(linkClever)">
+    <cwc-button class="button-css" variant="regular-block" (cwcClick)="onUrl(linkClever)">
       <div class="button-css">CLEVER GLOBAL</div>
     </cwc-button>
    </div>
@@ -38,7 +38,7 @@
    <h4 style="text-align: center;">Tu viaje CEMEX</h4>
    <p style="text-align: center; font-size: small;">Verifica el estado de tus viajes y actualizaciones de los mismos</p>
    <div>
-    <cwc-button class="button-css" variant="regular-block" (click)="onUrl(linkTrip)">
+    <cwc-button class="button-css" variant="regular-block" (cwcClick)="onUrl(linkTrip)">
       <div class="button-css" >Tu viaje CEMEX</div>
       </cwc-button>
    </div>

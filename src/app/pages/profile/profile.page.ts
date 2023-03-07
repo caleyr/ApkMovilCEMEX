@@ -14,6 +14,7 @@ import { ApiService } from '../../services/auth/api.service';
 import { UserService } from '../../services/user.service';
 import { MsalService } from '@azure/msal-angular';
 import { DOCUMENT } from '@angular/common';
+import { TextResponseService } from '../../services/text-response.service';
 
 @Component({
   selector: 'app-profile',
@@ -42,6 +43,7 @@ export class ProfilePage implements OnInit {
     private apiService : ApiService,
     private userService : UserService,
     private authService : MsalService,
+    public textResp : TextResponseService,
     @Inject(DOCUMENT) private document: Document
   ) {
   }
