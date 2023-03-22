@@ -115,6 +115,10 @@ export class NewDriverPage implements OnInit {
             this.alertConfirm = false;
             this.alertSucces = true;
             this.errors = [];
+            setTimeout(() => {
+              this.alertSucces = false;
+              this.onBack();
+            }, 4000);
           }
         },
         error: (err) => {

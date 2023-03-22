@@ -88,7 +88,7 @@ export class UpdateDriverPage implements OnInit {
           setTimeout(() => {
             this.alertSucces = false;
             this.onBack();
-          }, 3000);
+          }, 2000);
           this.errors = [];
         }
       },

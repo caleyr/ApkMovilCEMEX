@@ -127,6 +127,10 @@ export class RegisterMantruckComponent implements AfterViewInit {
             this.alertConfirm = false;
             this.alertSucces = true;
             this.errors = [];
+            setTimeout(() => {
+              this.alertSucces = false;
+              this.onBack();
+            }, 4000);
           }
         },
         error: (err) => {

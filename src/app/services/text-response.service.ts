@@ -65,7 +65,7 @@ export class TextResponseService {
       case 1:
         return 'En turno';
       default:
-        return status;
+        return '';
     }
   }
 

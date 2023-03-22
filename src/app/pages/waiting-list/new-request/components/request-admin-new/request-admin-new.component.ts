@@ -38,6 +38,7 @@ export class RequestAdminNewComponent implements OnInit {
   driveSelected : string = 'Seleccionar';
   driverId : string;
   typeD = ['administrative_area_level_1', 'political'];
+  typeS = ['administrative_area_level_2', 'political'];
   typeM = ['locality', 'political'];
 
   form : FormGroup;
@@ -131,21 +132,14 @@ export class RequestAdminNewComponent implements OnInit {
     this.navCtrl.back();
   }
 
-  getListDrivers(){
-    this.vehiclesService.getVehiclesUserByIdCompany( this.apiService.userProfile.CompanyId ).subscribe(data =>{
-      this.driverList = data.data.filter(data => data.StatusTravel === 0 && data.Status === 2 && data.UserId !== this.apiService.userProfile.UserId);
-    })
-  }
-
-  changTimeStar(event){
-    alert(event.detail);
-    //const start_time = moment(`${event.detail.hours}:${event.detail.minutes}`, 'HH:mm').format('hh:mm A');
-    //this.form.get('TimerStar').setValue(start_time);
+  changeTimeStar(event){
+    const end_time = moment(`${event.detail.hours}:${event.detail.minutes}`, 'HH:mm').format('hh:mm A');
+    this.form.get('TimerStar').setValue(end_time);
   }
 
   changeTimeEnd(event){
     const end_time = moment(`${event.detail.hours}:${event.detail.minutes}`, 'HH:mm').format('hh:mm A');
-    //this.form.get('TimerEnd').setValue(end_time);
+    this.form.get('TimerEnd').setValue(end_time);
   }
 
   changeDateTime(event){
@@ -153,13 +147,17 @@ export class RequestAdminNewComponent implements OnInit {
     this.form.get('DateTravels').setValue(fecha);  
   }
 
+  getListDrivers(){
+    this.vehiclesService.getVehiclesUserByIdCompany( this.apiService.userProfile.CompanyId ).subscribe(data =>{
+      this.driverList = data.data.filter(data => data.StatusTravel === 0 && data.Status === 2 && data.UserId !== this.apiService.userProfile.UserId);
+    })
+  }
+
   changeDriver(event){
-    if(event.detail === '0'){
+    if(event.detail === ''){
       this.driveSelected = 'Seleccionar';
       this.form.get('DriverId').setValue('');
-      this.form.get('VehicleId').setValue('');
     }else{
-      this.form.get('VehicleId').setValue(event.detail);
       let driver = this.driverList.filter(data => data.VehicleId === event.detail)[0];
       this.form.get('DriverId').setValue(driver.UserId);
       this.driveSelected = driver.LicenseVehiculo;

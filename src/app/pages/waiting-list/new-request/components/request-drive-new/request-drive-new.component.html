@@ -16,11 +16,11 @@
         <div style="text-align: center; padding-bottom: 1rem; font-weight: 900;">Rango de Hora</div>
       </cwc-cell>
       <cwc-cell mobile-colspan="12" class="flex flex__align--center">
-        <cwc-input-time style="width: 100%;" formControlName="TimerStar" format="12h" label='Hora (Inicio)'
+        <cwc-input-time style="width: 100%;" format="12h" label='Hora (Inicio)'
           [status]="getStatusField('TimerStar')" [statusMessage]="getMsgField('TimerStar', 'tiempo de inicio')"
-          (cwcChange)="changTimeStar($event)" placeholder="--:--" design-version="v2">
+          (cwcChange)="changeTimeStar($event)" placeholder="--:--" design-version="v2">
         </cwc-input-time>
-        <cwc-input-time style="width: 100%;" formControlName="TimerEnd" format="12h" label='Hora (Fin)'
+        <cwc-input-time style="width: 100%;" format="12h" label='Hora (Fin)'
           [status]="getStatusField('TimerEnd')" [statusMessage]="getMsgField('TimerEnd', 'tiempo final')"
           (cwcChange)="changeTimeEnd($event)" placeholder="--:--" design-version="v2">
         </cwc-input-time>

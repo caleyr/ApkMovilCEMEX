@@ -16,13 +16,13 @@
         <div style="text-align: center; padding-bottom: 1rem; font-weight: 900;">Rango de Hora</div>
       </cwc-cell>
       <cwc-cell mobile-colspan="12" class="flex flex__align--center">
-        <cwc-input-time style="width: 100%;" formControlName="TimerStar" format="12h" label='Hora (Inicio)'
+        <cwc-input-time style="width: 100%;" format="12h" (cwcChange)="changeTimeStar($event)" label='Hora (Inicio)'
           [status]="getStatusField('TimerStar')" [statusMessage]="getMsgField('TimerStar', 'tiempo de inicio')"
-          (cwcChange)="changTimeStar($event)" placeholder="--:--" design-version="v2">
+          placeholder="--:--" design-version="v2">
         </cwc-input-time>
-        <cwc-input-time style="width: 100%;" formControlName="TimerEnd" format="12h" label='Hora (Fin)'
+        <cwc-input-time style="width: 100%;" format="12h" (cwcChange)="changeTimeEnd($event)" label='Hora (Fin)'
           [status]="getStatusField('TimerEnd')" [statusMessage]="getMsgField('TimerEnd', 'tiempo final')"
-          (cwcChange)="changeTimeEnd($event)" placeholder="--:--" design-version="v2">
+          placeholder="--:--" design-version="v2">
         </cwc-input-time>
       </cwc-cell>
       <cwc-cell class="flex flex__align--bullseye" mobile-colspan="12">
@@ -35,13 +35,14 @@
         </cwc-input-date>
       </cwc-cell>
       <cwc-cell colspan="12" mobile-colspan="12">
-        <cwc-picker formControlName="DriverId" [status]="getStatusField('DriverId')"
-          [statusMessage]="getMsgField('DriverId', 'conductor')" (cwcChange)="changeDriver($event)" style="width: 100%;"
+        <cwc-picker formControlName="VehicleId" [status]="getStatusField('VehicleId')"
+          [statusMessage]="getMsgField('VehicleId', 'conductor')" (cwcChange)="changeDriver($event)" style="width: 100%;"
           label='Conductor' design-version="v2">
-          <cwc-picker-option value="0" selected="">Seleccionar</cwc-picker-option>
-          <cwc-picker-option value="0" *ngIf="driverList.length === 0" selected="">No se encuentran conductores disponibles</cwc-picker-option>
-          <cwc-picker-option [value]="driver.VehicleId"
-            *ngFor="let driver of driverList">{{driver.FirstName + ' ' + driver.LastName}}</cwc-picker-option>
+          <cwc-picker-option value="" selected="">Seleccionar</cwc-picker-option>
+          <cwc-picker-option value="" *ngIf="driverList.length === 0">No se encuentran conductores
+            disponibles</cwc-picker-option>
+          <cwc-picker-option [value]="driver.VehicleId" *ngFor="let driver of driverList">{{driver.FirstName + ' ' +
+            driver.LastName}}</cwc-picker-option>
         </cwc-picker>
       </cwc-cell>
       <cwc-cell colspan="12" mobile-colspan="12">

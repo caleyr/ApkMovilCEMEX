@@ -9,12 +9,6 @@
       <div class="navbar">
         <app-vehicle-list [vehicles]="vehiclesList" [searchFilter]="search" [companyName]="company"></app-vehicle-list>
       </div>
-      <div class="column-empty" *ngIf="vehiclesList.length === 0 && loading === false">
-        <cwc-empty-result header="No se encontraron datos registrados." icon="accepted-ok" aria-live="polite"
-          class="cwc-empty-result hydrated v2" role="alert" design-version="v2" variant="regular">
-          Actualmente no se encuentran vehículos aprobados en el sistema.
-        </cwc-empty-result>
-      </div>
     </ion-content>  
     <cwc-button class="float" routerLink="agregar" design-version="v2" size="large" variant="ghost" ratio="square" trailing-icon="plus"></cwc-button>
   </div>  

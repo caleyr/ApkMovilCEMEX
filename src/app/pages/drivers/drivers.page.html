@@ -1,20 +1,19 @@
 <app-layout class="card-size">
   <div class="content-page">
+    <cwc-input class="search-text" variant="regular" rtl="false" trailing-icon='magnifier-glass' [(ngModel)]="search" placeholder='Buscar...'></cwc-input>
+    <div class="text-vehicles">Conductores ({{driversList.length}})</div>
     <ion-content>
-      <cwc-input class="search-text" variant="regular" rtl="false" trailing-icon='magnifier-glass' [(ngModel)]="search"
-        placeholder='Buscar...'></cwc-input>
-      <div class="text-vehicles">Conductores ({{driversList.length}})</div>
       <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
         <ion-refresher-content></ion-refresher-content>
       </ion-refresher>
       <div class="navbar">
-        <app-driver-list [searchFilter]="search" [drivers]="driversList"></app-driver-list>
-      </div>
-      <div class="column-empty" *ngIf="driversList.length === 0 && loading === false">
-        <cwc-empty-result header="No se encontraron datos registrados." icon="accepted-ok" aria-live="polite"
-          class="cwc-empty-result hydrated v2" role="alert" design-version="v2" variant="regular">
-          Actualmente no se encuentran conductores aprobados en el sistema.
-        </cwc-empty-result>
+        <app-driver-list *ngIf="driversList.length !== 0" [searchFilter]="search" [drivers]="driversList"></app-driver-list>
+        <div class="column-empty" *ngIf="driversList.length === 0 && loading === false">
+          <cwc-empty-result header="No se encontraron datos registrados." icon="accepted-ok" aria-live="polite"
+            class="cwc-empty-result hydrated v2" role="alert" design-version="v2" variant="regular">
+            Actualmente no se encuentran conductores aprobados en el sistema.
+          </cwc-empty-result>
+        </div>
       </div>
     </ion-content>
     <cwc-button class="float" routerLink="agregar" design-version="v2" size="large" variant="ghost" ratio="square"

@@ -30,8 +30,8 @@
       </div>
       <cwc-grid style="padding-top: 1rem; padding-bottom: 1rem;">
         <cwc-cell mobile-colspan="12">
-          <cwc-icon name="radio-static" color="disabled-grey" *ngIf="driver.StatusTravel === 0" size="12px"></cwc-icon>
-          <cwc-icon name='error-rounded-fill' *ngIf="driver.StatusTravel === 1" size="12px" color='true-red'></cwc-icon>
+          <cwc-icon name="radio-static" color="disabled-grey" *ngIf="driver.StatusTravel === 1" size="12px"></cwc-icon>
+          <cwc-icon name='check-rounded-active-fill' *ngIf="driver.StatusTravel === 0" size="12px" color='bright-green'></cwc-icon>
           <span class="text-archive">{{textResp.getStatusTravelUser(driver.StatusTravel)}}</span>
         </cwc-cell>
       </cwc-grid>

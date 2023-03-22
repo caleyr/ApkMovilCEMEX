@@ -102,6 +102,10 @@ export class UpdateArchivesDrivePage implements OnInit {
         this.alertConfirm = false;
         this.alertSucces = true;
         this.errors = [];
+        setTimeout(() => {
+          this.alertSucces = false;
+          this.onBack();
+        }, 2000);
       },
       error: (err) => {
         this.errors = this.errorMessages.parsearErroresAPI(err.data);

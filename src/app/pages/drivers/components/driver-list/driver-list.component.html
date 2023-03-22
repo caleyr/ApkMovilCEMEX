@@ -7,7 +7,7 @@
         <span class="text-info">{{driver.PhoneNumber}}</span>
       </cwc-cell>
       <cwc-cell colspan="12" mobile-colspan="4">
-        <cwc-status-indicator size="small" class="statusI" variant='success'>
+        <cwc-status-indicator size="small" class="statusI" [variant]="driver.StatusTravel === 0 ? 'success' : 'disabled'">
           <div class="statusI">{{textResp.getStatusTravelUser(driver.StatusTravel)}}</div>
         </cwc-status-indicator>
       </cwc-cell>

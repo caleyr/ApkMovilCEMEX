@@ -12,15 +12,15 @@
       <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
         <ion-refresher-content></ion-refresher-content>
       </ion-refresher>
-      <div class="navbar" *ngIf="requestsList.length" style="padding-top: 0.5rem;">
-        <app-request-waiting-list [requests]="requestsList"></app-request-waiting-list>
+      <div class="navbar" style="padding-top: 0.5rem;">
+        <app-request-waiting-list *ngIf="requestsList.length !== 0" [requests]="requestsList"></app-request-waiting-list>
         <div class="column-empty" *ngIf="requestsList.length === 0 && loading === false">
           <cwc-empty-result header="No se encontraron datos registrados." icon="accepted-ok" aria-live="polite"
             class="cwc-empty-result hydrated v2" role="alert" design-version="v2" variant="regular">
-            Actualmente no se encuentran viajes en espera registrados en el sistema.
+            Actualmente no se encuentran viajes en espera con estado pendiente y no aprodados registrados en el sistema.
           </cwc-empty-result>
         </div>
-      </div>
+      </div>      
     </ion-content>
     
     <cwc-button class="float" routerLink="new-request" design-version="v2" size="large" variant="ghost" ratio="square"

@@ -16,6 +16,7 @@ export class VehicleListComponent implements OnInit {
   @Input() companyName : string;
   @Input() searchFilter: string;
 
+
   constructor(
     private navCtrl : NavController,
     private vehiclesService : VehiclesService,

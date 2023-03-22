@@ -15,6 +15,7 @@ export class RequestWaitingListComponent implements OnInit {
 
   @Input() requests: Request[] = [];
 
+
   rol: number;
 
   constructor(
