@@ -14,6 +14,8 @@ import { ValidateUserFieldService } from '../../../../services/error/validate-us
 import { DriversService } from '../../../../services/drivers.service';
 import { Location } from '@angular/common';
 import { UserService } from '../../../../services/user.service';
+import { NotificationsService } from 'src/app/services/notifications/notifications.service';
+import { Device } from '@capacitor/device';
 
 @Component({
   selector: 'app-edit-driver',
@@ -45,7 +47,8 @@ export class EditDriverComponent implements OnInit {
     private apiService: ApiService,
     public msgField: ValidateUserFieldService,
     private userService: UserService,
-    private location : Location
+    private location: Location,
+    private notiService: NotificationsService
   ) {
     this.profile = apiService.userProfile;
     this.company = apiService.userProfile.CompanyName;
@@ -88,20 +91,14 @@ export class EditDriverComponent implements OnInit {
           this.errors = this.errorMessages.parsearErroresAPI(['Error, al actualizar el susuario.']);
           this.data = new FormData();
         } else {
-          this.alertSucces = true;
           this.errors = [];
-          setTimeout(() => {
-            this.alertSucces = false;
-            this.onBack();
-          }, 3000);
         }
       },
       error: (err) => {
         this.errors = this.errorMessages.parsearErroresAPI(err.data);
       },
-      complete: () => {
-        this.propagar.emit(false);
-        this.alertConfirm = false;
+      complete: async () => {
+        await this.sendNotification([(await Device.getId()).uuid]);
       }
     });
   }
@@ -112,6 +109,29 @@ export class EditDriverComponent implements OnInit {
         this.data.append(key, objeto[key]);
       }
     }
+  }
+
+  sendNotification(data: string[]) {
+    return new Promise<boolean>(async (resolve, reject) => {
+      this.notiService.notificationData.params.Uuids = await this.notiService.transformDataNotification(data);
+      this.notiService.sendNotificationMobileBtc(this.notiService.notificationData).subscribe({
+        next: (data) => {
+          resolve(true);
+        },
+        error: (err) => {
+          resolve(false);
+        },
+        complete: () => {
+          this.propagar.emit(false);
+          this.alertConfirm = false;
+          this.alertSucces = true;
+          setTimeout(() => {
+            this.alertSucces = false;
+            this.onBack();
+          }, 3000);
+        }
+      });
+    });
   }
 
   openAlertConfirm() {

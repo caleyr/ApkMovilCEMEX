@@ -19,6 +19,20 @@ export class NotificationsService {
     applicationCode: "CemexCarga_App "
   }
 
+  notificationData = {
+    channelCode: "PN",
+    params: {
+      Uuids: [],
+      Devices: [],
+      Title: "Test", // Required
+      Body: "This is a test", // Required
+      Payload: {
+        Dummy: "Dummy"
+      },
+      AppCode: "OrderTaking_App"
+    }
+  }
+
   dataRegister = {
     UserId: "",
     UUID: "",
@@ -39,8 +53,7 @@ export class NotificationsService {
     this.dataRegister.UUID = (await Device.getId()).uuid;
   }
 
-  createUserMobile(data: any){
-    console.log(JSON.stringify(data));    
+  createUserMobile(data: any){   
     return this.http.fetch(`${URLCemex}/v5/cm/notifications/devices`, data, 'post', false, false, false, true);
   }
 
@@ -48,7 +61,20 @@ export class NotificationsService {
     return this.http.fetch(`${URL}/v1/load/dsm/notifications/phones`, data, 'post', true, true, false);
   }
 
+  sendNotificationMobileBtc(data : any){
+    return this.http.fetch(`${URLCemex}/v5/cm/notifications/send`, data, 'post', false, false, false, true);
+  }
+
   deleteUserMobile(){
     return this.http.fetch(`${URLCemex}/v5/cm/notifications/devices/uuid/${this.dataSend.uuid}/applications/CemexCarga_App/platforms/G`, {}, 'delete', false, false, false, true);
+  }
+
+  transformDataNotification(data : string[]){
+    return new Promise<string[]>(async (resolve, reject) => {
+      for (let index = 0; index < data.length; index++) {
+        data[index] = `${data[index]}|G`        
+      }
+      resolve(data);
+    });    
   }
 }

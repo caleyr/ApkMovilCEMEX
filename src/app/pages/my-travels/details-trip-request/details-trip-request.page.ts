@@ -25,6 +25,7 @@ export class DetailsTripRequestPage implements OnInit {
   travel: Travel;
 
   loading = false;
+  loadingList = false;
 
   listDrivers: Vehicle[] = [];
   driveSelected: string = 'Seleccionar';
@@ -62,18 +63,26 @@ export class DetailsTripRequestPage implements OnInit {
   }
 
   getListDrivers() {
-    this.vehiclesService.getVehiclesUserByIdCompany(this.apiService.userProfile.CompanyId).subscribe(data => {
-      this.listDrivers = data.data.filter(data => data.StatusTravel === 0  && data.Status === 2 && data.UserId !== this.idUser);
-      this.loading = false;
-    });
+    this.vehiclesService.getVehiclesUserByIdCompany(this.apiService.userProfile.CompanyId).subscribe({
+      next : (data) => {
+        this.listDrivers = data.data.filter(data => data.StatusTravel === 0  && data.Status === 2 && data.UserId !== this.idUser);
+      },
+      complete : () => {
+        this.loadingList = false;
+      }});
   }
 
   getData() {
     if (this.travelService.id !== null) {
       this.id = this.travelService.id;
-      this.travelService.getTravelDetail(this.id).subscribe(data => {
-        this.travel = data.data;
-      });
+      this.travelService.getTravelDetail(this.id).subscribe({        
+        next : (data) => {
+          this.travel = data.data;
+
+        },
+        complete : () => {
+          this.loading = false;
+        }});
     }
   }
 
