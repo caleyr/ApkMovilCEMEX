@@ -34,7 +34,8 @@ export class VehicleDetailsPage implements OnInit {
 
   loading = false;
 
-  roleOk : boolean;
+  roleOk: boolean;
+  role: string = 'Conductor';
 
   constructor(
     private location: Location,
@@ -52,11 +53,9 @@ export class VehicleDetailsPage implements OnInit {
     this.suscripcion = this.vehiclesService.refresh$.subscribe(async () => {
       this.loading = true;
       this.getData();
-      this.roleOk = await this.checkRole();
 
     });
     this.getData();
-    this.roleOk = await this.checkRole();
   }
 
   onBack() {
@@ -85,11 +84,16 @@ export class VehicleDetailsPage implements OnInit {
     const data: FormData = new FormData();
     data.append('VehicleId', this.vehicle.VehicleId.toString());
     data.append('LicenseVehiculo', this.vehicle.LicenseVehiculo);
+    data.append('StatusVehicle', '1');
     data.append('UserId', this.driverAssign);
     this.vehiclesService.updateVehicle(data).subscribe({
       complete: () => {
         this.loading = false;
         this.alertShow = true;
+        setTimeout(() => {
+          this.alertShow = false;
+          this.onBack();
+        }, 3000);
       }
     });
   }
@@ -104,8 +108,8 @@ export class VehicleDetailsPage implements OnInit {
         next: (data: any) => {
           this.vehicle = data.data;
         },
-        complete: () => {
-          this.loading = false;
+        complete: async () => {
+          await this.checkRole();
         }
       });
     }
@@ -122,12 +126,25 @@ export class VehicleDetailsPage implements OnInit {
 
   checkRole() {
     return new Promise<boolean>((resolve) => {
-      this.driversService.getDriverById(this.vehicle.UserId).subscribe(result => {
-        if (result.data[0].RolesId !== 2 && result.data[0].RolesId !== 3) {
+      this.driversService.getDriverById(this.vehicle.UserId).subscribe({
+        next : (result) => {
+          if (result.data[0].RolesId === 3) {
+            this.roleOk = false;
+          } else if(result.data[0].RolesId === 2){
+            this.role = 'Hombre Camión';
+            this.roleOk = true;
+          } else {
+            this.roleOk = true;
+          }
+           
           resolve(true);
-        } else {
-          resolve(false);
-        }
+        }, 
+        error : () => {
+          resolve(true);
+        },
+        complete : () => {
+          this.loading = false;
+        }, 
       });
     });
   }

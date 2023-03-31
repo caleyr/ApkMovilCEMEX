@@ -1,7 +1,7 @@
 <cwc-header design-version="v2" slot="header" show-Menu-Button="false" show-cemex-logo="false">
   <div class="header-text">
-    <ion-icon name="arrow-back-outline" style="font-size: 25px;" (click)="onBack()"></ion-icon>
-    <div class="attr-name" style="padding-left: 1rem;">Buscar viaje</div>
+    <ion-icon name="arrow-back-outline" style="font-size: large;" (click)="onBack()"></ion-icon>
+    <div class="attr-name" style="padding-left: 1rem; font-size: large; font-weight: 900;">Buscar viaje</div>
   </div>
 </cwc-header>
 <div slot="main" class="content-card">
@@ -33,7 +33,7 @@
           <cwc-grid class="demo-grid center-cell">
             <cwc-cell mobile-colspan="12">
               <div class="attr-user">Fecha y hora de cita</div>
-              <span class="attr-detail">{{travel.DateTravel}} - {{travel.TimerStar}}</span>
+              <span class="attr-detail">{{travel.DateTravel| date : 'mediumDate'}}  - {{travel.TimerStar}}</span>
             </cwc-cell>
           </cwc-grid>
 

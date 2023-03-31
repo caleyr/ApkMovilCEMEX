@@ -38,7 +38,7 @@
         <div style="text-align: center; padding-bottom: 1rem; font-weight: 400;">Rango de Hora</div>
       </cwc-cell>
       <cwc-cell mobile-colspan="6">
-        <cwc-picker (cwcChange)="changeHourStar($event)" placeholder="Hora (Inicio)" design-version="v2">
+        <cwc-picker (cwcChange)="changeHourStar($event)" style="width: 100%;" placeholder="Hora (Inicio)" design-version="v2">
           <cwc-picker-option value="0">Seleccionar</cwc-picker-option>
           <cwc-picker-option value="0" *ngIf="timeList.length === 0 && timeListTwo.length === 0">No se encuentran horas.</cwc-picker-option>
           <cwc-picker-option [value]="timeL.TimerStar" *ngFor="let timeL of (timeList.length === 0 ? timeListTwo : timeList)">{{timeL.TimerStar}}
@@ -46,7 +46,7 @@
         </cwc-picker>
       </cwc-cell>
       <cwc-cell mobile-colspan="6">
-        <cwc-picker (cwcChange)="changeHourEnd($event)" placeholder="Hora (Fin)" design-version="v2">
+        <cwc-picker (cwcChange)="changeHourEnd($event)" style="width: 100%;" placeholder="Hora (Fin)" design-version="v2">
           <cwc-picker-option value="0">Seleccionar</cwc-picker-option>
           <cwc-picker-option value="0" *ngIf="timeListTwo.length === 0">No se encuentran horas.</cwc-picker-option>
           <cwc-picker-option [value]="timeL.TimerStar" *ngFor="let timeL of timeListTwo">{{timeL.TimerStar}}

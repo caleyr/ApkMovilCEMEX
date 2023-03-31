@@ -82,7 +82,7 @@
       </cwc-grid>
       
       <div style="margin-top: 1rem;" *ngIf="vehicle.StatusVehicle === 1  && roleOk">
-        <div class="attr-document" >Conductor</div>
+        <div class="attr-document" >{{role}}</div>
         <div style=" border: 0.1px solid #d1d1d1; background: #d1d1d1; margin-bottom: 0.5rem;"></div>
         <div style="display: flex; justify-content: space-between;">
           <p class="attr-conductor">
@@ -109,7 +109,7 @@
 </div>
 
 <cwc-modal id='add-driver' class="modal-list" design-version="v2" style="z-index: 0;" [open]="addDriver" (cwcClose)="closeAlertConfirm()">  
-  <h6 style='text-align: center;'>Asignar conductor</h6>
+  <h3 style='text-align: center;'>Asignar conductor</h3>
   <cwc-picker
     class="select-filter"
     placeholder="Seleccionar"
@@ -122,7 +122,7 @@
   </div>
 </cwc-modal>
 
-<cwc-modal id='alert-modal-succes' [open]="alertShow" (cwcClose)="closeAlertSuccess()">
+<cwc-modal id='alert-modal-succes' [open]="alertShow"  close-on-bd-click="false" show-close-btn="false"  close-on-bd-click="false" show-close-btn="false">
   <div style='text-align: center'>
       <cwc-icon name='accepted-ok' size='120px' color='bright-green'></cwc-icon>
       <p>El conductor ha sido asignado de manera exitosa</p>
