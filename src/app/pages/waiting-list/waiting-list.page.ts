@@ -41,7 +41,6 @@ export class WaitingListPage implements OnInit {
     if (this.apiService.userProfile.RolesId === 1) {
       this.requestService.getRequestByIdUser(this.apiService.userProfile.UserId).subscribe({
         next: (data: any) => {
-          alert(JSON.stringify(data.data));
           this.requestsList = data.data.filter(data => data.StatusRequest !== 1);
         },
         complete: () => {
@@ -51,7 +50,6 @@ export class WaitingListPage implements OnInit {
     } else {
       this.requestService.getRequestByIdCompany(this.apiService.userProfile.CompanyId).subscribe({
         next: (data: any) => {
-          alert(JSON.stringify(data.data));
           this.requestsList = data.data.filter(data => data.StatusRequest !== 1);
         },
         complete: () => {
