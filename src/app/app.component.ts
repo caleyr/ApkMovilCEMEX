@@ -14,6 +14,7 @@ import { ApiService } from './services/auth/api.service';
 import { UserService } from 'src/app/services/user.service';
 import { Geolocation } from '@capacitor/geolocation';
 import { DOCUMENT } from '@angular/common';
+import { NotificationsService } from './services/notifications/notifications.service';
 
 @Component({
   selector: 'app-root',
@@ -28,6 +29,8 @@ export class AppComponent implements OnInit {
   widowsRegister = false;
   autocompleteO = null;
 
+  data: FormData = new FormData();
+
   constructor(
     private authService: MsalService,
     private iab: InAppBrowser,
@@ -35,6 +38,7 @@ export class AppComponent implements OnInit {
     private fcmService: FcmService,
     private apiService: ApiService,
     private userService: UserService,
+    private notiService: NotificationsService,
     @Inject(DOCUMENT) private document: Document
   ) {
     this.authService.instance.setNavigationClient(new CustomNavigationClient(this.iab, this.document));
@@ -57,13 +61,44 @@ export class AppComponent implements OnInit {
       this.authService.instance.setActiveAccount(payload.account);
       this.apiService.loginSaveToken(payload.idToken);
       await this.userService.getUserEmail();
+      await this.addFormData(this.notiService.dataRegister);
+      await this.saveTokenNotification();
+      await this.saveTokenNotificationBtc();
       setTimeout(() => {
         this.isIframe = false;
       }, 3000);
     });
   }
 
-  logout() {
-    this.authService.logoutRedirect();
+  saveTokenNotification() {
+    return new Promise<boolean>((resolve, reject)=>{
+      this.notiService.createUserMobile(this.notiService.dataSend).subscribe({
+        next: (data) => {
+          resolve(true);
+        },
+        error: (err) => {
+          resolve(false);
+        }
+      });
+    });    
+  }
+
+  saveTokenNotificationBtc() {
+    return new Promise<boolean>((resolve, reject)=>{
+      this.notiService.createUserbtc(this.data).subscribe({
+        next: (data) => {
+          resolve(true);
+        },
+        error: (err) => {
+          resolve(false);
+        }
+      });
+    });    
+  }
+
+  async addFormData(objeto) {   
+    for (var key in objeto) {
+      this.data.append(key, objeto[key]);
+    }
   }
 }

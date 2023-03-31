@@ -8,6 +8,7 @@ import { tap } from 'rxjs/operators';
 import { of, Subject } from 'rxjs';
 import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
+import { NotificationsService } from './notifications/notifications.service';
 
 const BASE_URL_API = environment.url;
 
@@ -23,7 +24,7 @@ export class UserService {
     private apiService: ApiService,
     private authService: MsalService,
     private router: Router,
-    private httpA : HttpClient
+    private notiServices : NotificationsService
   ) { }
 
   get refresh$() {
@@ -43,6 +44,8 @@ export class UserService {
             this.apiService.userProfile = undefined;
           } else {
             this.apiService.userProfile = data.data[0];
+            this.notiServices.dataSend.userAccount = data.data[0].Email;
+            this.notiServices.dataRegister.UserId = data.data[0].UserId;
           }
           this.router.navigateByUrl('/app/home');
         })

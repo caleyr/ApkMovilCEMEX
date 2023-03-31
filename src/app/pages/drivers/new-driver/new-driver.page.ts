@@ -37,6 +37,7 @@ export class NewDriverPage implements OnInit {
 
   alertSucces = false;
   alertConfirm = false;
+  alertError = false;
   toastMessage = '';
 
   errors: string[] = [];
@@ -129,9 +130,13 @@ export class NewDriverPage implements OnInit {
       });
     } else {
       this.loading = false;
-      this.errors = this.errorMessages.parsearErroresAPI('Error, el correo digita ya se encuentra registrado.');
+      this.alertError = true;
+      //this.errors = this.errorMessages.parsearErroresAPI('Error, el correo digita ya se encuentra registrado.');
       this.form.get('Email').setValue('');
       this.data = new FormData();
+      setTimeout(() => {
+        this.alertError = false;
+      }, 4000);
     }
   }
 
@@ -182,11 +187,16 @@ export class NewDriverPage implements OnInit {
     return new Promise((resolve) => {
       this.userService.updateDocument(this.id, this.fileRegister.fileData).subscribe({
         next: (data: any) => {
+          alert(JSON.stringify(data.data));
           this.loading = false;
           this.alertSucces = true;
           this.alertConfirm = false;
           this.alertSucces = true;
           this.errors = [];
+          setTimeout(() => {
+            this.alertSucces = false;
+            this.onBack();
+          }, 4000);
         },
         error: (err) => {
           this.loading = false;
@@ -212,13 +222,13 @@ export class NewDriverPage implements OnInit {
   }
 
   openModalDocument(name) {
-    if (name === 'Drivinglicense') {
+    if (name === 'LicenciaConduccion') {
       this.nameFile = name;
       this.nameText = 'licencia de conducción';
-    } else if (name === 'SecurityCard') {
+    } else if (name === 'CarnetSeguridadIndustrial') {
       this.nameFile = name;
       this.nameText = 'carné de seguridad industrial y vial';
-    } else if (name === 'DocumentIdentityCard') {
+    } else if (name === 'CedulaDocumento') {
       this.nameFile = name;
       this.nameText = 'cédula de ciudadanía';
     }

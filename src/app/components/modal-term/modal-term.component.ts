@@ -1,6 +1,7 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { ApiService } from '../../services/auth/api.service';
 import { UserService } from '../../services/user.service';
+import { NotificationsService } from 'src/app/services/notifications/notifications.service';
 
 @Component({
   selector: 'app-modal-term',
@@ -21,13 +22,28 @@ export class ModalTermComponent implements OnInit {
   constructor(
     private apiService: ApiService,
     private userService: UserService,
+    private notiServices : NotificationsService
   ) { }
 
   ngOnInit(): void {
   }
 
-  logout() {
+  async logout() {
+    await this.deleteTokenNotification();
     this.apiService.logout();
+  }
+
+  deleteTokenNotification() {
+    return new Promise<boolean>((resolve, reject)=>{
+      this.notiServices.deleteUserMobile().subscribe({
+        next: (data) => {
+          resolve(true);
+        },
+        error: (err) => {
+          resolve(false);
+        }
+      });
+    });   
   }
 
   changeTerm() {
@@ -36,8 +52,9 @@ export class ModalTermComponent implements OnInit {
     this.dataFormS.append('policiesPermission', 'true');
     this.userService.updateProfile(this.dataFormS).subscribe({
       next : (data) => {
+        alert(JSON.stringify(data.data));
         this.apiService.userProfile.policiesPermission = 'true';
-        document.getElementById('alert-confirm').setAttribute('open', 'false');
+        this.alertShow = false;
         this.propagar.emit(true);
       },
       error : (err) => {

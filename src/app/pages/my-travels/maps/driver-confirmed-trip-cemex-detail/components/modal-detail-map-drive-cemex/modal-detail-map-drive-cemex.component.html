@@ -88,12 +88,12 @@
             <div *ngIf="travelDetail.DowloadEnd !== undefined && travelDetail.StatusTravel === 5">
                 <div class="attr-document">Documentación</div>
                 <hr color="#D0D0D0" />
-                <label for=""> Consignación </label>
+                <label for=""> Remesa </label>
                 <div *ngIf="!fileTravel.fileConsignment">
                     <cwc-grid class="demo-grid content-archive" column-gap="1px">
                         <input type="file" accept="image/*,.pdf" #getConsignmentDocument style="display: none;"
                             (change)="fileTravel.onFileConsignment($event)" />
-                        <cwc-cell (click)="openModalDocument('PolicyDocument')" class="border" mobile-colspan="6">
+                        <cwc-cell (click)="openModalDocument('ConsignmentDocument')" class="border" mobile-colspan="6">
                             <div class="item-archives">
                                 <cwc-icon name="camera" size="28px" color="bright-blue"></cwc-icon>
                                 <div class="text-archive">Tomar fotografía</div>

@@ -86,7 +86,6 @@ export class FileRegisterUserService {
     const file = <File>event.target.files[0];
 
     this.fileSecurityCard = file.name;
-    alert(file.type);
     this.fileData.name.push('CarnetSeguridadIndustrial');
 
     const fileBlob = await this.convertFile.blobFormFile(event.target.files[0]);

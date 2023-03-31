@@ -5,6 +5,7 @@ import { TravelService } from 'src/app/services/travels/travel.service';
 import { ApiService } from '../../../../services/auth/api.service';
 import { Travel } from '../../../../interfaces/travels/travel';
 import { DOCUMENT } from '@angular/common';
+import { TextResponseService } from '../../../../services/text-response.service';
 
 @Component({
   selector: 'app-home-user',
@@ -17,6 +18,7 @@ export class HomeUserComponent implements OnInit {
   propagar = new EventEmitter<boolean>();
 
   travelId : string;
+  travelStatuss : number;
 
   linkClever = "https://cemex.sercae.com/sercae/pages/core/login.jsf";
   linkTrip = "https://tuviajecx.com/cemexterceros/login"
@@ -25,6 +27,7 @@ export class HomeUserComponent implements OnInit {
     private navCtrl : NavController,
     private travelService : TravelService,
     private apiService : ApiService,
+    public textResp : TextResponseService,
     @Inject(DOCUMENT) private document: Document
     ) { }
 
@@ -35,9 +38,10 @@ export class HomeUserComponent implements OnInit {
 
   async getId() {
     const data = await this.travelService.getFilterTravelByIdDriver(this.apiService.userProfile.UserId).toPromise();
-    let list: Travel[] = data.data.filter(data => data.StatusTravelAvailability === 3 || data.StatusTravelAvailability === 4);
+    let list: Travel[] = data.data.filter(data => data.StatusTravelAvailability === 2 || data.StatusTravelAvailability === 3 || data.StatusTravelAvailability === 4 || data.StatusTravelAvailability === 5);
     if (list.length !== 0) {
       this.travelId = list[0].codeTravel;
+      this.travelStatuss = list[0].StatusTravelAvailability;
     } else {
       this.travelId = null;
     }

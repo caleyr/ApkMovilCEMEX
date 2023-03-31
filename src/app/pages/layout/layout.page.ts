@@ -7,6 +7,7 @@ import { ApiService } from '../../services/auth/api.service';
 import { UserService } from '../../services/user.service';
 
 import { CallNumber } from '@ionic-native/call-number/ngx';
+import { NotificationsService } from '../../services/notifications/notifications.service';
 
 @Component({
   selector: 'app-layout',
@@ -31,7 +32,8 @@ export class LayoutPage implements OnInit {
   constructor(
     private apiService: ApiService,
     private activeTabsService: ActiveTabsService,
-    private callNumber: CallNumber
+    private callNumber: CallNumber,
+    private notiServices : NotificationsService
   ) {
   }
 
@@ -78,7 +80,8 @@ export class LayoutPage implements OnInit {
     this.user.name = this.apiService.userProfile.FirstName + ' ' + this.apiService.userProfile.LastName;
   }
 
-  logout() {
+  async logout() {
+    await this.deleteTokenNotification();
     this.apiService.logout();
   }
 
@@ -101,6 +104,19 @@ export class LayoutPage implements OnInit {
   callServices() {
     this.closeAlertConfirm();
     this.callNumber.callNumber("#236", true);
+  }
+
+  deleteTokenNotification() {
+    return new Promise<boolean>((resolve, reject)=>{
+      this.notiServices.deleteUserMobile().subscribe({
+        next: (data) => {
+          resolve(true);
+        },
+        error: (err) => {
+          resolve(false);
+        }
+      });
+    });   
   }
 
 }

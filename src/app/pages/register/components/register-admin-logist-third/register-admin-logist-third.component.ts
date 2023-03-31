@@ -38,6 +38,7 @@ export class RegisterAdminLogistThirdComponent implements AfterViewInit {
 
   alertSucces = false;
   alertConfirm = false;
+  alertError = false;
   toastMessage = '';
 
   errors: string[] = [];
@@ -132,15 +133,19 @@ export class RegisterAdminLogistThirdComponent implements AfterViewInit {
         },
         error: (err) => {
           this.propagar.emit(false);
-          this.errors = this.errorMessages.parsearErroresAPI(err.data);
+          //this.errors = this.errorMessages.parsearErroresAPI(err.data);
           this.fileRegister.resetForm();
         }
       });
     } else {
       this.propagar.emit(false);
-      this.errors = this.errorMessages.parsearErroresAPI('Error, el correo digita ya se encuentra registrado.');
+      this.alertError = true;
+      //this.errors = this.errorMessages.parsearErroresAPI('Error, el correo digita ya se encuentra registrado.');
       this.form.get('Email').setValue('');
       this.data = new FormData();
+      setTimeout(() => {
+        this.alertError = false;
+      }, 4000);
     }
   }
 
@@ -196,6 +201,10 @@ export class RegisterAdminLogistThirdComponent implements AfterViewInit {
           this.alertSucces = true;
           this.alertConfirm = false;
           this.alertSucces = true;
+          setTimeout(() => {
+            this.alertSucces = false;
+            this.onBack();
+          }, 4000);
           this.errors = [];
         },
         error: (err) => {

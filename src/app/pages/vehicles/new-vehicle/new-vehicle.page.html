@@ -270,8 +270,13 @@
 <!--=====================================
 	TOAST ALERT MENSAJE
 ======================================-->
-<cwc-snackbar id='toast-message-driver' [message]="toastMessage" cta-message="dismiss"
-  auto-hide-duration='5000'></cwc-snackbar>
+
+<cwc-modal [open]="alertShow" close-on-bd-click="false" show-close-btn="false">
+  <div style='text-align: center'>
+    <h2 class='modal--confirmation__message'>Alerta limite</h2>
+    <p>Has llegado al límite de vehiculos que puedes crear.</p>
+  </div>
+</cwc-modal>
 
 <div class="loading-content" *ngIf="loading">
   <cwc-loader>

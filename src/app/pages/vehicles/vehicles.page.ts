@@ -34,6 +34,7 @@ export class VehiclesPage implements OnInit {
     this.vehiclesService.getVehicleList(this.apiService.userProfile.CompanyId).subscribe({
       next: (data : any) =>{
         this.vehiclesList = data.data.filter(data => data.Status === 2);
+        this.vehiclesService.count = this.vehiclesList.length;
       },
       complete : () => {
         this.loading = false;

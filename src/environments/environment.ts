@@ -5,6 +5,7 @@
 export const environment = {
   production: false,
   url: 'https://uscldcnxapmd01.azure-api.net',
+  urlNotification: 'https://cemexqas.azure-api.net/',
   hostname: 'https://com.cemex.app',
 };
 

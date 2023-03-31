@@ -13,6 +13,7 @@ const URL = environment.url;
 export class VehiclesService {
 
   id : number;
+  count : number;
   vehicle : Vehicle;
 
   private _refresh$ = new Subject<void>();

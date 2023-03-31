@@ -221,6 +221,14 @@
 <app-alert-success [alertShow]="alertSucces" title="Existoso" urlButton="app/home"
   message="El registro se realizó correctamente, vamos a validar sus datos y pronto daremos respuesta.">
 </app-alert-success>
+
+<cwc-modal id='alert-modal-succes' [open]="alertError" close-on-bd-click="false" show-close-btn="false">
+  <div style='text-align: center'>
+      <cwc-icon size='120px' color="true-red"></cwc-icon>
+      <h4 class='modal--confirmation__message'>Error Correo</h4>
+      <p>El correo ingresado ya existe, por favor ingrese nuevamente un correo nuevo.</p>
+  </div>
+</cwc-modal>
 <!--=====================================
 	TOAST ALERT MENSAJE
 ======================================-->

@@ -34,6 +34,8 @@ export class VehicleDetailsPage implements OnInit {
 
   loading = false;
 
+  roleOk : boolean;
+
   constructor(
     private location: Location,
     private vehiclesService: VehiclesService,
@@ -45,13 +47,16 @@ export class VehicleDetailsPage implements OnInit {
     this.idTercero = this.apiService.userProfile.UserId;
   }
 
-  ngOnInit() {
+  async ngOnInit() {
     this.loading = true;
-    this.suscripcion = this.vehiclesService.refresh$.subscribe(() => {
+    this.suscripcion = this.vehiclesService.refresh$.subscribe(async () => {
       this.loading = true;
       this.getData();
+      this.roleOk = await this.checkRole();
+
     });
     this.getData();
+    this.roleOk = await this.checkRole();
   }
 
   onBack() {
@@ -82,7 +87,7 @@ export class VehicleDetailsPage implements OnInit {
     data.append('LicenseVehiculo', this.vehicle.LicenseVehiculo);
     data.append('UserId', this.driverAssign);
     this.vehiclesService.updateVehicle(data).subscribe({
-      complete : () => {
+      complete: () => {
         this.loading = false;
         this.alertShow = true;
       }
@@ -113,5 +118,17 @@ export class VehicleDetailsPage implements OnInit {
 
   updataDocuments() {
     this.navCtrl.navigateRoot('/app/vehiculos/actualizar-documentos', { animated: false });
+  }
+
+  checkRole() {
+    return new Promise<boolean>((resolve) => {
+      this.driversService.getDriverById(this.vehicle.UserId).subscribe(result => {
+        if (result.data[0].RolesId !== 2 && result.data[0].RolesId !== 3) {
+          resolve(true);
+        } else {
+          resolve(false);
+        }
+      });
+    });
   }
 }

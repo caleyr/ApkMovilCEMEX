@@ -35,16 +35,16 @@
             placeholder="Agrega el código SAP" design-version="v2" required></cwc-input>
         </div>
         <div class="section">
-          <cwc-input class="input" label='Correo electrónico' formControlName="Email"
-            [status]="msgField.getStatusField(form, 'Email')"
-            [statusMessage]="msgField.getEmailFieldMsg(form, 'Email', 'correo electrónico')" design-version="v2"
-            placeholder="Agrega tu correo electrónico" required></cwc-input>
-        </div>
-        <div class="section">
           <cwc-input class="input" label='Número de celular' type="number" formControlName="PhoneNumber"
             [status]="msgField.getStatusField(form, 'PhoneNumber')"
             [statusMessage]="msgField.getPhoneNumberFieldMsg(form, 'PhoneNumber', 'número de celular')"
             design-version="v2" placeholder="Agrega un número de telefono" required></cwc-input>
+        </div>
+        <div class="section">
+          <cwc-input class="input" label='Correo electrónico' formControlName="Email"
+            [status]="msgField.getStatusField(form, 'Email')" [disabled]="true"
+            [statusMessage]="msgField.getEmailFieldMsg(form, 'Email', 'correo electrónico')" design-version="v2"
+            placeholder="Agrega tu correo electrónico" required></cwc-input>
         </div>
         <div class="section">
           <cwc-input class="input" label='Empresa' type="text" [disabled]="true" design-version="v2"
@@ -88,8 +88,8 @@
 
 <cwc-modal id='alert-modal-succes' [open]="alertSucces" close-on-bd-click="false" show-close-btn="false">
   <div style='text-align: center'>
-      <cwc-icon name='accepted-ok' size='120px' color='bright-green'></cwc-icon>
-      <h3 class='modal--confirmation__message'>Su información ha sido guardada exitosamente</h3>
+    <cwc-icon name='accepted-ok' size='120px' color='bright-green'></cwc-icon>
+    <h3 class='modal--confirmation__message'>Su información ha sido guardada exitosamente</h3>
   </div>
 </cwc-modal>
 <!--=====================================

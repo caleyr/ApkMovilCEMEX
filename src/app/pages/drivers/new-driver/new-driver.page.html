@@ -247,6 +247,14 @@
 <app-alert-success [alertShow]="alertSucces" title="Su información ha sido guardada" urlButton="/app/conductores"
   message="Los datos se están procesando, y al ser aprobado su conductor recibirá una notificación.">
 </app-alert-success>
+
+<cwc-modal id='alert-modal-succes' [open]="alertError" close-on-bd-click="false" show-close-btn="false">
+  <div style='text-align: center'>
+      <cwc-icon size='120px' color="true-red"></cwc-icon>
+      <h4 class='modal--confirmation__message'>Error Correo</h4>
+      <p>El correo ingresado ya existe, por favor ingrese nuevamente un correo nuevo.</p>
+  </div>
+</cwc-modal>
 <!--=====================================
 	TOAST ALERT MENSAJE
 ======================================-->

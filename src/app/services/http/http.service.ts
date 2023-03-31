@@ -57,7 +57,7 @@ export class HttpService {
   }
 
 
-  fetch(url, data, type, formD = false, header = true, file = false) {
+  fetch(url, data, type, formD = false, header = true, file = false, headerNotification = false,) {
     this.HttpC.clearCookies();
     let headers;
 
@@ -77,6 +77,11 @@ export class HttpService {
         'Ocp-Apim-Trace': 'true'
       };
       headers = headersTrue;
+    } else if (headerNotification){
+      const headersFalse = {
+        'Ocp-Apim-Subscription-Key': 'b93cf6c668b0430abadb0baee49c52f8',
+      };
+      headers = headersFalse;
     } else {
       const headersFalse = {
         'X-IBM-Client-Id': 'notneeded',

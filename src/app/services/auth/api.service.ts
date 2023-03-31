@@ -6,6 +6,8 @@ import { environment } from '../../../environments/environment';
 import { UserDetail } from '../../models/user-detail.model';
 import { Preferences } from '@capacitor/preferences';
 import { NavController } from '@ionic/angular';
+import { NotificationsService } from '../notifications/notifications.service';
+import { HttpService } from '../http/http.service';
 
 const ACCESS_TOKEN_KEY = 'my-access-token';
 const URL = environment.url;
@@ -21,6 +23,14 @@ export class ApiService {
   email: string;
 
   userProfile : UserDetail = new UserDetail();
+
+  dataSend = {
+    uuid: "",
+    userAccount: "user111@ext.cemex.com",
+    platform: "G",
+    token: "",
+    applicationCode: "CemexCarga_App "
+  }
 
   constructor(
     private authService : MsalService,

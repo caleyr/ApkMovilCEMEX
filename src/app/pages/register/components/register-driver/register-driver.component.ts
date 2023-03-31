@@ -38,6 +38,8 @@ export class RegisterDriverComponent implements AfterViewInit {
 
   alertSucces = false;
   alertConfirm = false;
+  alertError = false;
+
   toastMessage = '';
 
   errors: string[] = [];
@@ -140,9 +142,13 @@ export class RegisterDriverComponent implements AfterViewInit {
       });
     } else {
       this.propagar.emit(false);
-      this.errors = this.errorMessages.parsearErroresAPI('Error, el correo digita ya se encuentra registrado.');
+      this.alertError = true;
+      //this.errors = this.errorMessages.parsearErroresAPI('Error, el correo digita ya se encuentra registrado.');
       this.form.get('Email').setValue('');
       this.data = new FormData();
+      setTimeout(() => {
+        this.alertError = false;
+      }, 4000);
     }
   }
 
@@ -189,19 +195,22 @@ export class RegisterDriverComponent implements AfterViewInit {
   }
 
   updateDocument() {
-    alert(this.fileRegister.fileData);
     return new Promise((resolve) => {
       this.userService.updateDocument(this.id, this.fileRegister.fileData).subscribe({
         next: (data: any) => {
-          alert(data.data);
+          alert(JSON.stringify(data.data));
           this.propagar.emit(false);
           this.alertSucces = true;
           this.alertConfirm = false;
           this.alertSucces = true;
           this.errors = [];
+          setTimeout(() => {
+            this.alertSucces = false;
+            this.onBack();
+          }, 4000);
         },
         error: (err) => {
-          alert(err);
+          alert(JSON.stringify(err));
           this.propagar.emit(false);
           this.errors = this.errorMessages.parsearErroresAPI(err.data);
         },

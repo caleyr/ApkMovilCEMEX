@@ -13,12 +13,15 @@
       <cwc-cell colspan="6" mobile-colspan="12">
         <div class="content-check-docs">
           <cwc-checkbox (cwcChange)="showFileSOAT($event)" class="input-check-docs">SOAT</cwc-checkbox>
+          <br>
           <cwc-checkbox (cwcChange)="showFileTecnoMecanica($event)" class="input-check-docs">
             Certificado de revisión tecno mecánica
           </cwc-checkbox>
+          <br>
           <cwc-checkbox (cwcChange)="showFilePoliza($event)" class="input-check-docs">Póliza</cwc-checkbox>
-          <cwc-checkbox (cwcChange)="showFileTarjetaPropiedad($event)" class="input-check-docs">Tarjeta de
-            propiedad</cwc-checkbox>
+          <br>
+          <cwc-checkbox (cwcChange)="showFileTarjetaPropiedad($event)" class="input-check-docs">
+            Tarjeta de propiedad</cwc-checkbox>
         </div>
 
         <div *ngIf="!validateCheckBox() || !showUpdateDoc" class="content-button">

@@ -108,6 +108,10 @@ export class UpdateArchivesPage implements OnInit {
         this.alertConfirm = false;
         this.alertSucces = true;
         this.errors = [];
+        setTimeout(() => {
+          this.alertSucces = false;
+          this.onBack();
+        }, 3000);
       },
       error: (err) => {
         this.errors = this.errorMessages.parsearErroresAPI(err.data);

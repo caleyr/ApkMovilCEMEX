@@ -90,6 +90,10 @@ export class EditAdminLogisThirdComponent implements OnInit {
         } else {
           this.alertSucces = true;
           this.errors = [];
+          setTimeout(() => {
+            this.alertSucces = false;
+            this.onBack();
+          }, 3000);
         }
       },
       error: (err) => {

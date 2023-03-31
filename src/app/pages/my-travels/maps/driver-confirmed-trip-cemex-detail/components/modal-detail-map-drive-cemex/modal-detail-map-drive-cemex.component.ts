@@ -251,7 +251,7 @@ export class ModalDetailMapDriveCemexComponent implements OnInit {
   openModalDocument(name) {
     if (name === 'ConsignmentDocument') {
       this.nameFile = name;
-      this.nameText = 'documento de consignación';
+      this.nameText = 'documento de remesa';
     } else if (name === 'ManifestDocument') {
       this.nameFile = name;
       this.nameText = 'documento manifiesto';

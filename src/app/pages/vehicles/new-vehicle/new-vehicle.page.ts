@@ -31,6 +31,7 @@ export class NewVehiclePage implements OnInit {
 
   alertSucces = false;
   alertConfirm = false;
+  alertShow = false;
   toastMessage = '';
 
   addIdentityCard = false;
@@ -74,7 +75,7 @@ export class NewVehiclePage implements OnInit {
       Soat: [''],
       StatusVehicle: ['0'],
       StatusTravel: ['1'],
-      UserId: [ this.apiService.userProfile.UserId ],
+      UserId: [this.apiService.userProfile.UserId],
       Status: ['0'],
       term: [false, [Validators.requiredTrue]]
     });
@@ -88,6 +89,10 @@ export class NewVehiclePage implements OnInit {
           this.alertSucces = true;
           this.alertConfirm = false;
           this.errors = [];
+          setTimeout(() => {
+            this.alertSucces = false;
+            this.onBack();
+          }, 4000);
         },
         error: (err) => {
           this.loading = false;
@@ -108,33 +113,42 @@ export class NewVehiclePage implements OnInit {
       return;
     }
     this.loading = true;
-    alert(JSON.stringify(this.form.value));
-    await this.addFormData(this.form.value);
-    this.vehiclesService.createVehicle(this.data).subscribe({
-      next: async (result: any) => {
-        if (result.data.message !== 'Saved') {
-          this.errors = this.errorMessages.parsearErroresAPI('Error, La placa del vehiculo anotada ya se encuentra registrada.');
-          //this.form.get('LicenseVehiculo').setValue('');
-          this.data = new FormData();
-        } else {
-          if (this.fileVehicle.fileData.name.length != 0) {
-            await this.updateDocument(result.data.count);
-          }else {
-            this.alertSucces = true;
-            this.alertConfirm = false;
-            this.errors = [];
+    if (this.vehiclesService.count < 5) {
+      await this.addFormData(this.form.value);
+      this.vehiclesService.createVehicle(this.data).subscribe({
+        next: async (result: any) => {
+          if (result.data.message !== 'Saved') {
+            this.errors = this.errorMessages.parsearErroresAPI('Error, La placa del vehiculo anotada ya se encuentra registrada.');
+            setTimeout(() => {
+              this.onBack();
+            }, 1000);
+            this.data = new FormData();
+          } else {
+            if (this.fileVehicle.fileData.name.length != 0) {
+              await this.updateDocument(result.data.count);
+            } else {
+              this.alertSucces = true;
+              this.alertConfirm = false;
+              this.errors = [];
+              setTimeout(() => {
+                this.alertSucces = false;
+                this.onBack();
+              }, 4000);
+            }
           }
+        },
+        error: (err) => {
+          this.errors = this.errorMessages.parsearErroresAPI(err.data);
+          this.fileVehicle.resetForm();
+        },
+        complete: () => {
+          this.loading = false;
         }
-      },
-      error: (err) => {
-        this.loading = false;
-        this.errors = this.errorMessages.parsearErroresAPI(err.data);
-        this.fileVehicle.resetForm();
-      },
-      complete: () => {
-        this.loading = false;
-      }
-    });
+      });
+    } else {
+      this.loading = false;
+      this.showModalLimit();
+    }
   }
 
   async addFormData(objeto) {
@@ -185,5 +199,13 @@ export class NewVehiclePage implements OnInit {
 
   onBack() {
     this.location.back();
+  }
+
+  showModalLimit() {
+    this.alertShow = true;
+    setTimeout(() => {
+      this.alertShow = false;
+      this.onBack();
+    }, 3000);
   }
 }

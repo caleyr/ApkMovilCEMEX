@@ -26,7 +26,7 @@ export class VehicleListComponent implements OnInit {
   ngOnInit() {}
 
   detailVehicle( id: number ) {
-    this.vehiclesService.id = id; 
+    this.vehiclesService.id = id;
     this.navCtrl.navigateRoot('/app/vehiculos/detalles', { animated: false });
   }
 

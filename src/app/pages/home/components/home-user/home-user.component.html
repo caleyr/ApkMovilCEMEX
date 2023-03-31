@@ -2,7 +2,7 @@
 <h4 *ngIf="travelId" style="margin-top: 1.8rem;">Los viajes de hoy</h4>
 <cwc-card *ngIf="travelId" design-version="v2">
   <div class="card-content" design-version="v2">
-    <p style="text-align: center; font-size: small;">Tu siguiente viaje <b>{{travelId}}</b> está en <b>proceso</b></p>
+    <p style="text-align: center; font-size: small;">Tu siguiente viaje <b>{{travelId}}</b> está en <b>{{textResp.getStatusTravel(travelStatuss)}}</b></p>
     <h4 style="text-align: center;">Revisar mi siguiente viaje</h4>
     <hr color="#D0D0D0"/>
     <h4 style="text-align: center;" (click)="onClickMyTravel()">Revisar mis viajes</h4>

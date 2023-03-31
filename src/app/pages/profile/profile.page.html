@@ -26,9 +26,9 @@
 
         <cwc-grid style="padding-top: 1rem; padding-bottom: 1rem;">
           <cwc-cell mobile-colspan="12">
-            <cwc-icon name="circle-filled" color="disabled-grey" *ngIf="profile.StatusTravel === 0"
+            <cwc-icon name="circle-filled" color="disabled-grey" *ngIf="profile.StatusTravel === 1"
               size="12px"></cwc-icon>
-            <cwc-icon name='check-rounded-active-fill' *ngIf="profile.StatusTravel === 1" size="12px"
+            <cwc-icon name='check-rounded-active-fill' *ngIf="profile.StatusTravel === 0" size="12px"
               color='bright-green'></cwc-icon>
             <span class="text-archive">{{textResp.getStatusTravelUser(profile.StatusTravel)}}</span>
           </cwc-cell>

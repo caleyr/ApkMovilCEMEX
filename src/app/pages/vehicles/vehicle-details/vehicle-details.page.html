@@ -81,7 +81,7 @@
         </cwc-cell>
       </cwc-grid>
       
-      <div style="margin-top: 1rem;" *ngIf="vehicle.StatusVehicle === 1">
+      <div style="margin-top: 1rem;" *ngIf="vehicle.StatusVehicle === 1  && roleOk">
         <div class="attr-document" >Conductor</div>
         <div style=" border: 0.1px solid #d1d1d1; background: #d1d1d1; margin-bottom: 0.5rem;"></div>
         <div style="display: flex; justify-content: space-between;">
