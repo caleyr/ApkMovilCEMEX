@@ -60,7 +60,9 @@ ion-content{
   background: #F4F6F9  !important;
 }
 .content{
-  padding: 32px; flex: 1 1 auto
+  padding: 32px; 
+  flex: 1 1 auto;
+  overflow: auto;
 }
 
 @font-face {
